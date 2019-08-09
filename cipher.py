@@ -9,12 +9,16 @@ coded=""
 for i in range(len(message)):
     current=random.randint(10,25)
     new=message[i]
-    new=int(alpha.find(new))
-    new+=current
-    new=new%26
-    new=alpha[new]
-    coded+=new
-    current=str(current)
-    cipher+=current
+    if new==" ":
+        coded+=" "
+        cipher+="00"
+    else:
+        new=int(alpha.find(new))
+        new+=current
+        new=new%26
+        new=alpha[new]
+        coded+=new
+        current=str(current)
+        cipher+=current
 print(coded)
 print(cipher)
