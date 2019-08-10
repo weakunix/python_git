@@ -1,15 +1,12 @@
 alpha="abcdefghijklmnopqrstuvwxyz"
 current=""
-digit=-1
 coded=input("What is the message?\n")
 cipher=input("What is the cipher?\n")
 decoded=""
  
 for i in range(len(coded)):
-    digit+=1
-    current=cipher[digit]
-    digit+=1
-    current+=cipher[digit]
+    current=cipher[i]
+    current=int(alpha.find(current))
     current=int(current)
     new=coded[i]
     if new==" ":
