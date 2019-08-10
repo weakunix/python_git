@@ -7,18 +7,18 @@ message=input("What is the message?\n")
 coded=""
 
 for i in range(len(message)):
-    current=random.randint(10,25)
+    current=random.randint(1,25)
     new=message[i]
     if new==" ":
         coded+=" "
-        cipher+="00"
+        cipher+=" "
     else:
         new=int(alpha.find(new))
         new+=current
         new=new%26
         new=alpha[new]
         coded+=new
-        current=str(current)
+        current=alpha[current]
         cipher+=current
 print(coded)
 print(cipher)
