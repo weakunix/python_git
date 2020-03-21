@@ -21,7 +21,22 @@ def gcd_2n(a, b):
         b %= a
         if b == 0:
             return a
-
+def lcm(*n):
+    if len(n) == 0:
+        raise SystemExit("Error: at least one argument for lcm.")
+    if len(n) == 1:
+        return n
+    if len(n) == 2:
+        return lcm_2n(*n)
+    if len(n) > 2:
+        a = n[0]
+        for i in n:
+            a = lcm_2n(a, i)
+        return a
+def lcm_2n(a, b):
+    g = gcd_2n(a, b)
+    a = a * b / g
+    return a
 
 #vars
 alln = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
@@ -35,7 +50,8 @@ allo = {  "+": lambda n1,n2: n1+n2,
 unio = { 'uniadd', 'unisub' }
 allf = { 'max' : max,
          'min' : min,
-         'gcd' : gcd }
+         'gcd' : gcd,
+         'lcm' : lcm }
 pr = {    "+": 0,
           "-": 0,
           "*": 1,
