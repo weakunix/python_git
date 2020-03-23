@@ -1,10 +1,10 @@
 '''
 Euler 19
-COUNTER TO COUNT ALL SUNDAYS:
-    1. Check dow. If dow is 0 (Sunday) add one to count
-    2. Add days to dow with dictionary dim
-    3. Check leap year
-    4. Add 1 to year 
+
+1. Check dow. If dow is 0 (Sunday) add one to count
+2. Add days to dow with dictionary dim
+3. Check leap year
+4. Add 1 to year 
 '''
 
 #vars
@@ -35,7 +35,7 @@ def leap_check(year):
         return False
 
 
-#counter to find sundays
+#find sundays
 while year != 2001:
     leap = leap_check(year)
     for i in range(1, 13):
