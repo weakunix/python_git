@@ -1,12 +1,3 @@
-'''
-Euler 19
-
-1. Check dow. If dow is 0 (Sunday) add one to count
-2. Add days to dow with dictionary dim
-3. Check leap year
-4. Add 1 to year 
-'''
-
 #vars
 year = 1900
 dow = 1

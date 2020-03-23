@@ -1,10 +1,3 @@
-'''
-Euler 20
-
-1. Find 100! with for loop
-2. Convert to string and add all digits in for loop
-'''
-
 #vars
 prod = 1
 dsum = 0
