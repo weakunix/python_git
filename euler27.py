@@ -3,7 +3,7 @@ import numpy as np
 
 #vars
 mostp = 0
-coprod = 0
+res = 0
 n = 0
 prime = True
 eans = 0
