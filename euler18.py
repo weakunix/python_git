@@ -1,3 +1,7 @@
+#vars
+maxsum = 0
+numsum = 0
+
 #lists
 rows = []
 
@@ -9,4 +13,3 @@ with open('data_e18.txt','r') as fp:
         rows.append(row)
 
 #try every route
-
