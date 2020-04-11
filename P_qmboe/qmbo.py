@@ -190,23 +190,28 @@ def decrypt():
     count = -1
     m = ''
     code = input('In [1]:\n')
-    l = len(code) / 2
-    key = code[l:]
-    code = code[:l]
-    for c in code:
-        count += 1
-        c = convert[c] + 95
-        k = convert[key[count]]
-        c -= k
-        c %= 95
-        c = allchar[c]
-        m += c
-    wf = open("cowDump.txt","w");
-    wf.write(str(datetime.datetime.now()));
-    wf.write(":\n");
-    wf.write(m);
-    wf.close();
-    code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
+    if(len(code) <= 1 or len(code)%2!=0):
+        print("Error: Expected even amount of letters, got '",code,"'");
+        print(len(code)/2);
+        print(type(len(code)/2)==int);
+    else:
+        l = len(code) / 2
+        key = code[l:]
+        code = code[:l]
+        for c in code:
+            count += 1
+            c = convert[c] + 95
+            k = convert[key[count]]
+            c -= k
+            c %= 95
+            c = allchar[c]
+            m += c
+        wf = open("cowDump.txt","w");
+        wf.write(str(datetime.datetime.now()));
+        wf.write(":\n");
+        wf.write(m);
+        wf.close();
+        code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
 
 #not in function
 for i in range(1, 4):
