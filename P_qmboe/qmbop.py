@@ -51,12 +51,7 @@ def qmbothree():
     t = str(datetime.datetime.today())
     p = [int(t[:4]), int(t[5:7]), int(t[8:10]),int(t[11:13]), int(t[14:16]), int(t[17:19]), int(t[20:])]
     p = sum(p)
-    print(p)
     c = int(input('Loging in at time {}?\n'.format(t)))
     if c == p:
         return True
-    else:
-        return False
-#s = qmbothree() ruoyu this was what was making it print login at time in the beginning. IDK if u want to keep or remove
-#print(s)
-
+    return False
