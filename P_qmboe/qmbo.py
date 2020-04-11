@@ -172,7 +172,14 @@ def encrypt():
         num = allchar[num]
         code += c
         key += num
-    m = input('Out [1]: {}\nOut [2]: {}\n\nEnter to continue\n'.format(code, key))
+    m = input('Wheat[1]: {}\nMilk[2]: {}\n\nEnter to continue\n'.format(code, key))
+    wf = open("cowFood.txt","w");
+    wf.write(str(datetime.datetime.now()));
+    wf.write(":\n");
+    wf.write(code);
+    wf.write("\n");
+    wf.write(key);
+    wf.close();
 
 #decrypt
 def decrypt():
@@ -190,7 +197,12 @@ def decrypt():
         c %= 95
         c = allchar[c]
         m += c
-    code = input('Out [1]: {}\n\nEnter to continue\n'.format(m))
+    code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
+    wf = open("cowDump.txt","w");
+    wf.write(str(datetime.datetime.now()));
+    wf.write(":\n");
+    wf.write(m);
+    wf.close();
 
 #not in function
 for i in range(1, 4):
