@@ -8,6 +8,9 @@ import qmbop
 inpt = ''
 p = ''
 
+#lists
+allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
+
 #dictonaries
 convert = { ' ': 0,
 			'a': 1,
@@ -150,11 +153,44 @@ def delBurg():
 	else:
 		print("Error: Code leaf");
 #encrypt 
-def encrypt(): #TODO R: encrypt
-	pass
+def encrypt():
+    global convert
+    global allchar
+    code = ''
+    key = ''
+    m = input('In [1]: \n')
+    for c in m:
+        num = random.randint(0, 94)
+        try:
+            c = convert[c]
+        except:
+            print('Error: Unrecognized character input\n')
+            return None
+        c += num
+        c %= 95
+        c = allchar[c]
+        num = allchar[num]
+        code += c
+        key += num
+    m = input('Out [1]: {}\nOut [2]: {}\n\nEnter to continue\n'.format(code, key))
+
 #decrypt
-def decrypt(): #TODO R: decrypt
-	pass
+def decrypt():
+    global convert
+    global allchar
+    count = -1
+    m = ''
+    code = input('In [1]:\n')
+    key = input('In [2]:\n')
+    for c in code:
+        count += 1
+        c = convert[c] + 95
+        k = convert[key[count]]
+        c -= k
+        c %= 95
+        c = allchar[c]
+        m += c
+    code = input('Out [1]: {}\n\nEnter to continue\n'.format(m))
 
 #not in function
 for i in range(1, 4):
