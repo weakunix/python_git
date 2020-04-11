@@ -163,7 +163,7 @@ def encrypt():
     global convert
     global allchar
     code = ''
-    m = input('In [1]: \n')
+    m = input('Feed the bing!: \n')
     for c in m:
         num = random.randint(0, 94)
         try:
@@ -189,15 +189,15 @@ def decrypt():
     global allchar
     count = -1
     m = ''
-    code = input('In [1]:\n')
+    code = input('Feed the cow!:\n')
     if(len(code) <= 1 or len(code)%2!=0):
         print("Error: Expected even amount of letters, got '",code,"'");
         print(len(code)/2);
         print(type(len(code)/2)==int);
     else:
-        l = len(code) / 2
+        l = int(len(code) / 2);
         key = code[l:]
-        code = code[:l]
+        code = code[:l]#put back in front l
         for c in code:
             count += 1
             c = convert[c] + 95
