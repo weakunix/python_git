@@ -11,7 +11,7 @@ p = ''
 #lists
 allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
 
-#dictonaries
+#dictonaries 
 convert = { ' ': 0,
 			'a': 1,
             'b': 2,
