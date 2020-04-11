@@ -9,6 +9,7 @@ inpt = ''
 p = ''
 
 #dictonaries
+#TODO R: finish long dictionary
 convert = { ' ': '00',
 			'a': '01',
             'b': '02',
@@ -81,11 +82,11 @@ def delBurg():
 		print("File has been deleted!")
 	else:
 		print("Error: Code leaf");
-#encrypt
-def encrypt(): 
+#encrypt 
+def encrypt(): #TODO R: encrypt
 	pass
 #decrypt
-def decrypt(): 
+def decrypt(): #TODO R: decrypt
 	pass
 
 #not in function
@@ -99,7 +100,7 @@ for i in range(1, 4):
 	if (p == False):
 		print("\n"*100);
 		logL = open("sD.txt","a");
-		logL.write(str(datetime.datetime.now())+"\n"); #TODO Jason add wave fail here
+		logL.write(str(datetime.datetime.now())+"\n"); #TODO J: add wave fail here
 		logL.close();
 		logA = open("Atpwd.txt","a");
 		logA.write(str(datetime.datetime.now())+"\n");
@@ -109,7 +110,7 @@ print("\n"*100);
 tt = str(datetime.datetime.now());
 print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n");
 logF = open("log.txt","a");
-logF.write(tt+"\n"); #TODO add wave success here
+logF.write(tt+"\n"); #TODO J: add wave success here
 logF.close();
 logA = open("Atpwd.txt","r");
 print("someone tried to log in at:\n");
