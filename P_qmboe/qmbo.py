@@ -163,7 +163,6 @@ def encrypt():
     global convert
     global allchar
     code = ''
-    key = ''
     m = input('In [1]: \n')
     for c in m:
         num = random.randint(0, 94)
@@ -176,16 +175,13 @@ def encrypt():
         c %= 95
         c = allchar[c]
         num = allchar[num]
-        code += c
-        key += num
+        code += c + num
     wf = open("cowFood.txt","w");
     wf.write(str(datetime.datetime.now()));
     wf.write(":\n");
     wf.write(code);
-    wf.write("\n");
-    wf.write(key);
     wf.close();
-    m = input('Wheat[1]: {}\nMilk[2]: {}\n\nEnter to continue\n'.format(code, key))
+    m = input('Wheat[1]: {}\n\nEnter to continue\n'.format(code))
 
 #decrypt
 def decrypt():
@@ -194,7 +190,9 @@ def decrypt():
     count = -1
     m = ''
     code = input('In [1]:\n')
-    key = input('In [2]:\n')
+    l = len(code) / 2
+    key = code[l:]
+    code = code[:l]
     for c in code:
         count += 1
         c = convert[c] + 95
