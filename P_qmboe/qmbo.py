@@ -98,27 +98,30 @@ for i in range(1, 4):
 	else:
 		p = qmbop.qmbothree()
 	if (p == False):
-		print("\n"*100);
+		print("\n"*10);
+		qmbotump = (str(datetime.datetime.now()),", failed at level: ",str(i),"\n")
+		qmbotump = "".join(qmbotump);
 		logL = open("sD.txt","a");
-		logL.write(str(datetime.datetime.now())+"\n"); #TODO J: add wave fail here
+		logL.write(qmbotump); #yessir!
 		logL.close();
 		logA = open("Atpwd.txt","a");
-		logA.write(str(datetime.datetime.now())+"\n");
+		logA.write(qmbotump);
 		logA.close();
 		raise SystemExit('Access denied');
 print("\n"*100);
 tt = str(datetime.datetime.now());
 print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n");
 logF = open("log.txt","a");
-logF.write(tt+"\n"); #TODO J: add wave success here
+logF.write(tt+":full login successful\n"); #kk ruoyu finished
 logF.close();
 logA = open("Atpwd.txt","r");
-print("someone tried to log in at:\n");
+print("someone tried to log in at: \n");
 print(logA.read());
 logA.close();
 logA = open("Atpwd.txt","w");
 logA.write("");
 logA.close();
+#accidentily removed ATPWD but fixed
 print(init());	
 
 

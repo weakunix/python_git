@@ -55,7 +55,8 @@ def qmbothree():
     c = int(input('Loging in at time {}?\n'.format(t)))
     if c == p:
         return True
-    return False
-s = qmbothree()
-print(s)
+    else:
+        return False
+#s = qmbothree() ruoyu this was what was making it print login at time in the beginning. IDK if u want to keep or remove
+#print(s)
 
