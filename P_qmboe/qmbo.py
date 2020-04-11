@@ -120,6 +120,12 @@ def init():
 		elif(inpt == "<admint.del(burgler-alarm)>"):
 			delBurg();
 		elif(inpt == "thank you"):
+			logCD = open("cowDump.txt","w");
+			logCD.write("");
+			logCD.close();
+			logCF = open("cowFood.txt","w");
+			logCF.write("");
+			logCF.close();
 			exit = 1;
 		elif inpt == '<admint.message(encrypt)>':
 			encrypt()
@@ -172,7 +178,6 @@ def encrypt():
         num = allchar[num]
         code += c
         key += num
-    m = input('Wheat[1]: {}\nMilk[2]: {}\n\nEnter to continue\n'.format(code, key))
     wf = open("cowFood.txt","w");
     wf.write(str(datetime.datetime.now()));
     wf.write(":\n");
@@ -180,6 +185,7 @@ def encrypt():
     wf.write("\n");
     wf.write(key);
     wf.close();
+    m = input('Wheat[1]: {}\nMilk[2]: {}\n\nEnter to continue\n'.format(code, key))
 
 #decrypt
 def decrypt():
@@ -197,12 +203,12 @@ def decrypt():
         c %= 95
         c = allchar[c]
         m += c
-    code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
     wf = open("cowDump.txt","w");
     wf.write(str(datetime.datetime.now()));
     wf.write(":\n");
     wf.write(m);
     wf.close();
+    code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
 
 #not in function
 for i in range(1, 4):
