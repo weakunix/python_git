@@ -9,33 +9,33 @@ inpt = ''
 p = ''
 
 #dictonaries
-convert = {	' ': '00',
-						'a': '01',
-						'b': '02',
-						'c': '03',
-						'd': '04',
-						'e': '05',
-						'f': '06',
-						'g': '07',
-						'h': '08',
-						'i': '09',
-						'j': '10',
-						'k': '11',
-						'l': '12',
-						'm': '13',
-						'n': '14',
-						'o': '15',
-						'p': '16',
-						'q': '17',
-						'r': '18',
-						's': '19',
-						't': '20',
-						'u': '21',
-						'v': '22',
-						'w': '23',
-						'x': '24',
-						'y': '25',
-						'z': '26'}
+convert = { ' ': '00',
+			'a': '01',
+            'b': '02',
+            'c': '03',
+            'd': '04',
+            'e': '05',
+            'f': '06',
+            'g': '07',
+            'h': '08',
+            'i': '09',
+            'j': '10',
+            'k': '11',
+            'l': '12',
+            'm': '13',
+            'n': '14',
+            'o': '15',
+            'p': '16',
+            'q': '17',
+            'r': '18',
+            's': '19',
+            't': '20',
+            'u': '21',
+            'v': '22',
+            'w': '23',
+            'x': '24',
+            'y': '25',
+            'z': '26'}
 
 #user def functions
 #encryption and decryption and more actions
@@ -99,7 +99,7 @@ for i in range(1, 4):
 	if (p == False):
 		print("\n"*100);
 		logL = open("sD.txt","a");
-		logL.write(str(datetime.datetime.now())+"\n");
+		logL.write(str(datetime.datetime.now())+"\n"); #TODO Jason add wave fail here
 		logL.close();
 		logA = open("Atpwd.txt","a");
 		logA.write(str(datetime.datetime.now())+"\n");
@@ -109,7 +109,7 @@ print("\n"*100);
 tt = str(datetime.datetime.now());
 print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n");
 logF = open("log.txt","a");
-logF.write(tt+"\n");
+logF.write(tt+"\n"); #TODO add wave success here
 logF.close();
 logA = open("Atpwd.txt","r");
 print("someone tried to log in at:\n");
