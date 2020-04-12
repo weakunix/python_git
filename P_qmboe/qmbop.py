@@ -42,6 +42,7 @@ def qmbotwo():
     num = int((26 - p) / 3)
     p = [p, p + num, p + 2 * num, p + 3 * num]
     num = input('{}\n'.format(p[:3]))
+    print(alpha[p[3]])#remove this later
     if num == alpha[p[3]]:
         return True
     return False
