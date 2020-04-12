@@ -34,8 +34,9 @@ while c!=-1:
         name = name.encode();
         s.send(name);
         name = name.decode();
-        ipplaceholder=ipplaceholder.encode();
-        s.send(ipplaceholder);
+        print(ipplaceholder);
+##        ipplaceholder=ipplaceholder.encode();
+##        s.send(ipplaceholder);
         print("successfully connected to server, 1 other online:"+name1)
         c=1
     while c==1:

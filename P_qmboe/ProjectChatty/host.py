@@ -50,14 +50,15 @@ while c!=-1:
                 print("\nsuccessfully connected \n waiting for connections\n cancel?");
                 s.listen(1);
                 conn, adr = s.accept();
-        
+                #send files
                 name = name.encode();
                 conn.send(name);
                 name = name.decode();
                 name1 = conn.recv(1024);
                 name1 = name1.decode();
-                theirIP = conn.recv(1024);
-                theirIP=theirIP.decode();
+##                theirIP = conn.recv(1024);
+##                theirIP=theirIP.decode();
+                theirIP = "a";
                 #blocorno = isBlocked();
                 print(theirIP," known as ",name1," Joined the server!\n=======Talk======\n");
                 temptuple = ("convos",str(datetime.datetime.now()),".txt")
