@@ -7,13 +7,12 @@ import qmbop
 #vars
 inpt = ''
 p = ''
-
 #lists
 allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
 
 #dictonaries
 convert = { ' ': 0,
-			'a': 1,
+                        'a': 1,
             'b': 2,
             'c': 3,
             'd': 4,
@@ -111,60 +110,74 @@ convert = { ' ': 0,
 #user def functions
 #encryption and decryption and more actions
 def init():
-	exit = 0;
-	while(exit != 1):
-		inpt = input(">action?\n");
-		print("\n"*100+">>>"+inpt+"<<<"+"\n"*10);
-		if(inpt == "<admint.del(log)>"):
-			delLog();
-		elif(inpt == "<admint.del(burgler-alarm)>"):
-			delBurg();
-		elif(inpt == "thank you"):
-			logCD = open("cowDump.txt","w");
-			logCD.write("");
-			logCD.close();
-			logCF = open("cowFood.txt","w");
-			logCF.write("");
-			logCF.close();
-			exit = 1;
-		elif inpt == '<admint.message(encrypt)>':
-			encrypt()
-		elif inpt == '<admint.message(decrypt)>':
-			decrypt()
-		else:
-			print("Unexpected Input!");																										
-	return "Success: Exit code 1"; #u exited the loop
+        skipInp = 0;
+        last = '';
+        exit = 0;
+        while(exit != 1):
+                if(skipInp == 0):
+                        inpt = input(">action?\n");
+                print("\n"*100+">>>"+inpt+"<<<"+"\n"*10);
+                if(inpt == "<admint.del(log)>"):
+                        last = "<admint.del(log)>";
+                        delLog();
+                        skipInp = 0;
+                elif(inpt == "<admint.del(burgler-alarm)>"):
+                        last = "<admint.del(burgler-alarm)>";
+                        delBurg();
+                        skipInp = 0;
+                elif(inpt == "thank you"):
+                        logCD = open("cowDump.txt","w");
+                        logCD.write("");
+                        logCD.close();
+                        logCF = open("cowFood.txt","w");
+                        logCF.write("");
+                        logCF.close();
+                        exit = 1;
+                elif inpt == '<admint.message(encrypt)>':
+                        last = "<admint.message(encrypt)>";
+                        encrypt()
+                        skipInp = 0;
+                elif inpt == '<admint.message(decrypt)>':
+                        last = "<admint.message(decrypt)>";
+                        decrypt()
+                        skipInp = 0;
+                elif inpt == "hist":
+                        inpt = str(last);
+                        skipInp = 1;
+                else:
+                        print("Unexpected Input!");                                                                                                                                                                                                             
+        return "Success: Exit code 1"; #u exited the loop
 #del log
 def delLog():
-	conf = input("Delete 'logue'? It will be gone for a very long time!") #Minecraft refrence here
-	if(conf == "true"):
-		os.remove("log.txt");
-		logF = open("log.txt","a");
-		logF.write(tt+"\n");
-		logF.close();
-		print("\n"*100);
-		print("File has been deleted!")
-	else:
-		print("Error: Code leaf");
+        conf = input("Delete 'logue'? It will be gone for a very long time!") #Minecraft refrence here
+        if(conf == "true"):
+                os.remove("log.txt");
+                logF = open("log.txt","a");
+                logF.write(tt+"\n");
+                logF.close();
+                print("\n"*100);
+                print("File has been deleted!")
+        else:
+                print("Error: Code leaf");
 #del burg alarm
 def delBurg():
-	conf = input("Delete 'sD.txt'?")
-	if(conf == "true"):
-		os.remove("sD.txt");
-		logL = open("sD.txt","w");
-		logL.write("");
-		logL.close();
-		print("\n"*100);
-		print("File has been deleted!")
-	else:
-		print("Error: Code leaf");
+        conf = input("Delete 'sD.txt'?")
+        if(conf == "true"):
+                os.remove("sD.txt");
+                logL = open("sD.txt","w");
+                logL.write("");
+                logL.close();
+                print("\n"*100);
+                print("File has been deleted!")
+        else:
+                print("Error: Code leaf");
 #encrypt 
 def encrypt():
     global convert
     global allchar
     code = ''
     key = ''
-    m = input('In [1]: \n')
+    m = input('Feed Bingcrypto: \n')
     for c in m:
         num = random.randint(0, 94)
         try:
@@ -219,23 +232,23 @@ def decrypt():
 
 #not in function
 for i in range(1, 4):
-	if i == 1:
-		p = qmbop.qmboone()
-	elif i == 2:
-		p = qmbop.qmbotwo()
-	else:
-		p = qmbop.qmbothree()
-	if (p == False):
-		print("\n"*10);
-		qmbotump = (str(datetime.datetime.now()),", failed at level: ",str(i),"\n")
-		qmbotump = "".join(qmbotump);
-		logL = open("sD.txt","a");
-		logL.write(qmbotump); #yessir!
-		logL.close();
-		logA = open("Atpwd.txt","a");
-		logA.write(qmbotump);
-		logA.close();
-		raise SystemExit('Access denied');
+        if i == 1:
+                p = qmbop.qmboone()
+        elif i == 2:
+                p = qmbop.qmbotwo()
+        else:
+                p = qmbop.qmbothree()
+        if (p == False):
+                print("\n"*10);
+                qmbotump = (str(datetime.datetime.now()),", failed at level: ",str(i),"\n")
+                qmbotump = "".join(qmbotump);
+                logL = open("sD.txt","a");
+                logL.write(qmbotump); #yessir!
+                logL.close();
+                logA = open("Atpwd.txt","a");
+                logA.write(qmbotump);
+                logA.close();
+                raise SystemExit('Access denied');
 print("\n"*100);
 tt = str(datetime.datetime.now());
 print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n");
@@ -253,6 +266,6 @@ logA.close();
 Pw = open("albreto.txt","w");
 Pw.write("");
 Pw.close();
-print(init());	
+print(init());  
 
 
