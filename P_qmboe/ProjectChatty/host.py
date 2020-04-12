@@ -50,8 +50,7 @@ while c!=-1:
                 print("\nsuccessfully connected \n waiting for connections\n cancel?");
                 s.listen(1);
                 conn, adr = s.accept();
-                z=0;
-                w = open("blocked.txt", 'r');
+        
                 name = name.encode();
                 conn.send(name);
                 name = name.decode();
@@ -59,9 +58,7 @@ while c!=-1:
                 name1 = name1.decode();
                 theirIP = conn.recv(1024);
                 theirIP=theirIP.decode();
-                theirEIP = conn.recv(1024);
-                theirEIP=theirIP.decode();
-                blocorno = isBlocked();
+                #blocorno = isBlocked();
                 print(theirIP," known as ",name1," Joined the server!\n=======Talk======\n");
                 temptuple = ("convos",str(datetime.datetime.now()),".txt")
                 namething = str("".join(temptuple));
@@ -70,7 +67,8 @@ while c!=-1:
                 namething = namething.replace(':','_');
                 print(namething);
                 h=open(namething,"w+");
-                temptuple1 = ("conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n")
+                #temptuple1 = ("conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n")
+                temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
                 temptuple1= "".join(temptuple1);
                 h.write(str(temptuple1));
                 h.close()
@@ -141,4 +139,3 @@ while c!=-1:
                             status = ("read")
                             status = status.encode();
                             conn.send(status);
-

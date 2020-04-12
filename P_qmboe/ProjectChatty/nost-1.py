@@ -82,4 +82,3 @@ while c!=-1:
                 status = status.decode();
                 print(status);
                 print("");
-
