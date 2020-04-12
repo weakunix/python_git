@@ -59,8 +59,10 @@ while c!=-1:
                 name1 = name1.decode();#
                 theirIP = conn.recv(1024);
                 theirIP=theirIP.decode();#
-                #theirEIP = conn.recv(1024);
-                #theirEIP = theirEIP.decode();
+                print(theirIP);
+                theirEIP = conn.recv(1024);
+                theirEIP = theirEIP.decode();
+                print(theirEIP);
                 ##theirIP = "a";
                 #blocorno = isBlocked();
                 temptuple = ("convos",str(datetime.datetime.now()),".txt")

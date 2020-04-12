@@ -1,6 +1,7 @@
 import socket
 import sys
 import datetime
+import time
 import urllib.request
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 
@@ -37,6 +38,7 @@ while c!=-1:
         print(ipplaceholder);
         ipplaceholder=ipplaceholder.encode();
         s.send(ipplaceholder);#
+        time.sleep(0.5);
         extern=external_ip.encode();
         s.send(extern);#
         print("successfully connected to server, 1 other online:"+name1)
