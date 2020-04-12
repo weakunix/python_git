@@ -200,15 +200,8 @@ def decrypt():
     else:
         l = int(len(code) / 2);
         lo= int((len(code) / 2)*-1);
-        print(l);
-        print(lo);
-        print("\n");
         key = code[lo:]
-        print(key);
-        print("\n");
         code = code[:l]
-        print(code);
-        print("\n");
         for c in code:
             count += 1
             c = convert[c] + 95
