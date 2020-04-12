@@ -2,9 +2,13 @@ import socket
 import sys
 import datetime 
 import time
+import urllib.request
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
+
 message = '';
 incoming_message = '';
 name = input("what is your name");
+port = int(input("port?"));
 c=0;
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -39,10 +43,11 @@ while c!=-1:
                 s = socket.socket();
                 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
                 host = get_ip();
-                port = 8080;
                 s.bind((host,port))
-                print("logged in on:",host);
-                print("successfully connected \n waiting for connections\n cancel?");
+                print("logged in on local ip:",host);
+                print("\nglobal IP:",external_ip);
+                print(port);
+                print("\nsuccessfully connected \n waiting for connections\n cancel?");
                 s.listen(1);
                 conn, adr = s.accept();
                 z=0;
@@ -54,6 +59,8 @@ while c!=-1:
                 name1 = name1.decode();
                 theirIP = conn.recv(1024);
                 theirIP=theirIP.decode();
+                theirEIP = conn.recv(1024);
+                theirEIP=theirIP.decode();
                 blocorno = isBlocked();
                 print(theirIP," known as ",name1," Joined the server!\n=======Talk======\n");
                 temptuple = ("convos",str(datetime.datetime.now()),".txt")
@@ -63,7 +70,7 @@ while c!=-1:
                 namething = namething.replace(':','_');
                 print(namething);
                 h=open(namething,"w+");
-                temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,")\n ================= \n")
+                temptuple1 = ("conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n")
                 temptuple1= "".join(temptuple1);
                 h.write(str(temptuple1));
                 h.close()

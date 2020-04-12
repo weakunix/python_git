@@ -1,9 +1,12 @@
 import socket
 import sys
 import datetime
+import urllib.request
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 
 message = '';
 name = input("what is your name");
+port = int(input("port?"));
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -21,8 +24,10 @@ while c!=-1:
         ipplaceholder = get_ip();
         s = socket.socket();
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
+        print("logged in on local ip:",ipplaceholder);
+        print("\nglobal IP:",external_ip);
+        print(port);
         host=input(str("please enter host name of server"));
-        port = 8080;
         s.connect((host,port));
         name1 = s.recv(1024);
         name1 = name1.decode();
