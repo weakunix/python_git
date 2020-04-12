@@ -39,7 +39,7 @@ def qmboone():
 def qmbotwo():
     alpha = ' abcdefghijklmnopqrstuvwxyz'
     p = random.randint(1, 23)
-    num = int((26 - p) / 3)
+    num = random.randint(1, int((26 - p) / 3))
     p = [p, p + num, p + 2 * num, p + 3 * num]
     num = input('{}\n'.format(p[:3]))
     print(alpha[p[3]])#remove this later
