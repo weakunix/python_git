@@ -41,8 +41,8 @@ def qmbotwo():
     p = random.randint(1, 23)
     num = random.randint(1, int((26 - p) / 3))
     p = [p, p + num, p + 2 * num, p + 3 * num]
-    num = input('{}\n'.format(p[:3]))
     print(alpha[p[3]])#remove this later
+    num = input('{}\n'.format(p[:3]))
     if num == alpha[p[3]]:
         return True
     return False
