@@ -250,6 +250,9 @@ logA = open("Atpwd.txt","w");
 logA.write("");
 logA.close();
 #accidentily removed ATPWD but fixed
+Pw = open("albreto.txt","w");
+Pw.write("");
+Pw.close();
 print(init());	
 
 
