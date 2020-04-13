@@ -38,9 +38,23 @@ while c!=-1:
         print(ipplaceholder);
         ipplaceholder=ipplaceholder.encode();
         s.send(ipplaceholder);#
+        ipplaceholder = ipplaceholder.decode()
         time.sleep(0.5);
         extern=external_ip.encode();
-        s.send(extern);#
+        s.send(extern);
+        #
+        temptuple = ("convos",str(datetime.datetime.now()),".txt")
+        namething = str("".join(temptuple));
+        print(namething);
+        namething = namething.replace(' ','_');
+        namething = namething.replace(':','_');
+        print(namething);
+        h=open(namething,"w+");
+                #temptuple1 = ("conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n")
+        temptuple1 = ("conversation between ",name," (",ipplaceholder,") and ",name1," (",host,") \n ================= \n")
+        temptuple1= "".join(temptuple1);
+        h.write(str(temptuple1));
+        h.close()
         print("successfully connected to server, 1 other online:"+name1)
         c=1
     while c==1:
@@ -50,6 +64,9 @@ while c!=-1:
             print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
             c=0;
             s.close();
+        elif(incoming_message == "[retract%message]"):
+            #conslle clear
+            print(1);
         else:
             print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
             status1 = ("read")
@@ -60,25 +77,62 @@ while c!=-1:
             message = input(str(">>"))
             if(message == "/block"):
                 message = "[ACTION]:the recipient has blocked you";
+                h=open(namething,"a");
+                h.write(message);
+                h.write("\n");
+                h.close();
                 message = message.encode();
                 bf=open("blocked.txt","a");
-                bf.write(host+"\n");
+                bf.write(str(theirIP)+"\n");
                 bf.close();
                 s.send(message);
+                s.close()
+                s.close();
                 print("delivered");
                 c=0;
             elif(message == "/stop"):
-                message = "[ACTION]:the recipient has exited the chat room!";
-                message = message.encode();
-                s.send(message);
-                print("delivered");
-                c =-1;
+                 message = "[ACTION]:the recipient has exited the chat room!";
+                 h=open(namething,"a");
+                 h.write(message);
+                 h.write("\n");
+                 h.close();
+                 message = message.encode();
+                 s.send(message);
+                 print("delivered");
+                 c=-1;
             elif(message == "/end"):
-                message = "[ACTION]:the recipient has ended the conversation!";
-                message = message.encode();
-                s.send(message);
-                print("delivered");
-                c=0;
+                 message = "[ACTION]:the recipient has ended the conversation!";
+                 h=open(namething,"a");
+                 h.write(message);
+                 h.write("\n");
+                 h.close();
+                 message = message.encode();
+                 s.send(message);
+                 print("delivered");
+                 c=0;
+            elif(message == "/retract"):
+                 message = "[retract%message]"
+                 h=open(namething,"a");
+                 h.write(message);
+                 h.write("\n");
+                 h.close();
+                 message = message.encode();
+                 s.send(message);
+                 print("delivered");
+                 c=0;
+            elif(message == "/contact add"):
+                 contactName=str(input("new contact name?"));
+                 message = ("[ACTION]:the recipient added you as a contact: ",contactName);
+                 d = open("contact.txt","a");
+                 d.write(contactName);
+                 d.write(theirIP);
+                 message = "".join(message);
+                 h=open(namething,"a");
+                 h.write(message);
+                 h.write("\n");
+                 h.close();
+                 message = message.encode();   
+                 s.send(message);
             else:
                 message = message.encode();
                 s.send(message)
@@ -86,4 +140,7 @@ while c!=-1:
                 status = s.recv(1024);
                 status = status.decode();
                 print(status);
-                print("");
+                h=open(namething,"a");
+                h.write(message);
+                h.write("\n");
+                h.close();
