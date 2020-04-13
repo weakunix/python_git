@@ -91,6 +91,7 @@ while c!=-1:
                 if(message == "/block"):
                         message = "[ACTION]:the recipient has blocked you";
                         h=open(namething,"a");
+                        h.write(name)
                         h.write(message);
                         h.write("\n");
                         h.close();
@@ -109,6 +110,7 @@ while c!=-1:
                 elif(message == "/stop"):
                         message = "[ACTION]:the recipient has exited the chat room!";
                         h=open(namething,"a");
+                        h.write(name)
                         h.write(message);
                         h.write("\n");
                         h.close();
@@ -122,6 +124,7 @@ while c!=-1:
                 elif(message == "/end"):
                         message = "[ACTION]:the recipient has ended the conversation!";
                         h=open(namething,"a");
+                        h.write(name)
                         h.write(message);
                         h.write("\n");
                         h.close();
@@ -135,6 +138,7 @@ while c!=-1:
                 elif(message == "/retract"):
                         message = "[retract%message]"
                         h=open(namething,"a");
+                        h.write(name)
                         h.write(message);
                         h.write("\n");
                         h.close();
@@ -150,6 +154,7 @@ while c!=-1:
                         d.write(theirIP);
                         message = "".join(message);
                         h=open(namething,"a");
+                        h.write(name)
                         h.write(message);
                         h.write("\n");
                         h.close();
@@ -174,6 +179,11 @@ while c!=-1:
                         h.close();
                 if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
                     print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+                    h=open(namething,"a");
+                    temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+                    temptuple2= "".join(temptuple2);
+                    h.write(str(temptuple2));
+                    h.close();
                     rec = input("Record this conversation?(yes or no)");
                     if (rec == "no"):
                         os.remove(namething);
