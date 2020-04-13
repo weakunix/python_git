@@ -19,7 +19,7 @@ def get_ip():
     finally:
         s.close()
     return IP
-c=0;
+c=0; 
 while c!=-1:
     while c==0:
         ipplaceholder = get_ip();

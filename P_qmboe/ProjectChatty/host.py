@@ -116,7 +116,7 @@ while c!=-1:
                         d.write(contactName);
                         d.write(theirIP);
                         message = "".join(message);
-                        message = message.encode();
+                        message = message.encode();   
                         conn.send(message);
                 else:
                         #sdfasdfh
