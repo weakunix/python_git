@@ -14,5 +14,3 @@ with open('data_e18.txt','r') as fp:
         rows.append(row)
 
 #try every route
-for i in range(0, 14):
-
