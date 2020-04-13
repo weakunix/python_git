@@ -163,16 +163,16 @@ while c!=-1:
                         temptuple2= "".join(temptuple2);
                         h.write(str(temptuple2));
                         h.close();
-                        if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
-                            print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-                            c=0;
-                            conn.close();
-                        elif(message == "[retract%message]"):
-                            #conslle clear
-                            print(1);
-                        else:
-                            print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-                            print("");
-                            status = ("read")
-                            status = status.encode();
-                            conn.send(status);
+                if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
+                    print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+                    c=0;
+                    conn.close();
+                elif(incoming_message == "[retract%message]"):
+                    #conslle clear
+                    print(1);
+                else:
+                    print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+                    print("");
+                    status = ("read")
+                    status = status.encode();
+                    conn.send(status);
