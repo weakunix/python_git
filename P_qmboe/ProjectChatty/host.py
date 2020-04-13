@@ -3,9 +3,10 @@ import sys
 import datetime 
 import time
 import urllib.request
+import os
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
-#pushing from ipad test
-message = ''; 
+
+message = '';
 incoming_message = '';
 name = input("what is your name");
 port = int(input("port?"));
@@ -77,6 +78,7 @@ while c!=-1:
                 temptuple1= "".join(temptuple1);
                 h.write(str(temptuple1));
                 h.close()
+                os.system('clear')
                 print(theirIP," known as ",name1," Joined the server!\n=======Talk======\n");
                 c=1
         while c==1:
@@ -88,6 +90,10 @@ while c!=-1:
                 h.close();
                 if(message == "/block"):
                         message = "[ACTION]:the recipient has blocked you";
+                        h=open(namething,"a");
+                        h.write(message);
+                        h.write("\n");
+                        h.close();
                         message = message.encode();
                         bf=open("blocked.txt","a");
                         bf.write(str(theirIP)+"\n");
@@ -99,12 +105,30 @@ while c!=-1:
                         c=0;
                 elif(message == "/stop"):
                         message = "[ACTION]:the recipient has exited the chat room!";
+                        h=open(namething,"a");
+                        h.write(message);
+                        h.write("\n");
+                        h.close();
                         message = message.encode();
                         conn.send(message);
                         print("delivered");
                         c=-1;
                 elif(message == "/end"):
                         message = "[ACTION]:the recipient has ended the conversation!";
+                        h=open(namething,"a");
+                        h.write(message);
+                        h.write("\n");
+                        h.close();
+                        message = message.encode();
+                        conn.send(message);
+                        print("delivered");
+                        c=0;
+                elif(message == "/retract"):
+                        message = "[retract%message]"
+                        h=open(namething,"a");
+                        h.write(message);
+                        h.write("\n");
+                        h.close();
                         message = message.encode();
                         conn.send(message);
                         print("delivered");
@@ -116,6 +140,10 @@ while c!=-1:
                         d.write(contactName);
                         d.write(theirIP);
                         message = "".join(message);
+                        h=open(namething,"a");
+                        h.write(message);
+                        h.write("\n");
+                        h.close();
                         message = message.encode();   
                         conn.send(message);
                 else:
@@ -139,6 +167,9 @@ while c!=-1:
                             print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
                             c=0;
                             conn.close();
+                        elif(message == "[retract%message]"):
+                            #conslle clear
+                            print(1);
                         else:
                             print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
                             print("");
