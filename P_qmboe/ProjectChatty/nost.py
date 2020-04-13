@@ -60,6 +60,11 @@ while c!=-1:
     while c==1:
         incoming_message = s.recv(1024);
         incoming_message = incoming_message.decode();
+        h=open(namething,"a");
+        temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+        temptuple2= "".join(temptuple2);
+        h.write(str(temptuple2));
+        h.close();
         if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
             print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
             c=0;
@@ -83,7 +88,7 @@ while c!=-1:
                 h.close();
                 message = message.encode();
                 bf=open("blocked.txt","a");
-                bf.write(str(theirIP)+"\n");
+                bf.write(str(host)+"\n");
                 bf.close();
                 s.send(message);
                 s.close()
@@ -125,7 +130,7 @@ while c!=-1:
                  message = ("[ACTION]:the recipient added you as a contact: ",contactName);
                  d = open("contact.txt","a");
                  d.write(contactName);
-                 d.write(theirIP);
+                 d.write(host);
                  message = "".join(message);
                  h=open(namething,"a");
                  h.write(message);
@@ -134,13 +139,14 @@ while c!=-1:
                  message = message.encode();   
                  s.send(message);
             else:
+                h=open(namething,"a");
+                temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
+                temptuple3= "".join(temptuple3);
+                h.write(str(temptuple3));
+                h.close();
                 message = message.encode();
                 s.send(message)
                 print("delivered");
                 status = s.recv(1024);
                 status = status.decode();
                 print(status);
-                h=open(namething,"a");
-                h.write(message);
-                h.write("\n");
-                h.close();
