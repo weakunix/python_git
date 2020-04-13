@@ -73,7 +73,7 @@ while c!=-1:
                 namething = namething.replace(':','_');
                 print(namething);
                 h=open(namething,"w+");
-                temptuple1 = ("From HOST, on port: ",port,": conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n");
+                temptuple1 = ("From HOST, on port: ",str(port),": conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n");
                 #temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
                 temptuple1= "".join(temptuple1);
                 h.write(str(temptuple1));

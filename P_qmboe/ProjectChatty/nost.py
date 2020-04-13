@@ -50,7 +50,7 @@ while c!=-1:
         namething = namething.replace(':','_');
         print(namething);
         h=open(namething,"w+");
-        temptuple1 = ("From NOST, on port: ",port,": conversation between ",name," (",ipplaceholder,")(",external_ip,") and ",name1," (",host,") (",host,")\n ================= \n");
+        temptuple1 = ("From NOST, on port: ",str(port),": conversation between ",name," (",ipplaceholder,")(",external_ip,") and ",name1," (",host,") (",host,")\n ================= \n");
         #temptuple1 = ("conversation between ",name," (",ipplaceholder,") and ",name1," (",host,") \n ================= \n")
         temptuple1= "".join(temptuple1);
         h.write(str(temptuple1));
