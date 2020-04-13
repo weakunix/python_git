@@ -5,7 +5,7 @@ import time
 import urllib.request
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 #pushing from ipad test
-message = '';
+message = ''; 
 incoming_message = '';
 name = input("what is your name");
 port = int(input("port?"));
