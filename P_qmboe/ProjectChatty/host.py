@@ -73,8 +73,8 @@ while c!=-1:
                 namething = namething.replace(':','_');
                 print(namething);
                 h=open(namething,"w+");
-                #temptuple1 = ("conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n")
-                temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
+                temptuple1 = ("From HOST, on port: ",port,": conversation between ",name," (",host,")(",external_ip,") and ",name1," (",theirIP,") (",theirEIP,")\n ================= \n");
+                #temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
                 temptuple1= "".join(temptuple1);
                 h.write(str(temptuple1));
                 h.close()
@@ -102,6 +102,10 @@ while c!=-1:
                         conn.close()
                         s.close();
                         print("delivered");
+                        rec = input("Record this conversation?(yes or no)");
+                        if (rec == "no"){
+                            os.remove(namething);
+                        }
                         c=0;
                 elif(message == "/stop"):
                         message = "[ACTION]:the recipient has exited the chat room!";
@@ -112,6 +116,10 @@ while c!=-1:
                         message = message.encode();
                         conn.send(message);
                         print("delivered");
+                        rec = input("Record this conversation?(yes or no)");
+                        if (rec == "no"){
+                            os.remove(namething);
+                        }
                         c=-1;
                 elif(message == "/end"):
                         message = "[ACTION]:the recipient has ended the conversation!";
@@ -122,6 +130,10 @@ while c!=-1:
                         message = message.encode();
                         conn.send(message);
                         print("delivered");
+                        rec = input("Record this conversation?(yes or no)");
+                        if (rec == "no"){
+                            os.remove(namething);
+                        }
                         c=0;
                 elif(message == "/retract"):
                         message = "[retract%message]"
@@ -165,8 +177,12 @@ while c!=-1:
                         h.close();
                 if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
                     print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-                    c=0;
+                    rec = input("Record this conversation?(yes or no)");
+                    if (rec == "no"){
+                    	os.remove(namething);
+                    }
                     conn.close();
+                    c=0;
                 elif(incoming_message == "[retract%message]"):
                     #conslle clear
                     print(1);
