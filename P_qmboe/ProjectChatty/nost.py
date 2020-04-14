@@ -88,9 +88,9 @@ while c!=-1:
     else:
       print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
       if (sendReadAlerts == "yes"):
-         status = ("read")
+        status = ("read")
       else:
-         status = ("")
+        status = ("")
       status = status.encode();
       s.send(status);
       print("");
@@ -116,58 +116,58 @@ while c!=-1:
           os.remove(namething);
         c=0;
       elif(message == "/stop"):
-         message = "[ACTION]:the recipient has exited the chat room!";
-         h=open(namething,"a");
-         h.write(name)
-         h.write(message);
-         h.write("\n");
-         h.close();
-         message = message.encode();
-         s.send(message);
-         print("delivered");
-         rec = input("Record this conversation?(yes or no)");
-         if (rec == "no"):
+        message = "[ACTION]:the recipient has exited the chat room!";
+        h=open(namething,"a");
+        h.write(name)
+        h.write(message);
+        h.write("\n");
+        h.close();
+        message = message.encode();
+        s.send(message);
+        print("delivered");
+        rec = input("Record this conversation?(yes or no)");
+        if (rec == "no"):
           os.remove(namething);
-         c=-1;
+        c=-1;
       elif(message == "/end"):
-         message = "[ACTION]:the recipient has ended the conversation!";
-         h=open(namething,"a");
-         h.write(name)
-         h.write(message);
-         h.write("\n");
-         h.close();
-         message = message.encode();
-         s.send(message);
-         print("delivered");
-         rec = input("Record this conversation?(yes or no)");
-         if (rec == "no"):
+        message = "[ACTION]:the recipient has ended the conversation!";
+        h=open(namething,"a");
+        h.write(name)
+        h.write(message);
+        h.write("\n");
+        h.close();
+        message = message.encode();
+        s.send(message);
+        print("delivered");
+        rec = input("Record this conversation?(yes or no)");
+        if (rec == "no"):
           os.remove(namething);
-         c=0;
-      elif(message == "/retract"):
-         message = "[retract%message]"
-         h=open(namething,"a");
-         h.write(name)
-         h.write(message);
-         h.write("\n");
-         h.close();
-         message = message.encode();
-         s.send(message);
-         print("delivered");
-         c=0;
-      elif(message == "/contact add"):
-         contactName=str(input("new contact name?"));
-         message = ("[ACTION]:the recipient added you as a contact: ",contactName);
-         d = open("contact.txt","a");
-         d.write(contactName);
-         d.write(host);
-         message = "".join(message);
-         h=open(namething,"a");
-         h.write(name)
-         h.write(message);
-         h.write("\n");
-         h.close();
-         message = message.encode();   
-         s.send(message);
+        c=0;
+     elif(message == "/retract"):
+        message = "[retract%message]"
+        h=open(namething,"a");
+        h.write(name)
+        h.write(message);
+        h.write("\n");
+        h.close();
+        message = message.encode();
+        s.send(message);
+        print("delivered");
+        c=0;
+     elif(message == "/contact add"):
+        contactName=str(input("new contact name?"));
+        message = ("[ACTION]:the recipient added you as a contact: ",contactName);
+        d = open("contact.txt","a");
+        d.write(contactName);
+        d.write(host);
+        message = "".join(message);
+        h=open(namething,"a");
+        h.write(name)
+        h.write(message);
+        h.write("\n");
+        h.close();
+        message = message.encode();   
+        s.send(message);
       else:
         h=open(namething,"a");
         temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
