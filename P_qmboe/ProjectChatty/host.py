@@ -24,7 +24,7 @@ def get_ip():
   return IP
 def isBlocked(): #here ruoyu asdydfkffkkffllfkfoeoleld,d,kdkjrkfmmckmihjjhuhfehujjuejuju3j8j88
   count = 0;
-  with open("blocked.txt", 'r') as f:
+  with open("blocked.txt", 'r') as f: 
     for line in f:
       count += 1#first gets number of lines with count
   w = open("blocked.txt",'r') 
