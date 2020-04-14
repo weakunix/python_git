@@ -17,5 +17,8 @@ Make UI
 jason: 
 Make reactions and message ID
 Settings for send read alerts
+-need to debug
 
 ruoyu:
+project 495:
+make a python sxript that reads out of a file and assigns each line to a variable
