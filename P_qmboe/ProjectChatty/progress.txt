@@ -5,7 +5,6 @@ we need to work on:
 Make reading from files
 Make contacts
 Make blocking
-Make retract messages 
 Make encrypted messages with /encryptomucho
 Send attachments
 Make typing animation
@@ -16,8 +15,7 @@ Make UI
 
 jason: 
 Make reactions and message ID
-Settings for send read alerts
--need to debug
+Make retract messages 
 
 ruoyu:
 project 495:
