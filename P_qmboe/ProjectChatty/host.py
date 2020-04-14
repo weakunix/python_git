@@ -1,6 +1,6 @@
 import socket
 import sys
-import datetime 
+import datetime
 import time
 import urllib.request
 import os
@@ -38,7 +38,7 @@ def isBlocked(): #here ruoyu asdydfkffkkffllfkfoeoleld,d,kdkjrkfmmckmihjjhuhfehu
       return 1;
   w.close()
   return 0;
-while c!=-1: 
+while c!=-1:
   while c==0:
     time.sleep(1);
     s = socket.socket();
@@ -162,13 +162,14 @@ while c!=-1:
       h.write(message);
       h.write("\n");
       h.close();
-      message = message.encode();   
+      message = message.encode();
       conn.send(message);
     else:
       #sdfasdfh
       message = message.encode();
       conn.send(message);
       print("delivered");
+      #if(sendReadAlerts == "yes"):
       status1 = conn.recv(1024);
       status1 = status1.decode();
       print(status1);
@@ -202,7 +203,7 @@ while c!=-1:
         if (sendReadAlerts == "yes"):
           status = ("read")
         else:
-          status = ("")
+          status = ("-")
           status = status.encode();
           conn.send(status);
 

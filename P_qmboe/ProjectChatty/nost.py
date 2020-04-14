@@ -20,7 +20,7 @@ def get_ip():
   finally:
     s.close()
   return IP
-c=0; 
+c=0;
 while c!=-1:
   while c==0:
     ipplaceholder = get_ip();
@@ -33,7 +33,7 @@ while c!=-1:
     s.connect((host,port));
     name1 = s.recv(1024);
     name1 = name1.decode();
-    name = name.encode(); 
+    name = name.encode();
     s.send(name);#
     name = name.decode();
     print(ipplaceholder);
@@ -63,8 +63,11 @@ while c!=-1:
       sendReadAlerts = "no";
     c=1
   while c==1:
+    print(21);
+    #time.sleep(0.5);
     incoming_message = s.recv(1024);
     incoming_message = incoming_message.decode();
+    print(12);
     h=open(namething,"a");
     temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
     temptuple2= "".join(temptuple2);
@@ -86,11 +89,12 @@ while c!=-1:
       #conslle clear
       print(1);
     else:
+      print(1); #ghjejejjeke
       print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
       if (sendReadAlerts == "yes"):
-        status = ("read")
+        status = "read"
       else:
-        status = ("")
+        status = ""
       status = status.encode();
       s.send(status);
       print("");
@@ -166,7 +170,7 @@ while c!=-1:
         h.write(message);
         h.write("\n");
         h.close();
-        message = message.encode();   
+        message = message.encode();
         s.send(message);
       else:
         h=open(namething,"a");
@@ -177,6 +181,8 @@ while c!=-1:
         message = message.encode();
         s.send(message)
         print("delivered");
+        #if(sendReadAlerts == "yes"):
         status1 = s.recv(1024);
         status1 = status.decode();
         print(status1);
+
