@@ -3,7 +3,6 @@ v9: added ability to not show "read" for recipient. AKA ghosting
 
 we need to work on:
 privacy mode (hide ip)
-Make encrypted messages with /encryptomucho
 Send attachments
 Make typing animation
 Make reactions and message ID
@@ -14,7 +13,7 @@ Make UI
 
 
 jason: 
-
+Make encrypted messages with /encryptomucho
 
 
 ruoyu:

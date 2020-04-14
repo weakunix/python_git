@@ -4,8 +4,9 @@ import datetime
 import time
 import urllib.request
 import os
-external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
+import encryption_decryption
 
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 message = '';
 messageNum = 0;
 incoming_message = '';
@@ -23,22 +24,6 @@ def get_ip():
   finally:
     s.close()
   return IP
-def isBlocked(): #here ruoyu asdydfkffkkffllfkfoeoleld,d,kdkjrkfmmckmihjjhuhfehujjuejuju3j8j88
-  count = 0;
-  with open("blocked.txt", 'r') as f: 
-    for line in f:
-      count += 1#first gets number of lines with count
-  w = open("blocked.txt",'r') 
-  for i in range(count):
-    x=str(w.readline(i));#assigns lines as x then compares it with blocked ones
-    print(str(w.readline(i)),"< x\n");
-    if(x==theirIP):
-      conn.send(("you got blocked boi!").encode);
-      conn.close();
-      w.close()
-      return 1;
-  w.close()
-  return 0;
 while c!=-1:
   while c==0:
     time.sleep(1);
@@ -65,8 +50,6 @@ while c!=-1:
     theirEIP = conn.recv(1024);
     theirEIP = theirEIP.decode();
     print(theirEIP);
-    ##theirIP = "a";
-    #blocorno = isBlocked();
     temptuple = ("convos",str(datetime.datetime.now()),".txt")
     namething = str("".join(temptuple));
     print(namething);

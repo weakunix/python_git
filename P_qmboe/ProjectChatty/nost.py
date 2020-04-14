@@ -4,8 +4,9 @@ import datetime
 import time
 import urllib.request
 import os
-external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
+import encryption_decryption
 
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 message = '';
 name = input("what is your name");
 port = int(input("port?"));
