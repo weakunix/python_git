@@ -187,7 +187,7 @@ while c!=-1:
         message = message.encode();
         s.send(message);
       else:
-      	if (message == "<e>"):
+        if (message == "<e>"):
           secureMessage = True;
         if(secureMessage==True):
           message = input(str("SECURE MODE >>"));
