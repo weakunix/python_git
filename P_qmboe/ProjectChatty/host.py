@@ -201,9 +201,9 @@ while c!=-1:
         print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
         print("");
         if (sendReadAlerts == "yes"):
-          status = ("read")
+          status = "read"
         else:
-          status = ("-")
-          status = status.encode();
-          conn.send(status);
+          status = ""
+        status = status.encode();
+        conn.send(status);
 

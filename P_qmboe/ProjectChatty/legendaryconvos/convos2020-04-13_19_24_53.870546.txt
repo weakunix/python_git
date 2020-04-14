@@ -1,0 +1,78 @@
+From HOST, on port: 8888: conversation between ukio-e dlq-33 (192.168.1.46)(69.248.233.101) and MrMoooo (192.168.2.118) (2604:2000:1384:6132:912e:5ce8:6a2a:c3a3)
+ ================= 
+
+ at:2020-04-13 19:24:57.606784 
+ ukio-e dlq-33>> hidadles
+
+ at:2020-04-13 19:25:02.476501 
+ MrMoooo>> heladoad
+
+ at:2020-04-13 19:25:12.283511 
+ ukio-e dlq-33>> helade
+
+ at:2020-04-13 19:25:12.345938 
+ MrMoooo>> yayadhfuashdfashfdiasfa
+
+ at:2020-04-13 19:25:15.398370 
+ ukio-e dlq-33>> nice
+
+ at:2020-04-13 19:25:26.028674 
+ MrMoooo>> lol
+
+ at:2020-04-13 19:25:53.429482 
+ ukio-e dlq-33>> albreto
+
+ at:2020-04-13 19:26:01.252458 
+ MrMoooo>> leggo
+
+ at:2020-04-13 19:26:05.161642 
+ ukio-e dlq-33>> leg oh no
+
+ at:2020-04-13 19:26:18.868951 
+ MrMoooo>> ayayayayayaya i got da hw
+
+ at:2020-04-13 19:26:24.233906 
+ ukio-e dlq-33>> ok
+
+ at:2020-04-13 19:26:29.312411 
+ MrMoooo>> aya
+
+ at:2020-04-13 19:26:33.222652 
+ ukio-e dlq-33>> ;()
+
+ at:2020-04-13 19:27:05.149868 
+ MrMoooo>> ';print('lol XD')
+
+ at:2020-04-13 19:27:17.342506 
+ ukio-e dlq-33>> print(bad)
+
+ at:2020-04-13 19:27:31.363819 
+ MrMoooo>> Error: bad is not defined
+
+ at:2020-04-13 19:27:38.350778 
+ ukio-e dlq-33>> lol
+
+ at:2020-04-13 19:27:49.591706 
+ MrMoooo>> print('bad')
+
+ at:2020-04-13 19:27:54.840585 
+ ukio-e dlq-33>> bad = you
+
+ at:2020-04-13 19:28:12.061430 
+ MrMoooo>> wrong way around
+
+ at:2020-04-13 19:28:21.985785 
+ ukio-e dlq-33>> ur the wrong way around!RAAAAAA
+
+ at:2020-04-13 19:28:25.432111 
+ MrMoooo>> Error: bad is not defined
+
+ at:2020-04-13 19:28:34.861325 
+ ukio-e dlq-33>> ERROR UR NTO DEFINEIJGSRIUVAFDIUHUDFFAIUJEFGA
+
+ at:2020-04-13 19:28:50.829697 
+ MrMoooo>> uahfdiuahsughwaeguihaui uiahui hauidfhaiusdhu hwwhwhwhwhwhwhwhw
+
+ at:2020-04-13 19:28:57.803517 
+ ukio-e dlq-33>> /block
+ukio-e dlq-33[ACTION]:the recipient has blocked you

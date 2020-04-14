@@ -1,0 +1,24 @@
+From HOST, on port: 8888: conversation between w (192.168.1.46)(69.248.233.101) and Anthony (192.168.1.10) (173.63.240.10)
+ ================= 
+
+ at:2020-04-13 18:10:56.565650 
+ w>> hi anth
+
+ at:2020-04-13 18:11:03.165005 
+ Anthony>> Hi??Heyyyyyy
+
+ at:2020-04-13 18:11:08.925480 
+ w>> youre bad at mc
+
+ at:2020-04-13 18:11:14.359212 
+ Anthony>> Fake news
+
+ at:2020-04-13 18:11:20.040217 
+ w>> no u
+
+ at:2020-04-13 18:11:39.632356 
+ Anthony>> ur more of a fake then I am
+
+ at:2020-04-13 18:11:54.667571 
+ w>> /block
+w[ACTION]:the recipient has blocked you
