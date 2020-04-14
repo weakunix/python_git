@@ -187,6 +187,11 @@ while c!=-1:
         message = message.encode();
         s.send(message);
       else:
+      	if (message == "<e>"):
+          secureMessage = True;
+        if(secureMessage==True):
+          message = input(str("SECURE MODE >>"));
+          message = encryption_decryption.encrypt(message);
         h=open(namething,"a");
         temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
         temptuple3= "".join(temptuple3);

@@ -11,7 +11,7 @@ message = '';
 messageNum = 0;
 incoming_message = '';
 name = input("what is your name");
-port = int(input("port?"));
+port = int(input("port?"));#make rhis changable
 c=0; 
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -154,6 +154,11 @@ while c!=-1:
       conn.send(message);
     else:
       #sdfasdfh
+      if (message == "<e>"):
+        secureMessage = True;
+      if(secureMessage==True):
+        message = input(str("SECURE MODE >>"));
+        message = encryption_decryption.encrypt(message);
       message = message.encode();
       conn.send(message);
       print("delivered");
