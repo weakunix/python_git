@@ -190,8 +190,8 @@ while c!=-1:
       h.close();
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
-      os.remove(namething);
-      conn.close();
+        os.remove(namething);
+        conn.close();
       c=0;
     elif(incoming_message == "[retract%message]"):
       #conslle clear
@@ -200,9 +200,9 @@ while c!=-1:
       print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
       print("");
       if (sendReadAlerts == "yes"):
-      status = ("read")
+        status = ("read")
       else:
-      status = ("")
-      status = status.encode();
-      conn.send(status);
+        status = ("")
+        status = status.encode();
+        conn.send(status);
 
