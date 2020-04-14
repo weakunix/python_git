@@ -181,28 +181,28 @@ while c!=-1:
       temptuple2= "".join(temptuple2);
       h.write(str(temptuple2));
       h.close();
-    if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
-      print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-      h=open(namething,"a");
-      temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
-      temptuple2= "".join(temptuple2);
-      h.write(str(temptuple2));
-      h.close();
-      rec = input("Record this conversation?(yes or no)");
-      if (rec == "no"):
-        os.remove(namething);
-        conn.close();
-      c=0;
-    elif(incoming_message == "[retract%message]"):
-      #conslle clear
-      print(1);
-    else:
-      print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-      print("");
-      if (sendReadAlerts == "yes"):
-        status = ("read")
+      if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        h=open(namething,"a");
+        temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+        temptuple2= "".join(temptuple2);
+        h.write(str(temptuple2));
+        h.close();
+        rec = input("Record this conversation?(yes or no)");
+        if (rec == "no"):
+          os.remove(namething);
+          conn.close();
+        c=0;
+      elif(incoming_message == "[retract%message]"):
+        #conslle clear
+        print(1);
       else:
-        status = ("")
-        status = status.encode();
-        conn.send(status);
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        print("");
+        if (sendReadAlerts == "yes"):
+          status = ("read")
+        else:
+          status = ("")
+          status = status.encode();
+          conn.send(status);
 
