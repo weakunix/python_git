@@ -57,6 +57,10 @@ while c!=-1:
         h.write(str(temptuple1));
         h.close()
         print("successfully connected to server, 1 other online:"+name1)
+        sendReadAlerts = input("send read alerts? (yes,no)");
+        if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
+            print("yes or no dumbo! defaulted to no");
+            sendReadAlerts = "no";
         c=1
     while c==1:
         incoming_message = s.recv(1024);
@@ -83,9 +87,12 @@ while c!=-1:
             print(1);
         else:
             print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
-            status1 = ("read")
-            status1 = status1.encode();
-            s.send(status1);
+            if (sendReadAlerts == "yes"):
+                 status = ("read")
+            else:
+                 status = ("")
+            status = status.encode();
+            s.send(status);
             print("");
             #asdfadf
             message = input(str(">>"))
@@ -170,6 +177,6 @@ while c!=-1:
                 message = message.encode();
                 s.send(message)
                 print("delivered");
-                status = s.recv(1024);
-                status = status.decode();
-                print(status);
+                status1 = s.recv(1024);
+                status1 = status.decode();
+                print(status1);

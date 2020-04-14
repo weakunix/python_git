@@ -80,6 +80,10 @@ while c!=-1:
                 h.close()
                 os.system('clear')
                 print(theirIP," known as ",name1," Joined the server!\n=======Talk======\n");
+                sendReadAlerts = input("send read alerts? (yes,no)")
+                if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
+                    print("yes or no dumbo! defaulted to no");
+                    sendReadAlerts = "no";
                 c=1
         while c==1:
                 message = input(str(">>"));
@@ -195,6 +199,9 @@ while c!=-1:
                 else:
                     print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
                     print("");
-                    status = ("read")
+                    if (sendReadAlerts == "yes"):
+                        status = ("read")
+                    else:
+                        status = ("")
                     status = status.encode();
                     conn.send(status);
