@@ -199,7 +199,18 @@ while c!=-1:
         c=0;
       elif(incoming_message == "[retract%message]"):
         #conslle clear
-        print(1);
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        h=open(namething,"a");
+        temptuple2 = ("\n \n ",name1,">> [retract last message]\n")
+        temptuple2= "".join(temptuple2);
+        h.write(str(temptuple2));
+        h.close();
+        if (sendReadAlerts == "yes"):
+          status = "read"
+        else:
+          status = "1"
+        status = status.encode();
+        conn.send(status);
       else:
         print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
         print("");
@@ -209,4 +220,3 @@ while c!=-1:
           status = "1"
         status = status.encode();
         conn.send(status);
-
