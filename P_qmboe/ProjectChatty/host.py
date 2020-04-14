@@ -7,6 +7,7 @@ import os
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 
 message = '';
+messageNum = 0;
 incoming_message = '';
 name = input("what is your name");
 port = int(input("port?"));
@@ -87,6 +88,7 @@ while c!=-1:
     c=1
   while c==1:
     message = input(str(">>"));
+    messageNum += 1; #here
     h=open(namething,"a");
     temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
     temptuple3= "".join(temptuple3);
@@ -141,6 +143,10 @@ while c!=-1:
       c=0;
     elif(message == "/retract"):
       message = "[retract%message]"
+      #h=open(namething,"r"); RUOYU NEED FILE READER HERE
+      #h.readline(((messageNum*3)+2));
+      #get message to variable and send it off as retracted
+      #h.close();
       h=open(namething,"a");
       h.write(name)
       h.write(message);

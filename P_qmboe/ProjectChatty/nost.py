@@ -97,7 +97,7 @@ while c!=-1:
       else:
         status = "1"
       status = status.encode();
-      conn.send(status);
+      s.send(status);
     else:
       print(1); #ghjejejjeke
       print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
@@ -159,6 +159,10 @@ while c!=-1:
         c=0;
       elif(message == "/retract"):
         message = "[retract%message]"
+        #h=open(namething,"r"); RUOYU NEED FILE READER HERE
+        #h.readline(((messageNum*3)+2));
+        #get message to variable and send it off as retracted
+        #h.close();
         h=open(namething,"a");
         h.write(name)
         h.write(message);
