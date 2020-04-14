@@ -12,10 +12,11 @@ Make group chat
 Voice messages
 Video messages
 Make UI
+make better retract messages (rn is just bad)
 
 jason: 
 Make reactions and message ID
-Make retract messages 
+ 
 
 ruoyu:
 project 495:

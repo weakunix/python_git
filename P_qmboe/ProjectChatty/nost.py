@@ -105,9 +105,9 @@ while c!=-1:
         status = "read"
       else:
         status = "1"
-        status = status.encode();
-        s.send(status);
-        print("");
+      status = status.encode();
+      s.send(status);
+      print("");
       #asdfadf
       message = input(str(">>"))
       if(message == "/block"):
