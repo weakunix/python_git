@@ -105,18 +105,17 @@ convert = {
             '>': 92,
             '/': 93,
             '?': 94 }
-def encrypt():
+def encrypt(m):
   global convert
   global allchar
   code = ''
   key = ''
-  m = input('Feed Bingcrypto: \n')
   for c in m:
     num = random.randint(0, 94)
     try:
       c = convert[c]
     except:
-      print('Error: Unrecognized character input\n')
+      print('safemessage input error')
       return None
     c += num
     c %= 95
@@ -124,23 +123,18 @@ def encrypt():
     num = allchar[num]
     code += c
     key += num
-  wf = open("cowFood.txt","w");
-  wf.write(str(datetime.datetime.now()));
-  wf.write(":\n");
-  wf.write(code);
-  wf.write(key);
-  wf.close();
-  m = input('Cow Milk: {}{}\n\nEnter to continue\n'.format(code, key))
+  tuple1 = (code,key)
+  tuple1 = "".join(tuple1);
+  return (tuple1)
 
 #decrypt
-def decrypt():
+def decrypt(code):
   global convert
   global allchar
   count = -1
   m = ''
-  code = input('Feed the cow!:\n')
   if(len(code) <= 1 or len(code)%2!=0):
-    print("Error: Expected even amount of letters, got '",code,"'");
+    print("safemessage input error");
     print(len(code)/2);
     print(type(len(code)/2)==int);
   else:
@@ -156,9 +150,6 @@ def decrypt():
       c %= 95
       c = allchar[c]
       m += c
-    wf = open("cowDump.txt","w");
-    wf.write(str(datetime.datetime.now()));
-    wf.write(":\n");
-    wf.write(m);
-    wf.close();
-    code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
+  return m;
+# print(decrypt("][lEqf|v(YwKMQ`5>f.f-c(XwDxM")); we're keeping this one here chief!
+

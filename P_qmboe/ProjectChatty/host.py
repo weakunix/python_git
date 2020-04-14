@@ -156,6 +156,8 @@ while c!=-1:
       #sdfasdfh
       if (message == "<e>"):
         secureMessage = True;
+      else:
+        secureMessage = False;
       if(secureMessage==True):
         message = input(str("SECURE MODE >>"));
         message = encryption_decryption.encrypt(message);
