@@ -94,7 +94,7 @@ while c!=-1:
       if (sendReadAlerts == "yes"):
         status = "read"
       else:
-        status = ""
+        status = "1"
       status = status.encode();
       s.send(status);
       print("");
@@ -183,6 +183,10 @@ while c!=-1:
         print("delivered");
         #if(sendReadAlerts == "yes"):
         status1 = s.recv(1024);
-        status1 = status.decode();
-        print(status1);
+        status1 = status1.decode();
+        if(status1 != "1"):
+          print(status1);
+        else:
+          print("");
+        print("");
 

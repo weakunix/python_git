@@ -172,7 +172,10 @@ while c!=-1:
       #if(sendReadAlerts == "yes"):
       status1 = conn.recv(1024);
       status1 = status1.decode();
-      print(status1);
+      if(status1 != "1"):
+        print(status1);
+      else:
+        print("");
       print("");
       #adwfdas
       incoming_message = conn.recv(1024);
@@ -203,8 +206,7 @@ while c!=-1:
         if (sendReadAlerts == "yes"):
           status = "read"
         else:
-          status = ""
+          status = "1"
         status = status.encode();
         conn.send(status);
-        
 
