@@ -1,8 +1,8 @@
-as of 4/14 4:14pm
-v9: added ability to not show "read" for recipient. AKA ghosting 
+as of 4/14 7:24PM
+v10: added ability to send encrypted messages (to read u still need decyrptor) 
 
 we need to work on:
-privacy mode (hide ip)
+
 Send attachments
 Make typing animation
 Make reactions and message ID
@@ -13,8 +13,7 @@ Make UI
 
 
 jason: 
-Make encrypted messages with /encryptomucho
-
+privacy mode (hide ip)
 
 ruoyu:
 project 495:
