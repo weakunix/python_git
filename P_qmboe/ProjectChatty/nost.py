@@ -33,7 +33,7 @@ while c!=-1:
     s.connect((host,port));
     name1 = s.recv(1024);
     name1 = name1.decode();
-    name = name.encode();
+    name = name.encode(); 
     s.send(name);#
     name = name.decode();
     print(ipplaceholder);

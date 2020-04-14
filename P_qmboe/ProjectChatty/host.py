@@ -38,7 +38,7 @@ def isBlocked(): #here ruoyu asdydfkffkkffllfkfoeoleld,d,kdkjrkfmmckmihjjhuhfehu
       return 1;
   w.close()
   return 0;
-while c!=-1:
+while c!=-1: 
     while c==0:
         time.sleep(1);
         s = socket.socket();
