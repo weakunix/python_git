@@ -10,7 +10,7 @@ message = '';
 incoming_message = '';
 name = input("what is your name");
 port = int(input("port?"));
-c=0;
+c=0; 
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try:
