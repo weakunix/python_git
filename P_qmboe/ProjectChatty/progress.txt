@@ -1,23 +1,27 @@
-as of 4/13 436PM
-v7: added ability to not save conversations
+as of 4/14 4:14pm
+v9: added ability to not show "read" for recipient. AKA ghosting 
 
 we need to work on:
-Make reading from files
-Make contacts
-Make blocking
+privacy mode (hide ip)
 Make encrypted messages with /encryptomucho
 Send attachments
 Make typing animation
+Make reactions and message ID
 Make group chat 
 Voice messages
 Video messages
 Make UI
-make better retract messages (rn is just bad)
+
 
 jason: 
-Make reactions and message ID
- 
+
+
 
 ruoyu:
 project 495:
 make a python sxript that reads out of a file and assigns each line to a variable
+
+using ruoyu's project 495 we will do:
+make better retract messages (rn is just bad) (using clear console and message history)
+blocking(ip from file)
+contacts (same as blocking)

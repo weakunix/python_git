@@ -171,7 +171,6 @@ while c!=-1:
         message = message.encode();
         s.send(message);
         print("delivered");
-        c=0;
       elif(message == "/contact add"):
         contactName=str(input("new contact name?"));
         message = ("[ACTION]:the recipient added you as a contact: ",contactName);
