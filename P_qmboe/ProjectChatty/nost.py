@@ -27,7 +27,7 @@ while c!=-1:
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
     print("logged in on local ip:",ipplaceholder);
-    print("\nglobal IP:",external_ip);
+    print("\nglobal IP:",external_ip); 
     print(port);
     host=input(str("please enter host name of server"));
     s.connect((host,port));

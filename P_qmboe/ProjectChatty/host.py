@@ -27,7 +27,7 @@ def isBlocked(): #here ruoyu asdydfkffkkffllfkfoeoleld,d,kdkjrkfmmckmihjjhuhfehu
   with open("blocked.txt", 'r') as f:
     for line in f:
       count += 1#first gets number of lines with count
-  w = open("blocked.txt",'r')
+  w = open("blocked.txt",'r') 
   for i in range(count):
     x=str(w.readline(i));#assigns lines as x then compares it with blocked ones
     print(str(w.readline(i)),"< x\n");
