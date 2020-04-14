@@ -144,39 +144,39 @@ while c!=-1:
           os.remove(namething);
         c=0;
      elif(message == "/retract"):
-        message = "[retract%message]"
-        h=open(namething,"a");
-        h.write(name)
-        h.write(message);
-        h.write("\n");
-        h.close();
-        message = message.encode();
-        s.send(message);
-        print("delivered");
-        c=0;
+       message = "[retract%message]"
+       h=open(namething,"a");
+       h.write(name)
+       h.write(message);
+       h.write("\n");
+       h.close();
+       message = message.encode();
+       s.send(message);
+       print("delivered");
+       c=0;
      elif(message == "/contact add"):
-        contactName=str(input("new contact name?"));
-        message = ("[ACTION]:the recipient added you as a contact: ",contactName);
-        d = open("contact.txt","a");
-        d.write(contactName);
-        d.write(host);
-        message = "".join(message);
-        h=open(namething,"a");
-        h.write(name)
-        h.write(message);
-        h.write("\n");
-        h.close();
-        message = message.encode();   
-        s.send(message);
-      else:
-        h=open(namething,"a");
-        temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
-        temptuple3= "".join(temptuple3);
-        h.write(str(temptuple3));
-        h.close();
-        message = message.encode();
-        s.send(message)
-        print("delivered");
-        status1 = s.recv(1024);
-        status1 = status.decode();
-        print(status1);
+       contactName=str(input("new contact name?"));
+       message = ("[ACTION]:the recipient added you as a contact: ",contactName);
+       d = open("contact.txt","a");
+       d.write(contactName);
+       d.write(host);
+       message = "".join(message);
+       h=open(namething,"a");
+       h.write(name)
+       h.write(message);
+       h.write("\n");
+       h.close();
+       message = message.encode();   
+       s.send(message);
+     else:
+       h=open(namething,"a");
+       temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
+       temptuple3= "".join(temptuple3);
+       h.write(str(temptuple3));
+       h.close();
+       message = message.encode();
+       s.send(message)
+       print("delivered");
+       status1 = s.recv(1024);
+       status1 = status.decode();
+       print(status1);
