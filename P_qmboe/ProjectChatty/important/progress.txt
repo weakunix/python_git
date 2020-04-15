@@ -1,5 +1,5 @@
 as of 4/14 7:24PM
-v10: added ability to send encrypted messages (to read u still need decyrptor) 
+v11: split files for sending and recieving (unified the process)
 
 we need to work on:
 
@@ -14,6 +14,7 @@ Make UI
 
 jason: 
 privacy mode (hide ip)
+sending and recieving at the same time
 
 ruoyu:
 project 495:

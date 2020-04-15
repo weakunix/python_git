@@ -4,6 +4,7 @@ import datetime
 import time
 import urllib.request
 import os
+import threading
 #files:
 import send_recv
 
@@ -79,9 +80,19 @@ while c!=-1:
     setupN();
     c=1
   while c==1:
-    if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+    tSend = threading.Thread(target=send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host));
+    tRecv = threading.Thread(target=send_recv.recvMsg(s,namething,name,name1,sendReadAlerts))
+    #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
+    if(tSend.start() == 0 and c == 1):
       c=0;
       break
-    if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host) == 0 and c == 1):
+    #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
+    if(tRecv.start() == 0 and c==1):
       c=0;
       break
+    #if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+     # c=0;
+     # break
+    #if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host) == 0 and c == 1):
+      #c=0;
+     # break
