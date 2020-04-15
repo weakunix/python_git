@@ -41,14 +41,14 @@ while c!=-1:
     conn, adr = s.accept();
     #send files
     name = name.encode();
-    conn.send(name);
+    conn.sendall(name);
     name = name.decode();
-    name1 = conn.recv(1024);
+    name1 = conn.recv_all(1024);
     name1 = name1.decode();#
-    theirIP = conn.recv(1024);
+    theirIP = conn.recv_all(1024);
     theirIP=theirIP.decode();#
     print(theirIP);
-    theirEIP = conn.recv(1024);
+    theirEIP = conn.recv_all(1024);
     theirEIP = theirEIP.decode();
     print(theirEIP);
     temptuple = ("convos",str(datetime.datetime.now()),".txt")
@@ -89,7 +89,7 @@ while c!=-1:
       bf=open("blocked.txt","a");
       bf.write(str(theirIP)+"\n");
       bf.close();
-      conn.send(message);
+      conn.sendall(message);
       conn.close()
       s.close();
       print("delivered");
@@ -105,7 +105,7 @@ while c!=-1:
       h.write("\n");
       h.close();
       message = message.encode();
-      conn.send(message);
+      conn.sendall(message);
       print("delivered");
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
@@ -119,7 +119,7 @@ while c!=-1:
       h.write("\n");
       h.close();
       message = message.encode();
-      conn.send(message);
+      conn.sendall(message);
       print("delivered");
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
@@ -137,7 +137,7 @@ while c!=-1:
       h.write("\n");
       h.close();
       message = message.encode();
-      conn.send(message);
+      conn.sendall(message);
       print("delivered");
     elif(message == "/contact add"):
       contactName=str(input("new contact name?"));
@@ -152,7 +152,7 @@ while c!=-1:
       h.write("\n");
       h.close();
       message = message.encode();
-      conn.send(message);
+      conn.sendall(message);
     else:
       #sdfasdfh
       if (message == "<e>"):
@@ -163,10 +163,10 @@ while c!=-1:
         message = input(str("SECURE MODE >>"));
         message = encryption_decryption.encrypt(message);
       message = message.encode();
-      conn.send(message);
+      conn.sendall(message);
       print("delivered");
       #if(sendReadAlerts == "yes"):
-      status1 = conn.recv(1024);
+      status1 = conn.recv_all(1024);
       status1 = status1.decode();
       if(status1 != "1"):
         print(status1);
@@ -174,7 +174,7 @@ while c!=-1:
         print("");
       print("");
       #adwfdas
-      incoming_message = conn.recv(1024);
+      incoming_message = conn.recv_all(1024);
       incoming_message = incoming_message.decode();
       h=open(namething,"a");
       temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
@@ -206,7 +206,7 @@ while c!=-1:
         else:
           status = "1"
         status = status.encode();
-        conn.send(status);
+        conn.sendall(status);
       else:
         print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
         print("");
@@ -215,4 +215,4 @@ while c!=-1:
         else:
           status = "1"
         status = status.encode();
-        conn.send(status);
+        conn.sendall(status);

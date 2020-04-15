@@ -33,18 +33,18 @@ while c!=-1:
     print(port);
     host=input(str("please enter host name of server"));
     s.connect((host,port));
-    name1 = s.recv(1024);
+    name1 = s.recv_all(1024);
     name1 = name1.decode();
     name = name.encode();
-    s.send(name);#
+    s.sendall(name);#
     name = name.decode();
     print(ipplaceholder);
     ipplaceholder=ipplaceholder.encode();
-    s.send(ipplaceholder);#
+    s.sendall(ipplaceholder);#
     ipplaceholder = ipplaceholder.decode()
     time.sleep(0.5);
     extern=external_ip.encode();
-    s.send(extern);
+    s.sendall(extern);
     #
     temptuple = ("convos",str(datetime.datetime.now()),".txt")
     namething = str("".join(temptuple));
@@ -67,7 +67,7 @@ while c!=-1:
   while c==1:
     print(21);
     #time.sleep(0.5);
-    incoming_message = s.recv(1024);
+    incoming_message = s.recv_all(1024);
     incoming_message = incoming_message.decode();
     print(12);
     h=open(namething,"a");
@@ -99,7 +99,7 @@ while c!=-1:
       else:
         status = "1"
       status = status.encode();
-      s.send(status);
+      s.sendall(status);
     else:
       print(1); #ghjejejjeke
       print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
@@ -108,7 +108,7 @@ while c!=-1:
       else:
         status = "1"
       status = status.encode();
-      s.send(status);
+      s.sendall(status);
       print("");
       #asdfadf
       message = input(str(">>"))
@@ -123,7 +123,7 @@ while c!=-1:
         bf=open("blocked.txt","a");
         bf.write(str(host)+"\n");
         bf.close();
-        s.send(message);
+        s.sendall(message);
         s.close()
         s.close();
         print("delivered");
@@ -139,7 +139,7 @@ while c!=-1:
         h.write("\n");
         h.close();
         message = message.encode();
-        s.send(message);
+        s.sendall(message);
         print("delivered");
         rec = input("Record this conversation?(yes or no)");
         if (rec == "no"):
@@ -153,7 +153,7 @@ while c!=-1:
         h.write("\n");
         h.close();
         message = message.encode();
-        s.send(message);
+        s.sendall(message);
         print("delivered");
         rec = input("Record this conversation?(yes or no)");
         if (rec == "no"):
@@ -171,7 +171,7 @@ while c!=-1:
         h.write("\n");
         h.close();
         message = message.encode();
-        s.send(message);
+        s.sendall(message);
         print("delivered");
       elif(message == "/contact add"):
         contactName=str(input("new contact name?"));
@@ -186,7 +186,7 @@ while c!=-1:
         h.write("\n");
         h.close();
         message = message.encode();
-        s.send(message);
+        s.sendall(message);
       else:
         if (message == "<e>"):
           secureMessage = True;
@@ -201,10 +201,10 @@ while c!=-1:
         h.write(str(temptuple3));
         h.close();
         message = message.encode();
-        s.send(message)
+        s.sendall(message)
         print("delivered");
         #if(sendReadAlerts == "yes"):
-        status1 = s.recv(1024);
+        status1 = s.recv_all(1024);
         status1 = status1.decode();
         if(status1 != "1"):
           print(status1);
