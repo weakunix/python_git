@@ -21,7 +21,7 @@ def get_ip():
     IP = s.getsockname()[0]
   except:
     IP = '127.0.0.1' 
-  finally:
+  finally: 
     s.close()
   return IP
 while c!=-1:
