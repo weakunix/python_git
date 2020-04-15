@@ -4,7 +4,6 @@ import datetime
 import time
 import urllib.request
 import os
-import array
 #files:
 import send_recv
 
@@ -16,7 +15,6 @@ conn = '';
 port = 12345;
 sendReadAlerts = "";
 def get_ip():
-  a=[];
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try:
     # doesn't even have to be reachable
@@ -36,6 +34,7 @@ def setupH():
     global namething;
     global conn;
     global sendReadAlerts;
+    global host;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
@@ -86,7 +85,7 @@ while c!=-1:
     setupH();
     c=1
   while c==1:
-    if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+    if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
       c=0;
       break
     if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):

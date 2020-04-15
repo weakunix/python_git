@@ -25,7 +25,6 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
       os.remove(namething);
-    c=0;
     return 0;
   elif(incoming_message == "[retract%message]"):
     print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
@@ -49,7 +48,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     status = status.encode();
     target.send(status);
     print("");
-def sendMsg(target,namething,name,name1,sendReadAlerts):
+def sendMsg(target,namething,name,name1,sendReadAlerts,host):
   message = input(str(">>"))
   print(2)
   if(message == "/block"):
@@ -69,7 +68,6 @@ def sendMsg(target,namething,name,name1,sendReadAlerts):
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
       os.remove(namething);
-    c=0;
     return 0;
   elif(message == "/stop"):
     message = "[ACTION]:the recipient has exited the chat room!";
@@ -85,7 +83,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts):
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
       os.remove(namething);
-    c=-1;
+    return 0
   elif(message == "/end"):
     message = "[ACTION]:the recipient has ended the conversation!";
     h=open(namething,"a");
