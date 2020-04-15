@@ -15,6 +15,7 @@ namething = '';
 conn = '';
 port = 12345;
 sendReadAlerts = "";
+theirEIP = "";
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try:
@@ -36,6 +37,7 @@ def setupH():
     global conn;
     global sendReadAlerts;
     global host;
+    global theirEIP;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
@@ -87,12 +89,14 @@ while c!=-1:
     c=1
   while c==1:
     tSend = threading.Thread(target=send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP));
-    tRecv = threading.Thread(target=send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts))
+    tRecv = threading.Thread(target=send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts));
+    tSend.start();
+    tRecv.start();
     #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
-    if(tSend.start() == 0 and c == 1):
-      c=0;
-      break
+    #if(tSend.start() == 0 and c == 1):
+      #c=0;
+      #break
     #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
-    if(tRecv.start() == 0 and c==1):
-      c=0;
-      break
+    #if(tRecv.start() == 0 and c==1):
+      #c=0;
+      #break

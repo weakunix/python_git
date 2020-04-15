@@ -81,15 +81,17 @@ while c!=-1:
     c=1
   while c==1:
     tSend = threading.Thread(target=send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host));
-    tRecv = threading.Thread(target=send_recv.recvMsg(s,namething,name,name1,sendReadAlerts))
+    tRecv = threading.Thread(target=send_recv.recvMsg(s,namething,name,name1,sendReadAlerts));
+    tSend.start();
+    tRecv.start();
     #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
-    if(tSend.start() == 0 and c == 1):
-      c=0;
-      break
+    #if(tSend.start() == 0 and c == 1):
+      #c=0;
+    #  break
     #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
-    if(tRecv.start() == 0 and c==1):
-      c=0;
-      break
+    #if(tRecv.start() == 0 and c==1):
+     # c=0;
+      #break
     #if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
      # c=0;
      # break
