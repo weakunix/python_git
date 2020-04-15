@@ -9,11 +9,13 @@ import threading
 import send_recv
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
-message = '';
-messageNum = 0;
-incoming_message = '';
 name = input("what is your name");
-port = 12345;#make rhis changable
+name1 = "";
+namething = '';
+conn = '';
+port = 12345;
+sendReadAlerts = "";
+theirEIP = "";
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try:
@@ -26,9 +28,16 @@ def get_ip():
     s.close()
   return IP
 c=0;
-while c!=-1:
-  while c==0:
-    time.sleep(1);
+def setupH():
+    global name;
+    global port;
+    global external_ip;
+    global name1;
+    global namething;
+    global conn;
+    global sendReadAlerts;
+    global host;
+    global theirEIP;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
@@ -72,10 +81,22 @@ while c!=-1:
     if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
       print("yes or no dumbo! defaulted to no");
       sendReadAlerts = "no";
+    return name,name1
+while c!=-1:
+  while c==0:
+    time.sleep(1);
+    setupH();
     c=1
   while c==1:
-    if(send_recv.sendMsg(conn,namething) == 0):
-      continue;
-    if(send_recv.recvMsg(conn,namething) == 0):
-      continue;
-    
+    tSend = threading.Thread(target=send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP));
+    tRecv = threading.Thread(target=send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts));
+    tSend.start();
+    tRecv.start();
+    #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
+    #if(tSend.start() == 0 and c == 1):
+      #c=0;
+      #break
+    #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
+    #if(tRecv.start() == 0 and c==1):
+      #c=0;
+      #break

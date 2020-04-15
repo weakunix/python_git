@@ -4,12 +4,17 @@ import datetime
 import time
 import urllib.request
 import os
+import threading
 #files:
 import send_recv
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
-message = '';
 name = input("what is your name");
+name1 = "";
+namething = '';
+sendReadAlerts = "";
+s = '';
+host = "";
 port = 12345;
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -23,8 +28,15 @@ def get_ip():
     s.close()
   return IP
 c=0;
-while c!=-1:
-  while c==0:
+def setupN():
+    global name;
+    global port;
+    global external_ip;
+    global name1;
+    global namething;
+    global s;
+    global sendReadAlerts;
+    global host;
     port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
@@ -46,7 +58,6 @@ while c!=-1:
     time.sleep(0.5);
     extern=external_ip.encode();
     s.send(extern);
-    #
     temptuple = ("convos",str(datetime.datetime.now()),".txt")
     namething = str("".join(temptuple));
     print(namething);
@@ -64,11 +75,26 @@ while c!=-1:
     if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
       print("yes or no dumbo! defaulted to no");
       sendReadAlerts = "no";
+while c!=-1:
+  while c==0:
+    setupN();
     c=1
   while c==1:
-    if (send_recv.recvMsg(s,namething) == 0):
-      continue;
-    if(send_recv.sendMsg(s,namething) == 0):
-      continue;
-    #time.sleep(0.5);
-      #asdfadf
+    tSend = threading.Thread(target=send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host));
+    tRecv = threading.Thread(target=send_recv.recvMsg(s,namething,name,name1,sendReadAlerts));
+    tSend.start();
+    tRecv.start();
+    #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
+    #if(tSend.start() == 0 and c == 1):
+      #c=0;
+    #  break
+    #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
+    #if(tRecv.start() == 0 and c==1):
+     # c=0;
+      #break
+    #if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+     # c=0;
+     # break
+    #if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host) == 0 and c == 1):
+      #c=0;
+     # break

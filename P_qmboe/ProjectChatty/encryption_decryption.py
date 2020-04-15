@@ -152,4 +152,3 @@ def decrypt(code):
       m += c
   return m;
 # print(decrypt("][lEqf|v(YwKMQ`5>f.f-c(XwDxM")); we're keeping this one here chief!
-

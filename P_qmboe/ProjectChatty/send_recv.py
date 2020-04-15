@@ -153,4 +153,3 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       print("");
     print("");
 
-
