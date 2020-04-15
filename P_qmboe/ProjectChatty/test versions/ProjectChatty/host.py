@@ -4,7 +4,7 @@ import datetime
 import time
 import urllib.request
 import os
-import threading
+import array
 #files:
 import send_recv
 
@@ -15,6 +15,7 @@ incoming_message = '';
 name = input("what is your name");
 port = 12345;#make rhis changable
 def get_ip():
+  a=[];
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try:
     # doesn't even have to be reachable
@@ -26,9 +27,7 @@ def get_ip():
     s.close()
   return IP
 c=0;
-while c!=-1:
-  while c==0:
-    time.sleep(1);
+def setupH():
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
@@ -72,10 +71,15 @@ while c!=-1:
     if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
       print("yes or no dumbo! defaulted to no");
       sendReadAlerts = "no";
+    return name,name1
+while c!=-1:
+  while c==0:
+    time.sleep(1);
+    setupH();
     c=1
   while c==1:
-    if(send_recv.sendMsg(conn,namething) == 0):
+    if(send_recv.sendMsg(conn,namething,name,name1) == 0):
       continue;
-    if(send_recv.recvMsg(conn,namething) == 0):
+    if(send_recv.recvMsg(conn,namething,name,name1) == 0):
       continue;
     

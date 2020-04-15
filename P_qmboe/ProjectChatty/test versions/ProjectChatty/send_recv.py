@@ -7,7 +7,7 @@ import os
 import threading
 import encryption_decryption
 
-def recvMsg(target,namething):
+def recvMsg(target,namething,name,name1):
   incoming_message = target.recv(1024);
   incoming_message = incoming_message.decode();
   h=open(namething,"a");
@@ -50,7 +50,7 @@ def recvMsg(target,namething):
     status = status.encode();
     target.send(status);
     print("");
-def sendMsg(target,namething):
+def sendMsg(target,namething,name,name1):
   message = input(str(">>"))
   if(message == "/block"):
     message = "[ACTION]:the recipient has blocked you";
@@ -100,7 +100,6 @@ def sendMsg(target,namething):
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
       os.remove(namething);
-    c=0;
     return 0;
   elif(message == "/retract"):
     message = "[retract%message]"
@@ -121,7 +120,7 @@ def sendMsg(target,namething):
     message = ("[ACTION]:the recipient added you as a contact: ",contactName);
     d = open("contact.txt","a");
     d.write(contactName);
-    d.write(host);
+    #d.write(host);
     message = "".join(message);
     h=open(namething,"a");
     h.write(name)
@@ -129,7 +128,7 @@ def sendMsg(target,namething):
     h.write("\n");
     h.close();
     message = message.encode();
-    s.send(message);
+    target.send(message);
   else:
     if (message == "<e>"):
       secureMessage = True;
@@ -154,3 +153,5 @@ def sendMsg(target,namething):
     else:
       print("");
     print("");
+
+

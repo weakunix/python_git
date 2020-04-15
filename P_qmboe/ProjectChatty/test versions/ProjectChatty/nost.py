@@ -7,6 +7,7 @@ import os
 #files:
 import send_recv
 
+
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 message = '';
 name = input("what is your name");
@@ -23,8 +24,7 @@ def get_ip():
     s.close()
   return IP
 c=0;
-while c!=-1:
-  while c==0:
+def setupN():
     port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
@@ -46,7 +46,6 @@ while c!=-1:
     time.sleep(0.5);
     extern=external_ip.encode();
     s.send(extern);
-    #
     temptuple = ("convos",str(datetime.datetime.now()),".txt")
     namething = str("".join(temptuple));
     print(namething);
@@ -64,11 +63,14 @@ while c!=-1:
     if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
       print("yes or no dumbo! defaulted to no");
       sendReadAlerts = "no";
+while c!=-1:
+  while c==0:
+    setupN();
     c=1
   while c==1:
-    if (send_recv.recvMsg(s,namething) == 0):
+    if (send_recv.recvMsg(s,namething,name,name1) == 0):
       continue;
-    if(send_recv.sendMsg(s,namething) == 0):
+    if(send_recv.sendMsg(s,namething,name,name1) == 0):
       continue;
     #time.sleep(0.5);
       #asdfadf
