@@ -8,10 +8,10 @@ import threading
 import encryption_decryption
 
 def recvMsg(fi):
-	if(fi == "n"):
+  if(fi == "n"):
     incoming_message = s.recv(1024);
   else:
-  	incoming_message = conn.recv(1024);
+    incoming_message = conn.recv(1024);
   incoming_message = incoming_message.decode();
   h=open(namething,"a");
   temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
