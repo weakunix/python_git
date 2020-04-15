@@ -75,6 +75,7 @@ def sendMsg():
   temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
   temptuple3= "".join(temptuple3);   h.write(str(temptuple3));
   h.close();  
+  print(2)
   if(message == "/block"):
     message = "[ACTION]:the recipient has blocked you";
     h=open(namething,"a");
@@ -151,7 +152,7 @@ def sendMsg():
     message = message.encode();
     conn.sendall(message);
   else:
-      #sdfasdfh
+    print(1)
     if (message == "<e>"):
       secureMessage = True;
     else:
