@@ -11,7 +11,7 @@ message = '';
 messageNum = 0;
 incoming_message = '';
 name = input("what is your name");
-port = int(input("port?"));#make rhis changable
+port = 12345;#make rhis changable
 c=0; 
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -27,6 +27,7 @@ def get_ip():
 while c!=-1:
   while c==0:
     time.sleep(1);
+    port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
     host = get_ip();#

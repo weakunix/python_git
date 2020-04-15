@@ -9,7 +9,7 @@ import encryption_decryption
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 message = '';
 name = input("what is your name");
-port = int(input("port?"));
+port = 12345;
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   try: 
@@ -24,6 +24,7 @@ def get_ip():
 c=0;
 while c!=-1:
   while c==0:
+  	port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
