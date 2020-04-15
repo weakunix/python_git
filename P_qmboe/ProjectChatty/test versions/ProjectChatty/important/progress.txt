@@ -1,4 +1,4 @@
-as of 4/14 7:24PM
+as of 4/15 7:24PM
 v10: added ability to send encrypted messages (to read u still need decyrptor) 
 
 we need to work on:
