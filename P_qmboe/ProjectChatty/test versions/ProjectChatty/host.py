@@ -4,6 +4,7 @@ import datetime
 import time
 import urllib.request
 import os
+import threading
 import encryption_decryption
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
@@ -37,6 +38,7 @@ while c!=-1:
     print("\nglobal IP:",external_ip);
     print(port);
     print("\nsuccessfully connected \n waiting for connections\n cancel?");
+    #pplJoin = threading.Thread(target=)
     s.listen(1);
     conn, adr = s.accept();
     #send files
@@ -71,33 +73,79 @@ while c!=-1:
       sendReadAlerts = "no";
     c=1
   while c==1:
-    message = input(str(">>"));
-    messageNum += 1; #here
-    h=open(namething,"a");
-    temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
-    temptuple3= "".join(temptuple3);
-    h.write(str(temptuple3));
-    h.close();
-    if(message == "/block"):
-      message = "[ACTION]:the recipient has blocked you";
+  	sendMsg();
+      #adwfdas
+    recvMsg();
+def recvMsg():
+	incoming_message = conn.recv_all(1024);
+      incoming_message = incoming_message.decode();
       h=open(namething,"a");
-      h.write(name)
-      h.write(message);
-      h.write("\n");
+      temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+      temptuple2= "".join(temptuple2);
+      h.write(str(temptuple2));
       h.close();
-      message = message.encode();
-      bf=open("blocked.txt","a");
-      bf.write(str(theirIP)+"\n");
-      bf.close();
-      conn.sendall(message);
-      conn.close()
-      s.close();
-      print("delivered");
-      rec = input("Record this conversation?(yes or no)");
-      if (rec == "no"):
-        os.remove(namething);
-      c=0;
-    elif(message == "/stop"):
+      if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        h=open(namething,"a");
+        temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+        temptuple2= "".join(temptuple2);
+        h.write(str(temptuple2));
+        h.close();
+        rec = input("Record this conversation?(yes or no)");
+        if (rec == "no"):
+          os.remove(namething);
+          conn.close();
+        c=0;
+      elif(incoming_message == "[retract%message]"):
+        #conslle clear
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        h=open(namething,"a");
+        temptuple2 = ("\n \n ",name1,">> [retract last message]\n")
+        temptuple2= "".join(temptuple2);
+        h.write(str(temptuple2));
+        h.close();
+        if (sendReadAlerts == "yes"):
+          status = "read"
+        else:
+          status = "1"
+        status = status.encode();
+        conn.sendall(status);
+      else:
+        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+        print("");
+        if (sendReadAlerts == "yes"):
+          status = "read"
+        else:
+          status = "1"
+        status = status.encode();
+        conn.sendall(status);
+def sendMsg():
+	message = input(str(">>"));
+  messageNum += 1; #here
+  h=open(namething,"a");
+  temptuple3 = ("\n at:",str(datetime.datetime.now())," \n ",name,">> ",message,"\n");
+  temptuple3= "".join(temptuple3);   h.write(str(temptuple3));
+  h.close();  
+  if(message == "/block"):
+    message = "[ACTION]:the recipient has blocked you";
+    h=open(namething,"a");
+    h.write(name)
+    h.write(message);
+    h.write("\n");
+    h.close();
+    message = message.encode();
+    bf=open("blocked.txt","a");
+    bf.write(str(theirIP)+"\n");
+    bf.close();
+    conn.sendall(message);
+    conn.close()
+    s.close();
+    print("delivered");   
+    rec = input("Record this conversation?(yes or no)");
+    if (rec == "no"):
+      os.remove(namething);
+    c=0;
+  elif(message == "/stop"):
       message = "[ACTION]:the recipient has exited the chat room!";
       h=open(namething,"a");
       h.write(name)
@@ -173,46 +221,3 @@ while c!=-1:
       else:
         print("");
       print("");
-      #adwfdas
-      incoming_message = conn.recv_all(1024);
-      incoming_message = incoming_message.decode();
-      h=open(namething,"a");
-      temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
-      temptuple2= "".join(temptuple2);
-      h.write(str(temptuple2));
-      h.close();
-      if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
-        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-        h=open(namething,"a");
-        temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
-        temptuple2= "".join(temptuple2);
-        h.write(str(temptuple2));
-        h.close();
-        rec = input("Record this conversation?(yes or no)");
-        if (rec == "no"):
-          os.remove(namething);
-          conn.close();
-        c=0;
-      elif(incoming_message == "[retract%message]"):
-        #conslle clear
-        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-        h=open(namething,"a");
-        temptuple2 = ("\n \n ",name1,">> [retract last message]\n")
-        temptuple2= "".join(temptuple2);
-        h.write(str(temptuple2));
-        h.close();
-        if (sendReadAlerts == "yes"):
-          status = "read"
-        else:
-          status = "1"
-        status = status.encode();
-        conn.sendall(status);
-      else:
-        print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
-        print("");
-        if (sendReadAlerts == "yes"):
-          status = "read"
-        else:
-          status = "1"
-        status = status.encode();
-        conn.sendall(status);
