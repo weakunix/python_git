@@ -41,7 +41,6 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     status = status.encode();
     target.send(status);
   else:
-    print(1); #ghjejejjeke
     print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
     if (sendReadAlerts == "yes"):
       status = "read"
@@ -52,6 +51,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     print("");
 def sendMsg(target,namething,name,name1,sendReadAlerts):
   message = input(str(">>"))
+  print(2)
   if(message == "/block"):
     message = "[ACTION]:the recipient has blocked you";
     h=open(namething,"a");
@@ -145,6 +145,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts):
     message = message.encode();
     target.send(message);
     print("delivered");
+    print(2)
         #if(sendReadAlerts == "yes"):
     status1 = target.recv(1024);
     status1 = status1.decode();
