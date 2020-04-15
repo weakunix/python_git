@@ -7,11 +7,8 @@ import os
 import threading
 import encryption_decryption
 
-def recvMsg(fi):
-  if(fi == "n"):
-    incoming_message = s.recv(1024);
-  else:
-    incoming_message = conn.recv(1024);
+def recvMsg(target):
+  incoming_message = target.recv(1024);
   incoming_message = incoming_message.decode();
   h=open(namething,"a");
   temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
@@ -42,10 +39,7 @@ def recvMsg(fi):
     else:
       status = "1"
     status = status.encode();
-    if(fi == "n"):
-      s.send(status);
-    else:
-      conn.send(status);
+    target.send(status);
   else:
     print(1); #ghjejejjeke
     print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
@@ -54,12 +48,9 @@ def recvMsg(fi):
     else:
       status = "1"
     status = status.encode();
-    if(fi == "n"):
-      s.send(status);
-    else:
-      conn.send(status);
+    target.send(status);
     print("");
-def sendMsg(fi):
+def sendMsg(target):
   message = input(str(">>"))
   if(message == "/block"):
     message = "[ACTION]:the recipient has blocked you";
@@ -72,12 +63,8 @@ def sendMsg(fi):
     bf=open("blocked.txt","a");
     bf.write(str(host)+"\n");
     bf.close();
-    if(fi == "n"):
-      s.send(message);
-      s.close()
-    else:
-      conn.send(message);
-      conn.close();
+    target.send(message);
+    target.close()
     print("delivered");
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
@@ -92,12 +79,8 @@ def sendMsg(fi):
     h.write("\n");
     h.close();
     message = message.encode();
-    if(fi == "n"):
-      s.send(message);
-      s.close()
-    else:
-      conn.send(message);
-      conn.close();
+    target.send(message);
+    target.close()
     print("delivered");
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
@@ -111,12 +94,8 @@ def sendMsg(fi):
     h.write("\n");
     h.close();
     message = message.encode();
-    if(fi == "n"):
-      s.send(message);
-      s.close()
-    else:
-      conn.send(message);
-      conn.close();
+    target.send(message);
+    target.close()
     print("delivered");
     rec = input("Record this conversation?(yes or no)");
     if (rec == "no"):
@@ -135,10 +114,7 @@ def sendMsg(fi):
     h.write("\n");
     h.close();
     message = message.encode();
-    if(fi == "n"):
-      s.send(message);
-    else:
-      conn.send(message);
+    target.send(message);
     print("delivered");
   elif(message == "/contact add"):
     contactName=str(input("new contact name?"));
@@ -153,10 +129,7 @@ def sendMsg(fi):
     h.write("\n");
     h.close();
     message = message.encode();
-    if(fi == "n"):
-      s.send(message);
-    else:
-      conn.send(message);
+    s.send(message);
   else:
     if (message == "<e>"):
       secureMessage = True;
@@ -171,16 +144,10 @@ def sendMsg(fi):
     h.write(str(temptuple3));
     h.close();
     message = message.encode();
-    if(fi == "n"):
-      s.send(message);
-    else:
-      conn.send(message);
+    target.send(message);
     print("delivered");
         #if(sendReadAlerts == "yes"):
-    if(fi == "n"):
-      status1 = s.recv(1024);
-    else:
-    	status1 = conn.recv(1024);
+    status1 = target.recv(1024);
     status1 = status1.decode();
     if(status1 != "1"):
       print(status1);

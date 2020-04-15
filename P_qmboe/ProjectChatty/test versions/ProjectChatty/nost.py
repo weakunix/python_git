@@ -66,9 +66,9 @@ while c!=-1:
       sendReadAlerts = "no";
     c=1
   while c==1:
-    if (send_recv.recvMsg("n") == 0):
+    if (send_recv.recvMsg(s) == 0):
       continue;
-    if(send_recv.sendMsg("n") == 0):
+    if(send_recv.sendMsg(s) == 0):
       continue;
     #time.sleep(0.5);
       #asdfadf

@@ -74,7 +74,7 @@ while c!=-1:
       sendReadAlerts = "no";
     c=1
   while c==1:
-    if(send_recv.recvMsg("h") == 0):
+    if(send_recv.recvMsg(conn) == 0):
       continue;
-    if(send_recv.sendMsg("h") == 0):
+    if(send_recv.sendMsg(conn) == 0):
       continue;
