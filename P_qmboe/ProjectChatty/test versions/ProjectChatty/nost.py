@@ -77,9 +77,9 @@ while c!=-1:
     setupN();
     c=1
   while c==1:
-    if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+    if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
       c=0;
       break
-    if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
+    if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
       c=0;
       break
