@@ -33,7 +33,7 @@ while c!=-1:
     print(port);
     host=input(str("please enter host name of server"));
     s.connect((host,port));
-    name1 = s.recv_all(1024);
+    name1 = s.recv(1024);
     name1 = name1.decode();
     name = name.encode();
     s.sendall(name);#
@@ -67,7 +67,7 @@ while c!=-1:
   while c==1:
     print(21);
     #time.sleep(0.5);
-    incoming_message = s.recv_all(1024);
+    incoming_message = s.recv(1024);
     incoming_message = incoming_message.decode();
     print(12);
     h=open(namething,"a");
@@ -204,7 +204,7 @@ while c!=-1:
         s.sendall(message)
         print("delivered");
         #if(sendReadAlerts == "yes"):
-        status1 = s.recv_all(1024);
+        status1 = s.recv(1024);
         status1 = status1.decode();
         if(status1 != "1"):
           print(status1);
