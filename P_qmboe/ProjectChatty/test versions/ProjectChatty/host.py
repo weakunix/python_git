@@ -86,8 +86,5 @@ while c!=-1:
     setupH();
     c=1
   while c==1:
-    if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts) == 0):
-      continue;
-    if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0):
-      continue;
-    
+    c = send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts);
+    c = send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts);

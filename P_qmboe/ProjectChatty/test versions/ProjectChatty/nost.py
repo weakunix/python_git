@@ -77,9 +77,5 @@ while c!=-1:
     setupN();
     c=1
   while c==1:
-    if (send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0):
-      continue;
-    if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts) == 0):
-      continue;
-    #time.sleep(0.5);
-      #asdfadf
+    c = send_recv.recvMsg(s,namething,name,name1,sendReadAlerts);
+    c = send_recv.sendMsg(s,namething,name,name1,sendReadAlerts);
