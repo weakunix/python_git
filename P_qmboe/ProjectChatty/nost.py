@@ -24,7 +24,7 @@ def get_ip():
 c=0;
 while c!=-1:
   while c==0:
-  	port = int(input("port?"));
+    port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
