@@ -26,6 +26,9 @@ def setupN():
     global name;
     global port;
     global external_ip;
+    global name1;
+    global namething;
+    global conn;
     port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();

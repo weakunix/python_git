@@ -10,6 +10,9 @@ import send_recv
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 name = input("what is your name");
+name1 = "";
+namething = '';
+conn = '';
 port = 12345;#make rhis changable
 def get_ip():
   a=[];
@@ -28,6 +31,9 @@ def setupH():
     global name;
     global port;
     global external_ip;
+    global name1;
+    global namething;
+    global conn;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
