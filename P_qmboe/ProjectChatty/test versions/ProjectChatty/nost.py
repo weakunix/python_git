@@ -9,6 +9,10 @@ import send_recv
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 name = input("what is your name");
+name1 = "";
+namething = '';
+sendReadAlerts = "";
+s = '';
 port = 12345;
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -28,7 +32,8 @@ def setupN():
     global external_ip;
     global name1;
     global namething;
-    global conn;
+    global s;
+    global sendReadAlerts;
     port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
@@ -72,9 +77,9 @@ while c!=-1:
     setupN();
     c=1
   while c==1:
-    if (send_recv.recvMsg(s,namething,name,name1) == 0):
+    if (send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0):
       continue;
-    if(send_recv.sendMsg(s,namething,name,name1) == 0):
+    if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts) == 0):
       continue;
     #time.sleep(0.5);
       #asdfadf

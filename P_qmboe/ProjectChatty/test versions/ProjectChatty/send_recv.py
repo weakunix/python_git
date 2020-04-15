@@ -7,7 +7,7 @@ import os
 import threading
 import encryption_decryption
 
-def recvMsg(target,namething,name,name1):
+def recvMsg(target,namething,name,name1,sendReadAlerts):
   incoming_message = target.recv(1024);
   incoming_message = incoming_message.decode();
   h=open(namething,"a");
@@ -50,7 +50,7 @@ def recvMsg(target,namething,name,name1):
     status = status.encode();
     target.send(status);
     print("");
-def sendMsg(target,namething,name,name1):
+def sendMsg(target,namething,name,name1,sendReadAlerts):
   message = input(str(">>"))
   if(message == "/block"):
     message = "[ACTION]:the recipient has blocked you";
