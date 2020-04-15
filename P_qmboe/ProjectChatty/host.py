@@ -13,6 +13,7 @@ name1 = "";
 namething = '';
 conn = '';
 port = 12345;
+theirEIP = "";
 sendReadAlerts = "";
 def get_ip():
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -34,7 +35,7 @@ def setupH():
     global namething;
     global conn;
     global sendReadAlerts;
-    global host;
+    global theirEIP;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);

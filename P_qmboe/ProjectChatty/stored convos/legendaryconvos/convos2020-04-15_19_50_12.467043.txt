@@ -1,0 +1,27 @@
+From HOST, on port: 8888: conversation between a (192.168.1.46)(69.248.233.101) and MrMoooo (192.168.2.118) (2604:2000:1384:45f0:11e9:20e1:81ba:cae2)
+ ================= 
+
+ at:2020-04-15 19:50:15.690467 
+ a>> hi
+
+ at:2020-04-15 19:50:18.356020 
+ MrMoooo>> hi
+
+ at:2020-04-15 19:50:20.511699 
+ a>> gefrofd
+
+ at:2020-04-15 19:50:30.556370 
+ MrMoooo>> yay works
+
+ at:2020-04-15 19:50:32.358431 
+ a>> ireuieriuuigtre
+
+ at:2020-04-15 19:50:36.818733 
+ MrMoooo>> gonna do albreto and stuff now
+
+ at:2020-04-15 19:50:42.883442 
+ a>> ho f
+
+ at:2020-04-15 19:50:42.953857 
+ MrMoooo>> exit
+a[ACTION]:the recipient has ended the conversation!
