@@ -9,9 +9,6 @@ import array
 import send_recv
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
-message = '';
-messageNum = 0;
-incoming_message = '';
 name = input("what is your name");
 port = 12345;#make rhis changable
 def get_ip():
@@ -28,6 +25,9 @@ def get_ip():
   return IP
 c=0;
 def setupH():
+    global name;
+    global port;
+    global external_ip;
     port = int(input("port?"));
     s = socket.socket();
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);

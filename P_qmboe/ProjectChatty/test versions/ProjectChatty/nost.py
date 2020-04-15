@@ -7,9 +7,7 @@ import os
 #files:
 import send_recv
 
-
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
-message = '';
 name = input("what is your name");
 port = 12345;
 def get_ip():
@@ -25,6 +23,9 @@ def get_ip():
   return IP
 c=0;
 def setupN():
+    global name;
+    global port;
+    global external_ip;
     port = int(input("port?"));
     ipplaceholder = get_ip();
     s = socket.socket();
