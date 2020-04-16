@@ -80,10 +80,16 @@ while c!=-1:
     setupN();
     c=1;
     if(c==1):
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,"n",));
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,"n",));
-      tRecv.start();
-      tSend.start(); 
+      #tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,"n",));
+      #tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,"n",));
+     # tRecv.start();
+     # tSend.start(); 
+      with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(send_recv.sendMsg,(s,namething,name,name1,sendReadAlerts,host,"h",))
+        return_value = future.result()
+        c = return_value;
+      with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(send_recv.recvMsg,(s,namething,name,name1,sendReadAlerts,"h",))
+        return_value = future.result()
+        c = return_value;
 
-def JasoneresetadaleC():
-	c=0;

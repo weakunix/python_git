@@ -7,8 +7,8 @@ import os
 import threading
 import encryption_decryption
 
-import host
-import nost
+#import host
+#import nost
 
 over = 0;
 

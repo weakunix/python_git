@@ -87,10 +87,15 @@ while c!=-1:
     setupH();
     c=1;
     if(c==1):
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,"h",));
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,"h",));
-      tRecv.start();
-      tSend.start();
-
-def JasoneresetadaleC():
-	c=0;
+      #tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,"h",));
+      #tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,"h",));
+      #tRecv.start();
+      #tSend.start();
+      with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(send_recv.sendMsg,(conn,namething,name,name1,sendReadAlerts,theirEIP,"h",))
+        return_value = future.result()
+        c = return_value;
+      with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(send_recv.recvMsg,(conn,namething,name,name1,sendReadAlerts,"h",))
+        return_value = future.result()
+        c = return_value;
