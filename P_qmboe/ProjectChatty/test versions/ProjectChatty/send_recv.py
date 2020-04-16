@@ -39,7 +39,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       status = "1"
     status = status.encode();
     target.send(status);
-  elif(incoming_message != "read"):
+  elif(incoming_message != "read" and incoming_message != "1"):
     print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
     if (sendReadAlerts == "yes"):
       status = "read"
@@ -48,8 +48,12 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     status = status.encode();
     target.send(status);
     print("");
-  else:
-    print("read");
+  else:#experimental here ^ v
+    if(incoming_message != "1"):
+      print(incoming_message);
+    else:
+      print("");
+    print("");
   recvMsg(target,namething,name,name1,sendReadAlerts);
 #splitty
 def sendMsg(target,namething,name,name1,sendReadAlerts,host):
@@ -146,12 +150,5 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
     message = message.encode();
     target.send(message);
     print("delivered");
-    status1 = target.recv(1024);
-    status1 = status1.decode();
-    if(status1 != "1"):
-      print(status1);
-    else:
-      print("");
-    print("");
   sendMsg(target,namething,name,name1,sendReadAlerts,host);
 
