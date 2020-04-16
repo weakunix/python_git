@@ -21,6 +21,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       temptuple2= "".join(temptuple2);
       h.write(str(temptuple2));
       h.close();
+      target.close()
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
         os.remove(namething);
@@ -33,6 +34,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       temptuple2= "".join(temptuple2);
       h.write(str(temptuple2));
       h.close();
+      target.close()
       if (sendReadAlerts == "yes"):
         status = "read"
       else:
@@ -46,6 +48,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       temptuple2= "".join(temptuple2);
       h.write(str(temptuple2));
       h.close();
+      target.close()
       if (sendReadAlerts == "yes"):
         status = "read"
       else:
