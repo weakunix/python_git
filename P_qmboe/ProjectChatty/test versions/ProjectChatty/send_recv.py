@@ -11,7 +11,7 @@ over = 0;
 
 def recvMsg(target,namething,name,name1,sendReadAlerts):
   global over;
-  if (over == 0):
+  while (over == 0):
     incoming_message = target.recv(1024);
     incoming_message = incoming_message.decode();
     if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
@@ -61,11 +61,11 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       else:
         print("");
       print("");
-    recvMsg(target,namething,name,name1,sendReadAlerts);
+    #recvMsg(target,namething,name,name1,sendReadAlerts);
 #splitty
 def sendMsg(target,namething,name,name1,sendReadAlerts,host):
   global over;
-  if (over == 0):
+  while (over == 0):
     message = input(str(">>"))
     if(message == "/block"):
       message = "[ACTION]:the recipient has blocked you";
@@ -162,5 +162,5 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       message = message.encode();
       target.send(message);
       print("delivered");
-    sendMsg(target,namething,name,name1,sendReadAlerts,host);
+    #sendMsg(target,namething,name,name1,sendReadAlerts,host);
 
