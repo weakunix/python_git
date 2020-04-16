@@ -80,21 +80,7 @@ while c!=-1:
     setupN();
     c=1;
     if(c==1):
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,), daemon=True);
       tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,), daemon=True);
-      tSend.start(); 
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,), daemon=True);
       tRecv.start();
-    #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
-    #if(tSend.start() == 0 and c == 1):
-      #c=0;
-    #  break
-    #if(send_recv.recvMsg(conn,namething,name,name1,sendReadAlerts) == 0 and c==1):
-    #if(tRecv.start() == 0 and c==1):
-     # c=0;
-      #break
-    #if(send_recv.recvMsg(s,namething,name,name1,sendReadAlerts) == 0 and c == 1):
-     # c=0;
-     # break
-    #if(send_recv.sendMsg(s,namething,name,name1,sendReadAlerts,host) == 0 and c == 1):
-      #c=0;
-     # break
+      tSend.start(); 

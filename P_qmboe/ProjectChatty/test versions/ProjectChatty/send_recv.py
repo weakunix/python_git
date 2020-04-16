@@ -144,7 +144,6 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
     message = message.encode();
     target.send(message);
     print("delivered");
-        #if(sendReadAlerts == "yes"):
     status1 = target.recv(1024);
     status1 = status1.decode();
     if(status1 != "1"):
