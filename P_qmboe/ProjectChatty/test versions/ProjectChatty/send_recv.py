@@ -48,6 +48,8 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     status = status.encode();
     target.send(status);
     print("");
+  else:
+    print("read");
   recvMsg(target,namething,name,name1,sendReadAlerts);
 #splitty
 def sendMsg(target,namething,name,name1,sendReadAlerts,host):
