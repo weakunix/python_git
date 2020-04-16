@@ -24,8 +24,8 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
         os.remove(namething);
-      return 0;
       over = 1;
+      return 0;
     elif(incoming_message == "[retract%message]"):
       print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
       h=open(namething,"a");
@@ -82,8 +82,8 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
         os.remove(namething);
-      return 0;
       over = 1;
+      return 0;
     elif(message == "/stop"):
       message = "[ACTION]:the recipient has exited the chat room!";
       h=open(namething,"a");
@@ -98,8 +98,8 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
         os.remove(namething);
-      return 0
       over = 1;
+      return 0
     elif(message == "/end"):
       message = "[ACTION]:the recipient has ended the conversation!";
       h=open(namething,"a");
@@ -114,8 +114,8 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       rec = input("Record this conversation?(yes or no)");
       if (rec == "no"):
         os.remove(namething);
-      return 0;
       over = 1;
+      return 0;
     elif(message == "/retract"):
       message = "[retract%message]"
     #h=open(namething,"r"); RUOYU NEED FILE READER HERE
