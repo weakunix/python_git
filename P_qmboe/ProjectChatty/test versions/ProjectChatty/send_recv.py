@@ -7,9 +7,12 @@ import os
 import threading
 import encryption_decryption
 
+import host
+import nost
+
 over = 0;
 
-def recvMsg(target,namething,name,name1,sendReadAlerts):
+def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
   global over;
   while (over == 0):
     incoming_message = target.recv(1024);
@@ -26,6 +29,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
+      setC(HN);
       return 0;
     elif(incoming_message == "[retract%message]"):
       print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
@@ -63,7 +67,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       print("");
     #recvMsg(target,namething,name,name1,sendReadAlerts);
 #splitty
-def sendMsg(target,namething,name,name1,sendReadAlerts,host):
+def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
   global over;
   while (over == 0):
     message = input(str(">>"))
@@ -85,6 +89,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
+      setC(HN);
       return 0;
     elif(message == "/stop"):
       message = "[ACTION]:the recipient has exited the chat room!";
@@ -101,6 +106,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
+      setC(HN);
       return 0
     elif(message == "/end"):
       message = "[ACTION]:the recipient has ended the conversation!";
@@ -117,6 +123,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
+      setC(HN);
       return 0;
     elif(message == "/retract"):
       message = "[retract%message]"
@@ -163,4 +170,9 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host):
       target.send(message);
       print("delivered");
     #sendMsg(target,namething,name,name1,sendReadAlerts,host);
+dwf setC(HN):
+  if(HN=="h"):
+    host.JasoneresetadaleC();
+  else:
+    nost.JasoneresetadaleC();
 

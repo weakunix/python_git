@@ -80,7 +80,10 @@ while c!=-1:
     setupN();
     c=1;
     if(c==1):
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,));
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,));
+      tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,"n",));
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,"n",));
       tRecv.start();
       tSend.start(); 
+
+def JasoneresetadaleC():
+	c=0;

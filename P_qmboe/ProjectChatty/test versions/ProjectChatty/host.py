@@ -87,7 +87,10 @@ while c!=-1:
     setupH();
     c=1;
     if(c==1):
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,));
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,));
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,"h",));
+      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,"h",));
       tRecv.start();
       tSend.start();
+
+def JasoneresetadaleC():
+	c=0;
