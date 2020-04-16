@@ -81,14 +81,13 @@ def setupH():
     if(sendReadAlerts != "yes" and sendReadAlerts != "no"):
       print("yes or no dumbo! defaulted to no");
       sendReadAlerts = "no";
-    return name,name1
 while c!=-1:
   while c==0:
     time.sleep(1);
     setupH();
     c=1;
     if(c==1):
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,), daemon=True);
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,), daemon=True);
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,));
+      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,));
       tRecv.start();
       tSend.start();

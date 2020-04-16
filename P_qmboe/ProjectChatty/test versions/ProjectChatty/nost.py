@@ -80,7 +80,7 @@ while c!=-1:
     setupN();
     c=1;
     if(c==1):
-      tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,), daemon=True);
-      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,), daemon=True);
+      tRecv = threading.Thread(target=send_recv.recvMsg,args=(s,namething,name,name1,sendReadAlerts,));
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,));
       tRecv.start();
       tSend.start(); 
