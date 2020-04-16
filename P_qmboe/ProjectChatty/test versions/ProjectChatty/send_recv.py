@@ -29,7 +29,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
-      setC(HN);
+       
       return 0;
     elif(incoming_message == "[retract%message]"):
       print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
@@ -89,7 +89,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
-      setC(HN);
+       
       return 0;
     elif(message == "/stop"):
       message = "[ACTION]:the recipient has exited the chat room!";
@@ -106,7 +106,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
-      setC(HN);
+       
       return 0
     elif(message == "/end"):
       message = "[ACTION]:the recipient has ended the conversation!";
@@ -123,7 +123,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
       if (rec == "no"):
         os.remove(namething);
       over = 1;
-      setC(HN);
+       
       return 0;
     elif(message == "/retract"):
       message = "[retract%message]"
@@ -170,7 +170,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
       target.send(message);
       print("delivered");
     #sendMsg(target,namething,name,name1,sendReadAlerts,host);
-def setC(HN):
+#def setC(HN):
   if(HN=="h"):
     host.JasoneresetadaleC();
   else:
