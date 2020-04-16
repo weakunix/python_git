@@ -39,7 +39,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
       status = "1"
     status = status.encode();
     target.send(status);
-  else:
+  elif(incoming_message != "read"):
     print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
     if (sendReadAlerts == "yes"):
       status = "read"
