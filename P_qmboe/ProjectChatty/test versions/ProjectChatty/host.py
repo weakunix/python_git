@@ -87,12 +87,12 @@ while c!=-1:
     time.sleep(1);
     setupH();
     c=1;
-  if(c==1):
+    if(c==1):
   #while c==1:
-    tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,), daemon=True);
-    tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,), daemon=True);
-    tSend.start();
-    tRecv.start();
+      tSend = threading.Thread(target=send_recv.sendMsg,args=(conn,namething,name,name1,sendReadAlerts,theirEIP,), daemon=True);
+      tRecv = threading.Thread(target=send_recv.recvMsg,args=(conn,namething,name,name1,sendReadAlerts,), daemon=True);
+      tSend.start();
+      tRecv.start();
     #if(send_recv.sendMsg(conn,namething,name,name1,sendReadAlerts,theirEIP) == 0 and c == 1):
     #if(tSend.start() == 0 and c == 1):
       #c=0;
