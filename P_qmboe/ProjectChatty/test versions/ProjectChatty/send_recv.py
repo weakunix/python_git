@@ -10,11 +10,6 @@ import encryption_decryption
 def recvMsg(target,namething,name,name1,sendReadAlerts):
   incoming_message = target.recv(1024);
   incoming_message = incoming_message.decode();
-  h=open(namething,"a");
-  temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
-  temptuple2= "".join(temptuple2);
-  h.write(str(temptuple2));
-  h.close();
   if (incoming_message == "[ACTION]:the recipient has exited the chat room!" or incoming_message == "[ACTION]:the recipient has ended the conversation!" or incoming_message == "[ACTION]:the recipient has blocked you"):
     print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
     h=open(namething,"a");
@@ -41,6 +36,11 @@ def recvMsg(target,namething,name,name1,sendReadAlerts):
     target.send(status);
   elif(incoming_message != "read" and incoming_message != "1"):
     print("at ",datetime.datetime.now(),">",name1+": ", incoming_message);
+    h=open(namething,"a");
+    temptuple2 = ("\n at:",str(datetime.datetime.now())," \n ",name1,">> ",incoming_message,"\n")
+    temptuple2= "".join(temptuple2);
+    h.write(str(temptuple2));
+    h.close();
     if (sendReadAlerts == "yes"):
       status = "read"
     else:
