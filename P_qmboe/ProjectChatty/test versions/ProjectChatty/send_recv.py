@@ -170,7 +170,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
       target.send(message);
       print("delivered");
     #sendMsg(target,namething,name,name1,sendReadAlerts,host);
-dwf setC(HN):
+def setC(HN):
   if(HN=="h"):
     host.JasoneresetadaleC();
   else:
