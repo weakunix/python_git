@@ -13,6 +13,7 @@ import encryption_decryption
 over = 0;
 
 def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
+  lock = threading.Lock()
   global over;
   while (over == 0):
     incoming_message = target.recv(1024);
@@ -69,6 +70,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
     #recvMsg(target,namething,name,name1,sendReadAlerts);
 #splitty
 def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
+  lock = threading.Lock();
   global over;
   while (over == 0):
     message = input(str(">>"))
