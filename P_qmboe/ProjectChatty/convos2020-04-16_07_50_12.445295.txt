@@ -1,0 +1,32 @@
+From NOST, on port: 8888: conversation between MrMoooo (192.168.2.118)(2604:2000:1384:45f0:11e9:20e1:81ba:cae2) and a (69.248.233.101) (69.248.233.101)
+ ================= 
+
+ at:2020-04-16 07:50:15.697201 
+ a>> hi
+
+ at:2020-04-16 07:50:18.326191 
+ MrMoooo>> hi
+
+ at:2020-04-16 07:50:20.521799 
+ a>> gefrofd
+
+ at:2020-04-16 07:50:30.519043 
+ MrMoooo>> yay works
+
+ at:2020-04-16 07:50:32.368596 
+ a>> ireuieriuuigtre
+
+ at:2020-04-16 07:50:36.791718 
+ MrMoooo>> gonna do albreto and stuff now
+
+ at:2020-04-16 07:50:42.888586 
+ a>> ho f
+
+ at:2020-04-16 07:50:42.889406 
+ MrMoooo>> exit
+
+ at:2020-04-16 07:51:01.780231 
+ a>> [ACTION]:the recipient has ended the conversation!
+
+ at:2020-04-16 07:51:01.780594 
+ a>> [ACTION]:the recipient has ended the conversation!
