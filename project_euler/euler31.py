@@ -12,7 +12,6 @@ for onep in range(0, 3):
                         total = sum([100 * onep, 50 * fifty, 20 * twenty, 10 * ten, 5 * five, 2 * two])
                         if total <= 200:
                             count += 1
-                            print([100 * onep, 50 * fifty, 20 * twenty, 10 * ten, 5 * five, 2 * two], total)
                         if total == 200:
                             break
 print(count + 1)
