@@ -8,3 +8,7 @@ P_qmboe/ProjektEnkrypto/Atpwd.txt
 P_qmboe/ProjektEnkrypto/cowFood.txt
 P_qmboe/ProjektEnkrypto/sD.txt
 P_qmboe/ProjectChatty/__pycache__/encryption_decryption.cpython-38.pyc
+.idea/
+coconut2d/TheAnnoyingPhoneAdGame/venv/Lib/site-packages/easy_install.py
+*.pyc
+coconut2d/TheAnnoyingPhoneAdGame/venv/
