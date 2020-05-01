@@ -1,6 +1,6 @@
 import cocos
 import pyglet
-import game
+import gameMenuEssentials
 
 class buttonStart(cocos.layer.Layer):
     is_event_handler = True
@@ -36,5 +36,5 @@ class buttonStart(cocos.layer.Layer):
             if self.MouseOnSprite(x, y):
                 self.clicked = True
                 print("game starts")
-                game.changeScene(1)
+                gameMenuEssentials.changeScene(1)
                 #cocos.director.director.replace(gameScene)
