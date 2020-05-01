@@ -1,9 +1,7 @@
 # Imports
 import cocos
 import pyglet
-import threading
 # Files
-import game_sprites
 import gameClasses
 
 # end of imports

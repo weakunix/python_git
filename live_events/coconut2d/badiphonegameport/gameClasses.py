@@ -45,7 +45,8 @@ class Background(cocos.layer.Layer):
 class playground(cocos.layer.Layer):
     def __init__(self):
         super().__init__()
-        self.playground = cocos.sprite.Sprite(pyglet.image.load("playground.png"))
+        self.playground = cocos.sprite.Sprite(pyglet.image.load(
+            "playground.png"))
         self.playground.scale = 0.75
         size = cocos.director.director.get_window_size()
         self.playground.position = (size[0] / 2, size[1] / 2)
