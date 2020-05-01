@@ -42,6 +42,7 @@ class Background(cocos.layer.Layer):
         self.add(img)
 
 
+# the big rant screen
 class playground(cocos.layer.Layer):
     def __init__(self):
         super().__init__()
@@ -51,3 +52,52 @@ class playground(cocos.layer.Layer):
         size = cocos.director.director.get_window_size()
         self.playground.position = (size[0] / 2, size[1] / 2)
         self.add(self.playground)
+
+
+# diamond cube
+class cubeDiamond(cocos.layer.Layer):
+    def __init__(self):
+        super().__init__()
+        cub = pyglet.image.ImageGrid(pyglet.image.load("diamondSprite.png"), 1, 2, item_width=124, item_height=124)
+        anim = pyglet.image.Animation.from_image_sequence(cub[0:], 5, loop=True)
+        self.cDiamond = cocos.sprite.Sprite(anim, anchor=(0, 0))
+        self.cDiamond.position = (400, 200)  # change this later when algoritem comes out
+        self.cDiamond.scale = 0.25
+        self.add(self.cDiamond)
+
+
+class cubeCircle(cocos.layer.Layer):
+    def __init__(self):
+        super().__init__()
+        cirimg = pyglet.image.ImageGrid(pyglet.image.load("circleSprite.png"), 1, 2, item_width=124, item_height=124)
+        anim = pyglet.image.Animation.from_image_sequence(cirimg[0:], 5, loop=True)
+        self.cCircle = cocos.sprite.Sprite(anim, anchor=(0, 0))
+        self.cCircle.position = (440, 200)  # change this later when algoritem comes out
+        self.cCircle.scale = 0.25
+        self.add(self.cCircle)
+
+
+class cubeTriangle(cocos.layer.Layer):
+    def __init__(self):
+        super().__init__()
+        tri = pyglet.image.ImageGrid(pyglet.image.load("triangleSprite.png"), 1, 2, item_width=124, item_height=124)
+        anim = pyglet.image.Animation.from_image_sequence(tri[0:], 5, loop=True)
+        self.cTriangle = cocos.sprite.Sprite(anim, anchor=(0, 0))
+        self.cTriangle.position = (510, 200)  # change this later when algoritem comes out
+        self.cTriangle.scale = 0.25
+        self.add(self.cTriangle)
+
+
+class cubeStar(cocos.layer.Layer):
+    def __init__(self):
+        super().__init__()
+        sta = pyglet.image.ImageGrid(pyglet.image.load("starSprite.png"), 1, 2, item_width=124, item_height=124)
+        anim = pyglet.image.Animation.from_image_sequence(sta[0:], 5, loop=True)
+        self.cStar = cocos.sprite.Sprite(anim, anchor=(0, 0))
+        self.cStar.position = (480, 200)  # change this later when algoritem comes out
+        self.cStar.scale = 0.25
+        self.add(self.cStar)
+
+
+if __name__ == "__main__":
+    print("wrong file. This isn't the one to run")

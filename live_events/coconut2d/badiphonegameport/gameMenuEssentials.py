@@ -17,7 +17,7 @@ class buttonStart(cocos.layer.Layer):
         super().__init__()
         btn = pyglet.image.load("btnsheet.png")
         btn_sliced = pyglet.image.ImageGrid(btn, 1, 2, item_width=102, item_height=51)
-        anim = pyglet.image.Animation.from_image_sequence(btn_sliced[0:], 1, loop=True)
+        anim = pyglet.image.Animation.from_image_sequence(btn_sliced[0:], 0, loop=False)
         self.spr = cocos.sprite.Sprite(anim, anchor=(0, 0))
         size = cocos.director.director.get_window_size()
         self.spr.position = (size[0] / 2) - self.spr.width, size[1] / 3
@@ -68,6 +68,10 @@ if __name__ == "__main__":
     #score display
     gameScene.add(gameClasses.showScore())
     gameScene.add(gameClasses.playground())
+    gameScene.add(gameClasses.cubeDiamond())
+    gameScene.add(gameClasses.cubeCircle())
+    gameScene.add(gameClasses.cubeTriangle())
+    gameScene.add(gameClasses.cubeStar())
     # run
     cocos.director.director.run(menuScene)
     # menu scene
