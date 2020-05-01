@@ -5,11 +5,11 @@ from pyglet.window import key
 from pyglet.window import mouse
 
 # custom cursors
-cursorR = pyglet.image.load("crosshair_for_regular.png");
+cursorR = pyglet.image.load("crosshair_for_regular.png")
 cursorR.anchor_x = cursorR.width // 2
 cursorR.anchor_y = cursorR.height // 2
 default_cursor = pyglet.window.ImageMouseCursor(cursorR, 0, 0)
-cursorH = pyglet.image.load("hover_crosshair.png");
+cursorH = pyglet.image.load("hover_crosshair.png")
 cursorH.anchor_x = cursorH.width // 2
 cursorH.anchor_y = cursorH.height // 2
 hover_cursor = pyglet.window.ImageMouseCursor(cursorH, 0, 0)
@@ -58,7 +58,7 @@ class Cow1(cocos.layer.ScrollableLayer):
         if button & mouse.LEFT:
             self.clicked = True
             print("change to attack")
-            print(self.mouseonsprite(x, y));
+            print(self.mouseonsprite(x, y))
         elif button & mouse.RIGHT:
             print("change to shield")
 
