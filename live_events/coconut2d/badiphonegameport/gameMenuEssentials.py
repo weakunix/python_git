@@ -7,6 +7,8 @@ import gameClasses
 # end of imports
 # g-Vars
 arrayOfScenes = ["", ""]
+gameArray = gameClasses.createArray(10)
+print(gameArray)
 
 
 # everything about menu screen
@@ -47,6 +49,17 @@ class buttonStart(cocos.layer.Layer):
                 cocos.director.director.replace(gameScene)
 
 
+def stuff(gameScene):
+    gameScene.add(gameClasses.showScore())
+    gameScene.add(gameClasses.playground())
+    # for x in range(0, 2):
+    # if():
+    gameScene.add(gameClasses.cubeDiamond())
+    gameScene.add(gameClasses.cubeCircle())
+    gameScene.add(gameClasses.cubeTriangle())
+    gameScene.add(gameClasses.cubeStar())
+
+
 if __name__ == "__main__":
     cocos.director.director.init(width=1280, height=720, caption="The Annoying Phone Game")
 
@@ -59,19 +72,14 @@ if __name__ == "__main__":
     menuScene = cocos.scene.Scene()
     # background
     menuScene.add(gameClasses.Background())
-    #button to start
+    # button to start
     menuScene.add(buttonStart())
     # game
     gameScene = cocos.scene.Scene()
     # background
     gameScene.add(gameClasses.Background())
-    #score display
-    gameScene.add(gameClasses.showScore())
-    gameScene.add(gameClasses.playground())
-    gameScene.add(gameClasses.cubeDiamond())
-    gameScene.add(gameClasses.cubeCircle())
-    gameScene.add(gameClasses.cubeTriangle())
-    gameScene.add(gameClasses.cubeStar())
+    # score display
+    stuff(gameScene)
     # run
     cocos.director.director.run(menuScene)
     # menu scene

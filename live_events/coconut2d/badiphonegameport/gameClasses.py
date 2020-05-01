@@ -1,5 +1,6 @@
 import cocos
 import pyglet
+import random
 
 
 # custom cursor
@@ -97,6 +98,11 @@ class cubeStar(cocos.layer.Layer):
         self.cStar.position = (480, 200)  # change this later when algoritem comes out
         self.cStar.scale = 0.25
         self.add(self.cStar)
+
+
+def createArray(diff):
+    gameArray = [[random.randint(0, 3) for x in range(0, diff)]for y in range(0, diff)]
+    return gameArray
 
 
 if __name__ == "__main__":
