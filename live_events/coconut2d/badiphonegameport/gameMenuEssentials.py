@@ -9,7 +9,7 @@ import gameClasses
 arrayOfScenes = ["", ""]
 gameArray = gameClasses.createArray(10)
 print(gameArray)
-
+gameClasses.arrayToShapes(10, gameArray)
 
 # everything about menu screen
 class buttonStart(cocos.layer.Layer):

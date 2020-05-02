@@ -95,14 +95,32 @@ class cubeStar(cocos.layer.Layer):
         sta = pyglet.image.ImageGrid(pyglet.image.load("starSprite.png"), 1, 2, item_width=124, item_height=124)
         anim = pyglet.image.Animation.from_image_sequence(sta[0:], 5, loop=True)
         self.cStar = cocos.sprite.Sprite(anim, anchor=(0, 0))
-        self.cStar.position = (480, 200)  # change this later when algoritem comes out
+        self.cStar.position = (480, 200)  # change this later when algorithm comes out
         self.cStar.scale = 0.25
         self.add(self.cStar)
 
 
 def createArray(diff):
-    gameArray = [[random.randint(0, 3) for x in range(0, diff)]for y in range(0, diff)]
+    gameArray = [[random.randint(0, 3) for x in range(0, diff)] for y in range(0, diff)]
     return gameArray
+
+
+def makeSpriteCube(gameArrayArgument):
+    if gameArrayArgument == 0:
+        pass  # set to circle
+    elif gameArrayArgument == 1:
+        pass  # set to star
+    elif gameArrayArgument == 2:
+        pass  # set to triangle
+    elif gameArrayArgument == 3:
+        pass  # set to diamond
+
+
+def arrayToShapes(diff, gameArray):
+    # pass
+    for i in range(len(gameArray)):
+        for ii in range(len(gameArray[i])):
+            makeSpriteCube(gameArray[i][ii])
 
 
 if __name__ == "__main__":
