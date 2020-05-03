@@ -7,7 +7,7 @@ import gameClasses
 # end of imports
 # g-Vars
 isSquare = input("square puzzle?")  # asks if puzzle is square
-if isSquare == "yes":
+if isSquare[0] == "y" or isSquare[0] == "Y":
     sizeOfGameX = int(input("difficulty? (for both x and y)  10 atmost is recommended"))
     sizeOfGameY = int(sizeOfGameX)
 else:
