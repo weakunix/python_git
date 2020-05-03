@@ -8,10 +8,12 @@ import random
 gameStuff = [0 for x in range(100)]
 n = 0
 size = 66
+cursorR = ""
 
 
 # custom cursor
 def makeCursor():
+    global cursorR
     cursorR = pyglet.image.load("cursor_1.png")
     cursorR.blit(66, 66)
     cursorR.anchor_x = cursorR.width // 2
@@ -71,6 +73,7 @@ class cubeDiamond(cocos.layer.Layer):
         super().__init__()
         self.cub = pyglet.image.ImageGrid(pyglet.image.load("diamondSprite.png"), 1, 2, item_width=124, item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.cub[1:], 0, loop=False)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)
         self.cDiamond = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
         self.cDiamond.scale = 0.5
         self.add(self.cDiamond)
@@ -79,8 +82,11 @@ class cubeDiamond(cocos.layer.Layer):
         self.cDiamond.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if mouseOnSprite(x, y, 0, 0, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width, self.cDiamond.height):
-            self.anim = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)
+        if aOnB(x, y, cursorR.width, cursorR.height, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
+                self.cDiamond.height):
+            self.cDiamond.image = self.anim1
+        else:
+            self.cDiamond.image = self.anim
 
 
 class cubeCircle(cocos.layer.Layer):
@@ -90,6 +96,7 @@ class cubeCircle(cocos.layer.Layer):
         super().__init__()
         self.cirimg = pyglet.image.ImageGrid(pyglet.image.load("circleSprite.png"), 1, 2, item_width=124,
                                              item_height=124)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.cirimg[0:], 0, loop=False)
         self.anim = pyglet.image.Animation.from_image_sequence(self.cirimg[1:], 0, loop=False)
         self.cCircle = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
         self.cCircle.scale = 0.5
@@ -99,8 +106,11 @@ class cubeCircle(cocos.layer.Layer):
         self.cCircle.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if mouseOnSprite(x, y, 0, 0, self.cCircle.x, self.cCircle.y, self.cCircle.width, self.cCircle.height):
-            self.anim = pyglet.image.Animation.from_image_sequence(self.cirimg[0:], 0, loop=False)
+        if aOnB(x, y, cursorR.width, cursorR.height, self.cCircle.x, self.cCircle.y, self.cCircle.width,
+                self.cCircle.height):
+            self.cCircle.image = self.anim1
+        else:
+            self.cCircle.image = self.anim
 
 
 class cubeTriangle(cocos.layer.Layer):
@@ -111,6 +121,7 @@ class cubeTriangle(cocos.layer.Layer):
         self.tri = pyglet.image.ImageGrid(pyglet.image.load("triangleSprite.png"), 1, 2, item_width=124,
                                           item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.tri[1:], 0, loop=False)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.tri[0:], 0, loop=False)
         self.cTriangle = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
         self.cTriangle.scale = 0.5
         self.add(self.cTriangle)
@@ -119,8 +130,11 @@ class cubeTriangle(cocos.layer.Layer):
         self.cTriangle.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if mouseOnSprite(x, y, 0, 0, self.cTriangle.x, self.cTriangle.y, self.cTriangle.width, self.cTriangle.height):
-            self.anim = pyglet.image.Animation.from_image_sequence(self.tri[0:], 0, loop=False)
+        if aOnB(x, y, cursorR.width, cursorR.height, self.cTriangle.x, self.cTriangle.y, self.cTriangle.width,
+                self.cTriangle.height):
+            self.cTriangle.image = self.anim1
+        else:
+            self.cTriangle.image = self.anim
 
 
 class cubeStar(cocos.layer.Layer):
@@ -130,6 +144,7 @@ class cubeStar(cocos.layer.Layer):
         super().__init__()
         self.sta = pyglet.image.ImageGrid(pyglet.image.load("starSprite.png"), 1, 2, item_width=124, item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.sta[1:], 0, loop=False)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.sta[0:], 0, loop=False)
         self.cStar = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
         self.cStar.scale = 0.5
         self.add(self.cStar)
@@ -138,8 +153,10 @@ class cubeStar(cocos.layer.Layer):
         self.cStar.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if mouseOnSprite(x, y, 0, 0, self.cStar.x, self.cStar.y, self.cStar.width, self.cStar.height):
-            self.anim = pyglet.image.Animation.from_image_sequence(self.sta[0:], 0, loop=False)
+        if aOnB(x, y, cursorR.width, cursorR.height, self.cStar.x, self.cStar.y, self.cStar.width, self.cStar.height):
+            self.cStar.image = self.anim1
+        else:
+            self.cStar.image = self.anim
 
 
 def createArray(diff):
@@ -147,10 +164,16 @@ def createArray(diff):
     return gameArray
 
 
-def mouseOnSprite(x, y, w, h, ax, ay, aw, ah):
+def aOnB(x, y, w, h, ax, ay, aw, ah):
     if ax + aw > x + w > ax:
         if ay + ah > y + h > ay:
             return True
+    return False
+
+
+def aTouchB(x, y, w, h, ax, ay, aw, ah):#fix
+    if x + w >= ax + aw >= x and y + h >= ay + ah >= y or ax + aw >= x + w >= ax and ay + ah >= y + h >= ay:
+        return True
     return False
 
 
