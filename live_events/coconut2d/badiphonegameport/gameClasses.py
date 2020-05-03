@@ -5,10 +5,30 @@ from pyglet.window import mouse
 import random
 
 # global var
-gameStuff = [0 for x in range(100)]
+gameStuff = []
+sizeOfGameX = 0
+sizeOfGameY = 0
+
+
+# make the array based on len and wid passed in
+def makeIntroArray(aLength, aWidth):
+    global gameStuff
+    global sizeOfGameX
+    global sizeOfGameY
+    sizeOfGameX = aLength
+    sizeOfGameY = aWidth
+    gameStuff = [0 for x in range(aLength * aWidth)]
+
+
+def createArray(diffx, diffy):
+    gameArray = [[random.randint(0, 3) for x in range(0, diffx)] for y in range(0, diffy)]
+    return gameArray
+
+
 n = 0
 size = 66
 cursorR = ""
+scorePoints = 0;
 
 
 # custom cursor
@@ -26,7 +46,7 @@ class showScore(cocos.layer.Layer):
     def __init__(self):
         super().__init__()
         label = cocos.text.Label(
-            "Score:",
+            "Score: " + str(scorePoints),
             font_name="Times New Roman",
             font_size=20,
             anchor_x="center",
@@ -158,11 +178,6 @@ class cubeStar(cocos.layer.Layer):
             self.cStar.image = self.anim
 
 
-def createArray(diff):
-    gameArray = [[random.randint(0, 3) for x in range(0, diff)] for y in range(0, diff)]
-    return gameArray
-
-
 def aOnB(x, y, w, h, ax, ay, aw, ah):
     if ax + aw > x + w > ax:
         if ay + ah > y + h > ay:
@@ -170,7 +185,7 @@ def aOnB(x, y, w, h, ax, ay, aw, ah):
     return False
 
 
-def aTouchB(x, y, w, h, ax, ay, aw, ah):#fix
+def aTouchB(x, y, w, h, ax, ay, aw, ah):  # fix
     pass
 
 
@@ -207,7 +222,7 @@ def makeSpriteCube(gameArrayArgument, x, y, gameScene):
     # return gameStuff
 
 
-def arrayToShapes(diff, gameArray, gameScene):
+def arrayToShapes(gameArray, gameScene):
     for i in range(len(gameArray)):
         for ii in range(len(gameArray[i])):
             # print(

@@ -6,8 +6,18 @@ import gameClasses
 
 # end of imports
 # g-Vars
-gameArray = gameClasses.createArray(10)
-print(gameArray)
+isSquare = input("square puzzle?")  # asks if puzzle is square
+if isSquare == "yes":
+    sizeOfGameX = int(input("difficulty? (for both x and y)  10 atmost is recommended"))
+    sizeOfGameY = int(sizeOfGameX)
+else:
+    sizeOfGameX = int(input("difficulty X? 10 atmost is recommended"))  # makes input x length playing area
+    sizeOfGameY = int(input("difficulty Y?  10 atmost is recommended"))  # makes input y width playing area
+
+gameArray = gameClasses.createArray(sizeOfGameX, sizeOfGameY)
+
+
+# print(gameArray)
 
 
 # everything about menu screen
@@ -52,7 +62,8 @@ class buttonStart(cocos.layer.Layer):
 def stuff(gameScene):
     gameScene.add(gameClasses.showScore())
     gameScene.add(gameClasses.playground())
-    gameClasses.arrayToShapes(10, gameArray, gameScene)
+    gameClasses.makeIntroArray(sizeOfGameX, sizeOfGameY)
+    gameClasses.arrayToShapes(gameArray, gameScene)
 
 
 if __name__ == "__main__":
