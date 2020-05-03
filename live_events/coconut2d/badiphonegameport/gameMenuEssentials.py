@@ -18,11 +18,12 @@ class buttonStart(cocos.layer.Layer):
         super().__init__()
         btn = pyglet.image.load("btnsheet.png")
         btn_sliced = pyglet.image.ImageGrid(btn, 1, 2, item_width=102, item_height=51)
-        anim = pyglet.image.Animation.from_image_sequence(btn_sliced[0:], 0, loop=False)
-        self.spr = cocos.sprite.Sprite(anim, anchor=(0, 0))
+        self.anim = pyglet.image.Animation.from_image_sequence(btn_sliced[0:], 0, loop=False)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(btn_sliced[1:], 0, loop=False)
+        self.btn = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
         size = cocos.director.director.get_window_size()
-        self.spr.position = (size[0] / 2) - self.spr.width, size[1] / 3
-        self.spr.scale = 2
+        self.btn.position = (560, 240)
+        self.btn.scale = 2
         self.add(cocos.text.Label(
             "The Annoying Phone Game",
             position=(size[0] / 2, size[1] / 1.5),
@@ -31,21 +32,21 @@ class buttonStart(cocos.layer.Layer):
             anchor_x="center",
             anchor_y="center"
         ))
-        self.add(self.spr)
+        self.add(self.btn)
         self.clicked = False
-
-    def MouseOnSprite(self, x, y):
-        if self.spr.x + self.spr.width > x > self.spr.x:
-            if self.spr.y + self.spr.height > y > self.spr.y:
-                return True
-        return False
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button & pyglet.window.mouse.LEFT:
-            if self.MouseOnSprite(x, y):
+            if gameClasses.aOnB(x, y, 0, 0, self.btn.x, self.btn.y, self.btn.width, self.btn.height):
                 self.clicked = True
                 print("game starts")
                 cocos.director.director.replace(gameScene)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        if gameClasses.aOnB(x, y, 0, 0, self.btn.x, self.btn.y, self.btn.width, self.btn.height):
+            self.btn.image = self.anim1
+        else:
+            self.btn.image = self.anim
 
 
 def stuff(gameScene):

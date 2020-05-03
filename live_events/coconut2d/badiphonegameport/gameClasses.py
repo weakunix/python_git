@@ -15,9 +15,8 @@ cursorR = ""
 def makeCursor():
     global cursorR
     cursorR = pyglet.image.load("cursor_1.png")
-    cursorR.blit(66, 66)
-    cursorR.anchor_x = cursorR.width // 2
-    cursorR.anchor_y = cursorR.height // 2
+    cursorR.anchor_x = 0
+    cursorR.anchor_y = 0
     default_cursor = pyglet.window.ImageMouseCursor(cursorR, 0, 0)
     return default_cursor
 
@@ -74,7 +73,7 @@ class cubeDiamond(cocos.layer.Layer):
         self.cub = pyglet.image.ImageGrid(pyglet.image.load("diamondSprite.png"), 1, 2, item_width=124, item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.cub[1:], 0, loop=False)
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)
-        self.cDiamond = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
+        self.cDiamond = cocos.sprite.Sprite(self.anim)
         self.cDiamond.scale = 0.5
         self.add(self.cDiamond)
 
@@ -98,7 +97,7 @@ class cubeCircle(cocos.layer.Layer):
                                              item_height=124)
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.cirimg[0:], 0, loop=False)
         self.anim = pyglet.image.Animation.from_image_sequence(self.cirimg[1:], 0, loop=False)
-        self.cCircle = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
+        self.cCircle = cocos.sprite.Sprite(self.anim)
         self.cCircle.scale = 0.5
         self.add(self.cCircle)
 
@@ -122,7 +121,7 @@ class cubeTriangle(cocos.layer.Layer):
                                           item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.tri[1:], 0, loop=False)
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.tri[0:], 0, loop=False)
-        self.cTriangle = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
+        self.cTriangle = cocos.sprite.Sprite(self.anim)
         self.cTriangle.scale = 0.5
         self.add(self.cTriangle)
 
@@ -145,7 +144,7 @@ class cubeStar(cocos.layer.Layer):
         self.sta = pyglet.image.ImageGrid(pyglet.image.load("starSprite.png"), 1, 2, item_width=124, item_height=124)
         self.anim = pyglet.image.Animation.from_image_sequence(self.sta[1:], 0, loop=False)
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.sta[0:], 0, loop=False)
-        self.cStar = cocos.sprite.Sprite(self.anim, anchor=(0, 0))
+        self.cStar = cocos.sprite.Sprite(self.anim)
         self.cStar.scale = 0.5
         self.add(self.cStar)
 
@@ -172,17 +171,15 @@ def aOnB(x, y, w, h, ax, ay, aw, ah):
 
 
 def aTouchB(x, y, w, h, ax, ay, aw, ah):#fix
-    if x + w >= ax + aw >= x and y + h >= ay + ah >= y or ax + aw >= x + w >= ax and ay + ah >= y + h >= ay:
-        return True
-    return False
+    pass
 
 
 def makeSpriteCube(gameArrayArgument, x, y, gameScene):
     global gameStuff
     global n
     global size
-    ex = (x * size) + 310
-    why = (y * size) + 40
+    ex = (x * size) + 345
+    why = (y * size) + 65
     if gameArrayArgument == 0:
         gameStuff[n] = cubeCircle()
         gameStuff[n].positionMake(ex, why)
