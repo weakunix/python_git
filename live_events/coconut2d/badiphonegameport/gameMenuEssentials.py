@@ -6,10 +6,9 @@ import gameClasses
 
 # end of imports
 # g-Vars
-arrayOfScenes = ["", ""]
 gameArray = gameClasses.createArray(10)
 print(gameArray)
-gameClasses.arrayToShapes(10, gameArray)
+
 
 # everything about menu screen
 class buttonStart(cocos.layer.Layer):
@@ -52,12 +51,7 @@ class buttonStart(cocos.layer.Layer):
 def stuff(gameScene):
     gameScene.add(gameClasses.showScore())
     gameScene.add(gameClasses.playground())
-    # for x in range(0, 2):
-    # if():
-    gameScene.add(gameClasses.cubeDiamond())
-    gameScene.add(gameClasses.cubeCircle())
-    gameScene.add(gameClasses.cubeTriangle())
-    gameScene.add(gameClasses.cubeStar())
+    gameClasses.arrayToShapes(10, gameArray, gameScene)
 
 
 if __name__ == "__main__":
