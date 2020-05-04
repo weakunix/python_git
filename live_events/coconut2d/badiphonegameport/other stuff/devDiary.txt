@@ -1,0 +1,28 @@
+=====================
+Journal Entry at: 2020-05-03 22:28:07.460256
+Title: moolanders beat eagle claws
+ Description:we win! 24-6
+Author: Cowland-iPad-Pro
+====================
+Contents:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Except
+
+=====================
+Journal Entry #1
+at: 2020-05-03 22:29:52.264043
+Title: codeblog! The start
+ Description:starting to get things setup
+Author: Cowland-iPad-Pro
+====================
+Contents:
+over the course of a few days I managed to get a lot of things setup. Infact, I learned cocos2d and there are sprites!!!!! I started the drawing and laying out of the classes as soon as I could. They all had to inharit from the cocos.sprite layer because they were all sprites. I wonder how the game will look like when it is done though. Anyways, this is just a breif log. I forgot to log it on May 1 so here it is, 2 days later
+
+=====================
+Journal Entry #2
+at: 2020-05-03 22:35:50.418890
+Title: cowland forgets to log again
+ Description:lmao
+Author: Cowland-iPad-Pro
+====================
+Contents:
+over the course of a few days I was able to get the sprite sheets and sprites setup. I drew the sprites and cut them out into frames for animation. I was really bummed out at the end of the day when I couldn't make them animate based on frames according to my mouse position. But that would soon change. I also discovered how to make a button that presses and sends me to another scene! Horray! The lack of logs in cocos2dPy is really killing me. It(engine) is so dead but it is good.
