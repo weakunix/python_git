@@ -1,0 +1,68 @@
+The algorithem has to be like this:
+[1][2][3][0][1]
+[3][1][0][1][3]
+[0][3][1][0][0]
+[3][0]          [2][2][2]
+[2][1][3][1][3]
+somehow to be able to get a for statement and have it check it with the neighbor and the top
+like:
+=================================================================================
+var y = 0;
+var x = 0
+var array... #consider this one the one with the 2d stuff
+for i in range(0,length * width):
+	if(array[x][y] == array[x-1][y] and array[x][y] == array[x+1][y]):#checks horizontal
+		if(x != null and x+1 != null and x-1 aswell): #make sure isnt at edge, else it'd be out of bounds. IDK if i did this right
+			popThem(true,x,y)
+	if(array[x][y] == array[x][y-1] and array[x][y] == array[x][y+1]):#checks horizontal
+		if(y != null and everything else): #make sure isnt at border at bottom. same concept too lazy to type it again
+			popThem(false,x,y)
+	if(x != length):
+		x+=1#increments x value
+	if(y != width):
+		s+=1#increments y value
+def popThem(horizontal,x,y):
+	global array
+	if horizontal:
+		array[x][y] == -1 #for now just set to -1, or we could do advanced and make it like the final product(having gravity fall the bricks ontop)
+		array[x-1][y]== -1
+		array[x+1][y] == -1
+	else:
+		array[x][y] == -1
+		array[x][y-1]== -1
+		array[x][y+1] == -1
+=======================================================================
+Example of gravity
+def popThem(horizontal,x,y):
+	global array
+	if horizontal:
+		array[x][y] == array[x][y+1] #assuming y+1 means the member above (I don't know lol)
+		array[x-1][y]== array[x][y+1]
+		array[x+1][y] == array[x][y+1]
+		#and the inefficiency goes on... because its gravity lmao. Try to find an automation for this as well
+		array[x][y+1] == array[x][y+2]
+		array[x-1][y+1] == array[x-1][y+2]
+		........... you get the point
+	else:
+		array[x][y] == array[x][y+3]# because it is all y, it falls in a straight line and the bottom one has the one that was above the top one
+		array[x][y-1]== array[x][y+2]
+		array[x][y+1] == array[x][y+4]
+		..........
+=====================================================================
+this is just basic code that I came up within an hour and had a few revisions
+but it should work for the scenario. but now is the problem, we need to somehow "extend" our range.
+so we also want to check out if there are any surrounding of the same number and clear those too.
+we also want algorithems for L shaped clears
+the below matrix would be:
+[1][2][3][0][1]
+[3][1][0][1][3]
+[0][2][2][0][0]
+[3][0][2][2][2]
+[2][1][3][1][3]
+after the algorithem:(<> is where it is currently blank)
+[1][2][3][0][1]
+[3][1][0][1][3]
+[0]< >< >[0][0]   [2][2]
+[3][0]< >< >< >      [2][2][2]
+[2][1][3][1][3]
+goodluck royadle! 
