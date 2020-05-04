@@ -26,3 +26,13 @@ Author: Cowland-iPad-Pro
 ====================
 Contents:
 over the course of a few days I was able to get the sprite sheets and sprites setup. I drew the sprites and cut them out into frames for animation. I was really bummed out at the end of the day when I couldn't make them animate based on frames according to my mouse position. But that would soon change. I also discovered how to make a button that presses and sends me to another scene! Horray! The lack of logs in cocos2dPy is really killing me. It(engine) is so dead but it is good.
+
+=====================
+Journal Entry #3
+At: 2020-05-04 10:08:14.601054
+Title: finally got entry and sprites working
+ Description:bugs are everywhre
+Author: LAPTOP-V7LGRCVQ
+====================
+Contents:
+tba
