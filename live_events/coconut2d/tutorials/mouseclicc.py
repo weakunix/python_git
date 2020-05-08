@@ -6,8 +6,8 @@ from pyglet.window import mouse
 
 # custom cursors
 cursorR = pyglet.image.load("crosshair_for_regular.png")
-cursorR.anchor_x = cursorR.width // 2
-cursorR.anchor_y = cursorR.height // 2
+cursorR.anchor_x = cL // 2
+cursorR.anchor_y = cW // 2
 default_cursor = pyglet.window.ImageMouseCursor(cursorR, 0, 0)
 cursorH = pyglet.image.load("hover_crosshair.png")
 cursorH.anchor_x = cursorH.width // 2

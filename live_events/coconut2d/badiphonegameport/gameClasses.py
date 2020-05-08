@@ -5,9 +5,12 @@ from pyglet.window import mouse
 import random
 
 # global var
+
 gameStuff = []
 sizeOfGameX = 0
 sizeOfGameY = 0
+gameAray = []
+gameScene: str = ""
 
 
 # make the array based on len and wid passed in
@@ -21,22 +24,25 @@ def makeIntroArray(aLength, aWidth):
 
 
 def createArray(diffx, diffy):
+    global gameArray
     gameArray = [[random.randint(0, 3) for x in range(0, diffx)] for y in range(0, diffy)]
     return gameArray
 
 
 n = 0
 size = 66
-cursorR = ""
-scorePoints = 0;
+cursorR = ""  # cursor
+scorePoints = 0  # points
+cL = 0  # length cursor
+cW = 0  # width cursor
 
 
 # custom cursor
 def makeCursor():
     global cursorR
     cursorR = pyglet.image.load("cursor_1.png")
-    cursorR.anchor_x = 0
-    cursorR.anchor_y = 0
+    cursorR.anchor_x = 66
+    cursorR.anchor_y = 66
     default_cursor = pyglet.window.ImageMouseCursor(cursorR, 0, 0)
     return default_cursor
 
@@ -95,17 +101,29 @@ class cubeDiamond(cocos.layer.Layer):
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)
         self.cDiamond = cocos.sprite.Sprite(self.anim)
         self.cDiamond.scale = 0.5
+        self.posx = 0
+        self.posy = 0
         self.add(self.cDiamond)
 
     def positionMake(self, x, y):
         self.cDiamond.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if aOnB(x, y, cursorR.width, cursorR.height, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
+        if aOnB(x, y, cL, cW, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
                 self.cDiamond.height):
             self.cDiamond.image = self.anim1
         else:
             self.cDiamond.image = self.anim
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if aOnB(x, y, cL, cW, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
+                self.cDiamond.height):
+            check(self.posx, self.posy)
+
+    def posInArray(self, p1, p2, n):
+        self.posx = p1
+        self.posy = p2
+        self.n = n
 
 
 class cubeCircle(cocos.layer.Layer):
@@ -119,17 +137,30 @@ class cubeCircle(cocos.layer.Layer):
         self.anim = pyglet.image.Animation.from_image_sequence(self.cirimg[1:], 0, loop=False)
         self.cCircle = cocos.sprite.Sprite(self.anim)
         self.cCircle.scale = 0.5
+        self.posx = 0
+        self.posy = 0
+        self.n = 0
         self.add(self.cCircle)
+
+    def posInArray(self, p1, p2, n):
+        self.posx = p1
+        self.posy = p2
+        self.n = n
 
     def positionMake(self, x, y):
         self.cCircle.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if aOnB(x, y, cursorR.width, cursorR.height, self.cCircle.x, self.cCircle.y, self.cCircle.width,
+        if aOnB(x, y, cL, cW, self.cCircle.x, self.cCircle.y, self.cCircle.width,
                 self.cCircle.height):
             self.cCircle.image = self.anim1
         else:
             self.cCircle.image = self.anim
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if aOnB(x, y, cL, cW, self.cCircle.x, self.cCircle.y, self.cCircle.width,
+                self.cCircle.height):
+            check(self.posx, self.posy)
 
 
 class cubeTriangle(cocos.layer.Layer):
@@ -143,17 +174,30 @@ class cubeTriangle(cocos.layer.Layer):
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.tri[0:], 0, loop=False)
         self.cTriangle = cocos.sprite.Sprite(self.anim)
         self.cTriangle.scale = 0.5
+        self.posx = 0
+        self.posy = 0
+        self.n = 0
         self.add(self.cTriangle)
 
     def positionMake(self, x, y):
         self.cTriangle.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if aOnB(x, y, cursorR.width, cursorR.height, self.cTriangle.x, self.cTriangle.y, self.cTriangle.width,
+        if aOnB(x, y, cL, cW, self.cTriangle.x, self.cTriangle.y, self.cTriangle.width,
                 self.cTriangle.height):
             self.cTriangle.image = self.anim1
         else:
             self.cTriangle.image = self.anim
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if aOnB(x, y, cL, cW, self.cTriangle.x, self.cTriangle.y, self.cTriangle.width,
+                self.cTriangle.height):
+            check(self.posx, self.posy)
+
+    def posInArray(self, p1, p2, n):
+        self.posx = p1
+        self.posy = p2
+        self.n = n
 
 
 class cubeStar(cocos.layer.Layer):
@@ -166,16 +210,29 @@ class cubeStar(cocos.layer.Layer):
         self.anim1 = pyglet.image.Animation.from_image_sequence(self.sta[0:], 0, loop=False)
         self.cStar = cocos.sprite.Sprite(self.anim)
         self.cStar.scale = 0.5
+        self.posx = 0
+        self.posy = 0
+        self.n = 0
         self.add(self.cStar)
 
     def positionMake(self, x, y):
         self.cStar.position = (x, y)  # change this later when algorithm comes out
 
     def on_mouse_motion(self, x, y, dx, dy):
-        if aOnB(x, y, cursorR.width, cursorR.height, self.cStar.x, self.cStar.y, self.cStar.width, self.cStar.height):
+        if aOnB(x, y, cL, cW, self.cStar.x, self.cStar.y, self.cStar.width, self.cStar.height):
             self.cStar.image = self.anim1
         else:
             self.cStar.image = self.anim
+
+    def posInArray(self, p1, p2, n):
+        self.posx = p1
+        self.posy = p2
+        self.n = n
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if aOnB(x, y, cL, cW, self.cStar.x, self.cStar.y, self.cStar.width,
+                self.cStar.height):
+            check(self.posx, self.posy)
 
 
 def aOnB(x, y, w, h, ax, ay, aw, ah):
@@ -189,45 +246,126 @@ def aTouchB(x, y, w, h, ax, ay, aw, ah):  # fix
     pass
 
 
+def check(x, y):
+    global gameAray
+    print(gameAray[x][y])
+    print(x, y)
+    if x != sizeOfGameX - 1 and y != sizeOfGameY - 1 and x != 0 and y != 0:
+        if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
+            print("clear H")
+            gravity(False, x, y)
+        if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
+            print("clear V")
+            gravity(True, x, y)
+    elif x == sizeOfGameX - 1 and y == sizeOfGameY - 1:
+        print("border")
+    elif x == 0 and y == sizeOfGameY - 1:
+        print("border")
+    elif x == sizeOfGameX - 1 and y == 0:
+        print("border")
+    elif x == 0 and y == 0:
+        print("border")
+    elif x == sizeOfGameX - 1 or x == 0:
+        if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
+            print("clear V")
+            gravity(True, x, y)
+    elif y == sizeOfGameY - 1 or y == 0:
+        if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
+            print("clear H")
+            gravity(False, x, y)
+
+
+def gravity(verticle, x, y):#bugged
+    global gameAray
+    global gameScene
+    # shift down
+    print(x, y)
+    if verticle:
+        for num in range(y - 1):
+            gameAray[x][y - num] = gameAray[x][y - num - 1]
+    elif not verticle:
+        pass
+    updateArray(x, y)
+
+
+def updateArray(x, y):
+    global gameArray
+    global gameScene
+    ex = (x * size) + 345
+    why = 650 - (y * size)
+    n = x * y
+    gameArrayArgument = gameArray[x][y]
+    if gameArrayArgument == 0:
+        gameStuff[n] = cubeCircle()
+        gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
+        gameScene.add(gameStuff[n])
+        # pass  # set to circle
+    elif gameArrayArgument == 1:
+        gameStuff[n] = cubeStar()
+        gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
+        gameScene.add(gameStuff[n])
+        # pass  # set to star
+    elif gameArrayArgument == 2:
+        gameStuff[n] = cubeTriangle()
+        gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
+        gameScene.add(gameStuff[n])
+        # pass  # set to triangle
+    elif gameArrayArgument == 3:
+        gameStuff[n] = cubeDiamond()
+        gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
+        gameScene.add(gameStuff[n])
+
+
 def makeSpriteCube(gameArrayArgument, x, y, gameScene):
     global gameStuff
     global n
     global size
     ex = (x * size) + 345
-    why = (y * size) + 65
+    why = 650 - (y * size)  # 65
+    # 65
     if gameArrayArgument == 0:
         gameStuff[n] = cubeCircle()
         gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
         gameScene.add(gameStuff[n])
         n += 1
         # pass  # set to circle
     elif gameArrayArgument == 1:
         gameStuff[n] = cubeStar()
         gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
         gameScene.add(gameStuff[n])
         n += 1
         # pass  # set to star
     elif gameArrayArgument == 2:
         gameStuff[n] = cubeTriangle()
         gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
         gameScene.add(gameStuff[n])
         n += 1
         # pass  # set to triangle
     elif gameArrayArgument == 3:
         gameStuff[n] = cubeDiamond()
         gameStuff[n].positionMake(ex, why)
+        gameStuff[n].posInArray(x, y, n)
         gameScene.add(gameStuff[n])
         n += 1
         # pass  # set to diamond
     # return gameStuff
 
 
-def arrayToShapes(gameArray, gameScene):
-    for i in range(len(gameArray)):
-        for ii in range(len(gameArray[i])):
-            # print(
+def arrayToShapes(gameArray, gameScene1):
+    global gameAray
+    global gameScene
+    gameScene = gameScene1
+    gameAray = gameArray
+    for ii in range(len(gameArray)):  # i
+        for i in range(len(gameArray[ii])):  # ii,i
             makeSpriteCube(gameArray[i][ii], i, ii, gameScene)
-            # )
 
 
 if __name__ == "__main__":
