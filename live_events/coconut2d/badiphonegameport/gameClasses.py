@@ -51,17 +51,28 @@ def makeCursor():
 class showScore(cocos.layer.Layer):
     def __init__(self):
         super().__init__()
-        label = cocos.text.Label(
-            "Score: " + str(scorePoints),
+        global scorePoints
+        self.label = cocos.text.Label(
+            text=("Score:" + str(scorePoints)),  # update
+            font_name="Times New Roman",
+            font_size=20,
+            anchor_x="center",  # overlapping
+            anchor_y="center"
+        )
+        size = cocos.director.director.get_window_size()
+        # print(size)
+        self.label.position = size[0] / 15, size[1] / 1.1
+        self.add(self.label)
+        # self.add(self.label1)
+
+    def update(self):
+        self.label = cocos.text.Label(
+            text=("Score:" + str(scorePoints)),  # update
             font_name="Times New Roman",
             font_size=20,
             anchor_x="center",
             anchor_y="center"
         )
-        size = cocos.director.director.get_window_size()
-        print(size)
-        label.position = size[0] / 15, size[1] / 1.1
-        self.add(label)
 
 
 # background
@@ -248,14 +259,18 @@ def aTouchB(x, y, w, h, ax, ay, aw, ah):  # fix
 
 def check(x, y):
     global gameAray
-    print(gameAray[x][y])
-    print(x, y)
+    # print(gameAray[x][y])
+    # print(x, y)
     if x != sizeOfGameX - 1 and y != sizeOfGameY - 1 and x != 0 and y != 0:
+        if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y] and gameAray[x][y] == \
+                gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
+            # print("clearHbceverythingfilled")
+            gravity(True, x, y)
         if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
-            print("clear H")
+            # print("clear H")
             gravity(False, x, y)
         if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-            print("clear V")
+            # print("clear V")
             gravity(True, x, y)
     elif x == sizeOfGameX - 1 and y == sizeOfGameY - 1:
         print("border")
@@ -267,57 +282,36 @@ def check(x, y):
         print("border")
     elif x == sizeOfGameX - 1 or x == 0:
         if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-            print("clear V")
+            # print("clear V")
             gravity(True, x, y)
     elif y == sizeOfGameY - 1 or y == 0:
         if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
-            print("clear H")
+            # print("clear H")
             gravity(False, x, y)
 
 
-def gravity(verticle, x, y):#bugged
+def gravity(verticle, x, y):  # bugged
     global gameAray
     global gameScene
+    global scorePoints
     # shift down
-    print(x, y)
+    # print(gameAray)
     if verticle:
-        for num in range(y - 1):
-            gameAray[x][y - num] = gameAray[x][y - num - 1]
+        for i in range(0, 3):
+            for num in range(y):
+                gameAray[x][y - num + 1] = gameAray[x][y - num]
+            gameAray[x][0] = random.randint(0, 3)  # pass
+            scorePoints += 100
+            # print(scorePoints)
     elif not verticle:
-        pass
-    updateArray(x, y)
-
-
-def updateArray(x, y):
-    global gameArray
-    global gameScene
-    ex = (x * size) + 345
-    why = 650 - (y * size)
-    n = x * y
-    gameArrayArgument = gameArray[x][y]
-    if gameArrayArgument == 0:
-        gameStuff[n] = cubeCircle()
-        gameStuff[n].positionMake(ex, why)
-        gameStuff[n].posInArray(x, y, n)
-        gameScene.add(gameStuff[n])
-        # pass  # set to circle
-    elif gameArrayArgument == 1:
-        gameStuff[n] = cubeStar()
-        gameStuff[n].positionMake(ex, why)
-        gameStuff[n].posInArray(x, y, n)
-        gameScene.add(gameStuff[n])
-        # pass  # set to star
-    elif gameArrayArgument == 2:
-        gameStuff[n] = cubeTriangle()
-        gameStuff[n].positionMake(ex, why)
-        gameStuff[n].posInArray(x, y, n)
-        gameScene.add(gameStuff[n])
-        # pass  # set to triangle
-    elif gameArrayArgument == 3:
-        gameStuff[n] = cubeDiamond()
-        gameStuff[n].positionMake(ex, why)
-        gameStuff[n].posInArray(x, y, n)
-        gameScene.add(gameStuff[n])
+        for i in range(-1, 2):
+            for num in range(y):
+                gameAray[x + i][y - num] = gameAray[x + i][y - num - 1]
+            gameAray[x + i][0] = random.randint(0, 3)  # pass
+            scorePoints += 100
+            # print(scorePoints)
+    # print(gameAray)
+    arrayToShapes(gameAray, gameScene)  # updates the shapes
 
 
 def makeSpriteCube(gameArrayArgument, x, y, gameScene):
@@ -359,13 +353,22 @@ def makeSpriteCube(gameArrayArgument, x, y, gameScene):
 
 
 def arrayToShapes(gameArray, gameScene1):
+    global n
     global gameAray
     global gameScene
+    n = 0
     gameScene = gameScene1
     gameAray = gameArray
     for ii in range(len(gameArray)):  # i
         for i in range(len(gameArray[ii])):  # ii,i
             makeSpriteCube(gameArray[i][ii], i, ii, gameScene)
+    updateScore(gameScene)
+
+
+def updateScore(gameScene):
+    b = showScore()
+    b.update()
+    gameScene.add(b)
 
 
 if __name__ == "__main__":
