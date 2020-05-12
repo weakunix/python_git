@@ -1,0 +1,6 @@
+Build and Upgrade
+
+Building and upgrading means you can upgrade and heal your army and wall
+It is important to upgrade your wall and army so you can attack (see Attack) and defend (see Defend)
+You can also heal your army and repair your wall
+Your army or wall may get damaged and you will need to repair them.

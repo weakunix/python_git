@@ -1,0 +1,8 @@
+City Happiness
+
+It is important to keep your city happy
+Your city consumes 75 silk, 50 materials, and 100 food per day
+If you do not have enough resources to give to the city they will get unhappy
+If their happiness reaches 0 they will revolt and you will lose the game
+Make sure you keep enough resources to give to your city
+Trading will help this (see Trade)
