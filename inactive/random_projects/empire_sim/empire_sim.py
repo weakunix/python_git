@@ -21,6 +21,7 @@ woa = '' #upgrade wall or army (also used for other)
 savenum = 0 #save number 
 ostr = 0 #enemy strength 
 ohlth = 100 #enemy health
+ihlth = 100 #invader health
 
 #user def functions
 #trade tutorial
@@ -156,9 +157,42 @@ while 1: #while game is going
             if city != 100: #if not full happiness +2
                 city += 2
         if city < 0: #if city happiness is 0 or less end game
-            raise SystemExit('City has revolted. You lose\n')
+            raise SystemExit('City has revolted\n\nYou lose\n\nThanks for playing!')
         if ohlth != 100:
             ohlth += 5 #hurt enemy heals 5 health at new day
+    if day >= 3: #if day is 3 or more chance of invasions
+        inpt = random.randint(1, 10) #1 / 10 chance of invasion
+        if inpt == 1: #invasion!
+            inpt = random.randint(1, 3) #random invader strength
+            ihlth = 100 #setting invader health to 100
+            ostr = day * inpt  #using ostr for invader strength
+            inpt = input('There is an army invading you with strength {}!\n\nEnter to continue:\n'.format(ostr))
+            clear()
+            print('Wall: {} health    You: {} health    Enemy: {} health'.format(whlth, ahlth, ihlth)) #printing army and enemy health
+            while ihlth != 0 and whlth != 0 and wstr != 0:
+                time.sleep(0.01) #short delay 
+                inpt = random.randint(1, wstr + ostr) #random chance of who takes damage
+                if inpt > wstr: #formula is wall strength / (wall strength + enemy strength)
+                    whlth -= 1
+                else:
+                    ihlth -= 1
+                print('Wall: {} health    You: {} health    Enemy: {} health'.format(whlth, ahlth, ihlth)) #printing army and enemy health
+            if whlth == 0: #wall destroyed
+                inpt = input('Your wall has been destroyed\n\nEnter to continue:\n')
+            while ihlth != 0 and ahlth != 0:
+                time.sleep(0.01) #short delay 
+                inpt = random.randint(1, astr + ostr) #random chance of who takes damage
+                if inpt > astr: #formula is army strength / (army strength + enemy strength)
+                    ahlth -= 1
+                else:
+                    ihlth -= 1
+                print('You: {} health    Enemy: {} health'.format(ahlth, ihlth)) #printing army and enemy health
+            if ahlth == 0: #army defeated
+                raise SystemExit('Army defeated\n\nYou lose\n\nThanks for playing!')
+            elif ihlth == 0: #invader defeated
+                ihlth = 100 #next invader health set to 100
+                inpt = input('You have defeated the invasion!\n\nGo to build and repair to heal your army and repair your wall\n\nEnter to continue:\n')
+                clear()
     inpt = input('Day {} Hour {}\nCity happiness: {}\n\nYou have:\n{} silk\n{} materials\n{} food\n\nYou have {} territory\n\nCurrent army strength: {}\nCurrent army health: {}\nCurrent wall strength: {}\nCurrent wall health: {}\n\nT: Trade\nA: Attack\nB: Build and upgrade\nH: Help\nS: Save progress\nL: Load progress\nX: Exit (you will lose your progress)\n'.format(day, hour, city, silk, mat, food, land, astr, ahlth, wstr, whlth)) #action
     inpt = get_input(inpt) 
     clear() 
@@ -429,10 +463,3 @@ while 1: #while game is going
                 inpt = input('Your save number is {}\n\nEnter to continue:\n'.format(savenum))
                 clear()
             raise SystemExit('Thanks for playing!') #if yes exit program
-
-
-
-
-
-
-
