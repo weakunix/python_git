@@ -211,6 +211,43 @@ class cubeTriangle(cocos.layer.Layer):
         self.n = n
 
 
+class resetBtn(cocos.layer.Layer):
+    is_event_handler = True
+
+    def __init__(self):
+        super().__init__()
+        self.res = pyglet.image.ImageGrid(pyglet.image.load("resetbtn.png"), 1, 2, item_width=132, item_height=132)
+        self.anim = pyglet.image.Animation.from_image_sequence(self.res[0:], 0, loop=False)
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.res[1:], 0, loop=False)
+        self.cRes = cocos.sprite.Sprite(self.anim)
+        ize = cocos.director.director.get_window_size()
+        self.cRes.position = (ize[0]/1.1, ize[1]/1.1)
+        self.cRes.scale = 0.5
+        self.add(self.cRes)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        if aOnB(x, y, cL, cW, self.cRes.x, self.cRes.y, self.cRes.width, self.cRes.height):
+            self.cRes.image = self.anim1
+        else:
+            self.cRes.image = self.anim
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if aOnB(x, y, cL, cW, self.cRes.x, self.cRes.y, self.cRes.width,
+                self.cRes.height):
+            pass
+
+
+def aOnB(x, y, w, h, ax, ay, aw, ah):
+    if ax + aw > x + w > ax:
+        if ay + ah > y + h > ay:
+            return True
+    return False
+
+
+def aTouchB(x, y, w, h, ax, ay, aw, ah):  # fix
+    pass
+
+
 class cubeStar(cocos.layer.Layer):
     is_event_handler = True
 
@@ -318,6 +355,7 @@ def makeSpriteCube(gameArrayArgument, x, y, gameScene):
     global gameStuff
     global n
     global size
+    makeIntroArray(sizeOfGameX, sizeOfGameY)
     ex = (x * size) + 345
     why = 650 - (y * size)  # 65
     # 65
@@ -368,7 +406,9 @@ def arrayToShapes(gameArray, gameScene1):
 def updateScore(gameScene):
     b = showScore()
     b.update()
+    r = resetBtn()
     gameScene.add(b)
+    gameScene.add(r)
 
 
 if __name__ == "__main__":
