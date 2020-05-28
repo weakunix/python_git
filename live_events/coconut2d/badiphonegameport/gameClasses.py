@@ -25,7 +25,7 @@ def makeIntroArray(aLength, aWidth):
 
 # Turn the array just made into a new grid.
 def createArray(diffx, diffy):
-    global gameArray
+    global gameAray
     gameArray = [[random.randint(0, 3) for x in range(0, diffx)] for y in range(0, diffy)]
     return gameArray
 
@@ -331,19 +331,27 @@ def gravity(verticle, x, y):  # bugged
             for num in range(y):
                 #gameAray[x][0] = random.randint(0, 3)
                 #if y-num >= 0:
-                gameAray[x][y - num + 1] = gameAray[x][y - num]
+                if num == y:
+                    gameAray[x][0] = random.randint(0, 3)  # fucccing broken
+                else:
+                    gameAray[x][y - num + 1] = gameAray[x][y - num - 3]
+                    gameAray[x][y - num] = gameAray[x][y - num - 3]
+                    gameAray[x][y - num - 1] = gameAray[x][y - num - 3]
                 #else:
-                gameAray[x][0] = random.randint(0, 3)#fucccing broken
+
                    # gameAray[x][1] = random.randint(0, 3)
                     #gameAray[x][2] = random.randint(0, 3)
         scorePoints += 100
         # print(scorePoints)
     elif not verticle:
-        for i in range(-1, 2):
-            for num in range(y):
-                gameAray[x + i][y - num] = gameAray[x + i][y - num - 1]#fine
-            gameAray[x + i][0] = random.randint(0, 3)  # fuccing broken
-            scorePoints += 100
+        for num in range(y):
+            gameAray[x + 1][y - num] = gameAray[x + 1][y - num - 1]  # fine
+            gameAray[x][y - num] = gameAray[x][y - num - 1]#fine
+            gameAray[x - 1][y - num] = gameAray[x - 1][y - num - 1]  # fine
+        gameAray[x][0] = random.randint(0, 3)  # fuccing broken
+        gameAray[x + 1][0] = random.randint(0, 3)
+        gameAray[x - 1][0] = random.randint(0, 3)
+        scorePoints += 100
             # print(scorePoints)
     # print(gameAray)
     arrayToShapes(gameAray, gameScene)  # updates the shapes
