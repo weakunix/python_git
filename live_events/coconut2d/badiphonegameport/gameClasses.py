@@ -335,10 +335,12 @@ def gravity(verticle, x, y):  # bugged
                 gameAray[x][0] = random.randint(0, 3)  # fucccing works
                 gameAray[x][1] = random.randint(0, 3)
                 gameAray[x][2] = random.randint(0, 3)
-            else:
+            elif num == 0:
                 gameAray[x][y - num + 1] = gameAray[x][y - num - 2]
                 gameAray[x][y - num] = gameAray[x][y - num - 3]
                 gameAray[x][y - num - 1] = gameAray[x][y - num - 4]
+            else:
+                gameAray[x][y - num - 2] = gameAray[x][y - num - 5]
             # else:
 
             # gameAray[x][1] = random.randint(0, 3)
