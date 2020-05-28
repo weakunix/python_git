@@ -299,8 +299,8 @@ def check(x, y):
     # print(gameAray[x][y])
     # print(x, y)
     if x != sizeOfGameX - 1 and y != sizeOfGameY - 1 and x != 0 and y != 0:  # if x and y ain't at borders
-        # if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y] and gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-        # gravity(True, x, y) #if both
+        # if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y] and gameAray[x][y] ==
+        # gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]: gravity(True, x, y) #if both
         if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
             gravity(False, x, y)
         if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
@@ -326,33 +326,37 @@ def gravity(verticle, x, y):  # bugged
     global gameScene
     global scorePoints
     # shift down
-    if verticle: #if it was vert clear
-        for i in range(0,3):
-            for num in range(y):
-                #gameAray[x][0] = random.randint(0, 3)
-                #if y-num >= 0:
-                if num == y:
-                    gameAray[x][0] = random.randint(0, 3)  # fucccing broken
-                else:
-                    gameAray[x][y - num + 1] = gameAray[x][y - num - 3]
-                    gameAray[x][y - num] = gameAray[x][y - num - 3]
-                    gameAray[x][y - num - 1] = gameAray[x][y - num - 3]
-                #else:
+    if verticle:  # if it was vert clear
+        #for i in range(0, 3):
+        for num in range(y):
+            # gameAray[x][0] = random.randint(0, 3)
+            # if y-num >= 0:
+            if num == y:
+                gameAray[x][0] = random.randint(0, 3)  # fucccing works
+                gameAray[x][1] = random.randint(0, 3)
+                gameAray[x][2] = random.randint(0, 3)
+            else:
+                gameAray[x][y - num + 1] = gameAray[x][y - num - 2]
+                gameAray[x][y - num] = gameAray[x][y - num - 3]
+                gameAray[x][y - num - 1] = gameAray[x][y - num - 4]
+            # else:
 
-                   # gameAray[x][1] = random.randint(0, 3)
-                    #gameAray[x][2] = random.randint(0, 3)
+            # gameAray[x][1] = random.randint(0, 3)
+            # gameAray[x][2] = random.randint(0, 3)
         scorePoints += 100
         # print(scorePoints)
     elif not verticle:
         for num in range(y):
-            gameAray[x + 1][y - num] = gameAray[x + 1][y - num - 1]  # fine
-            gameAray[x][y - num] = gameAray[x][y - num - 1]#fine
-            gameAray[x - 1][y - num] = gameAray[x - 1][y - num - 1]  # fine
-        gameAray[x][0] = random.randint(0, 3)  # fuccing broken
-        gameAray[x + 1][0] = random.randint(0, 3)
-        gameAray[x - 1][0] = random.randint(0, 3)
+            if num == y:
+                gameAray[x][0] = random.randint(0, 3)  # fuccing broken
+                gameAray[x + 1][0] = random.randint(0, 3)
+                gameAray[x - 1][0] = random.randint(0, 3)
+            else:
+                gameAray[x + 1][y - num] = gameAray[x + 1][y - num - 1]  # fine
+                gameAray[x][y - num] = gameAray[x][y - num - 1]  # fine
+                gameAray[x - 1][y - num] = gameAray[x - 1][y - num - 1]  # fine
         scorePoints += 100
-            # print(scorePoints)
+        # print(scorePoints)
     # print(gameAray)
     arrayToShapes(gameAray, gameScene)  # updates the shapes
 
