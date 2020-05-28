@@ -6,11 +6,11 @@ import random
 
 # global var
 
-gameStuff = []
-sizeOfGameX = 0
-sizeOfGameY = 0
-gameAray = []
-gameScene: str = ""
+gameStuff = []  # stuff
+sizeOfGameX = 0  # game horiz space
+sizeOfGameY = 0  # game vert space
+gameAray = []  #
+gameScene: str = ""  # gameScene which has the elements to add to
 
 
 # make the array based on len and wid passed in
@@ -23,14 +23,15 @@ def makeIntroArray(aLength, aWidth):
     gameStuff = [0 for x in range(aLength * aWidth)]
 
 
+# Turn the array just made into a new grid.
 def createArray(diffx, diffy):
     global gameArray
     gameArray = [[random.randint(0, 3) for x in range(0, diffx)] for y in range(0, diffy)]
     return gameArray
 
 
-n = 0
-size = 66
+n = 0  # counter for an array
+size = 66  # size of a block
 cursorR = ""  # cursor
 scorePoints = 0  # points
 cL = 0  # length cursor
@@ -48,6 +49,7 @@ def makeCursor():
 
 
 # Essentials
+# shows score
 class showScore(cocos.layer.Layer):
     def __init__(self):
         super().__init__()
@@ -59,9 +61,9 @@ class showScore(cocos.layer.Layer):
             anchor_x="center",  # overlapping
             anchor_y="center"
         )
-        size = cocos.director.director.get_window_size()
+        size = cocos.director.director.get_window_size()  # window size
         # print(size)
-        self.label.position = size[0] / 15, size[1] / 1.1
+        self.label.position = size[0] / 15, size[1] / 1.1  # where the showscore is
         self.add(self.label)
         # self.add(self.label1)
 
@@ -103,40 +105,43 @@ class playground(cocos.layer.Layer):
 
 # diamond cube
 class cubeDiamond(cocos.layer.Layer):
-    is_event_handler = True
+    is_event_handler = True  # can be clicked on
 
     def __init__(self):
         super().__init__()
-        self.cub = pyglet.image.ImageGrid(pyglet.image.load("diamondSprite.png"), 1, 2, item_width=124, item_height=124)
-        self.anim = pyglet.image.Animation.from_image_sequence(self.cub[1:], 0, loop=False)
-        self.anim1 = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)
-        self.cDiamond = cocos.sprite.Sprite(self.anim)
-        self.cDiamond.scale = 0.5
-        self.posx = 0
-        self.posy = 0
-        self.add(self.cDiamond)
+        self.cub = pyglet.image.ImageGrid(pyglet.image.load("diamondSprite.png"), 1, 2, item_width=124,
+                                          item_height=124)  # get picture
+        self.anim = pyglet.image.Animation.from_image_sequence(self.cub[1:], 0, loop=False)  # slice it
+        self.anim1 = pyglet.image.Animation.from_image_sequence(self.cub[0:], 0, loop=False)  # slice the other one
+        self.cDiamond = cocos.sprite.Sprite(self.anim)  # make sprite with animation just sliced
+        self.cDiamond.scale = 0.5  # scale it down
+        self.posx = 0  # no place yet
+        self.posy = 0  # no place yet
+        self.add(self.cDiamond)  # compile to frame
 
     def positionMake(self, x, y):
-        self.cDiamond.position = (x, y)  # change this later when algorithm comes out
+        self.cDiamond.position = (x, y)  # changes location when arry made
 
-    def on_mouse_motion(self, x, y, dx, dy):
+    def on_mouse_motion(self, x, y, dx, dy):  # if mouse over this
         if aOnB(x, y, cL, cW, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
                 self.cDiamond.height):
-            self.cDiamond.image = self.anim1
+            self.cDiamond.image = self.anim1  # switch frames
         else:
             self.cDiamond.image = self.anim
 
     def on_mouse_press(self, x, y, button, modifiers):
         if aOnB(x, y, cL, cW, self.cDiamond.x, self.cDiamond.y, self.cDiamond.width,
                 self.cDiamond.height):
-            check(self.posx, self.posy)
+            # if(
+            check(self.posx, self.posy)  # chceck if the block clicked is clear
 
-    def posInArray(self, p1, p2, n):
+    def posInArray(self, p1, p2, n):  # position in array (to see what to clear)
         self.posx = p1
         self.posy = p2
         self.n = n
 
 
+# circle cube
 class cubeCircle(cocos.layer.Layer):
     is_event_handler = True
 
@@ -290,21 +295,17 @@ def aTouchB(x, y, w, h, ax, ay, aw, ah):  # fix
 
 
 def check(x, y):
-    global gameAray
+    global gameAray  # takes globals game cubes
     # print(gameAray[x][y])
     # print(x, y)
-    if x != sizeOfGameX - 1 and y != sizeOfGameY - 1 and x != 0 and y != 0:
-        if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y] and gameAray[x][y] == \
-                gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-            # print("clearHbceverythingfilled")
-            gravity(True, x, y)
+    if x != sizeOfGameX - 1 and y != sizeOfGameY - 1 and x != 0 and y != 0:  # if x and y ain't at borders
+        # if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y] and gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
+        # gravity(True, x, y) #if both
         if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
-            # print("clear H")
             gravity(False, x, y)
         if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-            # print("clear V")
             gravity(True, x, y)
-    elif x == sizeOfGameX - 1 and y == sizeOfGameY - 1:
+    elif x == sizeOfGameX - 1 and y == sizeOfGameY - 1:  # if borders
         print("border")
     elif x == 0 and y == sizeOfGameY - 1:
         print("border")
@@ -312,14 +313,12 @@ def check(x, y):
         print("border")
     elif x == 0 and y == 0:
         print("border")
-    elif x == sizeOfGameX - 1 or x == 0:
+    elif x == sizeOfGameX - 1 or x == 0:  # if edge
         if gameAray[x][y] == gameAray[x][y + 1] and gameAray[x][y] == gameAray[x][y - 1]:
-            # print("clear V")
-            gravity(True, x, y)
-    elif y == sizeOfGameY - 1 or y == 0:
+            gravity(True, x, y)  # only vert check
+    elif y == sizeOfGameY - 1 or y == 0:  # if edge
         if gameAray[x][y] == gameAray[x + 1][y] and gameAray[x][y] == gameAray[x - 1][y]:
-            # print("clear H")
-            gravity(False, x, y)
+            gravity(False, x, y)  # only do horiz check
 
 
 def gravity(verticle, x, y):  # bugged
@@ -327,14 +326,19 @@ def gravity(verticle, x, y):  # bugged
     global gameScene
     global scorePoints
     # shift down
-    # print(gameAray)
-    if verticle:
-        for i in range(0, 3):
-            for num in range(y):
-                gameAray[x][y - num + 1] = gameAray[x][y - num]
-            gameAray[x][0] = random.randint(0, 3)  # pass
-            scorePoints += 100
-            # print(scorePoints)
+    if verticle: #if it was vert clear
+        for num in range(y):
+            #gameAray[x][0] = random.randint(0, 3)
+            if y-num > 0:
+                gameAray[x][y - num + 1] = gameAray[x][y - num - 3]
+                gameAray[x][y - num] = gameAray[x][y - num - 3]
+                gameAray[x][y - num - 1] = gameAray[x][y - num - 3]
+            else:
+                gameAray[x][y - num + 1] = random.randint(0, 3)#need to fix this part
+                gameAray[x][y - num] = random.randint(0, 3)
+                gameAray[x][y - num - 1] = random.randint(0, 3)
+        scorePoints += 100
+        # print(scorePoints)
     elif not verticle:
         for i in range(-1, 2):
             for num in range(y):
