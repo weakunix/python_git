@@ -327,23 +327,22 @@ def gravity(verticle, x, y):  # bugged
     global scorePoints
     # shift down
     if verticle: #if it was vert clear
-        for num in range(y):
-            #gameAray[x][0] = random.randint(0, 3)
-            if y-num > 0:
-                gameAray[x][y - num + 1] = gameAray[x][y - num - 3]
-                gameAray[x][y - num] = gameAray[x][y - num - 3]
-                gameAray[x][y - num - 1] = gameAray[x][y - num - 3]
-            else:
-                gameAray[x][y - num + 1] = random.randint(0, 3)#need to fix this part
-                gameAray[x][y - num] = random.randint(0, 3)
-                gameAray[x][y - num - 1] = random.randint(0, 3)
+        for i in range(0,3):
+            for num in range(y):
+                #gameAray[x][0] = random.randint(0, 3)
+                #if y-num >= 0:
+                gameAray[x][y - num + 1] = gameAray[x][y - num]
+                #else:
+                gameAray[x][0] = random.randint(0, 3)#fucccing broken
+                   # gameAray[x][1] = random.randint(0, 3)
+                    #gameAray[x][2] = random.randint(0, 3)
         scorePoints += 100
         # print(scorePoints)
     elif not verticle:
         for i in range(-1, 2):
             for num in range(y):
-                gameAray[x + i][y - num] = gameAray[x + i][y - num - 1]
-            gameAray[x + i][0] = random.randint(0, 3)  # pass
+                gameAray[x + i][y - num] = gameAray[x + i][y - num - 1]#fine
+            gameAray[x + i][0] = random.randint(0, 3)  # fuccing broken
             scorePoints += 100
             # print(scorePoints)
     # print(gameAray)
