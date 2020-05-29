@@ -88,13 +88,4 @@ while c!=-1:
       tSend = threading.Thread(target=send_recv.sendMsg,args=(s,namething,name,name1,sendReadAlerts,host,"n",));
       tRecv.start();
       tSend.start();
-       
-      #with concurrent.futures.ThreadPoolExecutor() as executor:
-        #future = executor.submit(send_recv.sendMsg,(s,namething,name,name1,sendReadAlerts,host,"h",))
-       # return_value = future.result()
-     #   c = return_value;
-     ## with concurrent.futures.ThreadPoolExecutor() as executor:
-     #   future = executor.submit(send_recv.recvMsg,(s,namething,name,name1,sendReadAlerts,"h",))
-      #  return_value = future.result()
-     #   c = return_value;
-
+       #need to delete thread after
