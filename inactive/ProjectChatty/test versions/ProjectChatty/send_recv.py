@@ -34,7 +34,7 @@ def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
       lock.release()
       return 0;
     elif(incoming_message == "[retract%message]"):
-      print("at ",datetime.datetime.now(),">",name1,": ",incoming_message);
+      print("at ",datetime.datetime.now(),">",name1,": Retracted Last Message");
       h=open(namething,"a");
       temptuple2 = ("\n \n ",name1,">> [retract last message]\n")
       temptuple2= "".join(temptuple2);
@@ -73,7 +73,7 @@ def sendMsg(target,namething,name,name1,sendReadAlerts,host,HN):
   lock = threading.Lock();
   global over;
   while (over == 0):
-    message = input(str(">>"))
+    message = input(str(""))
     if(message == "/block"):
       message = "[ACTION]:the recipient has blocked you";
       h=open(namething,"a");
