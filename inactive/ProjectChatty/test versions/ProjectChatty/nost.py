@@ -9,6 +9,7 @@ import concurrent.futures
 import queue
 #files:
 import send_recv
+print("running Cowland end to end messanger v2.1 release 5.29.20")
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8');
 name = input("what is your name");

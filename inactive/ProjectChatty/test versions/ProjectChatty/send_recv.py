@@ -9,7 +9,7 @@ import encryption_decryption
 
 #import host
 #import nost
-
+print("running Cowland end to end messanger internals v6.9")
 over = 0;
 
 def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
@@ -40,7 +40,6 @@ def recvMsg(target,namething,name,name1,sendReadAlerts,HN):
       temptuple2= "".join(temptuple2);
       h.write(str(temptuple2));
       h.close();
-      target.close()
       if (sendReadAlerts == "yes"):
         status = "read"
       else:
