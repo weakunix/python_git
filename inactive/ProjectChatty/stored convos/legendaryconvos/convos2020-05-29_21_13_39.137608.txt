@@ -1,0 +1,69 @@
+From HOST, on port: 8888: conversation between cow (192.168.1.46)(69.248.233.101) and MrMoooo (192.168.0.4) (69.206.182.88)
+ ================= 
+
+ at:2020-05-29 21:13:43.509749 
+ cow>> hi
+
+ at:2020-05-29 21:13:46.429524 
+ MrMoooo>> hi
+
+ at:2020-05-29 21:13:48.122855 
+ MrMoooo>> hi
+
+ at:2020-05-29 21:13:53.421315 
+ cow>> my ballsac got stuck to my theigh
+
+ at:2020-05-29 21:14:10.397685 
+ MrMoooo>> aw fuc my elbow got hit
+
+ at:2020-05-29 21:14:17.404215 
+ cow>> by a truck right
+
+ at:2020-05-29 21:14:18.122965 
+ cow>> no
+
+ at:2020-05-29 21:14:19.387939 
+ cow>> whoops
+
+ at:2020-05-29 21:14:22.198211 
+ cow>> this is awkward
+cow[retract%message]
+
+ at:2020-05-29 21:14:30.140654 
+ MrMoooo>> lol
+
+ at:2020-05-29 21:14:33.227214 
+ MrMoooo>> haha
+
+ at:2020-05-29 21:14:42.494787 
+ cow>> u want to go out with me?
+
+ at:2020-05-29 21:14:44.479840 
+ cow>> whoops
+
+ at:2020-05-29 21:14:47.153751 
+ cow>> awkward
+cow[retract%message]
+
+ at:2020-05-29 21:14:54.035867 
+ MrMoooo>> what
+
+ at:2020-05-29 21:14:56.615732 
+ cow>> /contact add 
+
+ at:2020-05-29 21:14:59.723588 
+ MrMoooo>> yo soy confused
+cow[ACTION]:the recipient added you as a contact: dad
+
+ at:2020-05-29 21:15:19.849963 
+ MrMoooo>> [ACTION]:the recipient added you as a contact: dad
+
+ at:2020-05-29 21:15:24.575075 
+ cow>> lol
+
+ at:2020-05-29 21:15:30.613639 
+ MrMoooo>> lol XD
+
+ at:2020-05-29 21:15:33.412833 
+ cow>> wtf i am not workhorse!
+cow[ACTION]:the recipient has blocked you
