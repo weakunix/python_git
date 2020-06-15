@@ -70,6 +70,7 @@ def player():
 	global pcard
 	global cardl
 	global sumc
+	print("Your Cards: ")
 	for i in pcard: #print cards
 		if i == 1:
 			print('[A]', end = '')
@@ -139,8 +140,10 @@ def player():
 					p_replace_card(inpt)
 					break
 	if sumc > 99:
+		#print("Bots card:" + bcard)
 		raise SystemExit('You lose\n')
-	print('Sum: {}\n'.format(sumc))
+		#cardlog printed here
+	print('Sum: {}'.format(sumc))
 
 ##bot plays
 def bot():
@@ -159,7 +162,7 @@ def bot():
 				power = bcard[random.randint(0, cardn - 1)]
 				if power in nums:
 					sumc += power
-					print('Card played: {}\nSum: {}\n'.format(power, sumc))
+					print('===========\nBot played: {}\nSum: {}\n'.format(power, sumc))
 					break
 		else:
 			power = bcard[random.randint(0, cardn - 1)]
@@ -230,6 +233,7 @@ def bot():
 					i = 10
 					print('Card played: 10\nSum: {}\n'.format(sumc))
 				else:
+					#print("Bots card:"+bcard)
 					raise SystemExit('You win!')
 		b_replace_card(i)
 				
