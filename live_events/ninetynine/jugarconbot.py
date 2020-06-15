@@ -140,9 +140,21 @@ def player():
 					p_replace_card(inpt)
 					break
 	if sumc > 99:
-		#print("Bots card:" + bcard)
-		raise SystemExit('You lose\n')
-		#cardlog printed here
+		print('Bot cards:\n')
+		for i in bcard: #print cards
+			if i == 1:
+				print('[A]', end = '')
+			elif i == 11:
+				print('[J]', end = '')
+			elif i == 12:
+				print('[Q]', end = '')
+			elif i == 13:
+				print('[K]', end = '')
+			elif i == 14:
+				print('[Joker]', end = '')
+			else:
+				print('[{}]'.format(i), end = '')
+		raise SystemExit('\n\nYou lose')
 	print('Sum: {}'.format(sumc))
 
 ##bot plays
@@ -233,14 +245,27 @@ def bot():
 					i = 10
 					print('Card played: 10\nSum: {}\n'.format(sumc))
 				else:
-					#print("Bots card:"+bcard)
-					raise SystemExit('You win!')
+					print('Bot cards:\n')
+					for i in bcard: #print cards
+						if i == 1:
+							print('[A]', end = '')
+						elif i == 11:
+							print('[J]', end = '')
+						elif i == 12:
+							print('[Q]', end = '')
+						elif i == 13:
+							print('[K]', end = '')
+						elif i == 14:
+							print('[Joker]', end = '')
+						else:
+							print('[{}]'.format(i), end = '')
+					raise SystemExit('\n\nYou win!')
 		b_replace_card(i)
 				
 ##turn test
 def play(n):
 	if n == 0:
-		bot() #TODO code function
+		bot() 
 	else:
 		player()
 
