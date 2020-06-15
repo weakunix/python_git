@@ -98,9 +98,10 @@ def setupH():  # setup the host
     print(theirIP)
     theirEIP = conn.recv(1024)  # receive their ip (global)
     theirEIP = theirEIP.decode()
-    turn = turn.encode()  # send your order of cards to them
+    turn = str(turn).encode()  # send your order of cards to them
     conn.sendall(turn)
     turn.decode()
+    turn = int(turn)
     if turn == 1:
         turn == 0
     elif turn == 0:
