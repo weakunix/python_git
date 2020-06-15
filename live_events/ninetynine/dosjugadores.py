@@ -16,7 +16,6 @@ name1 = ""  # oppoent name
 conn = '' #host send
 port = 12345  # def
 theirEIP = ""
-conn = '' #nost send
 host = ""
 
 
@@ -51,7 +50,7 @@ def setupH():  # setup the host
     print(port)  # print port for global ip
     print("\nsuccessfully connected \n waiting for connections\n cancel?")
     conn.listen(1)  # wait for ppl to join
-    conn, adr = s.accept()  # if see ppl accept it
+    conn, adr = conn.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
     conn.sendall(name)
     name = name.decode()
