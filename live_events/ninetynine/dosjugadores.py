@@ -10,15 +10,17 @@ import os
 # files:
 
 
-external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
 name1 = ""  # oppoent name
-conn = ''
+conn = '' #host send
 port = 12345  # def
 theirEIP = ""
+conn = '' #nost send
+host = ""
 
 
-# ip reacher
+# ip reacher (loc)
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -40,15 +42,15 @@ def setupH():  # setup the host
     global conn
     global theirEIP
     port = int(input("port?"))  # port
-    s = socket.socket()
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    conn = socket.socket()
+    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
-    s.bind((host, port))
+    conn.bind((host, port))
     print("logged in on local ip:", host)  # print out local ip
     print("\nglobal IP:", external_ip)  # print global ip
     print(port)  # print port for global ip
-    print("\nsuccessfully connected \n waiting for connections\n cancel?");
-    s.listen(1)  # wait for ppl to join
+    print("\nsuccessfully connected \n waiting for connections\n cancel?")
+    conn.listen(1)  # wait for ppl to join
     conn, adr = s.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
     conn.sendall(name)
@@ -73,13 +75,57 @@ def setupH():  # setup the host
     temptuple1 = (
         "From HOST, on port: ", str(port), ": conversation between ", name, " (", host, ")(", external_ip, ") and ",
         name1,
-        " (", theirIP, ") (", theirEIP, ")\n ================= \n");
+        " (", theirIP, ") (", theirEIP, ")\n ================= \n")
     # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
     # os.system('clear')
     print(theirIP, " known as ", name1, " Joined!\n=======Game======\n");
+
+
+def setupN():  # setup for the nonsimpyt nosters
+    global name
+    global port
+    global external_ip
+    global name1
+    global conn
+    global theirEIP
+    port = int(input("port?"))
+    ipplaceholder = get_ip()
+    conn = socket.socket()
+    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    print("logged in on local ip:", ipplaceholder)
+    print("\nglobal IP:", external_ip)
+    print(port)
+    theirEIP = input(str("please enter host name of server"))
+    conn.connect((theirEIP, port))
+    name1 = conn.recv(1024)
+    name1 = name1.decode()
+    name = name.encode()
+    conn.send(name)
+    name = name.decode()
+    print(ipplaceholder)
+    ipplaceholder = ipplaceholder.encode()
+    conn.send(ipplaceholder)
+    ipplaceholder = ipplaceholder.decode()
+    time.sleep(0.5)
+    extern = external_ip.encode()
+    conn.send(extern)
+    temptuple = ("convos", str(datetime.datetime.now()), ".txt")
+    namething = str("".join(temptuple))
+    print(namething)
+    namething = namething.replace(' ', '_')
+    namething = namething.replace(':', '_')
+    print(namething)
+    h = open(namething, "w+")
+    temptuple1 = (
+        "From NOST, on port: ", str(port), ": conversation between ", name, " (", ipplaceholder, ")(", external_ip,
+        ") and ", name1, " (", theirEIP, ") (", theirEIP, ")\n ================= \n")
+    temptuple1 = "".join(temptuple1)
+    h.write(str(temptuple1))
+    h.close()
+    print("successfully connected to server, 1 other online:" + name1)
 
 
 # vars (game)
@@ -106,13 +152,23 @@ if inpt != '':
     inpt = inpt[0]  # setting input to first letter if input is not enter
 if inpt == 'y' or inpt == 'Y':  # need tutorial
     inpt = input(
-        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: 5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to 99\n\nEnter to continue:\n')  # print tutorial
+        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
+        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
+        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
+        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
+        '99\n\nEnter to continue:\n')  # print tutorial
 # MP or DOM
 inpt = input('[1]IP Play or [2]Singleplayer?\n')
 if inpt != '':
     inpt = inpt[0]  # setting input to first letter if input is not enter
 if inpt == '1':
-    setupH()  # setupMPshenanananannanannananangans
+    inpt = input('[1]Host or [2]Nost? (free subscription of ISIMPYT if you choose 1)\n')
+    if inpt != '':
+        inpt = inpt[0]  # setting input to first letter if input is not enter
+    if inpt == '1':
+        setupH()  # setupMPshenanananannanannananangans
+    elif inpt == '2':
+        setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST SDJGHLSKJFJKLDKLJFLH
 
 ##ask for amount of cards per player
 if inpt != 1:
@@ -377,7 +433,7 @@ if inpt == 'y' or inpt == 'Y':
     inpt = 0
 else:
     inpt = 1
-print("Oppoent is: "+botName)
+print("Oppoent is: " + botName)
 while True:
     inpt += 1
     play(inpt % 2)
