@@ -103,9 +103,9 @@ def setupH():  # setup the host
     turn.decode()
     turn = int(turn)
     if turn == 1:
-        turn == 0
+        turn = 0
     elif turn == 0:
-         turn == 1
+         turn = 1
     print(theirEIP)
     temptuple = (
         "Game", str(datetime.datetime.now()),
