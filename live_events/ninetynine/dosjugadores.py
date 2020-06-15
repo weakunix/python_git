@@ -13,12 +13,47 @@ import os
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
 name1 = ""  # oppoent name
-conn = '' #host send
+conn = ''  # host send
 port = 12345  # def
 theirEIP = ""
 host = ""
+MPorSP = 0  # 1 is mp 0 is sp
+# vars (game)
+cardl = []  # cards left
+sumc = 0  # sum of cards
+cardn = 0  # amount of cards per player
+pcard = []  # player cards
+inpt = ''  # input
+nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
+# single player
+botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro"]
+bcard = []  # bot cards
+# multi player
+turn = 0
 
+#game stuff
+def cardSetup():
+    global cardl
+    global cardn
+    global pcard
+    global bcard
+    ##ask for amount of cards per player
+    if inpt != 1:
+        while True:
+            cardn = input('How many cards per player? (1 to 10)\n')
+            try:  # trying to set input to integer
+                cardn = int(cardn)
+                if cardn <= 10:
+                    break
+                print('Input was greater than 10\n')
+            except:
+                print('Input was not an integer\n')
 
+    ##giving cards
+    for i in range(cardn):  # player
+        pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+    for i in range(cardn):  # bot
+        bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
 # ip reacher (loc)
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -40,6 +75,8 @@ def setupH():  # setup the host
     global name1
     global conn
     global theirEIP
+    global turn
+    turn = random.randint(0, 1)
     port = int(input("port?"))  # port
     conn = socket.socket()
     conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -54,16 +91,23 @@ def setupH():  # setup the host
     name = name.encode()  # send your name to them
     conn.sendall(name)
     name = name.decode()
-    name1 = conn.recv(1024)  # recv their name
+    name1 = conn.recv(1024)  # receive their name
     name1 = name1.decode()
-    theirIP = conn.recv(1024)  # recv their ip (local)
+    theirIP = conn.recv(1024)  # receive their ip (local)
     theirIP = theirIP.decode()
     print(theirIP)
-    theirEIP = conn.recv(1024)  # recv their ip (global)
+    theirEIP = conn.recv(1024)  # receive their ip (global)
     theirEIP = theirEIP.decode()
+    turn = turn.encode()  # send your order of cards to them
+    conn.sendall(turn)
+    turn.decode()
+    if turn == 1:
+        turn == 0
+    elif turn == 0:
+         turn == 1
     print(theirEIP)
     temptuple = (
-        "convos", str(datetime.datetime.now()),
+        "Game", str(datetime.datetime.now()),
         ".txt")  # make a string that can be converted into file (no spaces or _)
     namething = str("".join(temptuple))
     print(namething)
@@ -80,7 +124,7 @@ def setupH():  # setup the host
     h.write(str(temptuple1))
     h.close()
     # os.system('clear')
-    print(theirIP, " known as ", name1, " Joined!\n=======Game======\n");
+    print("successfully connected to game. Your Oppoent:" + name1)
 
 
 def setupN():  # setup for the nonsimpyt nosters
@@ -90,28 +134,31 @@ def setupN():  # setup for the nonsimpyt nosters
     global name1
     global conn
     global theirEIP
+    global turn
     port = int(input("port?"))
     ipplaceholder = get_ip()
     conn = socket.socket()
-    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    print("logged in on local ip:", ipplaceholder)
-    print("\nglobal IP:", external_ip)
-    print(port)
-    theirEIP = input(str("please enter host name of server"))
+    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
+    print("logged in on local ip:", ipplaceholder)  # local ip
+    print("\nglobal IP:", external_ip)  # glob ip
+    print(port)  # port
+    theirEIP = input(str("please enter host IP of server\n"))  # enter ip to connect to
     conn.connect((theirEIP, port))
-    name1 = conn.recv(1024)
+    name1 = conn.recv(1024)  # recieve their name
     name1 = name1.decode()
-    name = name.encode()
+    name = name.encode()  # encode and send ur name
     conn.send(name)
-    name = name.decode()
+    name = name.decode()  # eecode name after sending
     print(ipplaceholder)
-    ipplaceholder = ipplaceholder.encode()
+    ipplaceholder = ipplaceholder.encode()  # send local ip
     conn.send(ipplaceholder)
     ipplaceholder = ipplaceholder.decode()
     time.sleep(0.5)
     extern = external_ip.encode()
-    conn.send(extern)
-    temptuple = ("convos", str(datetime.datetime.now()), ".txt")
+    conn.send(extern)  # send glob ip
+    turn = conn.recv(1024)  # Recv game order
+    turn = turn.decode()
+    temptuple = ("Game", str(datetime.datetime.now()), ".txt")
     namething = str("".join(temptuple))
     print(namething)
     namething = namething.replace(' ', '_')
@@ -124,18 +171,34 @@ def setupN():  # setup for the nonsimpyt nosters
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
-    print("successfully connected to server, 1 other online:" + name1)
+    print("successfully connected to game. Your Oppoent:" + name1)
 
 
-# vars (game)
-cardl = []  # cards left
-sumc = 0  # sum of cards
-cardn = 0  # amount of cards per player
-bcard = []  # bot cards
-pcard = []  # player cards
-inpt = ''  # input
-nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
-botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro"]
+def multiplayer():
+    global cardl
+    global cardn
+    global pcard
+    global bcard
+    global conn
+    if turn == 1:
+        cardSetup()
+        conn.sendall(cardl.encode())
+        conn.sendall(cardn.encode())
+        conn.sendall(pcard.encode())
+        conn.sendall(bcard.encode())
+
+    else:
+        print("waiting for oppoent...")
+        cardl = conn.recv(1024)
+        cardl = cardl.decode()
+        cardn = conn.recv(1024)
+        cardn = cardl.decode()
+        pcard = conn.recv(1024)
+        pcard = cardl.decode()
+        bcard = conn.recv(1024)
+        bcard = cardl.decode()
+
+
 # pre game set ups
 ##filling cardl
 for i in range(1, 14):
@@ -156,11 +219,14 @@ if inpt == 'y' or inpt == 'Y':  # need tutorial
         'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
         '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
         '99\n\nEnter to continue:\n')  # print tutorial
+
+
 # MP or DOM
-inpt = input('[1]IP Play or [2]Singleplayer?\n')
+inpt = input('[1]Singleplayer or [2]IP Play?\n')
 if inpt != '':
     inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == '1':
+if inpt == '2':
+    MPorSP = 1
     inpt = input('[1]Host or [2]Nost? (free subscription of ISIMPYT if you choose 1)\n')
     if inpt != '':
         inpt = inpt[0]  # setting input to first letter if input is not enter
@@ -168,24 +234,10 @@ if inpt == '1':
         setupH()  # setupMPshenanananannanannananangans
     elif inpt == '2':
         setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST SDJGHLSKJFJKLDKLJFLH
-
-##ask for amount of cards per player
-if inpt != 1:
-    while True:
-        cardn = input('How many cards per player? (1 to 10)\n')
-        try:  # trying to set input to integer
-            cardn = int(cardn)
-            if cardn <= 10:
-                break
-            print('Input was greater than 10\n')
-        except:
-            print('Input was not an integer\n')
-
-##giving cards
-for i in range(cardn):  # player
-    pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
-for i in range(cardn):  # bot
-    bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+    multiplayer()
+    print("works")
+else:
+    cardSetup()
 
 
 # user def functions
@@ -218,6 +270,7 @@ def player():
     global pcard
     global cardl
     global sumc
+    global MPorSP
     print("Your Cards: ")
     for i in pcard:  # print cards
         if i == 1:
@@ -238,7 +291,7 @@ def player():
             if inpt[0] == 'a' or inpt[0] == 'A':  # ace
                 if 1 in pcard:
                     while True:
-                        inpt = input('Ace is 1 or 11?\n')
+                        inpt = input('Should Ace be 1 or 11?\n')
                         if inpt == '1' or inpt == '11':
                             if inpt == '1':
                                 sumc += 1
@@ -287,6 +340,9 @@ def player():
                     sumc += inpt
                     p_replace_card(inpt)
                     break
+    if MPorSP == 1:
+        inpt = inpt.encode()
+        conn.send(inpt)  # send card played
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -418,10 +474,6 @@ def play(n):
         bot()
     else:
         player()
-
-
-def multiplayer():
-    pass
 
 
 # gameplay
