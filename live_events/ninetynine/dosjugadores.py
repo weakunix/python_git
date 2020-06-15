@@ -111,10 +111,8 @@ def setupH():  # setup the host
         "Game", str(datetime.datetime.now()),
         ".txt")  # make a string that can be converted into file (no spaces or _)
     namething = str("".join(temptuple))
-    print(namething)
     namething = namething.replace(' ', '_')
     namething = namething.replace(':', '_')
-    print(namething)
     h = open(namething, "w+")  # make a file with the name
     temptuple1 = (
         "From HOST, on port: ", str(port), ": conversation between ", name, " (", host, ")(", external_ip, ") and ",
@@ -162,10 +160,8 @@ def setupN():  # setup for the nonsimpyt nosters
     turn = int(turn)
     temptuple = ("Game", str(datetime.datetime.now()), ".txt")
     namething = str("".join(temptuple))
-    print(namething)
     namething = namething.replace(' ', '_')
     namething = namething.replace(':', '_')
-    print(namething)
     h = open(namething, "w+")
     temptuple1 = (
         "From NOST, on port: ", str(port), ": conversation between ", name, " (", ipplaceholder, ")(", external_ip,
