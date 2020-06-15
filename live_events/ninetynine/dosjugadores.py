@@ -159,6 +159,7 @@ def setupN():  # setup for the nonsimpyt nosters
     conn.send(extern)  # send glob ip
     turn = conn.recv(1024)  # Recv game order
     turn = turn.decode()
+    turn = int(turn)
     temptuple = ("Game", str(datetime.datetime.now()), ".txt")
     namething = str("".join(temptuple))
     print(namething)
