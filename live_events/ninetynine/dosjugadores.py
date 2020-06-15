@@ -192,11 +192,11 @@ def multiplayer():
         cardl = conn.recv(1024)
         cardl = cardl.decode()
         cardn = conn.recv(1024)
-        cardn = cardl.decode()
+        cardn = cardn.decode()
         pcard = conn.recv(1024)
-        pcard = cardl.decode()
+        pcard = pcard.decode()
         bcard = conn.recv(1024)
-        bcard = cardl.decode()
+        bcard = bcard.decode()
 
 
 # pre game set ups
