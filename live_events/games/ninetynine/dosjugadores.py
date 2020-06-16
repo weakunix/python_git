@@ -13,7 +13,7 @@ import os
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
 name1 = ""  # oppoent name
-conn = ''  # host send
+communications = ''  # host send
 port = 12345  # def
 theirEIP = ""
 host = ""
@@ -76,33 +76,33 @@ def setupH():  # setup the host
     global port
     global external_ip
     global name1
-    global conn
+    global communications
     global theirEIP
     global turn
     turn = random.randint(0, 1)
     port = int(input("port?"))  # port
-    conn = socket.socket()
-    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    communications = socket.socket()
+    communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
-    conn.bind((host, port))
+    communications.bind((host, port))
     print("logged in on local ip:", host)  # print out local ip
     print("\nglobal IP:", external_ip)  # print global ip
     print(port)  # print port for global ip
     print("\nsuccessfully connected \n waiting for connections\n cancel?")
-    conn.listen(1)  # wait for ppl to join
-    conn, adr = conn.accept()  # if see ppl accept it
+    communications.listen(1)  # wait for ppl to join
+    communications, adr = communications.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
-    conn.sendall(name) #^^
+    communications.sendall(name) #^^
     name = name.decode()
-    name1 = conn.recv(1024)  # receive their name
+    name1 = communications.recv(1024)  # receive their name
     name1 = name1.decode()
-    theirIP = conn.recv(1024)  # receive their ip (local)
+    theirIP = communications.recv(1024)  # receive their ip (local)
     theirIP = theirIP.decode()
     print(theirIP)
-    theirEIP = conn.recv(1024)  # receive their ip (global)
+    theirEIP = communications.recv(1024)  # receive their ip (global)
     theirEIP = theirEIP.decode()
     turn = str(turn).encode()  # send your order of cards to them
-    conn.sendall(turn)
+    communications.sendall(turn)
     turn.decode()
     turn = int(turn)
     if turn == 1:
@@ -134,31 +134,31 @@ def setupN():  # setup for the nonsimpyt nosters
     global port
     global external_ip
     global name1
-    global conn
+    global communications
     global theirEIP
     global turn
     port = int(input("port?"))
     ipplaceholder = get_ip()
-    conn = socket.socket()
-    conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
+    communications = socket.socket()
+    communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
     print("logged in on local ip:", ipplaceholder)  # local ip
     print("\nglobal IP:", external_ip)  # glob ip
     print(port)  # port
     theirEIP = input(str("please enter host IP of server\n"))  # enter ip to connect to
-    conn.connect((theirEIP, port))
-    name1 = conn.recv(1024)  # recieve their name
+    communications.connect((theirEIP, port))
+    name1 = communications.recv(1024)  # recieve their name
     name1 = name1.decode()
     name = name.encode()  # encode and send ur name
-    conn.send(name)
+    communications.send(name)
     name = name.decode()  # eecode name after sending
     print(ipplaceholder)
     ipplaceholder = ipplaceholder.encode()  # send local ip
-    conn.send(ipplaceholder)
+    communications.send(ipplaceholder)
     ipplaceholder = ipplaceholder.decode()
     time.sleep(0.5)
     extern = external_ip.encode()
-    conn.send(extern)  # send glob ip
-    turn = conn.recv(1024)  # Recv game order
+    communications.send(extern)  # send glob ip
+    turn = communications.recv(1024)  # Recv game order
     turn = turn.decode()
     turn = int(turn)
     temptuple = ("Game", str(datetime.datetime.now()), ".txt")
@@ -180,63 +180,63 @@ def multiplayer():
     global cardn
     global pcard
     global bcard
-    global conn
+    global communications
     if turn == 1:
         cardSetup()
-        conn.send(str(cardn).encode()) #bugged
-        m = conn.recv(1024)
+        communications.send(str(cardn).encode()) #bugged
+        m = communications.recv(1024)
         for i in range(cardn):
             pcard[i] = str(pcard[i])
             pcard[i] = pcard[i].encode()
-            conn.send(pcard[i])
+            communications.send(pcard[i])
             pcard[i] = pcard[i].decode()
-            m = conn.recv(1024)
+            m = communications.recv(1024)
         for i in range(cardn):
             bcard[i] = str(bcard[i])
             bcard[i] = bcard[i].encode()
-            conn.send(bcard[i])
+            communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
-            m = conn.recv(1024)
+            m = communications.recv(1024)
         for i in range(len(cardl) - cardn):
             cardl[i] = str(cardl[i])
             cardl[i] = cardl[i].encode()
-            conn.send(cardl[i])
+            communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
-            m = conn.recv(1024)
+            m = communications.recv(1024)
     else:
         print("waiting for oppoent...")
-        cardn = conn.recv(1024)
+        cardn = communications.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
         md = "ok"
-        conn.send(md.encode())
+        communications.send(md.encode())
         print(cardn)
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
         cardl = [0 for x in range(cardn)]
         for i in range(cardn):
-            pcard[i] = conn.recv(1024)
+            pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
             print(pcard[i])
             print("\n")
-            conn.send(md.encode())
+            communications.send(md.encode())
         for i in range(cardn):
-            bcard[i] = conn.recv(1024)
+            bcard[i] = communications.recv(1024)
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             print(bcard[i])
             print("\n")
             md = "ok"
-            conn.send(md.encode())
+            communications.send(md.encode())
         for i in range(cardn):
-            cardl[i] = conn.recv(1024)
+            cardl[i] = communications.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             print(cardl[i])
             print("\n")
-            conn.send(md.encode())
+            communications.send(md.encode())
         print("recieved")
 
 
@@ -382,7 +382,7 @@ def player():
                     break
     if MPorSP == 1:
         inpt = inpt.encode()
-        conn.send(inpt)  # send card played
+        communications.send(inpt)  # send card played
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
