@@ -230,7 +230,7 @@ def multiplayer():
             print("\n")
             md = "ok"
             communications.send(md.encode())
-        for i in range(cardn):
+        for i in range(len(cardl) - cardn):
             cardl[i] = communications.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
