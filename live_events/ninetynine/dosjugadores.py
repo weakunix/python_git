@@ -183,21 +183,21 @@ def multiplayer():
     global conn
     if turn == 1:
         cardSetup()
-        conn.sendall(str(cardn).encode())
+        conn.send(str(cardn).encode()) #bugged
         for i in range(cardn):
             pcard[i] = str(pcard[i])
             pcard[i] = pcard[i].encode()
-            conn.sendall(pcard[i])
+            conn.send(pcard[i])
             pcard[i] = pcard[i].decode()
         for i in range(cardn):
             bcard[i] = str(bcard[i])
             bcard[i] = bcard[i].encode()
-            conn.sendall(bcard[i])
+            conn.send(bcard[i])
             bcard[i] = bcard[i].decode()
         for i in range(len(cardl) - cardn):
             cardl[i] = str(cardl[i])
             cardl[i] = cardl[i].encode()
-            conn.sendall(cardl[i])
+            conn.send(cardl[i])
             cardl[i] = cardl[i].decode()
     else:
         print("waiting for oppoent...")
