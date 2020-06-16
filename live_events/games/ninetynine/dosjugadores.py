@@ -80,6 +80,7 @@ def setupH():  # setup the host
     global communications
     global theirEIP
     global turn
+    global namething
     turn = random.randint(0, 1)
     port = int(input("port?"))  # port
     communications = socket.socket()
