@@ -222,7 +222,7 @@ def multiplayer():
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
-        cardl = [0 for x in range(cardm)]
+        cardl = [0 for x in range(cardm)]  #makes a big array of the rest of the cards depending on how many left
         for i in range(cardn):
             pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
