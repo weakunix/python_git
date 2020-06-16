@@ -92,7 +92,7 @@ def setupH():  # setup the host
     conn.listen(1)  # wait for ppl to join
     conn, adr = conn.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
-    conn.sendall(name)
+    conn.sendall(name) #^^
     name = name.decode()
     name1 = conn.recv(1024)  # receive their name
     name1 = name1.decode()
