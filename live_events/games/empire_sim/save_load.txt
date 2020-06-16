@@ -1,0 +1,7 @@
+Save and Load
+
+You are able to save and load your progress in this game
+Keep in mind this may be a little buggy as it uses a txt file and it may not save if you close the tab
+It will be a good idea to save often as sometimes online gdb may lose connection to the server
+Everytime you save you will get a save number
+If you wish to load your progress type in the save number to recover your progress
