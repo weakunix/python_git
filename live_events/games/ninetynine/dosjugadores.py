@@ -185,6 +185,8 @@ def multiplayer():
         cardSetup()
         communications.send(str(cardn).encode()) #bugged
         m = communications.recv(1024)
+        communications.send(str(len(cardl) - cardn).encode())  # bugged
+        m = communications.recv(1024)
         for i in range(cardn):
             pcard[i] = str(pcard[i])
             pcard[i] = pcard[i].encode()
@@ -211,6 +213,10 @@ def multiplayer():
         cardn = int(cardn)
         md = "ok"
         communications.send(md.encode())
+        cardm = communications.recv(1024)
+        cardm = cardm.decode()
+        cardm = int(cardm)
+        communications.send(md.encode())
         print(cardn)
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
@@ -231,7 +237,7 @@ def multiplayer():
             print("\n")
             md = "ok"
             communications.send(md.encode())
-        for i in range(len(cardl) - cardn):
+        for i in range(cardm):
             cardl[i] = communications.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
