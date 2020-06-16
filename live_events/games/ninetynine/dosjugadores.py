@@ -200,7 +200,7 @@ def multiplayer():
             communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
             m = communications.recv(1024)
-        for i in range(len(cardl) - cardn):
+        for i in range(cardm):
             cardl[i] = str(cardl[i])
             cardl[i] = cardl[i].encode()
             communications.send(cardl[i])
