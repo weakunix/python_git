@@ -185,7 +185,8 @@ def multiplayer():
         cardSetup()
         communications.send(str(cardn).encode()) #bugged
         m = communications.recv(1024)
-        communications.send(str(len(cardl) - cardn).encode())  # bugged
+        cardm = len(cardl)
+        communications.send(str(cardm).encode())  # bugged
         m = communications.recv(1024)
         for i in range(cardn):
             pcard[i] = str(pcard[i])
