@@ -31,7 +31,8 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
-#game stuff
+
+# game stuff
 def cardSetup():
     global cardl
     global cardn
@@ -54,6 +55,8 @@ def cardSetup():
         pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
     for i in range(cardn):  # bot
         bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+
+
 # ip reacher (loc)
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -105,7 +108,7 @@ def setupH():  # setup the host
     if turn == 1:
         turn = 0
     elif turn == 0:
-         turn = 1
+        turn = 1
     print(theirEIP)
     temptuple = (
         "Game", str(datetime.datetime.now()),
@@ -180,21 +183,35 @@ def multiplayer():
     global conn
     if turn == 1:
         cardSetup()
-        conn.sendall(cardl.encode())
         conn.sendall(cardn.encode())
-        conn.sendall(pcard.encode())
-        conn.sendall(bcard.encode())
-
+        for i in range(cardn):
+            pcard[i] = pcard[i].encode()
+            conn.sendall(pcard[i])
+            pcard[i] = pcard[i].decode()
+        for i in range(cardn):
+            bcard[i] = bcard[i].encode()
+            conn.sendall(bcard[i])
+            bcard[i] = bcard[i].decode()
+        for i in range(len(cardl) - cardn):
+            cardl[i] = cardl[i].encode()
+            conn.sendall(cardl[i])
+            cardl[i] = cardl[i].decode()
     else:
         print("waiting for oppoent...")
-        cardl = conn.recv(1024)
-        cardl = cardl.decode()
         cardn = conn.recv(1024)
         cardn = cardn.decode()
-        pcard = conn.recv(1024)
-        pcard = pcard.decode()
-        bcard = conn.recv(1024)
-        bcard = bcard.decode()
+        pcard = [0] * cardn  # fucc u out of bound error raaa
+        bcard = [0] * cardn
+        cardl = [0] * cardn
+        for i in range(cardn):
+            pcard[i] = conn.recv(1024)
+            pcard[i] = pcard[i].decode()  # recv card lists
+        for i in range(cardn):
+            pcard[i] = conn.recv(1024)
+            bcard[i] = bcard[i].decode()
+        for i in range(cardn):
+            cardl[i] = conn.recv(1024)
+            cardl[i] = cardl[i].decode()
 
 
 # pre game set ups
@@ -217,7 +234,6 @@ if inpt == 'y' or inpt == 'Y':  # need tutorial
         'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
         '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
         '99\n\nEnter to continue:\n')  # print tutorial
-
 
 # MP or DOM
 inpt = input('[1]Singleplayer or [2]IP Play?\n')
