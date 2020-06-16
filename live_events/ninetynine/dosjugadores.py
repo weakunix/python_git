@@ -183,7 +183,7 @@ def multiplayer():
     global conn
     if turn == 1:
         cardSetup()
-        conn.sendall(cardn.encode())
+        conn.sendall(str(cardn).encode())
         for i in range(cardn):
             pcard[i] = pcard[i].encode()
             conn.sendall(pcard[i])
@@ -200,6 +200,7 @@ def multiplayer():
         print("waiting for oppoent...")
         cardn = conn.recv(1024)
         cardn = cardn.decode()
+        cardn = int(cardn)
         pcard = [0] * cardn  # fucc u out of bound error raaa
         bcard = [0] * cardn
         cardl = [0] * cardn
