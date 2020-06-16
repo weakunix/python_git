@@ -185,14 +185,17 @@ def multiplayer():
         cardSetup()
         conn.sendall(str(cardn).encode())
         for i in range(cardn):
+            pcard[i] = str(pcard[i])
             pcard[i] = pcard[i].encode()
             conn.sendall(pcard[i])
             pcard[i] = pcard[i].decode()
         for i in range(cardn):
+            bcard[i] = str(bcard[i])
             bcard[i] = bcard[i].encode()
             conn.sendall(bcard[i])
             bcard[i] = bcard[i].decode()
         for i in range(len(cardl) - cardn):
+            cardl[i] = str(cardl[i])
             cardl[i] = cardl[i].encode()
             conn.sendall(cardl[i])
             cardl[i] = cardl[i].decode()
@@ -207,12 +210,15 @@ def multiplayer():
         for i in range(cardn):
             pcard[i] = conn.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
+            pcard[i] = int(pcard[i])
         for i in range(cardn):
-            pcard[i] = conn.recv(1024)
+            bcard[i] = conn.recv(1024)
             bcard[i] = bcard[i].decode()
+            bcard[i] = int(bcard[i])
         for i in range(cardn):
             cardl[i] = conn.recv(1024)
             cardl[i] = cardl[i].decode()
+            cardl[i] = int(cardl[i])
 
 
 # pre game set ups
