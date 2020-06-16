@@ -204,7 +204,7 @@ def multiplayer():
         cardn = conn.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
-        print(cardn)
+        print(cardn+"\n")
         pcard = [0] * cardn  # fucc u out of bound error raaa
         bcard = [0] * cardn
         cardl = [0] * cardn
@@ -212,17 +212,18 @@ def multiplayer():
             pcard[i] = conn.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
-            print(pcard[i])
+            print(pcard[i]+"\n")
         for i in range(cardn):
             bcard[i] = conn.recv(1024)
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
-            print(bcard[i])
+            print(bcard[i]+"\n")
         for i in range(cardn):
             cardl[i] = conn.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
-            print(cardl[i])
+            print(cardl[i]+"\n")
+        print("recieved")
 
 
 # pre game set ups
