@@ -18,7 +18,7 @@ port = 12345  # def
 theirEIP = ""
 host = ""
 MPorSP = 0  # 1 is mp 0 is sp
-namething = "" #name of file to log game into
+namething = ""  # name of file to log game into
 # vars (game)
 cardl = []  # cards left
 sumc = 0  # sum of cards
@@ -94,13 +94,13 @@ def setupH():  # setup the host
     communications.listen(1)  # wait for ppl to join
     communications, adr = communications.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
-    communications.sendall(name) #^^
+    communications.sendall(name)  # ^^
     name = name.decode()
     name1 = communications.recv(1024)  # receive their name
     name1 = name1.decode()
-    external_ip = external_ip.encode() #send external ip
+    external_ip = external_ip.encode()  # send external ip
     communications.sendall(external_ip)
-    host = host.encode() #send local ip
+    host = host.encode()  # send local ip
     communications.sendall(host)
     host = host.decode()
     external_ip = external_ip.decode()
@@ -162,7 +162,7 @@ def setupN():  # setup for the nonsimpyt nosters
     name = name.decode()  # eecode name after sending
     theirEIP = communications.recv(1024)  # receive their ip (ext)
     theirEIP = theirEIP.decode()
-    theirIP = communications.recv(1024) #recv their ip (loc)
+    theirIP = communications.recv(1024)  # recv their ip (loc)
     theirIP = theirIP.decode()
     print(ipplaceholder)
     ipplaceholder = ipplaceholder.encode()  # send local ip
@@ -198,29 +198,29 @@ def multiplayer():
     h = open(namething, "a")
     if turn == 1:
         cardSetup()
-        communications.send(str(cardn).encode()) #send number of cards
-        m = communications.recv(1024)                                 #recv feedback(else it jams)
-        cardm = len(cardl)  #new var count length of cards
-        communications.send(str(cardm).encode())   #send over
-        m = communications.recv(1024)        #recv feedback
+        communications.send(str(cardn).encode())  # send number of cards
+        m = communications.recv(1024)  # recv feedback(else it jams)
+        cardm = len(cardl)  # new var count length of cards
+        communications.send(str(cardm).encode())  # send over
+        m = communications.recv(1024)  # recv feedback
         h.write("your cards: ")
         for i in range(cardn):
-            pcard[i] = str(pcard[i]) #send all items of the array for host card
+            pcard[i] = str(pcard[i])  # send all items of the array for host card
             pcard[i] = pcard[i].encode()
             communications.send(pcard[i])
-            pcard[i] = pcard[i].decode()  #decode it after
-            m = communications.recv(1024)  #recv fedback (jam)
+            pcard[i] = pcard[i].decode()  # decode it after
+            m = communications.recv(1024)  # recv fedback (jam)
             h.write(str(pcard[i]))
         h.write("their cards: ")
         for i in range(cardn):
-            bcard[i] = str(bcard[i])   #send all items of the array for nost card
+            bcard[i] = str(bcard[i])  # send all items of the array for nost card
             bcard[i] = bcard[i].encode()
             communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
-            m = communications.recv(1024) #recv fedback (jam)
+            m = communications.recv(1024)  # recv fedback (jam)
             h.write(str(bcard[i]))
         for i in range(cardm):
-            cardl[i] = str(cardl[i])   #send all items of the rest of the deck unused
+            cardl[i] = str(cardl[i])  # send all items of the rest of the deck unused
             cardl[i] = cardl[i].encode()
             communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
@@ -241,24 +241,25 @@ def multiplayer():
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
-        cardl = [0 for x in range(cardm)]  #makes a big array of the rest of the cards depending on how many left
+        cardl = [0 for x in range(cardm)]  # makes a big array of the rest of the cards depending on how many left
         h.write("their cards: ")
         for i in range(cardn):
-            bcard[i] = communications.recv(1024)# flipped, that wya you recieve host cards as oppoent cards and not your cards lol
+            bcard[i] = communications.recv(
+                1024)  # flipped, that wya you recieve host cards as oppoent cards and not your cards lol
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             md = "ok"
-            communications.send(md.encode()) #send unjam thing
+            communications.send(md.encode())  # send unjam thing
             h.write(str(bcard[i]))
         h.write("your cards: ")
         for i in range(cardn):
             pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
-            communications.send(md.encode()) #repeat for nost card.
+            communications.send(md.encode())  # repeat for nost card.
             h.write(str(pcard[i]))
         for i in range(cardm):
-            cardl[i] = communications.recv(1024) #recv rest of deck
+            cardl[i] = communications.recv(1024)  # recv rest of deck
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             communications.send(md.encode())
@@ -319,8 +320,8 @@ def p_replace_card(c):
             pcard.pop(count)
             pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
             if MPorSP == 1:
-                conn.send(str(c).encode()) #sends the value played
-                conn.send(str(pcard[len(pcard) - 1])) #send the latest card
+                conn.send(str(c).encode())  # sends the value played
+                conn.send(str(pcard[len(pcard) - 1]))  # send the latest card
             break
 
 
@@ -550,6 +551,7 @@ def play(n):
     else:
         player()
 
+
 def checkforcardempty():
     global cardl
     if cardl == []:  # if cards all used up recycle deck
@@ -559,8 +561,9 @@ def checkforcardempty():
         for i in range(2):
             cardl.append(14)
 
+
 # gameplay
-if(MPorSP == 0):
+if (MPorSP == 0):
     inpt = input('Do you want to go first?\n')  # add difficulties later
     if inpt != '':
         inpt = inpt[0]
