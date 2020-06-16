@@ -126,7 +126,7 @@ def setupH():  # setup the host
     namething = namething.replace(':', '_')
     h = open(namething, "w+")  # make a file with the name
     temptuple1 = (
-        "From HOST, on port: ", str(port), ": conversation between ", name, " (", host, ")(", external_ip, ") and ",
+        "From HOST, on port: ", str(port), ": game between ", name, " [you] (", host, ")(", external_ip, ") and ",
         name1,
         " (", theirIP, ") (", theirEIP, ")\n ================= \n")
     # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
@@ -180,7 +180,7 @@ def setupN():  # setup for the nonsimpyt nosters
     namething = namething.replace(':', '_')
     h = open(namething, "w+")
     temptuple1 = (
-        "From NOST, on port: ", str(port), ": conversation between ", name, " (", ipplaceholder, ")(", external_ip,
+        "From NOST, on port: ", str(port), ": game between ", name, " [you] (", ipplaceholder, ")(", external_ip,
         ") and ", name1, " (", theirIP, ") (", theirEIP, ")\n ================= \n")
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
