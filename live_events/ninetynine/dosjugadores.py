@@ -184,49 +184,59 @@ def multiplayer():
     if turn == 1:
         cardSetup()
         conn.send(str(cardn).encode()) #bugged
+        m = conn.recv(1024)
         for i in range(cardn):
             pcard[i] = str(pcard[i])
             pcard[i] = pcard[i].encode()
             conn.send(pcard[i])
             pcard[i] = pcard[i].decode()
+            m = conn.recv(1024)
         for i in range(cardn):
             bcard[i] = str(bcard[i])
             bcard[i] = bcard[i].encode()
             conn.send(bcard[i])
             bcard[i] = bcard[i].decode()
+            m = conn.recv(1024)
         for i in range(len(cardl) - cardn):
             cardl[i] = str(cardl[i])
             cardl[i] = cardl[i].encode()
             conn.send(cardl[i])
             cardl[i] = cardl[i].decode()
+            m = conn.recv(1024)
     else:
         print("waiting for oppoent...")
         cardn = conn.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
+        md = "ok"
+        conn.send(md.encode())
         print(cardn)
         print("\n")
-        pcard = [0] * cardn  # fucc u out of bound error raaa
-        bcard = [0] * cardn
-        cardl = [0] * cardn
+        pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
+        bcard = [0 for x in range(cardn)]
+        cardl = [0 for x in range(cardn)]
         for i in range(cardn):
             pcard[i] = conn.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
             print(pcard[i])
             print("\n")
+            conn.send(md.encode())
         for i in range(cardn):
             bcard[i] = conn.recv(1024)
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             print(bcard[i])
             print("\n")
+            md = "ok"
+            conn.send(md.encode())
         for i in range(cardn):
             cardl[i] = conn.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             print(cardl[i])
             print("\n")
+            conn.send(md.encode())
         print("recieved")
 
 
