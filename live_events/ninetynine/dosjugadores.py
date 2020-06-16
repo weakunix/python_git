@@ -204,6 +204,7 @@ def multiplayer():
         cardn = conn.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
+        print(cardn)
         pcard = [0] * cardn  # fucc u out of bound error raaa
         bcard = [0] * cardn
         cardl = [0] * cardn
@@ -211,14 +212,17 @@ def multiplayer():
             pcard[i] = conn.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
+            print(pcard[i])
         for i in range(cardn):
             bcard[i] = conn.recv(1024)
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
+            print(bcard[i])
         for i in range(cardn):
             cardl[i] = conn.recv(1024)
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
+            print(cardl[i])
 
 
 # pre game set ups
@@ -498,20 +502,21 @@ def play(n):
 
 
 # gameplay
-inpt = input('Do you want to go first?\n')  # add difficulties later
-if inpt != '':
-    inpt = inpt[0]
-if inpt == 'y' or inpt == 'Y':
-    inpt = 0
-else:
-    inpt = 1
-print("Oppoent is: " + botName)
-while True:
-    inpt += 1
-    play(inpt % 2)
-    if cardl == []:  # if cards all used up recycle deck
-        for i in range(1, 14):  # TODO work on making recycled deck not have duplicates
-            for k in range(4):
-                cardl.append(i)
-        for i in range(2):
-            cardl.append(14)
+if(MPorSP == 0):
+    inpt = input('Do you want to go first?\n')  # add difficulties later
+    if inpt != '':
+        inpt = inpt[0]
+    if inpt == 'y' or inpt == 'Y':
+        inpt = 0
+    else:
+        inpt = 1
+    print("Oppoent is: " + botName)
+    while True:
+        inpt += 1
+        play(inpt % 2)
+        if cardl == []:  # if cards all used up recycle deck
+            for i in range(1, 14):  # TODO work on making recycled deck not have duplicates
+                for k in range(4):
+                    cardl.append(i)
+            for i in range(2):
+                cardl.append(14)
