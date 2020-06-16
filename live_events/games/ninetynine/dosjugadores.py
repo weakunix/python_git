@@ -312,7 +312,7 @@ else:
 def p_replace_card(c):
     global pcard
     global MPorSP
-    global conn
+    global communications
     count = -1
     for i in pcard:
         count += 1
@@ -321,10 +321,10 @@ def p_replace_card(c):
             r = random.randint(0, len(cardl) - 1)
             pcard.append(cardl.pop(r))
             if MPorSP == 1:
-                conn.send(str(r).encode()) #sends where to pop the cardl
-                conn.send(str(c).encode())  # sends the value played
-                conn.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
-                conn.send(str(count).encode()) #sends card to pop from cardl
+                communications.send(str(r).encode()) #sends where to pop the cardl
+                communications.send(str(c).encode())  # sends the value played
+                communications.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
+                communications.send(str(count).encode()) #sends card to pop from cardl
             break
 
 
@@ -346,6 +346,8 @@ def player():
     global cardl
     global sumc
     global MPorSP
+    global communications
+    added = 0
     print("Your Cards: ")
     for i in pcard:  # print cards
         if i == 1:
@@ -370,8 +372,10 @@ def player():
                         if inpt == '1' or inpt == '11':
                             if inpt == '1':
                                 sumc += 1
+                                added = 1
                             else:
                                 sumc += 11
+                                added = 11
                             p_replace_card(1)
                             break
                         else:
@@ -382,39 +386,49 @@ def player():
                     if inpt[1] == 'a' or inpt[1] == 'A':  # jack
                         if 11 in pcard:
                             sumc += 10
+                            added = 10
                             p_replace_card(11)
                             break
                     elif inpt[1] == 'o' or inpt[1] == 'O':  # joker
                         if 14 in pcard:
                             sumc = 99
+                            added = 1000
                             p_replace_card(14)
                             break
             elif inpt[0] == 'q' or inpt[0] == 'Q':  # queen
                 if 12 in pcard:
                     sumc += 10
+                    added = 10
                     p_replace_card(12)
                     break
             elif inpt[0] == 'k' or inpt[0] == 'K':  # king
                 if 13 in pcard:
                     sumc = 99
+                    added = 1000
                     p_replace_card(13)
                     break
             elif inpt in nums:
                 inpt = int(inpt)
                 if inpt == 4:  # 4
                     p_replace_card(4)
+                    added = 0
                     break
                 elif inpt == 9:  # 9
                     p_replace_card(9)
+                    added = 0
                     break
                 elif inpt == 10:  # 10
                     sumc -= 10
                     p_replace_card(10)
+                    added = -10
                     break
                 else:  # other numbers
                     sumc += inpt
+                    added = inpt
                     p_replace_card(inpt)
                     break
+        if MPorSP == 1:
+            communications.send(added)
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -560,6 +574,7 @@ def checkforcardempty():
 
 def recvplay():
     global communications
+    global sumc
     whereinl = communications.recv(1024)  # decode card played
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
@@ -570,6 +585,13 @@ def recvplay():
     whereindeck = communications.recv(1024)  # decode new card
     whereindeck = whereindeck.decode()
     whereindeck = int(whereindeck)
+    added = communications.recv(1024)  # decode new card
+    added = added.decode()
+    added = int(added)
+    if added != 1000: #if isnt power card
+        sumc += added #just add the added value
+    else:
+        sumc = 99 #else make it 99
     if cardplayed in bcard:
         bcard.pop(whereindeck)
         bcard.append(newcard)
