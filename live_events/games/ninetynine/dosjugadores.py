@@ -183,25 +183,25 @@ def multiplayer():
     global communications
     if turn == 1:
         cardSetup()
-        communications.send(str(cardn).encode()) #bugged
-        m = communications.recv(1024)
-        cardm = len(cardl)
-        communications.send(str(cardm).encode())  # bugged
-        m = communications.recv(1024)
+        communications.send(str(cardn).encode()) #send number of cards
+        m = communications.recv(1024)                                 #recv feedback(else it jams)
+        cardm = len(cardl)  #new var count length of cards
+        communications.send(str(cardm).encode())   #send over
+        m = communications.recv(1024)        #recv feedback
         for i in range(cardn):
-            pcard[i] = str(pcard[i])
+            pcard[i] = str(pcard[i]) #send all items of the array for host card
             pcard[i] = pcard[i].encode()
             communications.send(pcard[i])
-            pcard[i] = pcard[i].decode()
-            m = communications.recv(1024)
+            pcard[i] = pcard[i].decode()  #decode it after
+            m = communications.recv(1024)  #recv fedback (jam)
         for i in range(cardn):
-            bcard[i] = str(bcard[i])
+            bcard[i] = str(bcard[i])   #send all items of the array for nost card
             bcard[i] = bcard[i].encode()
             communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
-            m = communications.recv(1024)
+            m = communications.recv(1024) #recv fedback (jam)
         for i in range(cardm):
-            cardl[i] = str(cardl[i])
+            cardl[i] = str(cardl[i])   #send all items of the rest of the deck unused
             cardl[i] = cardl[i].encode()
             communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
@@ -224,18 +224,18 @@ def multiplayer():
         bcard = [0 for x in range(cardn)]
         cardl = [0 for x in range(cardm)]  #makes a big array of the rest of the cards depending on how many left
         for i in range(cardn):
-            pcard[i] = communications.recv(1024)
-            pcard[i] = pcard[i].decode()  # recv card lists
-            pcard[i] = int(pcard[i])
-            communications.send(md.encode())
-        for i in range(cardn):
-            bcard[i] = communications.recv(1024)
+            bcard[i] = communications.recv(1024)# flipped, that wya you recieve host cards as oppoent cards and not your cards lol
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             md = "ok"
-            communications.send(md.encode())
+            communications.send(md.encode()) #send unjam thing
+        for i in range(cardn):
+            pcard[i] = communications.recv(1024)
+            pcard[i] = pcard[i].decode()  # recv card lists
+            pcard[i] = int(pcard[i])
+            communications.send(md.encode()) #repeat for nost card.
         for i in range(cardm):
-            cardl[i] = communications.recv(1024)
+            cardl[i] = communications.recv(1024) #recv rest of deck
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             print(cardl[i])
