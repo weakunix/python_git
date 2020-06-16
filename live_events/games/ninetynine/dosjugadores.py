@@ -318,10 +318,13 @@ def p_replace_card(c):
         count += 1
         if i == c:
             pcard.pop(count)
-            pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+            r = random.randint(0, len(cardl) - 1)
+            pcard.append(cardl.pop(r))
             if MPorSP == 1:
+                conn.send(str(r).encode()) #sends where to pop the cardl
                 conn.send(str(c).encode())  # sends the value played
-                conn.send(str(pcard[len(pcard) - 1]))  # send the latest card
+                conn.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
+                conn.send(str(count).encode()) #sends card to pop from cardl
             break
 
 
@@ -412,13 +415,6 @@ def player():
                     sumc += inpt
                     p_replace_card(inpt)
                     break
-    if MPorSP == 1:
-        inpt = inpt.encode()
-        communications.send(inpt)  # send card played
-        sumc = str(sumc).encode()
-        communications.send(sumc)
-        sumc = sumc.decode()
-        sumc = int(sumc)
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -555,15 +551,33 @@ def play(n):
 def checkforcardempty():
     global cardl
     if cardl == []:  # if cards all used up recycle deck
-        for i in range(1, 14):  # TODO work on making recycled deck not have duplicates
+        for i in range(1, 14):  # TODO work on making recycled deck not have duplicates and multiplayer
             for k in range(4):
                 cardl.append(i)
         for i in range(2):
             cardl.append(14)
 
 
+def recvplay():
+    global communications
+    whereinl = communications.recv(1024)  # decode card played
+    whereinl = whereinl.decode()
+    whereinl = int(whereinl)
+    cardplayed = communications.recv(1024) #decode card played
+    cardplayed = cardplayed.decode()
+    newcard = communications.recv(1024)  # decode new card
+    newcard = newcard.decode()
+    whereindeck = communications.recv(1024)  # decode new card
+    whereindeck = whereindeck.decode()
+    whereindeck = int(whereindeck)
+    if cardplayed in bcard:
+        bcard.pop(whereindeck)
+        bcard.append(newcard)
+        cardl.pop(whereinl)
+
+
 # gameplay
-if (MPorSP == 0):
+if MPorSP == 0:
     inpt = input('Do you want to go first?\n')  # add difficulties later
     if inpt != '':
         inpt = inpt[0]
@@ -575,4 +589,13 @@ if (MPorSP == 0):
     while True:
         inpt += 1
         play(inpt % 2)
+        checkforcardempty()
+else:
+    while True:
+        if turn == 0:
+            player()
+            recvplay()
+        elif turn == 1:
+            recvplay()
+            player()
         checkforcardempty()
