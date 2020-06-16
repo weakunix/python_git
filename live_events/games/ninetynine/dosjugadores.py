@@ -98,6 +98,9 @@ def setupH():  # setup the host
     name = name.decode()
     name1 = communications.recv(1024)  # receive their name
     name1 = name1.decode()
+    external_ip = external_ip.encode()
+    communications.sendall(external_ip)
+    external_ip = external_ip.decode()
     theirIP = communications.recv(1024)  # receive their ip (local)
     theirIP = theirIP.decode()
     print(theirIP)
@@ -154,6 +157,8 @@ def setupN():  # setup for the nonsimpyt nosters
     name = name.encode()  # encode and send ur name
     communications.send(name)
     name = name.decode()  # eecode name after sending
+    theirIP = communications.recv(1024)  # receive their ip (local)
+    theirIP = theirIP.decode()
     print(ipplaceholder)
     ipplaceholder = ipplaceholder.encode()  # send local ip
     communications.send(ipplaceholder)
@@ -171,7 +176,7 @@ def setupN():  # setup for the nonsimpyt nosters
     h = open(namething, "w+")
     temptuple1 = (
         "From NOST, on port: ", str(port), ": conversation between ", name, " (", ipplaceholder, ")(", external_ip,
-        ") and ", name1, " (", theirEIP, ") (", theirEIP, ")\n ================= \n")
+        ") and ", name1, " (", theirIP, ") (", theirEIP, ")\n ================= \n")
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
