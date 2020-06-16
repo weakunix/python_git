@@ -203,6 +203,7 @@ def multiplayer():
             communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
             m = communications.recv(1024)
+        print("sent")
     else:
         print("waiting for oppoent...")
         cardn = communications.recv(1024)
