@@ -98,8 +98,11 @@ def setupH():  # setup the host
     name = name.decode()
     name1 = communications.recv(1024)  # receive their name
     name1 = name1.decode()
-    external_ip = external_ip.encode()
+    external_ip = external_ip.encode() #send external ip
     communications.sendall(external_ip)
+    host = host.encode() #send local ip
+    communications.sendall(host)
+    host = host.decode()
     external_ip = external_ip.decode()
     theirIP = communications.recv(1024)  # receive their ip (local)
     theirIP = theirIP.decode()
@@ -157,7 +160,9 @@ def setupN():  # setup for the nonsimpyt nosters
     name = name.encode()  # encode and send ur name
     communications.send(name)
     name = name.decode()  # eecode name after sending
-    theirIP = communications.recv(1024)  # receive their ip (local)
+    theirEIP = communications.recv(1024)  # receive their ip (ext)
+    theirEIP = theirEIP.decode()
+    theirIP = communications.recv(1024) #recv their ip (loc)
     theirIP = theirIP.decode()
     print(ipplaceholder)
     ipplaceholder = ipplaceholder.encode()  # send local ip
