@@ -18,6 +18,7 @@ port = 12345  # def
 theirEIP = ""
 host = ""
 MPorSP = 0  # 1 is mp 0 is sp
+namething = "" #name of file to log game into
 # vars (game)
 cardl = []  # cards left
 sumc = 0  # sum of cards
@@ -137,6 +138,7 @@ def setupN():  # setup for the nonsimpyt nosters
     global communications
     global theirEIP
     global turn
+    global namething
     port = int(input("port?"))
     ipplaceholder = get_ip()
     communications = socket.socket()
@@ -181,6 +183,8 @@ def multiplayer():
     global pcard
     global bcard
     global communications
+    global namething
+    h = open(namething, "a")
     if turn == 1:
         cardSetup()
         communications.send(str(cardn).encode()) #send number of cards
@@ -188,25 +192,29 @@ def multiplayer():
         cardm = len(cardl)  #new var count length of cards
         communications.send(str(cardm).encode())   #send over
         m = communications.recv(1024)        #recv feedback
+        h.write("your cards: ")
         for i in range(cardn):
             pcard[i] = str(pcard[i]) #send all items of the array for host card
             pcard[i] = pcard[i].encode()
             communications.send(pcard[i])
             pcard[i] = pcard[i].decode()  #decode it after
             m = communications.recv(1024)  #recv fedback (jam)
+            h.write(str(pcard[i]))
+        h.write("their cards: ")
         for i in range(cardn):
             bcard[i] = str(bcard[i])   #send all items of the array for nost card
             bcard[i] = bcard[i].encode()
             communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
             m = communications.recv(1024) #recv fedback (jam)
+            h.write(str(bcard[i]))
         for i in range(cardm):
             cardl[i] = str(cardl[i])   #send all items of the rest of the deck unused
             cardl[i] = cardl[i].encode()
             communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
             m = communications.recv(1024)
-        print("sent")
+        print("Game Setup Success!")
     else:
         print("waiting for oppoent...")
         cardn = communications.recv(1024)
@@ -223,25 +231,29 @@ def multiplayer():
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
         cardl = [0 for x in range(cardm)]  #makes a big array of the rest of the cards depending on how many left
+        h.write("their cards: ")
         for i in range(cardn):
             bcard[i] = communications.recv(1024)# flipped, that wya you recieve host cards as oppoent cards and not your cards lol
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             md = "ok"
             communications.send(md.encode()) #send unjam thing
+            h.write(str(bcard[i]))
+        h.write("your cards: ")
         for i in range(cardn):
             pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
             communications.send(md.encode()) #repeat for nost card.
+            h.write(str(pcard[i]))
         for i in range(cardm):
             cardl[i] = communications.recv(1024) #recv rest of deck
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
-            print(cardl[i])
-            print("\n")
             communications.send(md.encode())
-        print("recieved")
+        print("Game Setup Success!")
+    h.write("Finished setting up game!")
+    h.close()
 
 
 # pre game set ups
@@ -279,7 +291,6 @@ if inpt == '2':
     elif inpt == '2':
         setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST SDJGHLSKJFJKLDKLJFLH
     multiplayer()
-    print("works")
 else:
     cardSetup()
 
@@ -387,6 +398,10 @@ def player():
     if MPorSP == 1:
         inpt = inpt.encode()
         communications.send(inpt)  # send card played
+        sumc = str(sumc).encode()
+        communications.send(sumc)
+        sumc = sumc.decode()
+        sumc = int(sumc)
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -519,6 +534,14 @@ def play(n):
     else:
         player()
 
+def checkforcardempty():
+    global cardl
+    if cardl == []:  # if cards all used up recycle deck
+        for i in range(1, 14):  # TODO work on making recycled deck not have duplicates
+            for k in range(4):
+                cardl.append(i)
+        for i in range(2):
+            cardl.append(14)
 
 # gameplay
 if(MPorSP == 0):
@@ -533,9 +556,4 @@ if(MPorSP == 0):
     while True:
         inpt += 1
         play(inpt % 2)
-        if cardl == []:  # if cards all used up recycle deck
-            for i in range(1, 14):  # TODO work on making recycled deck not have duplicates
-                for k in range(4):
-                    cardl.append(i)
-            for i in range(2):
-                cardl.append(14)
+        checkforcardempty()
