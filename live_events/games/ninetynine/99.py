@@ -18,6 +18,7 @@ host = ""
 MPorSP = 0  # 1 is mp 0 is sp
 namething = ""  # name of file to log game into
 # vars (game)
+added = 0
 cardl = []  # cards left
 sumc = 0  # sum of cards
 cardn = 0  # amount of cards per player
@@ -311,6 +312,7 @@ def p_replace_card(c):
     global pcard
     global MPorSP
     global communications
+    global added
     count = -1
     for i in pcard:
         count += 1
@@ -323,6 +325,7 @@ def p_replace_card(c):
                 communications.send(str(c).encode())  # sends the value played
                 communications.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
                 communications.send(str(count).encode())  # sends card to pop from cardl
+                communications.send(str(added).encode())
             break
 
 
@@ -344,8 +347,8 @@ def player():
     global cardl
     global sumc
     global MPorSP
+    global added
     global communications
-    added = 0
     print("Your Cards: ")
     for i in pcard:  # print cards
         if i == 1:
@@ -425,8 +428,6 @@ def player():
                     added = inpt
                     p_replace_card(inpt)
                     break
-        if MPorSP == 1:
-            communications.send(str(added).encode())
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -616,10 +617,8 @@ else:
     while True:
         if turn == 0:
             player()
-            print(1)
             recvplay()
         elif turn == 1:
             recvplay()
-            print(1)
             player()
         checkforcardempty()
