@@ -575,6 +575,7 @@ def checkforcardempty():
 def recvplay():
     global communications
     global sumc
+    global name1
     whereinl = communications.recv(1024)  # decode card played
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
@@ -596,6 +597,7 @@ def recvplay():
         bcard.pop(whereindeck)
         bcard.append(newcard)
         cardl.pop(whereinl)
+    print(name1+" Played:")
 
 
 # gameplay
