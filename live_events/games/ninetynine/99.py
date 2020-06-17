@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.3'
+version = '1.2.4' # TODO change this every time
 print("99 version: "+version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -610,6 +610,7 @@ def recvplay():
     if added != 1000:  # if isnt power card
         sumc += added  # just add the added value
     else:
+        added = 99 - sumc #make it not say person played 1000
         sumc = 99  # else make it 99
     if cardplayed in bcard:
         bcard.pop(whereindeck)
