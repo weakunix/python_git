@@ -613,7 +613,7 @@ def recvplay():
         bcard.pop(whereindeck)
         bcard.append(newcard)
         cardl.pop(whereinl)
-    print(name1 + " Played:"+added+"\n Sum now: "+sumc)
+    print(name1 + " Played:"+str(added)+"\n Sum now: "+str(sumc))
 
 
 # gameplay
