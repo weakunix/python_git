@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.2'
+version = '1.2.3'
 print("99 version: "+version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -332,7 +332,7 @@ def p_replace_card(c):
                 communications.send(str(added).encode())
                 h = open(namething, "a")
                 temptuple1 = (
-                    "Card Played: ",c,"\n Total Deck Value: ",sumc," your hand:"# print hand and wahteves
+                    "Card Played: ",str(c),"\n Total Deck Value: ",str(sumc)," your hand:"# print hand and wahteves
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
