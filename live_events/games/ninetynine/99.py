@@ -6,8 +6,8 @@ import time
 import urllib.request
 
 # files:
-
-
+version = '1.2.1'
+print("99 version: "+version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
 name1 = ""  # oppoent name
@@ -210,7 +210,7 @@ def multiplayer():
             pcard[i] = pcard[i].decode()  # decode it after
             m = communications.recv(1024)  # recv fedback (jam)
             h.write(str(pcard[i]))
-        h.write("their cards: ")
+        h.write("\ntheir cards: ")
         for i in range(cardn):
             bcard[i] = str(bcard[i])  # send all items of the array for nost card
             bcard[i] = bcard[i].encode()
@@ -241,7 +241,7 @@ def multiplayer():
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
         cardl = [0 for x in range(cardm)]  # makes a big array of the rest of the cards depending on how many left
-        h.write("their cards: ")
+        h.write("\ntheir cards: ")
         for i in range(cardn):
             bcard[i] = communications.recv(
                 1024)  # flipped, that wya you recieve host cards as oppoent cards and not your cards lol
@@ -263,7 +263,7 @@ def multiplayer():
             cardl[i] = int(cardl[i])
             communications.send(md.encode())
         print("Game Setup Success!")
-    h.write("Finished setting up game!")
+    h.write("\nFinished setting up game!")
     h.close()
 
 
@@ -326,6 +326,13 @@ def p_replace_card(c):
                 communications.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
                 communications.send(str(count).encode())  # sends card to pop from cardl
                 communications.send(str(added).encode())
+                h = open(namething, "a")
+                temptuple1 = (
+                    "Card Played: ",c,"\n Total Deck Value: ",sumc," your hand:"# print hand and wahteves
+                )
+                temptuple1 = "".join(temptuple1)
+                h.write(str(temptuple1))
+                h.close()
             break
 
 
