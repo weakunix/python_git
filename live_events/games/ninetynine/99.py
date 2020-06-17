@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.1'
+version = '1.2.2'
 print("99 version: "+version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -322,9 +322,13 @@ def p_replace_card(c):
             pcard.append(cardl.pop(r))
             if MPorSP == 1:
                 communications.send(str(r).encode())  # sends where to pop the cardl
+                m = communications.recv(1024)
                 communications.send(str(c).encode())  # sends the value played
+                m = communications.recv(1024)
                 communications.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
+                m = communications.recv(1024)
                 communications.send(str(count).encode())  # sends card to pop from cardl
+                m = communications.recv(1024)
                 communications.send(str(added).encode())
                 h = open(namething, "a")
                 temptuple1 = (
@@ -582,16 +586,22 @@ def recvplay():
     global communications
     global sumc
     global name1
+    m = "ok"
+    m = m.encode()
     whereinl = communications.recv(1024)  # decode card popped pos
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
+    communications.send(m)
     cardplayed = communications.recv(1024)  # decode card played
     cardplayed = cardplayed.decode()
+    communications.send(m)
     newcard = communications.recv(1024)  # decode new card
     newcard = newcard.decode()
+    communications.send(m)
     whereindeck = communications.recv(1024)  # decode new card
     whereindeck = whereindeck.decode()
     whereindeck = int(whereindeck)
+    communications.send(m)
     added = communications.recv(1024)  # decode new card
     added = added.decode()
     added = int(added)
