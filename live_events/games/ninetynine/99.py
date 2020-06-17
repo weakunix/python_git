@@ -426,7 +426,7 @@ def player():
                     p_replace_card(inpt)
                     break
         if MPorSP == 1:
-            communications.send(added)
+            communications.send(str(added).encode())
     if sumc > 99:
         print('Bot cards:\n')
         for i in bcard:  # print cards
@@ -574,7 +574,7 @@ def recvplay():
     global communications
     global sumc
     global name1
-    whereinl = communications.recv(1024)  # decode card played
+    whereinl = communications.recv(1024)  # decode card popped pos
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
     cardplayed = communications.recv(1024)  # decode card played
@@ -595,7 +595,7 @@ def recvplay():
         bcard.pop(whereindeck)
         bcard.append(newcard)
         cardl.pop(whereinl)
-    print(name1 + " Played:")
+    print(name1 + " Played:"+added+"\n Sum now: "+sumc)
 
 
 # gameplay
