@@ -616,8 +616,10 @@ else:
     while True:
         if turn == 0:
             player()
+            print(1)
             recvplay()
         elif turn == 1:
             recvplay()
+            print(1)
             player()
         checkforcardempty()
