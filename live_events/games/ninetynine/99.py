@@ -636,9 +636,9 @@ if MPorSP == 0:
 else:
     while True:
         if turn == 0:
-            player()
+            player() #second
             recvplay()
         elif turn == 1:
-            recvplay()
+            recvplay() #first
             player()
         checkforcardempty()
