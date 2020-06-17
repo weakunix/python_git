@@ -330,6 +330,7 @@ def p_replace_card(c):
                 communications.send(str(count).encode())  # sends card to pop from cardl
                 m = communications.recv(1024)
                 communications.send(str(added).encode())
+                m = communications.recv(1024)
                 h = open(namething, "a")
                 temptuple1 = (
                     "Card Played: ",str(c),"\n Total Deck Value: ",str(sumc)," your hand:"# print hand and wahteves
@@ -604,6 +605,7 @@ def recvplay():
     communications.send(m)
     added = communications.recv(1024)  # decode new card
     added = added.decode()
+    communications.send(m)
     added = int(added)
     if added != 1000:  # if isnt power card
         sumc += added  # just add the added value
@@ -613,7 +615,7 @@ def recvplay():
         bcard.pop(whereindeck)
         bcard.append(newcard)
         cardl.pop(whereinl)
-    print(name1 + " Played:"+str(added)+"\n Sum now: "+str(sumc))
+    print(name1 + " Played:"+str(added)+"\n Sum now: "+str(sumc)) #prints what person played and thing
 
 
 # gameplay
