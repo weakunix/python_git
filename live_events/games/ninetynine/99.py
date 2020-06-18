@@ -641,4 +641,4 @@ else:
         elif turn == 1:
             recvplay() #first
             player()
-        checkforcardempty()
+        #checkforcardempty()
