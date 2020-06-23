@@ -321,15 +321,15 @@ def p_replace_card(c):
             r = random.randint(0, len(cardl) - 1)
             pcard.append(cardl.pop(r))
             if MPorSP == 1:
-                communications.send(str(r).encode())  # sends where to pop the cardl
+                communications.send((str(r)).encode())  # sends where to pop the cardl
                 m = communications.recv(1024)
-                communications.send(str(c).encode())  # sends the value played
+                communications.send((str(c)).encode())  # sends the value played
                 m = communications.recv(1024)
-                communications.send(str(pcard[len(pcard) - 1]).encode())  # send the latest card
+                communications.send((str(pcard[len(pcard) - 1])).encode())  # send the latest card
                 m = communications.recv(1024)
-                communications.send(str(count).encode())  # sends card to pop from cardl
+                communications.send((str(count)).encode())  # sends card to pop from cardl
                 m = communications.recv(1024)
-                communications.send(str(added).encode())
+                communications.send((str(added)).encode())
                 m = communications.recv(1024)
                 h = open(namething, "a")
                 temptuple1 = (
@@ -589,7 +589,7 @@ def recvplay():
     global name1
     m = "ok"
     m = m.encode()
-    whereinl = communications.recv(1024)  # decode card popped pos
+    whereinl = communications.recv(1024)  # decode card popped pos in list
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
     communications.send(m)
