@@ -294,7 +294,7 @@ if inpt != '':
     inpt = inpt[0]  # setting input to first letter if input is not enter
 if inpt == '2':
     MPorSP = 1
-    inpt = input('[1]Host or [2]Nost? (free subscription of ISIMPYT if you choose 1)\n')
+    inpt = input('[1]Host or [2]Nost?\n')
     if inpt != '':
         inpt = inpt[0]  # setting input to first letter if input is not enter
     if inpt == '1':
