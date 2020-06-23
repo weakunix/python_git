@@ -362,9 +362,9 @@ def isOverAHunnit(l):
     if sumc > 99:
         communications.close()
         if l == 0:
-            raise SystemExit('\n\nYou win! + ' + random.randint(30, 50) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
+            raise SystemExit('\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
         else:
-            raise SystemExit('\n\nYou lose! + ' + random.randint(10, 30) + " Ranked XP Deducted!")
+            raise SystemExit('\n\nYou lose! + ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
 
 
 ##player plays
