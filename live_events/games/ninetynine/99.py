@@ -363,6 +363,7 @@ def player():
     global communications
     print("Your Cards: ")
     for i in pcard:  # print cards
+        i = int(i)
         if i == 1:
             print('[A]', end='')
         elif i == 11:
@@ -375,7 +376,7 @@ def player():
             print('[Joker]', end='')
         else:
             print('[{}]'.format(i), end='')
-            print(type(pcard[i]))
+            #print(type(pcard[i]))
     while True:
         inpt = input('\n\nChoose a card to play:\n')
         if inpt != '':
