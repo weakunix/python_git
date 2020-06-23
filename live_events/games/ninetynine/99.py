@@ -238,8 +238,6 @@ def multiplayer():
         cardm = cardm.decode()
         cardm = int(cardm)
         communications.send(md.encode())
-        print(cardm)
-        print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
         bcard = [0 for x in range(cardn)]
         cardl = [0 for x in range(cardm)]  # makes a big array of the rest of the cards depending on how many left
@@ -311,10 +309,14 @@ else:
 # user def functions
 ##player replace card
 def p_replace_card(c):
-    global pcard
     global MPorSP
-    global communications
     global added
+    global cardl
+    global cardn
+    global pcard
+    global bcard
+    global communications
+    global namething
     count = -1
     for i in pcard:
         count += 1
@@ -323,17 +325,26 @@ def p_replace_card(c):
             r = random.randint(0, len(cardl) - 1)
             pcard.append(cardl.pop(r))
             if MPorSP == 1:
-                communications.send((str(r)).encode())  # sends where to pop the cardl
-                m = communications.recv(1024)
-                communications.send((str(c)).encode())  # sends the value played
-                m = communications.recv(1024)
-                communications.send((str(pcard[len(pcard) - 1])).encode())  # send the latest card
-                m = communications.recv(1024)
-                communications.send((str(count)).encode())  # sends card to pop from cardl
-                m = communications.recv(1024)
-                communications.send((str(added)).encode())
-                m = communications.recv(1024)
+                cardm = len(cardl)  # new var count length of cards
+                communications.send(str(cardm).encode())
                 h = open(namething, "a")
+                m = communications.recv(1024)
+                for i in range(cardn):
+                    pcard[i] = str(pcard[i])  # send all items of the array for host card
+                    pcard[i] = pcard[i].encode()
+                    communications.send(pcard[i])
+                    pcard[i] = pcard[i].decode()  # decode it after
+                    pcard[i] = int(pcard[i])
+                    m = communications.recv(1024)  # recv fedback (jam)
+                    h.write(str(pcard[i]))
+                for i in range(cardm):
+                    cardl[i] = str(cardl[i])  # send all items of the rest of the deck unused
+                    cardl[i] = cardl[i].encode()
+                    communications.send(cardl[i])
+                    cardl[i] = cardl[i].decode()
+                    cardl[i] = int(cardl[i])
+                    m = communications.recv(1024)
+                communications.send((str(c)).encode())
                 temptuple1 = (
                     "Card Played: ", str(c), "\n Total Deck Value: ", str(sumc), " your hand:"
                 # print hand and wahteves
@@ -605,34 +616,32 @@ def recvplay():
     global communications
     global sumc
     global name1
-    m = "ok"
-    whereinl = communications.recv(1024)  # decode card popped pos in list
-    whereinl = whereinl.decode()
-    whereinl = int(whereinl)
-    communications.send(m.encode())
-    cardplayed = communications.recv(1024)  # decode card played
-    cardplayed = cardplayed.decode()
-    communications.send(m.encode())
-    newcard = communications.recv(1024)  # decode new card
-    newcard = newcard.decode()
-    communications.send(m.encode())
-    whereindeck = communications.recv(1024)  # decode new card
-    whereindeck = whereindeck.decode()
-    whereindeck = int(whereindeck)
-    communications.send(m.encode())
+    global cardl
+    global cardn
+    global pcard
+    global bcard
+    global namething
+    md = "ok"
+    cardm = communications.recv(1024)
+    cardm = cardm.decode()
+    cardm = int(cardm)
+    communications.send(md.encode())
+    for i in range(cardn):
+        bcard[i] = communications.recv(
+            1024)  # flipped, that wya you recieve host cards as oppoent cards and not your cards lol
+        bcard[i] = bcard[i].decode()
+        bcard[i] = int(bcard[i])
+        md = "ok"
+        communications.send(md.encode())  # send unjam thing
+    for i in range(cardm):
+        cardl[i] = communications.recv(1024)  # recv rest of deck
+        cardl[i] = cardl[i].decode()
+        cardl[i] = int(cardl[i])
+        communications.send(md.encode())
     added = communications.recv(1024)  # decode new card
     added = added.decode()
-    communications.send(m.encode())
+    communications.send(md.encode())
     added = int(added)
-    if added != 1000:  # if isnt power card
-        sumc += added  # just add the added value
-    else:
-        added = 99 - sumc  # make it not say person played 1000
-        sumc = 99  # else make it 99
-    if cardplayed in bcard:
-        bcard.pop(whereindeck)
-        bcard.append(newcard)
-        cardl.pop(whereinl)
     print(name1 + " Played:" + str(added) + "\n Sum now: " + str(sumc))  # prints what person played and thing
 
 
