@@ -234,11 +234,11 @@ def multiplayer():
         cardn = int(cardn)
         md = "ok"
         md = md.encode()
-        communications.send(md.encode())
+        communications.send(md)
         cardm = communications.recv(1024)
         cardm = cardm.decode()
         cardm = int(cardm)
-        communications.send(md.encode())
+        communications.send(md)
         print(cardm)
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
