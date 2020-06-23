@@ -6,8 +6,8 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.4' # TODO change this every time
-print("99 version: "+version)
+version = '1.2.4'  # TODO change this every time
+print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
 name1 = ""  # oppoent name
@@ -335,7 +335,8 @@ def p_replace_card(c):
                 m = communications.recv(1024)
                 h = open(namething, "a")
                 temptuple1 = (
-                    "Card Played: ",str(c),"\n Total Deck Value: ",str(sumc)," your hand:"# print hand and wahteves
+                    "Card Played: ", str(c), "\n Total Deck Value: ", str(sumc), " your hand:"
+                # print hand and wahteves
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
@@ -353,6 +354,17 @@ def b_replace_card(c):
             bcard.pop(count)
             bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
             break
+
+
+def isOverAHunnit(l):
+    global sumc
+    global communications
+    if sumc > 99:
+        communications.close()
+        if l == 0:
+            raise SystemExit('\n\nYou win! + ' + random.rand(30, 50) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
+        else:
+            raise SystemExit('\n\nYou lose! + ' + random.rand(10, 30) + " Ranked XP Deducted!")
 
 
 ##player plays
@@ -378,7 +390,7 @@ def player():
             print('[Joker]', end='')
         else:
             print('[{}]'.format(i), end='')
-            #print(type(pcard[i]))
+            # print(type(pcard[i]))
     while True:
         inpt = input('\n\nChoose a card to play:\n')
         if inpt != '':
@@ -444,7 +456,7 @@ def player():
                     added = inpt
                     p_replace_card(inpt)
                     break
-    if sumc > 99:
+    if sumc > 99 and MPorSP == 0:
         print('Bot cards:\n')
         for i in bcard:  # print cards
             if i == 1:
@@ -460,6 +472,8 @@ def player():
             else:
                 print('[{}]'.format(i), end='')
         raise SystemExit('\n\nYou lose')
+    else:
+        isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
 
 
@@ -613,13 +627,13 @@ def recvplay():
     if added != 1000:  # if isnt power card
         sumc += added  # just add the added value
     else:
-        added = 99 - sumc #make it not say person played 1000
+        added = 99 - sumc  # make it not say person played 1000
         sumc = 99  # else make it 99
     if cardplayed in bcard:
         bcard.pop(whereindeck)
         bcard.append(newcard)
         cardl.pop(whereinl)
-    print(name1 + " Played:"+str(added)+"\n Sum now: "+str(sumc)) #prints what person played and thing
+    print(name1 + " Played:" + str(added) + "\n Sum now: " + str(sumc))  # prints what person played and thing
 
 
 # gameplay
@@ -639,9 +653,10 @@ if MPorSP == 0:
 else:
     while True:
         if turn == 0:
-            player() #second
+            player()  # second
             recvplay()
         elif turn == 1:
-            recvplay() #first
+            recvplay()  # first
+            isOverAHunnit(0)
             player()
-        #checkforcardempty()
+        # checkforcardempty()
