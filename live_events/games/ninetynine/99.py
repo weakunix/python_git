@@ -347,7 +347,7 @@ def p_replace_card(c):
                 communications.send((str(c)).encode())
                 temptuple1 = (
                     "Card Played: ", str(c), "\n Total Deck Value: ", str(sumc), " your hand:"
-                # print hand and wahteves
+                    # print hand and wahteves
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
@@ -373,7 +373,8 @@ def isOverAHunnit(l):
     if sumc > 99:
         communications.close()
         if l == 0:
-            raise SystemExit('\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
+            raise SystemExit(
+                '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
         else:
             raise SystemExit('\n\nYou lose! + ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
 
@@ -640,6 +641,7 @@ def recvplay():
     added = communications.recv(1024)  # decode new card
     added = added.decode()
     added = int(added)
+    sumc += added
     print(name1 + " Played:" + str(added) + "\n Sum now: " + str(sumc))  # prints what person played and thing
 
 
