@@ -631,7 +631,6 @@ def recvplay():
             1024)  # flipped, that wya you recieve host cards as oppoent cards and not your cards lol
         bcard[i] = bcard[i].decode()
         bcard[i] = int(bcard[i])
-        md = "ok"
         communications.send(md.encode())  # send unjam thing
     for i in range(cardm):
         cardl[i] = communications.recv(1024)  # recv rest of deck
@@ -640,7 +639,6 @@ def recvplay():
         communications.send(md.encode())
     added = communications.recv(1024)  # decode new card
     added = added.decode()
-    communications.send(md.encode())
     added = int(added)
     print(name1 + " Played:" + str(added) + "\n Sum now: " + str(sumc))  # prints what person played and thing
 
