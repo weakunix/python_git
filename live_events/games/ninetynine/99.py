@@ -49,7 +49,6 @@ def cardSetup():
                 print('Input was greater than 10\n')
             except:
                 print('Input was not an integer\n')
-
     ##giving cards
     for i in range(cardn):  # player
         pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
@@ -208,6 +207,7 @@ def multiplayer():
             pcard[i] = pcard[i].encode()
             communications.send(pcard[i])
             pcard[i] = pcard[i].decode()  # decode it after
+            pcard[i] = int(pcard[i])
             m = communications.recv(1024)  # recv fedback (jam)
             h.write(str(pcard[i]))
         h.write("\ntheir cards: ")
@@ -216,6 +216,7 @@ def multiplayer():
             bcard[i] = bcard[i].encode()
             communications.send(bcard[i])
             bcard[i] = bcard[i].decode()
+            bcard[i] = int(bcard[i])
             m = communications.recv(1024)  # recv fedback (jam)
             h.write(str(bcard[i]))
         for i in range(cardm):
@@ -223,6 +224,7 @@ def multiplayer():
             cardl[i] = cardl[i].encode()
             communications.send(cardl[i])
             cardl[i] = cardl[i].decode()
+            cardl[i] = int(cardl[i])
             m = communications.recv(1024)
         print("Game Setup Success!")
     else:
@@ -231,6 +233,7 @@ def multiplayer():
         cardn = cardn.decode()
         cardn = int(cardn)
         md = "ok"
+        md = md.encode()
         communications.send(md.encode())
         cardm = communications.recv(1024)
         cardm = cardm.decode()
@@ -248,20 +251,20 @@ def multiplayer():
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             md = "ok"
-            communications.send(md.encode())  # send unjam thing
+            communications.send(md)  # send unjam thing
             h.write(str(bcard[i]))
         h.write("your cards: ")
         for i in range(cardn):
             pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
-            communications.send(md.encode())  # repeat for nost card.
+            communications.send(md)  # repeat for nost card.
             h.write(str(pcard[i]))
         for i in range(cardm):
             cardl[i] = communications.recv(1024)  # recv rest of deck
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
-            communications.send(md.encode())
+            communications.send(md)
         print("Game Setup Success!")
     h.write("\nFinished setting up game!")
     h.close()
@@ -643,4 +646,4 @@ else:
         elif turn == 1:
             recvplay() #first
             player()
-        checkforcardempty()
+        #checkforcardempty()
