@@ -233,12 +233,11 @@ def multiplayer():
         cardn = cardn.decode()
         cardn = int(cardn)
         md = "ok"
-        md = md.encode()
-        communications.send(md)
+        communications.send(md.encode())
         cardm = communications.recv(1024)
         cardm = cardm.decode()
         cardm = int(cardm)
-        communications.send(md)
+        communications.send(md.encode())
         print(cardm)
         print("\n")
         pcard = [0 for x in range(cardn)]  # fucc u out of bound error raaa
@@ -251,20 +250,20 @@ def multiplayer():
             bcard[i] = bcard[i].decode()
             bcard[i] = int(bcard[i])
             md = "ok"
-            communications.send(md)  # send unjam thing
+            communications.send(md.encode())  # send unjam thing
             h.write(str(bcard[i]))
         h.write("your cards: ")
         for i in range(cardn):
             pcard[i] = communications.recv(1024)
             pcard[i] = pcard[i].decode()  # recv card lists
             pcard[i] = int(pcard[i])
-            communications.send(md)  # repeat for nost card.
+            communications.send(md.encode())  # repeat for nost card.
             h.write(str(pcard[i]))
         for i in range(cardm):
             cardl[i] = communications.recv(1024)  # recv rest of deck
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
-            communications.send(md)
+            communications.send(md.encode())
         print("Game Setup Success!")
     h.write("\nFinished setting up game!")
     h.close()
@@ -593,24 +592,23 @@ def recvplay():
     global sumc
     global name1
     m = "ok"
-    m = m.encode()
     whereinl = communications.recv(1024)  # decode card popped pos in list
     whereinl = whereinl.decode()
     whereinl = int(whereinl)
-    communications.send(m)
+    communications.send(m.encode())
     cardplayed = communications.recv(1024)  # decode card played
     cardplayed = cardplayed.decode()
-    communications.send(m)
+    communications.send(m.encode())
     newcard = communications.recv(1024)  # decode new card
     newcard = newcard.decode()
-    communications.send(m)
+    communications.send(m.encode())
     whereindeck = communications.recv(1024)  # decode new card
     whereindeck = whereindeck.decode()
     whereindeck = int(whereindeck)
-    communications.send(m)
+    communications.send(m.encode())
     added = communications.recv(1024)  # decode new card
     added = added.decode()
-    communications.send(m)
+    communications.send(m.encode())
     added = int(added)
     if added != 1000:  # if isnt power card
         sumc += added  # just add the added value
