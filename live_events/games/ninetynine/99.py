@@ -26,7 +26,7 @@ pcard = []  # player cards
 inpt = ''  # input
 nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
 # single player
-botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro"]
+botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
 bcard = []  # bot cards
 # multi player
 turn = 0
