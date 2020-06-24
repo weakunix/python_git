@@ -653,7 +653,7 @@ def recvplay():
     sumc = sumc.decode()
     sumc = int(sumc)
     newcardplayedName = ""
-    if added == 1 and added == 11:
+    if added == 1 or added == 11:
         newcardplayedName = "Ace"
     elif added == 1000:
         newcardplayedName = "NINETYNINER"

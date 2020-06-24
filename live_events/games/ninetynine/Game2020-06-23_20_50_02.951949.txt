@@ -1,0 +1,20 @@
+From HOST, on port: 8888: game between cowland [you] (192.168.1.46)(69.248.233.101) and MrMoooo (192.168.1.6) (24.186.76.104)
+ ================= 
+
+their cards: 9131283your cards: 1112731
+Finished setting up game!127314Card Played: 11
+ Total Deck Value: 10 your hand:73142Card Played: 12
+ Total Deck Value: 28 your hand:31429Card Played: 7
+ Total Deck Value: 45 your hand:14291Card Played: 3
+ Total Deck Value: 53 your hand:14916Card Played: 2
+ Total Deck Value: 65 your hand:14914Card Played: 6
+ Total Deck Value: 79 your hand:49147Card Played: 1
+ Total Deck Value: 93 your hand:49478Card Played: 1
+ Total Deck Value: 95 your hand:494713Card Played: 8
+ Total Deck Value: 93 your hand:49475Card Played: 13
+ Total Deck Value: 99 your hand:447510Card Played: 9
+ Total Deck Value: 99 your hand:475102Card Played: 4
+ Total Deck Value: 99 your hand:7510214Card Played: 4
+ Total Deck Value: 99 your hand:751022Card Played: 14
+ Total Deck Value: 99 your hand:510225Card Played: 7
+ Total Deck Value: 106 your hand:
