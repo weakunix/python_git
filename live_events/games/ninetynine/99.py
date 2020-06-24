@@ -672,12 +672,13 @@ if MPorSP == 0:
         play(inpt % 2)
         checkforcardempty()
 else:
-    while True:
+    while sumc < 100:
         if turn == 0:
             player()  # second
             recvplay()
+            isOverAHunnit(0)
         elif turn == 1:
             recvplay()  # first
             isOverAHunnit(0)
             player()
-        # checkforcardempty()
+        checkforcardempty()
