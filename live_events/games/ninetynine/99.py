@@ -345,6 +345,7 @@ def p_replace_card(c):
                     cardl[i] = int(cardl[i])
                     m = communications.recv(1024)
                 communications.send((str(added)).encode())
+                communications.send((str(sumc)).encode())
                 temptuple1 = (
                     "Card Played: ", str(c), "\n Total Deck Value: ", str(sumc), " your hand:"
                     # print hand and wahteves
@@ -641,10 +642,9 @@ def recvplay():
     added = communications.recv(1024)  # decode value added
     added = added.decode()
     added = int(added)
-    if added != 1000:
-        sumc += added
-    else:
-        sumc = 99
+    sumc = communications.recv(1024)
+    sumc = sumc.decode()
+    sumc = int(sumc)
     newcardplayedName = ""
     if added == 1 and added == 11:
         newcardplayedName = "Ace"
