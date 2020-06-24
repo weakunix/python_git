@@ -654,6 +654,8 @@ def recvplay():
         newcardplayedName = "O"
     elif added == -10:
         newcardplayedName = "-10"
+    else:
+        newcardplayedName = str(added) #lol forgot to put this in that's why it didnt work
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
 
 
