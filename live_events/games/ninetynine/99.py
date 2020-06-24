@@ -315,6 +315,7 @@ def p_replace_card(c):
     global cardn
     global pcard
     global bcard
+    global name
     global communications
     global namething
     count = -1
@@ -347,8 +348,7 @@ def p_replace_card(c):
                 communications.send((str(added)).encode())
                 communications.send((str(sumc)).encode())
                 temptuple1 = (
-                    "Card Played: ", str(c), "\n Total Deck Value: ", str(sumc), " your hand:"
-                    # print hand and wahteves
+                    "\n",name ," Played: ", str(c), " Total Deck Value: ", str(sumc)
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
@@ -371,12 +371,19 @@ def b_replace_card(c):
 def isOverAHunnit(l):
     global sumc
     global communications
+    global name
     if sumc > 99:
         communications.close()
         if l == 0:
+            h = open(namething, "a")
+            h.write("\n\nYou win!")
+            h.close()
             raise SystemExit(
                 '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
         else:
+            h = open(namething, "a")
+            h.write("\n\nYou lose!")
+            h.close()
             raise SystemExit('\n\nYou lose! + ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
 
 
@@ -657,6 +664,13 @@ def recvplay():
     else:
         newcardplayedName = str(added) #lol forgot to put this in that's why it didnt work
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
+    h = open(namething, "a")
+    temptuple1 = (
+        "\n",name1, " Played: ", str(newcardplayedName), " Total Deck Value: ", str(sumc)
+    )
+    temptuple1 = "".join(temptuple1)
+    h.write(str(temptuple1))
+    h.close()
 
 
 # gameplay
