@@ -1,5 +1,5 @@
 from sympy import *
-x = symbol('x')
-y = symbol('y')
+x = Symbol('x')
+y = Symbol('y')
 expr = 20 * x - 15 * x
 print(sympify(expr))
