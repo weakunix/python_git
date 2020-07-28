@@ -6,10 +6,10 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.3'  # TODO change this every time
+version = '1.2.6.4'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
-name = input("Username?\n")
+name = ""
 name1 = ""  # oppoent name
 communications = ''  # host send
 port = 12345  # def
@@ -457,7 +457,7 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        raise SystemExit('\n\nYou lose')
+        print('\n\nYou lose')
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
@@ -566,7 +566,7 @@ def bot():
                             print('[Joker]', end='')
                         else:
                             print('[{}]'.format(i), end='')
-                    raise SystemExit('\n\nYou win!')
+                    print('\n\nYou win!')
         b_replace_card(i)
 
 
@@ -643,14 +643,14 @@ def recvplay():
     h.close()
 
 # pre game set ups
-##filling cardl
-for i in range(1, 14):
-    for k in range(4):
-        cardl.append(i)
-for i in range(2):
-    cardl.append(14)
 
 while True:
+    ##filling cardl
+    for i in range(1, 14):
+        for k in range(4):
+            cardl.append(i)
+    for i in range(2):
+        cardl.append(14)
     # files:
     external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
     name = input("Username?\n")
