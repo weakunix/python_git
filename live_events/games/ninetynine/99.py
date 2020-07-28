@@ -149,7 +149,7 @@ def setupH():  # setup the host
     clearPg()
     print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
-    print("=========================")
+    print("=========================")#adsf
 
 
 def setupN():  # setup for the nonsimpyt nosters
