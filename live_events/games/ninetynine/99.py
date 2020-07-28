@@ -650,7 +650,7 @@ for i in range(1, 14):
 for i in range(2):
     cardl.append(14)
 
-while true:
+while True:
     botName = botNames[random.randint(0, 4)]
     ##ask if it is first time playing
     inpt = input('Is this your first time playing 99?\n')
