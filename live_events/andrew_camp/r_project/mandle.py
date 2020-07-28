@@ -29,8 +29,8 @@ def mandledraw(DEPTH, centerx, centery, zoom):
     green = random.randint(0, 255)
     blue = random.randint(0, 255)
     randcolor = (red, green, blue)
-    for x in range(-375, 375, 5):
-        for y in range(-250, 250, 5):
+    for x in range(-375, 375, 6):
+        for y in range(-250, 250, 6):
             xcor = (x + centerx + 125) / (250 * zoom)
             ycor = (y + centery) / (250 * zoom)
             if distance(*mandle(xcor, ycor, xcor, ycor, DEPTH)) < 2:
