@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.5'  # TODO change this every time
+version = '1.2.6.6'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -31,6 +31,17 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
+name = input("Username?\n")
+inpt = input('Is this your first time playing 99?\n')
+if inpt != '':
+    inpt = inpt[0]  # setting input to first letter if input is not enter
+if inpt == 'y' or inpt == 'Y':  # need tutorial
+    inpt = input(
+        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
+        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
+        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
+        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
+        '99\n\nEnter to continue:\n')  # print tutorial
 
 def clearPg():
     print("\n" * 100)
@@ -345,12 +356,12 @@ def isOverAHunnit(l):
             h.write("\n\nYou win!")
             h.close()
             print(
-                '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
+                '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")#rank
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
+            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")#rank
 
 
 ##player plays
@@ -457,7 +468,7 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        print('\n\nYou lose')
+        print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!") #rank
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
@@ -566,8 +577,9 @@ def bot():
                             print('[Joker]', end='')
                         else:
                             print('[{}]'.format(i), end='')
-                    print('\n\nYou win!')
-        b_replace_card(i)
+                    print(
+                        '\n\nYou win! + ' + str(
+                            random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")#rank
 
 
 ##turn test
@@ -654,7 +666,6 @@ while True:
         cardl.append(14)
     # files:
     external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
-    name = input("Username?\n")
     name1 = ""  # oppoent name
     communications = ''  # host send
     port = 12345  # def
@@ -676,16 +687,6 @@ while True:
     turn = 0
     botName = botNames[random.randint(0, 4)]
     ##ask if it is first time playing
-    inpt = input('Is this your first time playing 99?\n')
-    if inpt != '':
-        inpt = inpt[0]  # setting input to first letter if input is not enter
-    if inpt == 'y' or inpt == 'Y':  # need tutorial
-        inpt = input(
-            'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
-            'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
-            'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
-            '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
-            '99\n\nEnter to continue:\n')  # print tutorial
 
     # MP or DOM
     inpt = input('[1]Singleplayer or [2]IP Play?\n')
