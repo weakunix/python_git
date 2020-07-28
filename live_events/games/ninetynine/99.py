@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.6'  # TODO change this every time
+version = '1.2.6.7'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -372,6 +372,7 @@ def player():
     global MPorSP
     global added
     global communications
+    print("=========================")
     print("Your Cards: ")
     for i in pcard:  # print cards
         i = int(i)
@@ -388,8 +389,9 @@ def player():
         else:
             print('[{}]'.format(i), end='')
             # print(type(pcard[i]))
+    print("\n=========================")
     while True:
-        inpt = input('\n\nChoose a card to play:\n')
+        inpt = input('Choose a card to play:\n\n>>>')
         if inpt != '':
             if inpt[0] == 'a' or inpt[0] == 'A':  # ace
                 if 1 in pcard:
@@ -480,6 +482,8 @@ def bot():
     global bcard
     global cardl
     global sumc
+    clearPg()
+    print("=========================")
     nums = [2, 3, 5, 6, 7, 8]
     power = True  # does the bot have all power cards?
     if sumc <= 88:
@@ -492,7 +496,7 @@ def bot():
                 power = bcard[random.randint(0, cardn - 1)]
                 if power in nums:
                     sumc += power
-                    print('===========\n {} played: {}\nSum: {}\n'.format(botName, power, sumc))
+                    print('{} played: {}\nSum: {}'.format(botName, power, sumc))
                     break
         else:
             power = bcard[random.randint(0, cardn - 1)]
@@ -500,33 +504,33 @@ def bot():
                 inpt = random.randint(1, 2)
                 if inpt == 1:
                     sumc += 1
-                    print('{} played: A(1)\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: A(1)\nSum: {}'.format(botName, sumc))
                 else:
                     sumc += 11
-                    print('{} played: A(11)\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: A(11)\nSum: {}'.format(botName, sumc))
             else:
                 if power == 10:
                     sumc -= 10
-                    print('{} played: 10\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 10\nSum: {}'.format(botName, sumc))
                 elif power == 11 or power == 12:
                     sumc += 10
                     if power == 11:
-                        print('{} played: J\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
-                        print('{} played: Q\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Q\nSum: {}'.format(botName, sumc))
                 else:
                     sumc = 99
                     if power == 13:
-                        print('{} played: K\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
-                        print('{} played: Joker\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Joker\nSum: {}'.format(botName, sumc))
         b_replace_card(power)
     else:
         played = False  # did bot play yet?
         for i in bcard:
             if i in nums and i + sumc <= 99:
                 sumc += i
-                print('{} played: {}\nSum: {}\n'.format(botName, i, sumc))
+                print('{} played: {}\nSum: {}'.format(botName, i, sumc))
                 played = True
         if not played:
             if sumc + 10 <= 99:
@@ -534,34 +538,34 @@ def bot():
                     sumc += 10
                     if 11 in bcard:
                         i = 11
-                        print('{} played: J\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
                         i = 12
-                        print('{} played: Q\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Q\nSum: {}'.format(botName, sumc))
                     played = True
         if not played:
             if 1 in bcard and sumc < 99:
                 sumc += 1
-                print('{} played: A(1)\nSum: {}\n'.format(botName, sumc))
+                print('{} played: A(1)\nSum: {}'.format(botName, sumc))
             else:
                 if 13 in bcard or 14 in bcard:
                     sumc = 99
                     if 13 in bcard:
                         i = 13
-                        print('{} played: K\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
                         i = 14
-                        print('{} played: Joker\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Joker\nSum: {}'.format(botName, sumc))
                 elif 4 in bcard:
                     i = 4
-                    print('{} played: 4\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 4\nSum: {}'.format(botName, sumc))
                 elif 9 in bcard:
                     i = 9
-                    print('{} played: 9\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 9\nSum: {}'.format(botName, sumc))
                 elif 10 in bcard:
                     sumc -= 10
                     i = 10
-                    print('{} played: 10\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 10\nSum: {}'.format(botName, sumc))
                 else:
                     print('Bot cards:\n')
                     for i in bcard:  # print cards
@@ -715,6 +719,8 @@ while True:
             inpt = 0
         else:
             inpt = 1
+        clearPg()
+        print("=========================")
         print("Oppoent is: " + botName)
         while True:
             inpt += 1
