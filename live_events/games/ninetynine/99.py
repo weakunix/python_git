@@ -344,13 +344,13 @@ def isOverAHunnit(l):
             h = open(namething, "a")
             h.write("\n\nYou win!")
             h.close()
-            raise SystemExit(
+            print(
                 '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            raise SystemExit('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
+            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
 
 
 ##player plays
