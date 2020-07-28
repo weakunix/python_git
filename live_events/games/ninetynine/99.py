@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.5'  # TODO change this every time
+version = '1.2.5.1'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -497,6 +497,7 @@ def player():
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
+    clearPg()
 
 
 ##bot plays
@@ -633,8 +634,10 @@ def recvplay():
     global bcard
     global namething
     clearPg()#new
+    print("waiting for oppoent...")
     md = "ok"
     cardm = communications.recv(1024)
+    clearPg()
     cardm = cardm.decode()
     cardm = int(cardm)
     communications.send(md.encode())
