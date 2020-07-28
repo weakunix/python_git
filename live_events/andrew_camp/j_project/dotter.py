@@ -19,12 +19,34 @@ bob.hideturtle()
 bob.penup()
 scream = turtle.Screen()
 scream.setup(700,500)
-scream.tracer(10000)
-for i in range(80000):
-    x = random.randint(-375,375)
-    y = random.randint(-250,250)
-    xcor = (x-125)/250
-    ycor = y/250
-    if distance(*mandle(xcor,ycor,xcor,ycor,15))<2:
-        bob.setpos(x,y)
-        bob.dot(2,"black")
+scream.tracer(1000000)
+
+scream.colormode(255)
+def mandledraw(DEPTH,centerx,centery,zoomy):
+    randcolor = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
+    for x in range(-375,375,6):
+        for y in range(-250,250,6):
+        #x = random.randint(-375,375)
+        #y = random.randint(-250,250)
+            xcor = (x+centerx-125)/(250*zoomy)
+            ycor = (y+centery)/(250*zoomy)
+            if distance(*mandle(xcor,ycor,xcor,ycor,DEPTH))<2:
+                bob.setpos(x,y)
+                bob.dot(4,randcolor)
+
+centerx = 0
+centery = 0
+ZOOM = 1
+mandledraw(12,centerx,centery,ZOOM)
+
+def get_mouse_click_coord(x,y):
+    bob.clear()
+    global ZOOM, centerx, cenetery
+    print(x,y)
+    centerx = x
+    centery = y
+    ZOOM *= 2
+    mandledraw(12,centerx,centery,ZOOM)
+
+scream.onscreenclick(get_mouse_click_coord)
+scream.listen()
