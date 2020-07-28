@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6'  # TODO change this every time
+version = '1.2.6.3'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -651,6 +651,29 @@ for i in range(2):
     cardl.append(14)
 
 while True:
+    # files:
+    external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+    name = input("Username?\n")
+    name1 = ""  # oppoent name
+    communications = ''  # host send
+    port = 12345  # def
+    theirEIP = ""
+    host = ""
+    MPorSP = 0  # 1 is mp 0 is sp
+    namething = ""  # name of file to log game into
+    # vars (game)
+    added = 0
+    cardl = []  # cards left
+    sumc = 0  # sum of cards
+    cardn = 0  # amount of cards per player
+    pcard = []  # player cards
+    inpt = ''  # input
+    nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
+    # single player
+    botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
+    bcard = []  # bot cards
+    # multi player
+    turn = 0
     botName = botNames[random.randint(0, 4)]
     ##ask if it is first time playing
     inpt = input('Is this your first time playing 99?\n')
