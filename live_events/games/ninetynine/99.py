@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.4'  # TODO change this every time
+version = '1.2.6.5'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -646,6 +646,7 @@ def recvplay():
 
 while True:
     ##filling cardl
+    cardl = []  # cards left
     for i in range(1, 14):
         for k in range(4):
             cardl.append(i)
@@ -663,7 +664,6 @@ while True:
     namething = ""  # name of file to log game into
     # vars (game)
     added = 0
-    cardl = []  # cards left
     sumc = 0  # sum of cards
     cardn = 0  # amount of cards per player
     pcard = []  # player cards
