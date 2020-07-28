@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.5.1'  # TODO change this every time
+version = '1.2.5.2'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -133,7 +133,7 @@ def setupH():  # setup the host
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
-    # os.system('clear')
+    clearPg()
     print("successfully connected to game. Your Oppoent:" + name1)
 
 
@@ -185,6 +185,7 @@ def setupN():  # setup for the nonsimpyt nosters
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
+    clearPg()
     print("successfully connected to game. Your Oppoent:" + name1)
 
 
@@ -386,7 +387,7 @@ def isOverAHunnit(l):
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            raise SystemExit('\n\nYou lose! + ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
+            raise SystemExit('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
 
 
 ##player plays

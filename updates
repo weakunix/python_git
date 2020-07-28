@@ -1,0 +1,6 @@
+1.2.5.2
++added
+    Clear screen after setup success
+    Clear screen after each turn and waiting for enemy's turn
+-Debug/removed
+    Rank xp deducted + 18
