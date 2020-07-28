@@ -41,11 +41,11 @@ mandledraw(12,centerx,centery,ZOOM)
 
 def get_mouse_click_coord(x,y):
     bob.clear()
-    global ZOOM, centerx, cenetery
+    global ZOOM, centerx, centery
     print(x,y)
-    centerx = x
-    centery = y
-    ZOOM *= 2
+    centerx += x
+    centery += y
+    ZOOM *= 1.5
     mandledraw(12,centerx,centery,ZOOM)
 
 scream.onscreenclick(get_mouse_click_coord)
