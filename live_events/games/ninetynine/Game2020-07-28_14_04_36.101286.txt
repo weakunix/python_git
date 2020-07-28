@@ -1,0 +1,32 @@
+From HOST, on port: 8888: game between cowland bing [you] (192.168.1.46)(69.248.233.101) and MrMoooo (192.168.2.144) (2604:2000:1384:45f0:c882:73c3:6fdd:2de8)
+ ================= 
+
+their cards: 6119612your cards: 441316
+Finished setting up game!441361
+cowland bing Played: 1 Total Deck Value: 11
+MrMoooo Played: 10 Total Deck Value: 21441369
+cowland bing Played: 1 Total Deck Value: 32
+MrMoooo Played: 6 Total Deck Value: 38441397
+cowland bing Played: 6 Total Deck Value: 44
+MrMoooo Played: 6 Total Deck Value: 50441393
+cowland bing Played: 7 Total Deck Value: 57
+MrMoooo Played: Ace Total Deck Value: 684413914
+cowland bing Played: 3 Total Deck Value: 71
+MrMoooo Played: 5 Total Deck Value: 764413912
+cowland bing Played: 14 Total Deck Value: 99
+MrMoooo Played: 5 Total Deck Value: 994413129
+cowland bing Played: 9 Total Deck Value: 99
+MrMoooo Played: NINETYNINER Total Deck Value: 9941312910
+cowland bing Played: 4 Total Deck Value: 99
+MrMoooo Played: NINETYNINER Total Deck Value: 9913129102
+cowland bing Played: 4 Total Deck Value: 99
+MrMoooo Played: O Total Deck Value: 9913121025
+cowland bing Played: 9 Total Deck Value: 99
+MrMoooo Played: NINETYNINER Total Deck Value: 991210252
+cowland bing Played: 13 Total Deck Value: 99
+MrMoooo Played: NINETYNINER Total Deck Value: 99122525
+cowland bing Played: 10 Total Deck Value: 89
+MrMoooo Played: 10 Total Deck Value: 99125257
+cowland bing Played: 2 Total Deck Value: 101
+
+You lose!

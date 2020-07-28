@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.4'  # TODO change this every time
+version = '1.2.5'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -31,6 +31,8 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
+def clearPg():
+	print("\n"*100)
 
 # game stuff
 def cardSetup():
@@ -630,6 +632,7 @@ def recvplay():
     global pcard
     global bcard
     global namething
+    clearPg()#new
     md = "ok"
     cardm = communications.recv(1024)
     cardm = cardm.decode()
