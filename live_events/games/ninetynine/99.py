@@ -56,7 +56,7 @@ def cardSetup():
     ##ask for amount of cards per player
     if inpt != 1:
         while True:
-            cardn = input('How many cards per player? (1 to 10)\n')
+            cardn = input('\nHow many cards per player? (1 to 10)\n')
             try:  # trying to set input to integer
                 cardn = int(cardn)
                 if cardn <= 10:
@@ -147,7 +147,9 @@ def setupH():  # setup the host
     h.write(str(temptuple1))
     h.close()
     clearPg()
+    print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
+    print("=========================")
 
 
 def setupN():  # setup for the nonsimpyt nosters
@@ -199,7 +201,9 @@ def setupN():  # setup for the nonsimpyt nosters
     h.write(str(temptuple1))
     h.close()
     clearPg()
+    print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
+    print("=========================")
 
 
 def multiplayer():
@@ -242,9 +246,15 @@ def multiplayer():
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             m = communications.recv(1024)
+        clearPg()
+        print("=========================")
         print("Game Setup Success!")
+        print("=========================")
+        print("\n\n\n")
     else:
+        print("=========================")
         print("waiting for oppoent...")
+        print("=========================")
         cardn = communications.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
@@ -649,6 +659,7 @@ def recvplay():
         newcardplayedName = "-10"
     else:
         newcardplayedName = str(added)  # lol forgot to put this in that's why it didnt work
+    print("=========================")
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
     h = open(namething, "a")
     temptuple1 = (
