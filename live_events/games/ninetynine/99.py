@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.5.2'  # TODO change this every time
+version = '1.2.6'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = input("Username?\n")
@@ -270,45 +270,6 @@ def multiplayer():
         print("Game Setup Success!")
     h.write("\nFinished setting up game!")
     h.close()
-
-
-# pre game set ups
-##filling cardl
-for i in range(1, 14):
-    for k in range(4):
-        cardl.append(i)
-for i in range(2):
-    cardl.append(14)
-
-botName = botNames[random.randint(0, 4)]
-##ask if it is first time playing
-inpt = input('Is this your first time playing 99?\n')
-if inpt != '':
-    inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == 'y' or inpt == 'Y':  # need tutorial
-    inpt = input(
-        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
-        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
-        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
-        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
-        '99\n\nEnter to continue:\n')  # print tutorial
-
-# MP or DOM
-inpt = input('[1]Singleplayer or [2]IP Play?\n')
-if inpt != '':
-    inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == '2':
-    MPorSP = 1
-    inpt = input('[1]Host or [2]Nost?\n')
-    if inpt != '':
-        inpt = inpt[0]  # setting input to first letter if input is not enter
-    if inpt == '1':
-        setupH()  # setupMPshenanananannanannananangans
-    elif inpt == '2':
-        setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST SDJGHLSKJFJKLDKLJFLH
-    multiplayer()
-else:
-    cardSetup()
 
 
 # user def functions
@@ -681,29 +642,68 @@ def recvplay():
     h.write(str(temptuple1))
     h.close()
 
+# pre game set ups
+##filling cardl
+for i in range(1, 14):
+    for k in range(4):
+        cardl.append(i)
+for i in range(2):
+    cardl.append(14)
 
-# gameplay
-if MPorSP == 0:
-    inpt = input('Do you want to go first?\n')  # add difficulties later
+while true:
+    botName = botNames[random.randint(0, 4)]
+    ##ask if it is first time playing
+    inpt = input('Is this your first time playing 99?\n')
     if inpt != '':
-        inpt = inpt[0]
-    if inpt == 'y' or inpt == 'Y':
-        inpt = 0
+        inpt = inpt[0]  # setting input to first letter if input is not enter
+    if inpt == 'y' or inpt == 'Y':  # need tutorial
+        inpt = input(
+            'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
+            'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
+            'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
+            '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
+            '99\n\nEnter to continue:\n')  # print tutorial
+
+    # MP or DOM
+    inpt = input('[1]Singleplayer or [2]IP Play?\n')
+    if inpt != '':
+        inpt = inpt[0]  # setting input to first letter if input is not enter
+    if inpt == '2':
+        MPorSP = 1
+        inpt = input('[1]Host or [2]Nost?\n')
+        if inpt != '':
+            inpt = inpt[0]  # setting input to first letter if input is not enter
+        if inpt == '1':
+            setupH()  # setupMPshenanananannanannananangans
+        elif inpt == '2':
+            setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST
+            # SDJGHLSKJFJKLDKLJFLH
+        multiplayer()
     else:
-        inpt = 1
-    print("Oppoent is: " + botName)
-    while True:
-        inpt += 1
-        play(inpt % 2)
-        checkforcardempty()
-else:
-    while sumc < 100:
-        if turn == 0:
-            player()  # second
-            recvplay()
-            isOverAHunnit(0)
-        elif turn == 1:
-            recvplay()  # first
-            isOverAHunnit(0)
-            player()
-        checkforcardempty()
+        cardSetup()
+
+    # gameplay
+    if MPorSP == 0:
+        inpt = input('Do you want to go first?\n')  # add difficulties later
+        if inpt != '':
+            inpt = inpt[0]
+        if inpt == 'y' or inpt == 'Y':
+            inpt = 0
+        else:
+            inpt = 1
+        print("Oppoent is: " + botName)
+        while True:
+            inpt += 1
+            play(inpt % 2)
+            checkforcardempty()
+    else:
+        while sumc < 100:
+            if turn == 0:
+                player()  # second
+                recvplay()
+                isOverAHunnit(0)
+            elif turn == 1:
+                recvplay()  # first
+                isOverAHunnit(0)
+                player()
+            checkforcardempty()
