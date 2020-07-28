@@ -31,8 +31,10 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
+
 def clearPg():
-	print("\n"*100)
+    print("\n" * 100)
+
 
 # game stuff
 def cardSetup():
@@ -351,7 +353,7 @@ def p_replace_card(c):
                 communications.send((str(added)).encode())
                 communications.send((str(sumc)).encode())
                 temptuple1 = (
-                    "\n",name ," Played: ", str(c), " Total Deck Value: ", str(sumc)
+                    "\n", name, " Played: ", str(c), " Total Deck Value: ", str(sumc)
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
@@ -634,7 +636,7 @@ def recvplay():
     global pcard
     global bcard
     global namething
-    clearPg()#new
+    clearPg()  # new
     print("waiting for oppoent...")
     md = "ok"
     cardm = communications.recv(1024)
@@ -669,11 +671,11 @@ def recvplay():
     elif added == -10:
         newcardplayedName = "-10"
     else:
-        newcardplayedName = str(added) #lol forgot to put this in that's why it didnt work
+        newcardplayedName = str(added)  # lol forgot to put this in that's why it didnt work
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
     h = open(namething, "a")
     temptuple1 = (
-        "\n",name1, " Played: ", str(newcardplayedName), " Total Deck Value: ", str(sumc)
+        "\n", name1, " Played: ", str(newcardplayedName), " Total Deck Value: ", str(sumc)
     )
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
