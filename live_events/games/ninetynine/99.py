@@ -790,12 +790,12 @@ while True:
             setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST
             # SDJGHLSKJFJKLDKLJFLH
         multiplayer()
-    if inpt == 'x':
+    elif inpt == 'x':
         if xpgained > 0:
             raise SystemExit("Successfully Exited. You have earned "+str(xpgained)+" XP Today. Well Done")
         else:
             raise SystemExit("Successfully Exited. You have lost "+str(xpgained)+" XP Today. Better Luck Next Time")
-    else:
+    elif inpt == '1':
         cardSetup()
 
     # gameplay
