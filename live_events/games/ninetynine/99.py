@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.8.2'  # TODO change this every time
+version = '1.2.6.8.3'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -747,7 +747,7 @@ while True:
         clearPg()
         print("=========================")
         print("Oppoent is: " + botName)
-        while True:
+        while sumc<100:
             inpt += 1
             play(inpt % 2)
             checkforcardempty()
