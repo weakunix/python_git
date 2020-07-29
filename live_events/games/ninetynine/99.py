@@ -7,6 +7,7 @@ import urllib.request
 
 # files:
 version = '1.2.6.8.3'  # TODO change this every time
+print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -31,13 +32,19 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
+
 def clearPg():
     print("\n" * 100)
 
-print("==========USERNAME==========")
+
+print("=========================")
+print("       Username?")
+print("=========================")
 name = input(">>>")
 clearPg()
-print("===Have you played '99' Before?===")
+print("=========================")
+print("Have you played '99' Before?")
+print("=========================")
 inpt = input('>>>')
 clearPg()
 if inpt != '':
@@ -61,7 +68,10 @@ def cardSetup():
     ##ask for amount of cards per player
     if inpt != 1:
         while True:
-            cardn = input('\nHow many cards per player? (1 to 10)\n')
+            print("=========================")
+            print("How many cards per player? (1 to 10)")
+            print("=========================")
+            cardn = input('>>>')
             try:  # trying to set input to integer
                 cardn = int(cardn)
                 if cardn <= 10:
@@ -100,7 +110,10 @@ def setupH():  # setup the host
     global turn
     global namething
     turn = random.randint(0, 1)
-    port = int(input("port?"))  # port
+    print("=========================")
+    print("port (1-5 digit)")
+    print("=========================")
+    port = int(input(">>>"))  # port
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
@@ -159,7 +172,7 @@ def setupH():  # setup the host
     clearPg()
     print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
-    print("=========================")#adsf
+    print("=========================")  # adsf
 
 
 def setupN():  # setup for the nonsimpyt nosters
@@ -171,14 +184,22 @@ def setupN():  # setup for the nonsimpyt nosters
     global theirEIP
     global turn
     global namething
-    port = int(input("port?"))
+    print("=========================")
+    print("port (1-5 digit)")
+    print("=========================")
+    port = int(input(">>>"))
+    clearPg()
     ipplaceholder = get_ip()
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
-    print("logged in on local ip:", ipplaceholder)  # local ip
-    print("\nglobal IP:", external_ip)  # glob ip
+    print("=======IP(Local)=========")
+    print(ipplaceholder)  # local ip
+    print("=======IP(Global)========")
+    print(external_ip)  # glob ip
+    print("=========Port============")
     print(port)  # port
-    theirEIP = input(str("please enter host IP of server\n"))  # enter ip to connect to
+    print("==Connect To (Enter IP)==")
+    theirEIP = input(str(">>>"))  # enter ip to connect to
     communications.connect((theirEIP, port))
     name1 = communications.recv(1024)  # recieve their name
     name1 = name1.decode()
@@ -380,12 +401,13 @@ def isOverAHunnit(l):
             h.write("\n\nYou win!")
             h.close()
             print(
-                '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")#rank
+                '\n\nYou win! + ' + str(
+                    random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")#rank
+            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
 
 
 ##player plays
@@ -480,6 +502,8 @@ def player():
                     p_replace_card(inpt)
                     break
     if sumc > 99 and MPorSP == 0:
+        clearPg()
+        print("=========================")
         print('Bot cards:\n')
         for i in bcard:  # print cards
             if i == 1:
@@ -494,11 +518,14 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!") #rank
+        print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
-    clearPg()#potential bug
+    if sumc <= 99:
+        clearPg()  # potential bug
+    else:
+        print("=========================")
 
 
 ##bot plays
@@ -591,6 +618,8 @@ def bot():
                     i = 10
                     print('{} played: 10\nSum: {}'.format(botName, sumc))
                 else:
+                    clearPg()
+                    print("=========================")
                     print('Bot cards:\n')
                     for i in bcard:  # print cards
                         if i == 1:
@@ -607,7 +636,7 @@ def bot():
                             print('[{}]'.format(i), end='')
                     print(
                         '\n\nYou win! + ' + str(
-                            random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")#rank
+                            random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
 
 
 ##turn test
@@ -683,6 +712,7 @@ def recvplay():
     h.write(str(temptuple1))
     h.close()
 
+
 # pre game set ups
 
 while True:
@@ -718,12 +748,20 @@ while True:
     ##ask if it is first time playing
 
     # MP or DOM
-    inpt = input('[1]Singleplayer or [2]IP Play?\n')
+    print("=========================")
+    print("[1]Singleplayer or [2]IP Play?")
+    print("=========================")
+    inpt = input('>>>')
+    clearPg()
     if inpt != '':
         inpt = inpt[0]  # setting input to first letter if input is not enter
     if inpt == '2':
         MPorSP = 1
-        inpt = input('[1]Host or [2]Nost?\n')
+        print("=========================")
+        print("[1]Host or [2]Nost?")
+        print("=========================")
+        inpt = input('>>>')
+        clearPg()
         if inpt != '':
             inpt = inpt[0]  # setting input to first letter if input is not enter
         if inpt == '1':
@@ -737,7 +775,12 @@ while True:
 
     # gameplay
     if MPorSP == 0:
-        inpt = input('Do you want to go first?\n')  # add difficulties later
+        clearPg()
+        print("=========================")
+        print("Do you want to go first?")
+        print("=========================")
+        inpt = input('>>>')  # add difficulties later
+        clearPg()
         if inpt != '':
             inpt = inpt[0]
         if inpt == 'y' or inpt == 'Y':
@@ -747,10 +790,12 @@ while True:
         clearPg()
         print("=========================")
         print("Oppoent is: " + botName)
-        while sumc<100:
+        while sumc < 100:
             inpt += 1
             play(inpt % 2)
             checkforcardempty()
+        a = input('You lost, back to the lobby. \nEnter to Continue')
+        clearPg()
     else:
         while sumc < 100:
             if turn == 0:
