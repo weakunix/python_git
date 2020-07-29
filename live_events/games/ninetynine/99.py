@@ -835,22 +835,24 @@ while True:
                         player()  # second
                     except:
                         break
+                    isOverAHunnit(1)
                 if sumc < 100:
                     try:
                         recvplay()
                     except:
                         break
-                isOverAHunnit(0)
+                    isOverAHunnit(0)
             elif turn == 1:
                 if sumc < 100:
                     try:
                         recvplay()  # first
                     except:
                         break
-                isOverAHunnit(0)
+                    isOverAHunnit(0)
                 if sumc < 100:
                     try:
                         player()
                     except:
                         break
+                    isOverAHunnit(1)
             checkforcardempty()
