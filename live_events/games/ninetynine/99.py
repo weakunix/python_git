@@ -175,7 +175,7 @@ def setupH():  # setup the host
     print("=========================")  # adsf
 
 
-def setupN():  # setup for the nonsimpyt nosters
+def setupN():
     global name
     global port
     global external_ip
