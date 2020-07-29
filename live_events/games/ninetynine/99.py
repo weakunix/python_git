@@ -519,6 +519,7 @@ def player():
             else:
                 print('[{}]'.format(i), end='')
         print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
+        a = input('You lost, back to the lobby. \nEnter to Continue')
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
@@ -637,15 +638,19 @@ def bot():#push now but bug here
                     print(
                         '\n\nYou win! + ' + str(
                             random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+                    a = input('You won!, back to the lobby. \nEnter to Continue')
+                    sumc = 103 #stops bugging th eprogram and keep the game going evne you win
         b_replace_card(i)
 
 
 ##turn test
 def play(n):
     if n == 0:
-        bot()
+        if sumc < 100:
+            bot()
     else:
-        player()
+        if sumc<100:
+            player()
 
 
 def checkforcardempty():
@@ -795,16 +800,19 @@ while True:
             inpt += 1
             play(inpt % 2)
             checkforcardempty()
-        a = input('You lost, back to the lobby. \nEnter to Continue')
         clearPg()
     else:
         while sumc < 100:
             if turn == 0:
-                player()  # second
-                recvplay()
+                if sumc < 100:
+                    player()  # second
+                if sumc < 100:
+                    recvplay()
                 isOverAHunnit(0)
             elif turn == 1:
-                recvplay()  # first
+                if sumc < 100:
+                    recvplay()  # first
                 isOverAHunnit(0)
-                player()
+                if sumc < 100:
+                    player()
             checkforcardempty()
