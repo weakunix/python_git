@@ -831,14 +831,26 @@ while True:
         while sumc < 100:
             if turn == 0:
                 if sumc < 100:
-                    player()  # second
+                    try:
+                        player()  # second
+                    except:
+                        break
                 if sumc < 100:
-                    recvplay()
+                    try:
+                        recvplay()
+                    except:
+                        break
                 isOverAHunnit(0)
             elif turn == 1:
                 if sumc < 100:
-                    recvplay()  # first
+                    try:
+                        recvplay()  # first
+                    except:
+                        break
                 isOverAHunnit(0)
                 if sumc < 100:
-                    player()
+                    try:
+                        player()
+                    except:
+                        break
             checkforcardempty()
