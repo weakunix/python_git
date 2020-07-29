@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.9'  # TODO change this every time
+version = '1.2.6.11'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
@@ -31,6 +31,7 @@ botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyP
 bcard = []  # bot cards
 # multi player
 turn = 0
+xpgained = 0
 
 
 def clearPg():
@@ -417,6 +418,7 @@ def player():
     global sumc
     global MPorSP
     global added
+    global xpgained
     global communications
     print("=========================")
     print("Your Cards: ")
@@ -518,7 +520,9 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
+        xp = random.randint(10, 30)
+        xpgained -= xp
+        print('\n\nYou lose!  ' + str(xp) + " Ranked XP Deducted!")  # rank
         a = input('You lost, back to the lobby. \nEnter to Continue')
     else:
         isOverAHunnit(1)
@@ -530,10 +534,11 @@ def player():
 
 
 ##bot plays
-def bot():#push now but bug here
+def bot():  # push now but bug here
     global bcard
     global cardl
     global sumc
+    global xpgained
     clearPg()
     print("=========================")
     nums = [2, 3, 5, 6, 7, 8]
@@ -635,11 +640,13 @@ def bot():#push now but bug here
                             print('[Joker]', end='')
                         else:
                             print('[{}]'.format(i), end='')
+                    xp = random.randint(30, 50)
+                    xpgained += xp
                     print(
                         '\n\nYou win! + ' + str(
-                            random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+                            xp) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
                     a = input('You won!, back to the lobby. \nEnter to Continue')
-                    sumc = 103 #stops bugging th eprogram and keep the game going evne you win
+                    sumc = 103  # stops bugging th eprogram and keep the game going evne you win
         b_replace_card(i)
 
 
@@ -649,7 +656,7 @@ def play(n):
         if sumc < 100:
             bot()
     else:
-        if sumc<100:
+        if sumc < 100:
             player()
 
 
@@ -755,7 +762,7 @@ while True:
 
     # MP or DOM
     print("=========================")
-    print("[1]Singleplayer or [2]IP Play?")
+    print("[1]Singleplayer or [2]IP Play? [x]Exit")
     print("=========================")
     inpt = input('>>>')
     clearPg()
@@ -776,6 +783,11 @@ while True:
             setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST
             # SDJGHLSKJFJKLDKLJFLH
         multiplayer()
+    if inpt == 'x':
+        if xpgained > 0:
+            raise SystemExit("Successfully Exited. You have earned "+str(xpgained)+" XP Today. Well Done")
+        else:
+            raise SystemExit("Successfully Exited. You have lost "+str(xpgained)+" XP Today. Better Luck Next Time")
     else:
         cardSetup()
 
