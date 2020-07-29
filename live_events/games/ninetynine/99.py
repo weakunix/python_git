@@ -6,10 +6,11 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.4'  # TODO change this every time
+version = '1.2.6.9'  # TODO change this every time
+print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
-name = input("Username?\n")
+name = ""
 name1 = ""  # oppoent name
 communications = ''  # host send
 port = 12345  # def
@@ -32,6 +33,32 @@ bcard = []  # bot cards
 turn = 0
 
 
+def clearPg():
+    print("\n" * 100)
+
+
+print("=========================")
+print("       Username?")
+print("=========================")
+name = input(">>>")
+clearPg()
+print("=========================")
+print("Have you played '99' Before?")
+print("=========================")
+inpt = input('>>>')
+clearPg()
+if inpt != '':
+    inpt = inpt[0]  # setting input to first letter if input is not enter
+if inpt == 'n' or inpt == 'N':  # need tutorial
+    inpt = input(
+        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
+        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
+        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
+        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
+        '99\n\nEnter to continue:\n')  # print tutorial
+clearPg()
+
+
 # game stuff
 def cardSetup():
     global cardl
@@ -41,14 +68,17 @@ def cardSetup():
     ##ask for amount of cards per player
     if inpt != 1:
         while True:
-            cardn = input('How many cards per player? (1 to 10)\n')
+            print("=========================")
+            print("How many cards per player? (1 to 10)")
+            print("=========================")
+            cardn = input('>>>')
             try:  # trying to set input to integer
                 cardn = int(cardn)
                 if cardn <= 10:
                     break
-                print('Input was greater than 10\n')
+                print('!!!ERROR: Input was greater than 10\n')
             except:
-                print('Input was not an integer\n')
+                print('!!!ERROR: Input was not an integer\n')
     ##giving cards
     for i in range(cardn):  # player
         pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
@@ -80,15 +110,23 @@ def setupH():  # setup the host
     global turn
     global namething
     turn = random.randint(0, 1)
-    port = int(input("port?"))  # port
+    print("=========================")
+    print("port (1-5 digit)")
+    print("=========================")
+    port = int(input(">>>"))  # port
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
     communications.bind((host, port))
-    print("logged in on local ip:", host)  # print out local ip
-    print("\nglobal IP:", external_ip)  # print global ip
+    clearPg()
+    print("=========IP(Local)===========")
+    print(host)  # print out local ip
+    print("=========IP(Global)==========")
+    print(external_ip)  # print global ip
+    print("============PORT=============")
     print(port)  # print port for global ip
-    print("\nsuccessfully connected \n waiting for connections\n cancel?")
+    print("=============================")
+    print("Room started\nWaiting for connections...")
     communications.listen(1)  # wait for ppl to join
     communications, adr = communications.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
@@ -131,11 +169,13 @@ def setupH():  # setup the host
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
-    # os.system('clear')
+    clearPg()
+    print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
+    print("=========================")  # adsf
 
 
-def setupN():  # setup for the nonsimpyt nosters
+def setupN():
     global name
     global port
     global external_ip
@@ -144,14 +184,22 @@ def setupN():  # setup for the nonsimpyt nosters
     global theirEIP
     global turn
     global namething
-    port = int(input("port?"))
+    print("=========================")
+    print("port (1-5 digit)")
+    print("=========================")
+    port = int(input(">>>"))
+    clearPg()
     ipplaceholder = get_ip()
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
-    print("logged in on local ip:", ipplaceholder)  # local ip
-    print("\nglobal IP:", external_ip)  # glob ip
+    print("=======IP(Local)=========")
+    print(ipplaceholder)  # local ip
+    print("=======IP(Global)========")
+    print(external_ip)  # glob ip
+    print("=========Port============")
     print(port)  # port
-    theirEIP = input(str("please enter host IP of server\n"))  # enter ip to connect to
+    print("==Connect To (Enter IP)==")
+    theirEIP = input(str(">>>"))  # enter ip to connect to
     communications.connect((theirEIP, port))
     name1 = communications.recv(1024)  # recieve their name
     name1 = name1.decode()
@@ -183,7 +231,10 @@ def setupN():  # setup for the nonsimpyt nosters
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
+    clearPg()
+    print("=========================")
     print("successfully connected to game. Your Oppoent:" + name1)
+    print("=========================")
 
 
 def multiplayer():
@@ -226,9 +277,15 @@ def multiplayer():
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             m = communications.recv(1024)
+        clearPg()
+        print("=========================")
         print("Game Setup Success!")
+        print("=========================")
+        print("\n\n\n")
     else:
+        print("=========================")
         print("waiting for oppoent...")
+        print("=========================")
         cardn = communications.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
@@ -262,48 +319,13 @@ def multiplayer():
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             communications.send(md.encode())
+        clearPg()
+        print("=========================")
         print("Game Setup Success!")
+        print("=========================")
+        print("\n\n\n")
     h.write("\nFinished setting up game!")
     h.close()
-
-
-# pre game set ups
-##filling cardl
-for i in range(1, 14):
-    for k in range(4):
-        cardl.append(i)
-for i in range(2):
-    cardl.append(14)
-
-botName = botNames[random.randint(0, 4)]
-##ask if it is first time playing
-inpt = input('Is this your first time playing 99?\n')
-if inpt != '':
-    inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == 'y' or inpt == 'Y':  # need tutorial
-    inpt = input(
-        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
-        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
-        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
-        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
-        '99\n\nEnter to continue:\n')  # print tutorial
-
-# MP or DOM
-inpt = input('[1]Singleplayer or [2]IP Play?\n')
-if inpt != '':
-    inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == '2':
-    MPorSP = 1
-    inpt = input('[1]Host or [2]Nost?\n')
-    if inpt != '':
-        inpt = inpt[0]  # setting input to first letter if input is not enter
-    if inpt == '1':
-        setupH()  # setupMPshenanananannanannananangans
-    elif inpt == '2':
-        setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST SDJGHLSKJFJKLDKLJFLH
-    multiplayer()
-else:
-    cardSetup()
 
 
 # user def functions
@@ -348,7 +370,7 @@ def p_replace_card(c):
                 communications.send((str(added)).encode())
                 communications.send((str(sumc)).encode())
                 temptuple1 = (
-                    "\n",name ," Played: ", str(c), " Total Deck Value: ", str(sumc)
+                    "\n", name, " Played: ", str(c), " Total Deck Value: ", str(sumc)
                 )
                 temptuple1 = "".join(temptuple1)
                 h.write(str(temptuple1))
@@ -378,13 +400,14 @@ def isOverAHunnit(l):
             h = open(namething, "a")
             h.write("\n\nYou win!")
             h.close()
-            raise SystemExit(
-                '\n\nYou win! + ' + str(random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")
+            print(
+                '\n\nYou win! + ' + str(
+                    random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            raise SystemExit('\n\nYou lose! + ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")
+            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
 
 
 ##player plays
@@ -395,6 +418,7 @@ def player():
     global MPorSP
     global added
     global communications
+    print("=========================")
     print("Your Cards: ")
     for i in pcard:  # print cards
         i = int(i)
@@ -411,13 +435,14 @@ def player():
         else:
             print('[{}]'.format(i), end='')
             # print(type(pcard[i]))
+    print("\n=========================")
     while True:
-        inpt = input('\n\nChoose a card to play:\n')
+        inpt = input('Choose a card to play:\n\n>>>')
         if inpt != '':
             if inpt[0] == 'a' or inpt[0] == 'A':  # ace
                 if 1 in pcard:
                     while True:
-                        inpt = input('Should Ace be 1 or 11?\n')
+                        inpt = input('>Should Ace be 1 or 11?<\n')
                         if inpt == '1' or inpt == '11':
                             if inpt == '1':
                                 sumc += 1
@@ -428,7 +453,7 @@ def player():
                             p_replace_card(1)
                             break
                         else:
-                            print('\nInput was not 1 or 11\n')
+                            print('\n!!!ERROR: Input was not 1 or 11\n')
                     break
             elif inpt[0] == 'j' or inpt[0] == 'J':
                 if len(inpt) > 1:
@@ -477,6 +502,8 @@ def player():
                     p_replace_card(inpt)
                     break
     if sumc > 99 and MPorSP == 0:
+        clearPg()
+        print("=========================")
         print('Bot cards:\n')
         for i in bcard:  # print cards
             if i == 1:
@@ -491,10 +518,14 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        raise SystemExit('\n\nYou lose')
+        print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
+    if sumc <= 99:
+        clearPg()  # potential bug
+    else:
+        print("=========================")
 
 
 ##bot plays
@@ -502,6 +533,8 @@ def bot():
     global bcard
     global cardl
     global sumc
+    clearPg()
+    print("=========================")
     nums = [2, 3, 5, 6, 7, 8]
     power = True  # does the bot have all power cards?
     if sumc <= 88:
@@ -514,7 +547,7 @@ def bot():
                 power = bcard[random.randint(0, cardn - 1)]
                 if power in nums:
                     sumc += power
-                    print('===========\n {} played: {}\nSum: {}\n'.format(botName, power, sumc))
+                    print('{} played: {}\nSum: {}'.format(botName, power, sumc))
                     break
         else:
             power = bcard[random.randint(0, cardn - 1)]
@@ -522,33 +555,33 @@ def bot():
                 inpt = random.randint(1, 2)
                 if inpt == 1:
                     sumc += 1
-                    print('{} played: A(1)\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: A(1)\nSum: {}'.format(botName, sumc))
                 else:
                     sumc += 11
-                    print('{} played: A(11)\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: A(11)\nSum: {}'.format(botName, sumc))
             else:
                 if power == 10:
                     sumc -= 10
-                    print('{} played: 10\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 10\nSum: {}'.format(botName, sumc))
                 elif power == 11 or power == 12:
                     sumc += 10
                     if power == 11:
-                        print('{} played: J\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
-                        print('{} played: Q\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Q\nSum: {}'.format(botName, sumc))
                 else:
                     sumc = 99
                     if power == 13:
-                        print('{} played: K\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
-                        print('{} played: Joker\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Joker\nSum: {}'.format(botName, sumc))
         b_replace_card(power)
     else:
         played = False  # did bot play yet?
         for i in bcard:
             if i in nums and i + sumc <= 99:
                 sumc += i
-                print('{} played: {}\nSum: {}\n'.format(botName, i, sumc))
+                print('{} played: {}\nSum: {}'.format(botName, i, sumc))
                 played = True
         if not played:
             if sumc + 10 <= 99:
@@ -556,35 +589,37 @@ def bot():
                     sumc += 10
                     if 11 in bcard:
                         i = 11
-                        print('{} played: J\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
                         i = 12
-                        print('{} played: Q\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Q\nSum: {}'.format(botName, sumc))
                     played = True
         if not played:
             if 1 in bcard and sumc < 99:
                 sumc += 1
-                print('{} played: A(1)\nSum: {}\n'.format(botName, sumc))
+                print('{} played: A(1)\nSum: {}'.format(botName, sumc))
             else:
                 if 13 in bcard or 14 in bcard:
                     sumc = 99
                     if 13 in bcard:
                         i = 13
-                        print('{} played: K\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
                         i = 14
-                        print('{} played: Joker\nSum: {}\n'.format(botName, sumc))
+                        print('{} played: Joker\nSum: {}'.format(botName, sumc))
                 elif 4 in bcard:
                     i = 4
-                    print('{} played: 4\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 4\nSum: {}'.format(botName, sumc))
                 elif 9 in bcard:
                     i = 9
-                    print('{} played: 9\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 9\nSum: {}'.format(botName, sumc))
                 elif 10 in bcard:
                     sumc -= 10
                     i = 10
-                    print('{} played: 10\nSum: {}\n'.format(botName, sumc))
+                    print('{} played: 10\nSum: {}'.format(botName, sumc))
                 else:
+                    clearPg()
+                    print("=========================")
                     print('Bot cards:\n')
                     for i in bcard:  # print cards
                         if i == 1:
@@ -599,8 +634,9 @@ def bot():
                             print('[Joker]', end='')
                         else:
                             print('[{}]'.format(i), end='')
-                    raise SystemExit('\n\nYou win!')
-        b_replace_card(i)
+                    print(
+                        '\n\nYou win! + ' + str(
+                            random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
 
 
 ##turn test
@@ -630,8 +666,11 @@ def recvplay():
     global pcard
     global bcard
     global namething
+    clearPg()  # new
+    print("waiting for oppoent...")
     md = "ok"
     cardm = communications.recv(1024)
+    clearPg()
     cardm = cardm.decode()
     cardm = int(cardm)
     communications.send(md.encode())
@@ -653,7 +692,7 @@ def recvplay():
     sumc = sumc.decode()
     sumc = int(sumc)
     newcardplayedName = ""
-    if added == 1 and added == 11:
+    if added == 1 or added == 11:
         newcardplayedName = "Ace"
     elif added == 1000:
         newcardplayedName = "NINETYNINER"
@@ -662,39 +701,109 @@ def recvplay():
     elif added == -10:
         newcardplayedName = "-10"
     else:
-        newcardplayedName = str(added) #lol forgot to put this in that's why it didnt work
+        newcardplayedName = str(added)  # lol forgot to put this in that's why it didnt work
+    print("=========================")
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
     h = open(namething, "a")
     temptuple1 = (
-        "\n",name1, " Played: ", str(newcardplayedName), " Total Deck Value: ", str(sumc)
+        "\n", name1, " Played: ", str(newcardplayedName), " Total Deck Value: ", str(sumc)
     )
     temptuple1 = "".join(temptuple1)
     h.write(str(temptuple1))
     h.close()
 
 
-# gameplay
-if MPorSP == 0:
-    inpt = input('Do you want to go first?\n')  # add difficulties later
+# pre game set ups
+
+while True:
+    ##filling cardl
+    cardl = []  # cards left
+    for i in range(1, 14):
+        for k in range(4):
+            cardl.append(i)
+    for i in range(2):
+        cardl.append(14)
+    # files:
+    external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+    name1 = ""  # oppoent name
+    communications = ''  # host send
+    port = 12345  # def
+    theirEIP = ""
+    host = ""
+    MPorSP = 0  # 1 is mp 0 is sp
+    namething = ""  # name of file to log game into
+    # vars (game)
+    added = 0
+    sumc = 0  # sum of cards
+    cardn = 0  # amount of cards per player
+    pcard = []  # player cards
+    inpt = ''  # input
+    nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
+    # single player
+    botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
+    bcard = []  # bot cards
+    # multi player
+    turn = 0
+    botName = botNames[random.randint(0, 4)]
+    ##ask if it is first time playing
+
+    # MP or DOM
+    print("=========================")
+    print("[1]Singleplayer or [2]IP Play?")
+    print("=========================")
+    inpt = input('>>>')
+    clearPg()
     if inpt != '':
-        inpt = inpt[0]
-    if inpt == 'y' or inpt == 'Y':
-        inpt = 0
+        inpt = inpt[0]  # setting input to first letter if input is not enter
+    if inpt == '2':
+        MPorSP = 1
+        print("=========================")
+        print("[1]Host or [2]Nost?")
+        print("=========================")
+        inpt = input('>>>')
+        clearPg()
+        if inpt != '':
+            inpt = inpt[0]  # setting input to first letter if input is not enter
+        if inpt == '1':
+            setupH()  # setupMPshenanananannanannananangans
+        elif inpt == '2':
+            setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST
+            # SDJGHLSKJFJKLDKLJFLH
+        multiplayer()
     else:
-        inpt = 1
-    print("Oppoent is: " + botName)
-    while True:
-        inpt += 1
-        play(inpt % 2)
-        checkforcardempty()
-else:
-    while sumc < 100:
-        if turn == 0:
-            player()  # second
-            recvplay()
-            isOverAHunnit(0)
-        elif turn == 1:
-            recvplay()  # first
-            isOverAHunnit(0)
-            player()
-        checkforcardempty()
+        cardSetup()
+
+    # gameplay
+    if MPorSP == 0:
+        clearPg()
+        print("=========================")
+        print("Do you want to go first?")
+        print("=========================")
+        inpt = input('>>>')  # add difficulties later
+        clearPg()
+        if inpt != '':
+            inpt = inpt[0]
+        if inpt == 'y' or inpt == 'Y':
+            inpt = 0
+        else:
+            inpt = 1
+        clearPg()
+        print("=========================")
+        print("Oppoent is: " + botName)
+        while sumc < 100:
+            inpt += 1
+            play(inpt % 2)
+            checkforcardempty()
+        a = input('You lost, back to the lobby. \nEnter to Continue')
+        clearPg()
+    else:
+        while sumc < 100:
+            if turn == 0:
+                player()  # second
+                recvplay()
+                isOverAHunnit(0)
+            elif turn == 1:
+                recvplay()  # first
+                isOverAHunnit(0)
+                player()
+            checkforcardempty()
