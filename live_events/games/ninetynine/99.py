@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.7'  # TODO change this every time
+version = '1.2.6.8.2'  # TODO change this every time
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -61,9 +61,9 @@ def cardSetup():
                 cardn = int(cardn)
                 if cardn <= 10:
                     break
-                print('Input was greater than 10\n')
+                print('!!!ERROR: Input was greater than 10\n')
             except:
-                print('Input was not an integer\n')
+                print('!!!ERROR: Input was not an integer\n')
     ##giving cards
     for i in range(cardn):  # player
         pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
@@ -410,7 +410,7 @@ def player():
             if inpt[0] == 'a' or inpt[0] == 'A':  # ace
                 if 1 in pcard:
                     while True:
-                        inpt = input('Should Ace be 1 or 11?\n')
+                        inpt = input('>Should Ace be 1 or 11?<\n')
                         if inpt == '1' or inpt == '11':
                             if inpt == '1':
                                 sumc += 1
@@ -421,7 +421,7 @@ def player():
                             p_replace_card(1)
                             break
                         else:
-                            print('\nInput was not 1 or 11\n')
+                            print('\n!!!ERROR: Input was not 1 or 11\n')
                     break
             elif inpt[0] == 'j' or inpt[0] == 'J':
                 if len(inpt) > 1:
