@@ -637,6 +637,7 @@ def bot():#push now but bug here
                     print(
                         '\n\nYou win! + ' + str(
                             random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+        b_replace_card(i)
 
 
 ##turn test
