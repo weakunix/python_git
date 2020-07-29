@@ -288,7 +288,11 @@ def multiplayer():
             cardl[i] = cardl[i].decode()
             cardl[i] = int(cardl[i])
             communications.send(md.encode())
+        clearPg()
+        print("=========================")
         print("Game Setup Success!")
+        print("=========================")
+        print("\n\n\n")
     h.write("\nFinished setting up game!")
     h.close()
 
