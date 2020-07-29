@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.8.3'  # TODO change this every time
+version = '1.2.6.9'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
