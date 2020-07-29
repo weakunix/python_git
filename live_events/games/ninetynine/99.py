@@ -6,6 +6,7 @@ import time
 import urllib.request
 
 # files:
+ISITHOSTORNOST = " "
 version = '1.2.6.12'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
@@ -102,6 +103,7 @@ def get_ip():
 
 
 def setupH():  # setup the host
+    global ISITHOSTORNOST
     global name
     global port
     global external_ip
@@ -110,6 +112,7 @@ def setupH():  # setup the host
     global theirEIP
     global turn
     global namething
+    ISITHOSTORNOST = "host"
     turn = random.randint(0, 1)
     print("=========================")
     print("port (1-5 digit)")
@@ -177,6 +180,7 @@ def setupH():  # setup the host
 
 
 def setupN():
+    global ISITHOSTORNOST
     global name
     global port
     global external_ip
@@ -185,6 +189,7 @@ def setupN():
     global theirEIP
     global turn
     global namething
+    ISITHOSTORNOST = "nost"
     print("=========================")
     print("port (1-5 digit)")
     print("=========================")
@@ -392,12 +397,14 @@ def b_replace_card(c):
 
 
 def isOverAHunnit(l):
+    global ISITHOSTORNOST
     global sumc
     global xpgained
     global communications
     global name
     if sumc > 99:
-        communications.close()
+        if ISITHOSTORNOST == "host":
+            communications.close()
         if l == 0:
             h = open(namething, "a")
             h.write("\n\nYou win!")
