@@ -31,20 +31,25 @@ bcard = []  # bot cards
 # multi player
 turn = 0
 
-name = input("Username?\n")
-inpt = input('Is this your first time playing 99?\n')
+def clearPg():
+    print("\n" * 100)
+
+print("==========USERNAME==========")
+name = input(">>>")
+clearPg()
+print("===Have you played '99' Before?===")
+inpt = input('>>>')
+clearPg()
 if inpt != '':
     inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == 'y' or inpt == 'Y':  # need tutorial
+if inpt == 'n' or inpt == 'N':  # need tutorial
     inpt = input(
         'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
         'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
         'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
         '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
         '99\n\nEnter to continue:\n')  # print tutorial
-
-def clearPg():
-    print("\n" * 100)
+clearPg()
 
 
 # game stuff
@@ -100,10 +105,15 @@ def setupH():  # setup the host
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
     communications.bind((host, port))
-    print("logged in on local ip:", host)  # print out local ip
-    print("\nglobal IP:", external_ip)  # print global ip
+    clearPg()
+    print("=========IP(Local)===========")
+    print(host)  # print out local ip
+    print("=========IP(Global)==========")
+    print(external_ip)  # print global ip
+    print("============PORT=============")
     print(port)  # print port for global ip
-    print("\nsuccessfully connected \n waiting for connections\n cancel?")
+    print("=============================")
+    print("Room started\nWaiting for connections...")
     communications.listen(1)  # wait for ppl to join
     communications, adr = communications.accept()  # if see ppl accept it
     name = name.encode()  # send your name to them
@@ -488,7 +498,7 @@ def player():
     else:
         isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
-    clearPg()
+    clearPg()#potential bug
 
 
 ##bot plays
