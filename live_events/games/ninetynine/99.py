@@ -529,7 +529,7 @@ def player():
 
 
 ##bot plays
-def bot():
+def bot():#push now but bug here
     global bcard
     global cardl
     global sumc
