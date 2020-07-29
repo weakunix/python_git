@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 # files:
-version = '1.2.6.11'  # TODO change this every time
+version = '1.2.6.12'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
@@ -393,6 +393,7 @@ def b_replace_card(c):
 
 def isOverAHunnit(l):
     global sumc
+    global xpgained
     global communications
     global name
     if sumc > 99:
@@ -401,14 +402,20 @@ def isOverAHunnit(l):
             h = open(namething, "a")
             h.write("\n\nYou win!")
             h.close()
+            xp = random.randint(30, 50)
+            xpgained += xp
             print(
                 '\n\nYou win! + ' + str(
-                    random.randint(30, 50)) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+                    xp) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+            a = input('You won!, back to the lobby. \nEnter to Continue')
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            print('\n\nYou lose! - ' + str(random.randint(10, 30)) + " Ranked XP Deducted!")  # rank
+            xp = random.randint(10, 30)
+            xpgained -= xp
+            print('\n\nYou lose! ' + str(xp) + " Ranked XP Deducted!")  # rank
+            a = input('You Lost!, back to the lobby. \nEnter to Continue')
 
 
 ##player plays
