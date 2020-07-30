@@ -538,8 +538,8 @@ def player():
         xpgained -= xp
         print('\n\nYou lose!  ' + str(xp) + " Ranked XP Deducted!")  # rank
         a = input('You lost, back to the lobby. \nEnter to Continue')
-    else:
-        isOverAHunnit(1)
+#    else:
+ #       isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
     if sumc <= 99:
         clearPg()  # potential bug
