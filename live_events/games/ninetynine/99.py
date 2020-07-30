@@ -8,7 +8,7 @@ import os
 
 # files:
 ISITHOSTORNOST = " "
-version = 'BETA 1.4'  # TODO change this every time
+version = 'BETA 1.4.1'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
@@ -35,6 +35,7 @@ bcard = []  # bot cards
 turn = 0
 xpgained = 0
 rank = " "
+showTutorialTip = ""
 
 
 def clearPg():
@@ -54,7 +55,7 @@ def rankchecklevel(print, ranka):
         ranka = "Honor"
     elif 1350 <= ranka < 1500:
         rank = "Veteran"
-    elif 1500 <= rank < 2000:
+    elif 1500 <= ranka < 2000:
         ranka = "Professional"
     elif 2000 <= ranka < 2500:
         ranka = "Platinum"
@@ -70,12 +71,14 @@ def rankchecklevel(print, ranka):
 def rankedcheck():
     global rank
     global name
+    global showTutorialTip
     if os.path.exists("saveData.txt"):
         with open('saveData.txt', 'r') as XPFINDR:
             try:
                 data = XPFINDR.readlines()
                 rank = int(data[0])
                 name = data[1]
+                showTutorialTip = data[2]
                 print("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank))+"\nUsername:"+str(name))
                 print("========Load?===========")
             except:
@@ -87,18 +90,25 @@ def rankedcheck():
                     print("Successfully Deleted Save!")
                 raise SystemExit("!!!!ERROR: Could not load save!")
         a = input('\n[Y]Confirm Load [X]Cancel [D]Delete \n\n>>>')
-        a = a[0]
-        if a == "d" or a == "D":
-            XPFINDR.close()
-            os.remove("saveData.txt")
-            clearPg()
-            raise SystemExit("Successfully Deleted Save!")
-        elif a != 'y' or a != 'Y':
-            rank = 0
-            clearPg()
-            raise SystemExit("Load Aborted.")
-
-
+        if a != '':
+            a = a[0]
+            if a == "d" or a == "D":
+                a = input("Are you sure you want to delete your save? (It'll be gone for a very long time!)\n\n[y]Confirm "
+                          "[x]Cancel\n>>>")
+                if inpt != '':
+                    a = a[0]
+                    if a == 'y' or a == 'Y':
+                        XPFINDR.close()
+                        os.remove("saveData.txt")
+                        clearPg()
+                        raise SystemExit("Successfully Deleted Save!")
+                    raise SystemExit("Aborted")
+            elif a == 'x' or a == 'X':
+                rank = 0
+                clearPg()
+                raise SystemExit("Load Aborted.")
+            else:
+                print("Successfully Loaded Save")
     else:
         a = input("\n[SAVE]>There are no saves found on this computer. Enter to Create \n")
         XPFINDR = open("saveData.txt", "w+")
@@ -794,30 +804,38 @@ def recvplay():
 # pre game set ups
 print("=========================")
 rankedcheck()  # new may break
-print("=========================")
-print("       Username?")
-print("=========================")
-name = input(">>>")
-clearPg()
-XPFINDR = open("saveData.txt", "a")
-XPFINDR.write("\n")
-XPFINDR.write(str(name))
-XPFINDR.close()
-print("=========================")
-print("Have you played '99' Before?")
-print("=========================")
-inpt = input('>>>')
-clearPg()
-if inpt != '':
-    inpt = inpt[0]  # setting input to first letter if input is not enter
-if inpt == 'n' or inpt == 'N':  # need tutorial
-    inpt = input(
-        'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
-        'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
-        'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
-        '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
-        '99\n\nEnter to continue:\n')  # print tutorial
-clearPg()
+if name == "":
+    print("=========================")
+    print("       Username?")
+    print("=========================")
+    name = input(">>>")
+    clearPg()
+    XPFINDR = open("saveData.txt", "a")
+    XPFINDR.write("\n")
+    XPFINDR.write(str(name))
+    XPFINDR.close()
+if showTutorialTip == "":
+    print("=========================")
+    print("Have you played '99' Before? \n[Y]Yes [N]No [D] Don't show this again")
+    print("=========================")
+    inpt = input('>>>')
+    clearPg()
+    if inpt != '':
+        inpt = inpt[0]  # setting input to first letter if input is not enter
+    if inpt == 'n' or inpt == 'N':  # need tutorial
+        inpt = input(
+            'Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to win\n\nHow to play: '
+            'When you play a card it adds to the sum of all the cards. For example if the first card played was 6 and the '
+            'second card played was 3, the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: '
+            '5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: Automatically to '
+            '99\n\nEnter to continue:\n')  # print tutorial
+    elif inpt == 'd' or inpt == "D":
+        showTutorialTip = "No"
+        XPFINDR = open("saveData.txt", "a")
+        XPFINDR.write("\n")
+        XPFINDR.write(str(showTutorialTip))
+        XPFINDR.close()
+    clearPg()
 
 while True:
     ##filling cardl
