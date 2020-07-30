@@ -840,6 +840,7 @@ while True:
                     try:
                         recvplay()
                     except:
+                        isOverAHunnit(0)
                         break
                     isOverAHunnit(0)
             elif turn == 1:
@@ -847,6 +848,7 @@ while True:
                     try:
                         recvplay()  # first
                     except:
+                        isOverAHunnit(0)
                         break
                     isOverAHunnit(0)
                 if sumc < 100:
