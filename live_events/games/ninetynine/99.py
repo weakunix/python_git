@@ -8,7 +8,7 @@ import os
 
 # files:
 ISITHOSTORNOST = " "
-version = 'BETA 1.4.1'  # TODO change this every time
+version = 'BETA 1.4.2'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
@@ -36,13 +36,15 @@ turn = 0
 xpgained = 0
 rank = " "
 showTutorialTip = ""
-
+xp = 0
+completed = ""
+ranks = ["Bronze","Silver","Gold","Dedicated","Honor","Veteran","Professional","Platinum","Moolius","Mooclear"]
 
 def clearPg():
     print("\n" * 100)
 
 
-def rankchecklevel(print, ranka):
+def rankchecklevel(print, ranka, calculate):
     if 0 <= ranka < 250:
         ranka = "Bronze"
     elif 250 <= ranka < 500:
@@ -63,6 +65,7 @@ def rankchecklevel(print, ranka):
         ranka = "Moolius"
     elif 3000 <= ranka:
         ranka = "Mooclear"
+    #work on this for calcs
     if print:
         return ranka
 
@@ -72,6 +75,7 @@ def rankedcheck():
     global rank
     global name
     global showTutorialTip
+    global completed
     if os.path.exists("saveData.txt"):
         with open('saveData.txt', 'r') as XPFINDR:
             try:
@@ -79,7 +83,13 @@ def rankedcheck():
                 rank = int(data[0])
                 name = data[1]
                 showTutorialTip = data[2]
-                print("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank))+"\nUsername:"+str(name))
+                completed = data[3]
+                if completed == "false":
+                    print("You left a game. -10 XP\n")
+                    a = input("Enter To Continue.")
+                    rank -= 10
+                print("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank, 0)) + "(" + str(
+                    rank) + ")\nUsername:" + str(name))
                 print("========Load?===========")
             except:
                 ase = input("[SAVE] SAVE IS CORRUPTED. DELETE SAVE?\n")
@@ -93,7 +103,8 @@ def rankedcheck():
         if a != '':
             a = a[0]
             if a == "d" or a == "D":
-                a = input("Are you sure you want to delete your save? (It'll be gone for a very long time!)\n\n[y]Confirm "
+                a = input("Are you sure you want to delete your save? (It'll be gone for a very long time!)\n\n["
+                          "y]Confirm "
                           "[x]Cancel\n>>>")
                 if inpt != '':
                     a = a[0]
@@ -463,6 +474,7 @@ def isOverAHunnit(l):
     global xpgained
     global communications
     global name
+    global xp
     if sumc > 99:
         if ISITHOSTORNOST == "host":
             communications.close()
@@ -474,14 +486,15 @@ def isOverAHunnit(l):
             xpgained += xp
             print(
                 '\n\nYou win! + ' + str(
-                    xp) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+                    xp) + " Ranked XP! Only " + rankchecklevel(1, rank, 1) + " More to" + rankchecklevel(1, rank,
+                                                                                                         2))  # rank
             a = input('You won!, back to the lobby. \nEnter to Continue')
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            xp = random.randint(10, 30)
-            xpgained -= xp
+            xp = random.randint(-10, -30)
+            xpgained += xp
             print('\n\nYou lose! ' + str(xp) + " Ranked XP Deducted!")  # rank
             a = input('You Lost!, back to the lobby. \nEnter to Continue')
 
@@ -495,6 +508,7 @@ def player():
     global added
     global xpgained
     global communications
+    global xp
     print("=========================")
     print("Your Cards: ")
     for i in pcard:  # print cards
@@ -595,8 +609,8 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        xp = random.randint(10, 30)
-        xpgained -= xp
+        xp = random.randint(-10, -30)
+        xpgained += xp
         print('\n\nYou lose!  ' + str(xp) + " Ranked XP Deducted!")  # rank
         a = input('You lost, back to the lobby. \nEnter to Continue')
     #    else:
@@ -614,6 +628,7 @@ def bot():  # push now but bug here
     global cardl
     global sumc
     global xpgained
+    global xp
     clearPg()
     print("=========================")
     nums = [2, 3, 5, 6, 7, 8]
@@ -811,7 +826,6 @@ if name == "":
     name = input(">>>")
     clearPg()
     XPFINDR = open("saveData.txt", "a")
-    XPFINDR.write("\n")
     XPFINDR.write(str(name))
     XPFINDR.close()
 if showTutorialTip == "":
@@ -832,12 +846,15 @@ if showTutorialTip == "":
     elif inpt == 'd' or inpt == "D":
         showTutorialTip = "No"
         XPFINDR = open("saveData.txt", "a")
-        XPFINDR.write("\n")
         XPFINDR.write(str(showTutorialTip))
         XPFINDR.close()
     clearPg()
 
 while True:
+    XPFINDR = open("saveData.txt", "w")
+    bcd = rank + xp
+    XPFINDR.write(str(bcd) + "\n" + name + showTutorialTip + "true")
+    XPFINDR.close()
     ##filling cardl
     cardl = []  # cards left
     for i in range(1, 14):
@@ -902,6 +919,9 @@ while True:
 
     # gameplay
     if MPorSP == 0:
+        XPFINDR = open("saveData.txt", "w")
+        XPFINDR.write(str(rank) + "\n" + name + showTutorialTip + "false")
+        XPFINDR.close()
         clearPg()
         print("=========================")
         print("Do you want to go first?")
@@ -923,6 +943,9 @@ while True:
             checkforcardempty()
         clearPg()
     else:
+        XPFINDR = open("saveData.txt", "w")
+        XPFINDR.write(str(rank) + "\n" + name + showTutorialTip + "false")
+        XPFINDR.close()
         while sumc < 100:
             if turn == 0:
                 if sumc < 100:
