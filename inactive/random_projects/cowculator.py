@@ -1,3 +1,6 @@
+#imports
+
+
 # user defined functions
 def gcd(*n):
     if len(n) == 0:
