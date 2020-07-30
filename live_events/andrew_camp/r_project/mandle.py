@@ -52,3 +52,4 @@ def get_mouse_click_coord(x, y):
 
 scream.onscreenclick(get_mouse_click_coord)
 scream.listen()
+scream.mainloop()
