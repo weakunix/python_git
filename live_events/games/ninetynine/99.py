@@ -20,7 +20,7 @@ theirEIP = ""
 host = ""
 MPorSP = 0  # 1 is mp 0 is sp
 namething = ""  # name of file to log game into
-# vars (game)
+# vars (game)#
 added = 0
 cardl = []  # cards left
 sumc = 0  # sum of cards
@@ -31,7 +31,7 @@ nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
 # single player
 botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
 bcard = []  # bot cards
-# multi player
+# multi player#
 turn = 0
 xpgained = 0
 rank = " "
