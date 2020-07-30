@@ -39,36 +39,56 @@ showTutorialTip = ""
 xp = 0
 completed = ""
 ranks = ["Bronze","Silver","Gold","Dedicated","Honor","Veteran","Professional","Platinum","Moolius","Mooclear"]
+rankscore = [250,500,800,1000,1350,1500,2000,2500,3000]
 
 def clearPg():
     print("\n" * 100)
 
 
 def rankchecklevel(print, ranka, calculate):
+    global ranks
+    global rankscore
+    global rank
+    r = 0
     if 0 <= ranka < 250:
-        ranka = "Bronze"
+        R = 0
+        ranka = ranks[0]
     elif 250 <= ranka < 500:
-        ranka = "Silver"
+        R = 1
+        ranka = ranks[1]
     elif 500 <= ranka < 800:
-        ranka = "Gold"
+        R = 2
+        ranka = ranks[2]
     elif 800 <= ranka < 1000:
-        ranka = "Dedicated"
+        R = 3
+        ranka = ranks[3]
     elif 1000 <= ranka < 1350:
-        ranka = "Honor"
+        R = 4
+        ranka = ranks[4]
     elif 1350 <= ranka < 1500:
-        rank = "Veteran"
+        R = 5
+        rank = ranks[5]
     elif 1500 <= ranka < 2000:
-        ranka = "Professional"
+        R = 6
+        ranka = ranks[6]
     elif 2000 <= ranka < 2500:
-        ranka = "Platinum"
+        R = 7
+        ranka = ranks[7]
     elif 2500 <= ranka < 3000:
-        ranka = "Moolius"
+        R = 8
+        ranka = ranks[8]
     elif 3000 <= ranka:
-        ranka = "Mooclear"
-    #work on this for calcs
-    if print:
+        R = 9
+        ranka = ranks[9]
+    #TODO work on this for calcs
+    if print and calculate == 0:
         return ranka
-
+    if calculate == 1:
+        calculations = rankscore[r] - rank
+        return calculations
+    if calculate == 2:
+        ranka = ranks[R+1]
+        return ranka
 
 # ranked
 def rankedcheck():
@@ -486,16 +506,21 @@ def isOverAHunnit(l):
             xpgained += xp
             print(
                 '\n\nYou win! + ' + str(
-                    xp) + " Ranked XP! Only " + rankchecklevel(1, rank, 1) + " More to" + rankchecklevel(1, rank,
-                                                                                                         2))  # rank
+                    xp) + " Ranked XP! Only " + str(rankchecklevel(0, rank, 1)) + " More to " + str(rankchecklevel(0,
+                                                                                                                   rank,
+                                                                                                                   2)))  # rank
             a = input('You won!, back to the lobby. \nEnter to Continue')
         else:
             h = open(namething, "a")
             h.write("\n\nYou lose!")
             h.close()
-            xp = random.randint(-10, -30)
+            xp = (random.randint(10, 30))*-1
             xpgained += xp
-            print('\n\nYou lose! ' + str(xp) + " Ranked XP Deducted!")  # rank
+            print(
+                '\n\nYou lose!  ' + str(
+                    xp) + " Ranked XP!  " + str(rankchecklevel(0, rank, 1)) + " More to " + str(rankchecklevel(0,
+                                                                                                                   rank,
+                                                                                                                   2)))  # rank
             a = input('You Lost!, back to the lobby. \nEnter to Continue')
 
 
@@ -609,9 +634,13 @@ def player():
                 print('[Joker]', end='')
             else:
                 print('[{}]'.format(i), end='')
-        xp = random.randint(-10, -30)
+        xp = (random.randint(10, 30))*-1
         xpgained += xp
-        print('\n\nYou lose!  ' + str(xp) + " Ranked XP Deducted!")  # rank
+        print(
+            '\n\nYou lose!  ' + str(
+                xp) + " Ranked XP!  " + str(rankchecklevel(0, rank, 1)) + " More to " + str(rankchecklevel(0,
+                                                                                                           rank,
+                                                                                                           2)))
         a = input('You lost, back to the lobby. \nEnter to Continue')
     #    else:
     #       isOverAHunnit(1)
@@ -734,7 +763,9 @@ def bot():  # push now but bug here
                     xpgained += xp
                     print(
                         '\n\nYou win! + ' + str(
-                            xp) + " Ranked XP! Only RANKUP-XP More to Format.nexttier")  # rank
+                            xp) + " Ranked XP! Only " + str(rankchecklevel(0, rank, 1)) + " More to " + str(rankchecklevel(0,
+                                                                                                                 rank,
+                                                                                                                 2)))  # rank
                     a = input('You won!, back to the lobby. \nEnter to Continue')
                     sumc = 103  # stops bugging th eprogram and keep the game going evne you win
         b_replace_card(i)
