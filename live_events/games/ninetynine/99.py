@@ -7,7 +7,7 @@ import urllib.request
 
 # files:
 ISITHOSTORNOST = " "
-version = '1.2.6.12'  # TODO change this every time
+version = '1.3'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
