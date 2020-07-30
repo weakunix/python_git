@@ -11,13 +11,20 @@ skip_to = 1 #if one number doesn't work then skip past that number
 def is_four_factors(num):
     onum = num
     factors = []
-    for i in range(2, int(np.sqrt(num)) + 1):
+    prime = True
+    for i in range(2, num + 1):
+        prime = True
         if num % i == 0:
-            factors.append(i)
-            while num % i == 0:
-                num /= i
-            if len(factors) > 4:
-                return [False, onum]
+            for k in factors:
+                if i % k == 0:
+                    prime = False
+                    break
+            if prime:
+                factors.append(i)
+                if len(factors) > 4:
+                    return [False, onum]
+                while num % i == 0:
+                    num /= i
     if len(factors) < 4:
         return [False, onum]
     else:
