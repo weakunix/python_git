@@ -32,7 +32,7 @@ def trade_help():
     inpt = input('\n\nEnter to continue\n')
 
 #attack tutorial
-def attack_help():
+def attack_help():#
     with open('attack.txt', 'r') as t:
         for line in t:
             print(line, end = '')

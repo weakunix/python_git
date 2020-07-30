@@ -1,12 +1,18 @@
-#TODO: 1.3
-1.3
+#TODO: 1.4
+1.4
 +added
-    ranked
-    friend list
+    1.4 ranked
+    1.4.1 saves (working on rn)
+    TBA: friend list
+
+1.3
+*polished 1.2.6. Everything should work now
 
 1.2.6
 +added
-    1.2.6.9 cosmetic update and bugfix for bot (still not fixed tho
+    1.2.6.11 Exit option
+    1.2.6.10 COMPLETELY DONE WITH BOT. EVERYTHING FIXED FOR BOT
+    1.2.6.9 cosmetic update and bugfix for bot
     1.2.6 game won't stop after one round. it'll end when user exits
     1.2.6.7:cosmetic update!
 

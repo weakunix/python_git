@@ -19,8 +19,7 @@ bob.hideturtle()
 bob.penup()
 scream = turtle.Screen()
 scream.setup(700,500)
-scream.tracer(1000000)
-
+scream.tracer(20000)
 scream.colormode(255)
 def mandledraw(DEPTH,centerx,centery,zoomy):
     randcolor = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
@@ -45,8 +44,20 @@ def get_mouse_click_coord(x,y):
     print(x,y)
     centerx += x
     centery += y
-    ZOOM *= 1.5
+    ZOOM *= 2
     mandledraw(12,centerx,centery,ZOOM)
+    scream.update()
+
+def get_right_click(x,y):
+    bob.clear()
+    global ZOOM, centerx, centery
+    print(x,y)
+    centerx += x
+    centery += y
+    ZOOM *= .25
+    mandledraw(12,centerx,centery,ZOOM)
+    scream.update()
 
 scream.onscreenclick(get_mouse_click_coord)
+scream.onscreencick(get_right_click,3)
 scream.listen()
