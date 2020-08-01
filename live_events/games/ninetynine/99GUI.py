@@ -3,10 +3,15 @@ import datetime, random, socket, time, urllib.request, os, tkinter as tk
 from tkinter import messagebox
 
 # files:
+window = tk.Tk()
+window.title("99 The Card Game")
 ISITHOSTORNOST = " "
 version = 'BETA 1.4.2'  # TODO change this every time
 print("=========================")
 print("99 version: " + version)
+window.configure(bg="cyan")
+a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black')
+a.place(x=400, y=150, anchor=tk.CENTER)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
 name1 = ""  # oppoent name
@@ -31,13 +36,10 @@ bcard = []  # bot cards
 turn = 0
 xpgained = 0
 rank = " "
-showTutorialTip = ""
 xp = 0
 completed = ""
 ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius", "Mooclear"]
 rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]
-window = tk.Tk()
-window.title("99 The Card Game")
 
 
 def exit():
@@ -51,6 +53,24 @@ Sss.place(x=750, y=0)
 
 def clearPg():
     print("\n" * 100)
+
+
+def submitUsername(un):  # un = username
+    global name
+    name = str(un)
+    XPFINDR = open("saveData.txt", "w")
+    XPFINDR.write(str(rank) + "\n" + name + "true")
+    XPFINDR.close()
+    # TODO save to file here
+
+
+def username():
+    a = tk.Label(window, text=("Username:"), font=('charter', 30), bg='cyan', fg='black')  # username text
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    entry1 = tk.Entry(window)  # make window for input
+    entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
+    savetousername = tk.Button(text='Submit', command=lambda: [submitUsername(entry1.get())])  # submit button
+    savetousername.place(x=475, y=285)  # submit button place
 
 
 def rankchecklevel(print, ranka, calculate):
@@ -104,7 +124,6 @@ def destroySave():
     a = tk.messagebox.askyesno("CONFIRM DELETION",
                                "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!")
     if a:
-        XPFINDR.close()
         try:
             os.remove("saveData.txt")
         except:
@@ -121,73 +140,58 @@ def buttonifyFail():
 
 
 def buttonifySuccess():
-    tuupl = ("Save Found! \nINFO:\nRank:", str(rankchecklevel(1, rank, 0)), "(", str(
-        rank), ")\nUsername:", str(name))
-    tuupl = tuupl.join()
-    Saaa = tk.Button(window, text=tuupl,
-                     command=lambda: [destroyBTN(ass, bss, Saaa, css)])
-    Saaa.place(x=160, y=200)
+    a = tk.Label(window, text=("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank, 0)) + "(" + str(
+        rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan', fg='black')
+    a.place(x=400, y=150, anchor=tk.CENTER)
     ass = tk.Button(window, text="Load",
-                    command=lambda: [destroyBTN(ass, bss, Saaa, css)])
-    ass.place(x=20, y=80)
+                    command=lambda: [destroyBTN(ass, bss, css, 0)])
+    ass.place(x=200, y=300)
     bss = tk.Button(window, text="Cancel",
-                    command=lambda: [destroyBTN(ass, bss, Saaa, css)])
-    bss.place(x=100, y=80)
+                    command=lambda: [destroyBTN(ass, bss, css, 0)])
+    bss.place(x=350, y=300)
     css = tk.Button(window, text="Delete",
-                    command=lambda: [destroyBTN(ass, bss, Saaa, css), ])
-    css.place(x=160, y=80)
+                    command=lambda: [destroyBTN(ass, bss, css, 0), destroySave()])
+    css.place(x=500, y=300)
 
 
-def rankedcheck():
+def rankedcheck(loadnew):
     global rank
     global name
-    global showTutorialTip
     global completed
-    if os.path.exists("saveData.txt"):
-        with open('saveData.txt', 'r') as XPFINDR:
-            try:
-                data = XPFINDR.readlines()
-                rank = int(data[0])
-                name = data[1]
-                showTutorialTip = data[2]
-                completed = data[3]
-                print(1)
-                if completed == "false":
-                    Sbb = tk.Button(window, text="[RANKED PENALTY] \n YOU LEFT A GAME: -10 XP\n Click To Continue",
-                                    command=lambda: [destroyBTN(0, 0, Sbb, 0)])
-                    Sbb.place(x=160, y=200)
-                    rank -= 10
-                buttonifySuccess()
-            except:
-                buttonifyFail()
-        '''
-        a = ""
-        if a != '':
-            a = a[0]
-            if a == "d" or a == "D":
-                a = input("Are you sure you want to delete your save? (It'll be gone for a very long time!)\n\n["
-                          "y]Confirm "
-                          "[x]Cancel\n>>>")
-                if inpt != '':
-                    a = a[0]
-                    if a == 'y' or a == 'Y':
-                        XPFINDR.close()
-                        os.remove("saveData.txt")
-                        clearPg()
-                        raise SystemExit("Successfully Deleted Save!")
-                    raise SystemExit("Aborted")
-            elif a == 'x' or a == 'X':
-                rank = 0
-                clearPg()
-                raise SystemExit("Load Aborted.")
-            else:
-                print("Successfully Loaded Save")
-        '''
-    else:
-        XPFINDR = open("saveData.txt", "w+")
-        rank = 0
-        XPFINDR.write(str(rank))
-    XPFINDR.close()
+    if loadnew == 0:
+        if os.path.exists("saveData.txt"):
+            with open('saveData.txt', 'r') as XPFINDR:
+                try:
+                    data = XPFINDR.readlines()
+                    rank = int(data[0])
+                    name = data[1]
+                    completed = data[2]
+                    print(1)
+                    if completed == "false":
+                        Sbb = tk.Button(window, text="[RANKED PENALTY] \n YOU LEFT A GAME: -10 XP\n Click To Continue",
+                                        command=lambda: [destroyBTN(0, 0, Sbb, 0)])
+                        Sbb.place(x=160, y=200)
+                        rank -= 10
+                    buttonifySuccess()
+                except:
+                    XPFINDR.close()
+                    buttonifyFail()
+            XPFINDR.close()
+        else:
+            a = tk.messagebox.showinfo("ERROR",
+                                       "NO SAVES FOUND. MAKE NEW SAVE?")
+            rankedcheck(1)
+    elif loadnew == 1:
+        a = tk.messagebox.askyesno("CONFIRM",
+                                   "Make a new save? It will overwrite your existing file.")
+        if a:
+            XPFINDR = open("saveData.txt", "w+")
+            rank = 0
+            XPFINDR.write(str(rank))
+            XPFINDR.close()
+            a = tk.messagebox.showinfo("Success!",
+                                       "You have made a new save!")
+            username()
 
 
 # game stuff
@@ -913,10 +917,12 @@ def selectMode():
 
 
 def load():
-    L = tk.Button(window, text="Load Save", command=lambda: [rankedcheck(), destroyBTN(0, L, 0, 0)])
-    L.place(x=80, y=80)
-    La = tk.Button(window, text="New Save", command=lambda: [rankedcheck(), destroyBTN(0, La, 0, 0)])
-    La.place(x=160, y=80)
+    a = tk.Label(window, text="Saves", font=('charter', 30), bg='cyan', fg='black')
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    L = tk.Button(window, text="Load Save", command=lambda: [rankedcheck(0), destroyBTN(La, L, a, 0)])
+    L.place(x=300, y=300)
+    La = tk.Button(window, text="New Save", command=lambda: [rankedcheck(1), destroyBTN(L, La, a, 0)])
+    La.place(x=500, y=300)
 
 
 def inptchange(o):
@@ -932,44 +938,29 @@ def inptchange(o):
 def tutorial(asdf):
     if asdf == 0:
         N = tk.Button(window,
-                      text="Objective of game: Get to 99 but don\'t go over. Make the other person go over 99 to "
-                           "win\n\nHow to play: When you play a card it adds to the sum of all the cards. For "
-                           "example if the first card played was 6 and the second card played was 3, "
-                           "the sum would be 9\n\nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: "
+                      text="Objective of game: Get to 99 but don\'t go over. \nMake the other person go over 99 to "
+                           "win\nHow to play: When you play a card it adds to the sum of all the cards.\n For "
+                           "example if the first card played was 6 and the second card played \nwas 3, "
+                           "the sum would be 9\n\n There are special cards in this game \nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: "
                            "5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: "
-                           "Automatically to 99\n\ncLICK tO CUNTINEU", command=lambda: [destroyBTN(N, 0, 0, 0), load()])
-        N.place(x=0, y=200)
-    elif asdf == 2:
-        showTutorialTip = "No"
-        XPFINDR = open("saveData.txt", "a")
-        XPFINDR.write(str(showTutorialTip))
-        XPFINDR.close()
-        load()
+                           "Automatically to 99\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n CLICK HERE TO CONTINUE"
+                      , bg="cyan", command=lambda: [destroyBTN(N, 0, 0, 0), load()])
+        N.place(x=0, y=0)
 
 
 print("=========================")
 # rankedcheck()  # new may break
-if name == "":
-    '''print("=========================")
-    print("       Username?")
-    print("=========================")
-    name = input(">>>")'''
-    clearPg()
-    XPFINDR = open("saveData.txt", "a")
-    XPFINDR.write(str(name))
-    XPFINDR.close()
-if showTutorialTip == "":
-    A = tk.Button(window, text="TUTORIAL", command=lambda: [tutorial(0), destroyBTN(A, 0, 0, V)])
-    A.place(x=80, y=80)
-    V = tk.Button(window, text="Don't Show [Tutorial] Again", command=lambda: [tutorial(2), destroyBTN(A, 0, 0, V)])
-    V.place(x=160, y=80)
+A = tk.Button(window, text="Tutorial", width=20, height=3, command=lambda: [tutorial(0), destroyBTN(A, a, V, 0)])
+A.place(x=200, y=300)
+V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, 0)])
+V.place(x=400, y=300)
 
 window.mainloop()
 while True:
-    XPFINDR = open("saveData.txt", "w")
+    # XPFINDR = open("saveData.txt", "w")
     #    bcd = rank + xp
-    # XPFINDR.write(str(bcd) + "\n" + name + showTutorialTip + "true")
-    XPFINDR.close()
+    # XPFINDR.write(str(bcd) + "\n" + name + "true")
+    # XPFINDR.close()
     ##filling cardl
     cardl = []  # cards left
     for i in range(1, 14):
@@ -1032,9 +1023,9 @@ while True:
     '''
     # gameplay
     if MPorSP == 0:
-        XPFINDR = open("saveData.txt", "w")
-        XPFINDR.write(str(rank) + "\n" + name + showTutorialTip + "false")
-        XPFINDR.close()
+        # XPFINDR = open("saveData.txt", "w")
+        # XPFINDR.write(str(rank) + "\n" + name + "false")
+        # XPFINDR.close()
         clearPg()
         print("=========================")
         print("Do you want to go first?")
@@ -1056,9 +1047,9 @@ while True:
             checkforcardempty()
         clearPg()
     else:
-        XPFINDR = open("saveData.txt", "w")
-        XPFINDR.write(str(rank) + "\n" + name + showTutorialTip + "false")
-        XPFINDR.close()
+        # XPFINDR = open("saveData.txt", "w")
+        # XPFINDR.write(str(rank) + "\n" + name + "false")
+        # XPFINDR.close()
         while sumc < 100:
             if turn == 0:
                 if sumc < 100:
