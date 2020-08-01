@@ -3,14 +3,14 @@ import datetime, random, socket, time, urllib.request, os, tkinter as tk
 from tkinter import messagebox
 
 # files:
-window = tk.Tk()
-window.title("99 The Card Game")
-ISITHOSTORNOST = " "
-version = 'BETA 1.4.2'  # TODO change this every time
-print("=========================")
-print("99 version: " + version)
-window.configure(bg="cyan")
-a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black')
+window = tk.Tk() #make window of TK as window var
+window.title("99 The Card Game") # title the window
+ISITHOSTORNOST = " " #is the device hosting or a client
+version = 'BETA 1.5'  # TODO change this every time 99 version
+assss = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black') #print 99 version
+assss.place(x=400, y=200, anchor=tk.CENTER)#center text
+window.configure(bg="cyan")#background of the window
+a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black') #print 99 the card game
 a.place(x=400, y=150, anchor=tk.CENTER)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""
@@ -59,7 +59,7 @@ def submitUsername(un):  # un = username
     global name
     name = str(un)
     XPFINDR = open("saveData.txt", "w")
-    XPFINDR.write(str(rank) + "\n" + name + "true")
+    XPFINDR.write(str(rank) + "\n" + name + "\n"+"true")
     XPFINDR.close()
     # TODO save to file here
 
@@ -950,9 +950,9 @@ def tutorial(asdf):
 
 print("=========================")
 # rankedcheck()  # new may break
-A = tk.Button(window, text="Tutorial", width=20, height=3, command=lambda: [tutorial(0), destroyBTN(A, a, V, 0)])
+A = tk.Button(window, text="Tutorial", width=20, height=3, command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
 A.place(x=200, y=300)
-V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, 0)])
+V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, assss)])
 V.place(x=400, y=300)
 
 window.mainloop()
