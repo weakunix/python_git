@@ -3,26 +3,26 @@ import datetime, random, socket, time, urllib.request, os, tkinter as tk
 from tkinter import messagebox
 
 # files:
-window = tk.Tk() #make window of TK as window var
-window.title("99 The Card Game") # title the window
-ISITHOSTORNOST = " " #is the device hosting or a client
+window = tk.Tk()  # make window of TK as window var
+window.title("99 The Card Game")  # title the window
+ISITHOSTORNOST = " "  # is the device hosting or a client
 version = 'BETA 1.5'  # TODO change this every time 99 version
-assss = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black') #print 99 version
-assss.place(x=400, y=200, anchor=tk.CENTER)#center text
-window.configure(bg="cyan")#background of the window
-a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black') #print 99 the card game
+assss = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
+assss.place(x=400, y=200, anchor=tk.CENTER)  # center text
+window.configure(bg="cyan")  # background of the window
+a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black')  # print 99 the card game
 a.place(x=400, y=150, anchor=tk.CENTER)
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
-name = ""
+name = ""  # your name
 name1 = ""  # oppoent name
 communications = ''  # host send
 port = 12345  # def
-theirEIP = ""
-host = ""
+theirEIP = ""  # their external ip
+host = ""  # host's ip
 MPorSP = 0  # 1 is mp 0 is sp
 namething = ""  # name of file to log game into
 # vars (game)#
-added = 0
+added = 0  # added number to sumc value
 cardl = []  # cards left
 sumc = 0  # sum of cards
 cardn = 0  # amount of cards per player
@@ -33,38 +33,38 @@ nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
 botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
 bcard = []  # bot cards
 # multi player#
-turn = 0
-xpgained = 0
-rank = " "
-xp = 0
-completed = ""
-ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius", "Mooclear"]
-rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]
+turn = 0  # turn for mp
+xpgained = 0  # how much xp gaiined off of 1 game
+rank = " "  # what rank are you
+xp = 0  # xp
+completed = ""  # if you finished the game (prevents leaving during a game)
+ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius",
+         "Mooclear"]  # the ranks
+rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you need to advance to the next rank
 
 
 def exit():
-    raise SystemExit("Game Stopped")
+    raise SystemExit("Game Stopped")  # if you press the exit button top right
 
 
 Sss = tk.Button(window, text="EXIT",
                 command=lambda: [exit()])
-Sss.place(x=750, y=0)
+Sss.place(x=750, y=0)  # the exit button top right
 
 
-def clearPg():
+def clearPg():  # clear the page in console (deprecated)
     print("\n" * 100)
 
 
-def submitUsername(un):  # un = username
+def submitUsername(un):  # writes username into save
     global name
-    name = str(un)
+    name = str(un)  # set name to argument "un"
     XPFINDR = open("saveData.txt", "w")
-    XPFINDR.write(str(rank) + "\n" + name + "\n"+"true")
-    XPFINDR.close()
-    # TODO save to file here
+    XPFINDR.write(str(rank) + "\n" + name + "\n" + "true")
+    XPFINDR.close()  # saves username
 
 
-def username():
+def username():  # username prompt
     a = tk.Label(window, text=("Username:"), font=('charter', 30), bg='cyan', fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
     entry1 = tk.Entry(window)  # make window for input
@@ -73,14 +73,14 @@ def username():
     savetousername.place(x=475, y=285)  # submit button place
 
 
-def rankchecklevel(print, ranka, calculate):
-    global ranks
-    global rankscore
-    global rank
-    r = 0
-    if 0 <= ranka < 250:
-        R = 0
-        ranka = ranks[0]
+def rankchecklevel(print, ranka, calculate):  # check what rank you are with your rank scoer
+    global ranks  # all the rank array
+    global rankscore  # score you need to get to rank
+    global rank  # your rank (number)
+    R = 0  # which rank (in order from 0 - 9)
+    if 0 <= ranka < 250:  # rank requirements
+        R = 0  # set spot in ranked list
+        ranka = ranks[0]  # set ranka (which rank you are in text) to the 0st place of the array; bronze
     elif 250 <= ranka < 500:
         R = 1
         ranka = ranks[1]
@@ -108,13 +108,12 @@ def rankchecklevel(print, ranka, calculate):
     elif 3000 <= ranka:
         R = 9
         ranka = ranks[9]
-    # TODO work on this for calcs
-    if print and calculate == 0:
+    if print and calculate == 0:  # print current rank name
         return ranka
-    if calculate == 1:
-        calculations = rankscore[r] - rank
+    if calculate == 1:  # for calculations after every game (how many points until next rank)
+        calculations = rankscore[R] - rank
         return calculations
-    if calculate == 2:
+    if calculate == 2:  # for calculations after every game (name of next rank)
         ranka = ranks[R + 1]
         return ranka
 
@@ -122,39 +121,37 @@ def rankchecklevel(print, ranka, calculate):
 # ranked
 def destroySave():
     a = tk.messagebox.askyesno("CONFIRM DELETION",
-                               "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!")
-    if a:
-        try:
+                               "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!") #popup asking if thye will confirm delete
+    if a: #if user responds yes in message box
+        try: #try to remove the file
             os.remove("saveData.txt")
-        except:
+        except: #if it is open in another application
             msg = messagebox.showinfo("Critical Error", "Could Not Delete File.")
-            raise SystemExit("CRITICAL ERROR")
-        msg = messagebox.showinfo("Success", "save deleted!")
+            raise SystemExit("Couldn't delete save data. Make sure it is not open in another application")
+        msg = messagebox.showinfo("Success", "save deleted!")#if it deletes
 
 
-def buttonifyFail():
+def buttonifyFail(): #
     a = tk.messagebox.askyesno("ERROR",
                                "SAVE CORRUPTED. DELETE?")
-    if a:
+    if a:#if user agrees to delete corrupted file
         destroySave()
+    else: #if the user cancells the deletion
+        raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
 
-
-def buttonifySuccess():
+def buttonifySuccess(): #if the save loads
     a = tk.Label(window, text=("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank, 0)) + "(" + str(
-        rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan', fg='black')
+        rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan', fg='black') #print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
-    ass = tk.Button(window, text="Load",
-                    command=lambda: [destroyBTN(ass, bss, css, 0)])
+    ass = tk.Button(window, text="Load",# make load button
+                    command=lambda: [destroyBTN(ass, 0, css, 0)])
     ass.place(x=200, y=300)
-    bss = tk.Button(window, text="Cancel",
-                    command=lambda: [destroyBTN(ass, bss, css, 0)])
-    bss.place(x=350, y=300)
-    css = tk.Button(window, text="Delete",
-                    command=lambda: [destroyBTN(ass, bss, css, 0), destroySave()])
+    css = tk.Button(window, text="Delete", #make delete save button
+                    command=lambda: [destroyBTN(ass, 0, css, 0), destroySave()])
     css.place(x=500, y=300)
 
 
-def rankedcheck(loadnew):
+def rankedcheck(loadnew): #loadnew is if it is to make new save or to load the save
     global rank
     global name
     global completed
