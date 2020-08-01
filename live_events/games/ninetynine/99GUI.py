@@ -121,37 +121,41 @@ def rankchecklevel(print, ranka, calculate):  # check what rank you are with you
 # ranked
 def destroySave():
     a = tk.messagebox.askyesno("CONFIRM DELETION",
-                               "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!") #popup asking if thye will confirm delete
-    if a: #if user responds yes in message box
-        try: #try to remove the file
+                               "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!")  # popup asking if thye will confirm delete
+    if a:  # if user responds yes in message box
+        try:  # try to remove the file
             os.remove("saveData.txt")
-        except: #if it is open in another application
+        except:  # if it is open in another application
             msg = messagebox.showinfo("Critical Error", "Could Not Delete File.")
             raise SystemExit("Couldn't delete save data. Make sure it is not open in another application")
-        msg = messagebox.showinfo("Success", "save deleted!")#if it deletes
-
-
-def buttonifyFail(): #
-    a = tk.messagebox.askyesno("ERROR",
-                               "SAVE CORRUPTED. DELETE?")
-    if a:#if user agrees to delete corrupted file
-        destroySave()
-    else: #if the user cancells the deletion
+        msg = messagebox.showinfo("Success", "save deleted!")  # if it deletes
+    else:
         raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
 
-def buttonifySuccess(): #if the save loads
+
+def buttonifyFail():  #
+    a = tk.messagebox.askyesno("ERROR",
+                               "SAVE CORRUPTED. DELETE?")
+    if a:  # if user agrees to delete corrupted file
+        destroySave()
+    else:  # if the user cancells the deletion
+        raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
+
+
+def buttonifySuccess():  # if the save loads
     a = tk.Label(window, text=("Save Found! \nINFO:\nRank:" + str(rankchecklevel(1, rank, 0)) + "(" + str(
-        rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan', fg='black') #print the save informations of the save
+        rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan',
+                 fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
-    ass = tk.Button(window, text="Load",# make load button
+    ass = tk.Button(window, text="Load",  # make load button
                     command=lambda: [destroyBTN(ass, a, css, 0)])
     ass.place(x=200, y=300)
-    css = tk.Button(window, text="Delete", #make delete save button
+    css = tk.Button(window, text="Delete",  # make delete save button
                     command=lambda: [destroyBTN(ass, a, css, 0), destroySave()])
     css.place(x=500, y=300)
 
 
-def rankedcheck(loadnew): #loadnew is if it is to make new save or to load the save
+def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the save
     global rank
     global name
     global completed
@@ -188,6 +192,8 @@ def rankedcheck(loadnew): #loadnew is if it is to make new save or to load the s
             a = tk.messagebox.showinfo("Success!",
                                        "You have made a new save!")
             username()
+        else:
+            raise SystemExit("FAILED MAKING SAVE. USER CANCELLED")
 
 
 # game stuff
