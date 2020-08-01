@@ -144,10 +144,10 @@ def buttonifySuccess(): #if the save loads
         rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan', fg='black') #print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
     ass = tk.Button(window, text="Load",# make load button
-                    command=lambda: [destroyBTN(ass, 0, css, 0)])
+                    command=lambda: [destroyBTN(ass, a, css, 0)])
     ass.place(x=200, y=300)
     css = tk.Button(window, text="Delete", #make delete save button
-                    command=lambda: [destroyBTN(ass, 0, css, 0), destroySave()])
+                    command=lambda: [destroyBTN(ass, a, css, 0), destroySave()])
     css.place(x=500, y=300)
 
 
@@ -163,7 +163,6 @@ def rankedcheck(loadnew): #loadnew is if it is to make new save or to load the s
                     rank = int(data[0])
                     name = data[1]
                     completed = data[2]
-                    print(1)
                     if completed == "false":
                         Sbb = tk.Button(window, text="[RANKED PENALTY] \n YOU LEFT A GAME: -10 XP\n Click To Continue",
                                         command=lambda: [destroyBTN(0, 0, Sbb, 0)])
