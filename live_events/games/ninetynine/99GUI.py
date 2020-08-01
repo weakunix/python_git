@@ -6,7 +6,7 @@ from tkinter import messagebox
 window = tk.Tk()  # make window of TK as window var
 window.title("99 The Card Game")  # title the window
 ISITHOSTORNOST = " "  # is the device hosting or a client
-version = 'BETA 1.5'  # TODO change this every time 99 version
+version = 'BETA 1.5.5'  # TODO change this every time 99 version
 assss = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
 assss.place(x=400, y=200, anchor=tk.CENTER)  # center text
 window.configure(bg="cyan")  # background of the window
@@ -43,13 +43,15 @@ ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professio
 rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you need to advance to the next rank
 
 
-def exit():
-    raise SystemExit("Game Stopped")  # if you press the exit button top right
-
-
-Sss = tk.Button(window, text="EXIT",
-                command=lambda: [exit()])
-Sss.place(x=750, y=0)  # the exit button top right
+def destroyBTN(M, L, S, G):
+    if L != 0:
+        L.destroy()
+    if M != 0:
+        M.destroy()
+    if S != 0:
+        S.destroy()
+    if G != 0:
+        G.destroy()
 
 
 def clearPg():  # clear the page in console (deprecated)
@@ -64,12 +66,35 @@ def submitUsername(un):  # writes username into save
     XPFINDR.close()  # saves username
 
 
+def single(rankorno):
+    print(rankorno)
+
+
+def multi(rankorno):
+    print("multi" + str(rankorno))
+
+
+def simp():  # single player or mp
+    a = tk.Label(window, text="Mode Selection", font=('charter', 30), bg='cyan', fg='black')  # username text
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    rankedornotasf = tk.IntVar()
+    rankedcheckboxthing = tk.Checkbutton(window, var=rankedornotasf, text="Ranked?", bg='cyan')
+    rankedcheckboxthing.place(x=50, y=300)
+    Sp = tk.Button(window, text="Singleplayer",  # make delete save button
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, 0), single(rankedornotasf.get())])  # link to singleplayer
+    Sp.place(x=200, y=300)
+    Mp = tk.Button(window, text="Multiplayer",  # make delete save button
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, 0), multi(rankedornotasf.get())])  # link to singleplayer
+    Mp.place(x=400, y=300)
+
+
 def username():  # username prompt
-    a = tk.Label(window, text=("Username:"), font=('charter', 30), bg='cyan', fg='black')  # username text
+    a = tk.Label(window, text="Username", font=('charter', 30), bg='cyan', fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
     entry1 = tk.Entry(window)  # make window for input
     entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
-    savetousername = tk.Button(text='Submit', command=lambda: [submitUsername(entry1.get())])  # submit button
+    savetousername = tk.Button(text='Submit', command=lambda: [
+        submitUsername(entry1.get(), destroyBTN(a, entry1, savetousername, 0), simp())])  # submit button
     savetousername.place(x=475, y=285)  # submit button place
 
 
@@ -148,7 +173,7 @@ def buttonifySuccess():  # if the save loads
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
     ass = tk.Button(window, text="Load",  # make load button
-                    command=lambda: [destroyBTN(ass, a, css, 0)])
+                    command=lambda: [destroyBTN(ass, a, css, 0), simp()])
     ass.place(x=200, y=300)
     css = tk.Button(window, text="Delete",  # make delete save button
                     command=lambda: [destroyBTN(ass, a, css, 0), destroySave()])
@@ -896,17 +921,6 @@ def change(v):
     MPorSP = v
 
 
-def destroyBTN(M, L, S, G):
-    if L != 0:
-        L.destroy()
-    if M != 0:
-        M.destroy()
-    if S != 0:
-        S.destroy()
-    if G != 0:
-        G.destroy()
-
-
 # pre game set ups
 window.geometry("800x600")
 
@@ -953,9 +967,9 @@ def tutorial(asdf):
 print("=========================")
 # rankedcheck()  # new may break
 A = tk.Button(window, text="Tutorial", width=20, height=3, command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
-A.place(x=200, y=300)
+A.place(x=200, y=400)
 V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, assss)])
-V.place(x=400, y=300)
+V.place(x=400, y=400)
 
 window.mainloop()
 while True:
