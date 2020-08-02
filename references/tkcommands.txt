@@ -1,0 +1,65 @@
+Commands in tkinter:
+
+#set up window
+window = tk.Tk()
+window.geometry('800x600')
+
+#messageboxes:
+##import (must explicitly import)
+from tkinter import messagebox
+
+##syntax
+msg = messagebox.[type](title = 'title, message = 'message')
+
+##types
+###information
+messagebox.showinfo()
+
+###warning
+messagebox.showwarning()
+or
+messagebox.showerror()
+
+###question
+messagebox.askquestion()
+messagebox.askokcancel()
+messagebox.retrycancel()
+messagebox.askyesno()
+messagebox.askyesnocancel()
+
+#buttons
+##make button
+button = tk.Button(window, text = 'text', font = ('font', [fontsize]), bg = 'color', fg = 'color')
+
+##placing button
+button.place(relx = [number from 0 to 1], rely = [number from 0 to 1], anchor = tk.[NW, N, NE, E, SE, S, SW, W, CENTER])
+
+#font and fontsize
+font = ('font', [fontsize])
+
+#background color
+bg = 'color'
+
+#font color
+fg = 'color'
+
+#mainloop to tell program to wait
+window.mainloop()
+
+#change background
+window.configure(bg = 'color')
+
+#text
+word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color', fg = 'color')
+
+#make button disappear
+button.destroy()
+
+#bind a key to a function
+window.bind('<Key>', function)
+
+#unbind a key
+window.unbind('<Key>')
+
+#focus on window (used after a messagebox)
+window.focus_force()
