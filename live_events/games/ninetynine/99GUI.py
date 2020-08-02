@@ -42,6 +42,12 @@ completed = ""  # if you finished the game (prevents leaving during a game)
 ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius",
          "Mooclear"]  # the ranks
 confirmcards = False
+cardl = []  # cards left
+for i in range(1, 14):
+    for k in range(4):
+        cardl.append(i)
+for i in range(2):
+    cardl.append(14)
 
 rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you need to advance to the next rank
 
@@ -114,7 +120,7 @@ def simp():  # single player or mp
     rankedcheckboxthing = tk.Checkbutton(window, var=rankedornotasf, text="Ranked?", bg='cyan')
     rankedcheckboxthing.place(x=50, y=300)
     Sp = tk.Button(window, text="Singleplayer",  # make single player
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), displaycardsperperson(">", 0),
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), displaycardsperperson(">", 3),
                                     destroyBTN(rankedtext, 0, 0, 0),
                                     single(rankedornotasf.get())])  # link to singleplayer
     Sp.place(x=200, y=300)
@@ -310,6 +316,7 @@ def cardSetup():
             pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
         for i in range(cardn):  # bot
             bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+        print("afk")
     else:
         window.after(1000, cardSetup)
         '''if cardn <= 10:
@@ -1053,12 +1060,7 @@ def main():
     # XPFINDR.write(str(bcd) + "" + name + "true")
     # XPFINDR.close()
     ##filling cardl
-    cardl = []  # cards left
-    for i in range(1, 14):
-        for k in range(4):
-            cardl.append(i)
-    for i in range(2):
-        cardl.append(14)
+    
     # files:
     external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
     name1 = ""  # oppoent name
