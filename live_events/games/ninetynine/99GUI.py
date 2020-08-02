@@ -989,8 +989,6 @@ def tutorial(asdf):
 
 print("=========================")
 
-
-# rankedcheck()  # new may break
 def main():
     A = tk.Button(window, text="Tutorial", width=20, height=3,
                   command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
