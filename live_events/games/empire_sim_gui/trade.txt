@@ -1,0 +1,17 @@
+Trade: 
+
+There are 3 resources in the game:
+Silk
+Materials
+Food
+
+You can trade for these resources
+
+Resources are important because you need them to:
+Build (see Build and Upgrade)
+Repair (see Build and Upgrade)
+Keep the city happy (see City Happiness)
+
+There will be a random trade deal every time
+
+If you don't like the deal, you don't have to accept and the deal will change next time
