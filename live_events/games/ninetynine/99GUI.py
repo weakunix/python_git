@@ -41,6 +41,8 @@ botName = botNames[random.randint(0, 4)]
 completed = ""  # if you finished the game (prevents leaving during a game)
 ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius",
          "Mooclear"]  # the ranks
+confirmcards = False
+
 rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you need to advance to the next rank
 
 
@@ -61,10 +63,17 @@ def clearPg():  # clear the page in console (deprecated)
 
 def submitUsername(un):  # writes username into save
     global name
-    name = str(un)  # set name to argument "un"
-    XPFINDR = open("saveData.txt", "w")
-    XPFINDR.write(str(rank) + "\n" + name + "\n" + "true")
-    XPFINDR.close()  # saves username
+    a = tk.messagebox.askyesno("Confirmation",
+                               "Are you sure you want to use '" + un + "' as your username? \n(You can't change this "
+                                                                       "later!)")
+    if a:
+        name = str(un)  # set name to argument "un"
+        XPFINDR = open("saveData.txt", "w")
+        XPFINDR.write(str(rank) + "\n" + name + "\n" + "true")
+        XPFINDR.close()  # saves username
+        simp()
+    else:
+        username()
 
 
 def ranked(s):
@@ -77,10 +86,9 @@ def single(rankorno):
                                    "You are playing RANKED 99. If you leave you will receive a penalty!! No to "
                                    "cancel!\n Tip: Un-check "
                                    "ranked to play casual")
-        if a:
-            ranked("solo")
-        else:
+        if not a:
             simp()
+    cardSetup()
 
 
 def multi(rankorno):
@@ -89,25 +97,30 @@ def multi(rankorno):
                                    'You are playing RANKED 99. If you leave you will receive a penalty!! No to '
                                    'cancel!\n Tip: Un-check '
                                    'ranked to play casual')
-        if a:
-            ranked("mp")
-        else:
+        if not a:
             simp()
 
 
 def simp():  # single player or mp
     a = tk.Label(window, text="Mode Selection", font=('charter', 30), bg='cyan', fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
+    rankedtext = tk.Label(window, text=(
+            "Rank: " + rankchecklevel(1, rank, 0) + "\nXp: " + str(rank) + "\nXp from " + rankchecklevel(1, rank,
+                                                                                                         2) + ": " + str(
+        rankchecklevel(1, rank, 1))), font=('charter', 10), bg='cyan',
+                          fg='black')  # username text
+    rankedtext.place(x=20, y=200)
     rankedornotasf = tk.IntVar()
     rankedcheckboxthing = tk.Checkbutton(window, var=rankedornotasf, text="Ranked?", bg='cyan')
     rankedcheckboxthing.place(x=50, y=300)
     Sp = tk.Button(window, text="Singleplayer",  # make single player
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), displaycardsperperson(">", 0),
+                                    destroyBTN(rankedtext, 0, 0, 0),
                                     single(rankedornotasf.get())])  # link to singleplayer
     Sp.place(x=200, y=300)
     Mp = tk.Button(window, text="Multiplayer",  # make multi player
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
-                                    multi(rankedornotasf.get())])  # link to singleplayer
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), destroyBTN(rankedtext, 0, 0, 0),
+                                    multi(rankedornotasf.get())])  # link to mp
     Mp.place(x=400, y=300)
 
 
@@ -117,7 +130,7 @@ def username():  # username prompt
     entry1 = tk.Entry(window)  # make window for input
     entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
     savetousername = tk.Button(text='Submit', command=lambda: [
-        submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0), simp()])  # submit button
+        submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0)])  # submit button
     savetousername.place(x=475, y=285)  # submit button place
 
 
@@ -255,31 +268,56 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
             load()
 
 
+def displaycardsperperson(updown, number):
+    global cardn
+    global confirmcards
+    if updown == "<":
+        if cardn > 1:
+            cardn -= number
+    elif updown == ">":
+        if cardn < 10:
+            cardn += number
+    elif updown == "cf":
+        confirmcards = True
+    a = tk.Label(window, text=cardn,
+                 fg='black')  # print the save informations of the save
+    a.place(x=400, y=300, anchor=tk.CENTER)
+
+
 # game stuff
 def cardSetup():
     global cardl
     global cardn
     global pcard
     global bcard
+    global confirmcards
     ##ask for amount of cards per player
-    if inpt != 1:
-        while True:
-            print("=========================")
-            print("How many cards per player? (1 to 10)")
-            print("=========================")
-            cardn = input('>>>')
-            try:  # trying to set input to integer
-                cardn = int(cardn)
-                if cardn <= 10:
-                    break
-                print('!!!ERROR: Input was greater than 10\n')
-            except:
-                print('!!!ERROR: Input was not an integer\n')
+    a = tk.Label(window, text="How Many Cards Per Player? (1-10)",
+                 fg='black')  # print the save informations of the save
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    ass = tk.Button(window, text=">",  # make load button
+                    command=lambda: [displaycardsperperson(">", 1)])
+    ass.place(x=500, y=300)
+    css = tk.Button(window, text="<",  # make delete save button
+                    command=lambda: [displaycardsperperson("<", 1)])
+    css.place(x=300, y=300)
+    confirmbtn = tk.Button(window, text="Confirm",  # make delete save button
+                           command=lambda: [displaycardsperperson("cf", 0)])
+    confirmbtn.place(x=400, y=350)
+    if confirmcards:
+        destroyBTN(ass, a, css, confirmbtn)
+        for i in range(cardn):  # player
+            pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+        for i in range(cardn):  # bot
+            bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
+    else:
+        window.after(1000, cardSetup)
+        '''if cardn <= 10:
+                break
+            print('!!!ERROR: Input was greater than 10\n')
+        except:
+            print('!!!ERROR: Input was not an integer\n')'''
     ##giving cards
-    for i in range(cardn):  # player
-        pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
-    for i in range(cardn):  # bot
-        bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
 
 
 # ip reacher (loc)
