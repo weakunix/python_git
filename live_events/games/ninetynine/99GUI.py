@@ -117,7 +117,7 @@ def username():  # username prompt
     entry1 = tk.Entry(window)  # make window for input
     entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
     savetousername = tk.Button(text='Submit', command=lambda: [
-        submitUsername(entry1.get(), destroyBTN(a, entry1, savetousername, 0), simp())])  # submit button
+        submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0), simp()])  # submit button
     savetousername.place(x=475, y=285)  # submit button place
 
 
@@ -167,27 +167,36 @@ def rankchecklevel(print, ranka, calculate):  # check what rank you are with you
 
 
 # ranked
-def destroySave():
+def destroySave(d):
     a = tk.messagebox.askyesno("CONFIRM DELETION",
                                "ARE YOU SURE YOU WANT TO DELETE THIS SAVE?(IT'LL BE GONE FOR A LONG LONG TIME)!")  # popup asking if thye will confirm delete
     if a:  # if user responds yes in message box
         try:  # try to remove the file
             os.remove("saveData.txt")
+            msg = messagebox.showinfo("Success", "save deleted!")  # if it deletes
         except:  # if it is open in another application
-            msg = messagebox.showinfo("Critical Error", "Could Not Delete File.")
-            raise SystemExit("Couldn't delete save data. Make sure it is not open in another application")
-        msg = messagebox.showinfo("Success", "save deleted!")  # if it deletes
+            msg = messagebox.showinfo("Critical Error", "Could Not Delete File. It is open in another app")
+        load()
+
     else:
-        raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
+        asdf = tk.messagebox.showinfo("ERROR",
+                                      "USER CANCELLED DELETION. SAVE CORRUPTED.")
+        if d == 1:
+            load()
+        else:
+            buttonifySuccess()
 
 
 def buttonifyFail():  #
     a = tk.messagebox.askyesno("ERROR",
                                "SAVE CORRUPTED. DELETE?")
     if a:  # if user agrees to delete corrupted file
-        destroySave()
+        destroySave(1)
     else:  # if the user cancells the deletion
-        raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
+        # raise SystemExit("COULD NOT LOAD SAVE. SAVE CORRUPTED. CLICK NEW SAVE INSTEAD OF LOAD TO OVERWRITE YOUR SAVE")
+        asdf = tk.messagebox.showinfo("ERROR",
+                                      "COULD NOT LOAD SAVE SAVE CORRUPTED.")
+        load()
 
 
 def buttonifySuccess():  # if the save loads
@@ -199,7 +208,7 @@ def buttonifySuccess():  # if the save loads
                     command=lambda: [destroyBTN(ass, a, css, 0), simp()])
     ass.place(x=200, y=300)
     css = tk.Button(window, text="Delete",  # make delete save button
-                    command=lambda: [destroyBTN(ass, a, css, 0), destroySave()])
+                    command=lambda: [destroyBTN(ass, a, css, 0), destroySave(0)])
     css.place(x=500, y=300)
 
 
@@ -241,7 +250,9 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
                                        "You have made a new save!")
             username()
         else:
-            raise SystemExit("FAILED MAKING SAVE. USER CANCELLED")
+            a = tk.messagebox.showinfo("Aborted",
+                                       "Save creation cancelled!")
+            load()
 
 
 # game stuff
