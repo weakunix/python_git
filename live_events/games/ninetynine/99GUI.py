@@ -37,6 +37,7 @@ turn = 0  # turn for mp
 xpgained = 0  # how much xp gaiined off of 1 game
 rank = " "  # what rank are you
 xp = 0  # xp
+botName = botNames[random.randint(0, 4)]
 completed = ""  # if you finished the game (prevents leaving during a game)
 ranks = ["Bronze", "Silver", "Gold", "Dedicated", "Honor", "Veteran", "Professional", "Platinum", "Moolius",
          "Mooclear"]  # the ranks
@@ -66,12 +67,32 @@ def submitUsername(un):  # writes username into save
     XPFINDR.close()  # saves username
 
 
+def ranked(s):
+    pass
+
+
 def single(rankorno):
-    print(rankorno)
+    if rankorno:
+        a = tk.messagebox.askyesno("RANKED NOTICE",
+                                   "You are playing RANKED 99. If you leave you will receive a penalty!! No to "
+                                   "cancel!\n Tip: Un-check "
+                                   "ranked to play casual")
+        if a:
+            ranked("solo")
+        else:
+            simp()
 
 
 def multi(rankorno):
-    print("multi" + str(rankorno))
+    if rankorno:
+        a = tk.messagebox.askyesno("RANKED NOTICE",
+                                   'You are playing RANKED 99. If you leave you will receive a penalty!! No to '
+                                   'cancel!\n Tip: Un-check '
+                                   'ranked to play casual')
+        if a:
+            ranked("mp")
+        else:
+            simp()
 
 
 def simp():  # single player or mp
@@ -80,11 +101,13 @@ def simp():  # single player or mp
     rankedornotasf = tk.IntVar()
     rankedcheckboxthing = tk.Checkbutton(window, var=rankedornotasf, text="Ranked?", bg='cyan')
     rankedcheckboxthing.place(x=50, y=300)
-    Sp = tk.Button(window, text="Singleplayer",  # make delete save button
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, 0), single(rankedornotasf.get())])  # link to singleplayer
+    Sp = tk.Button(window, text="Singleplayer",  # make single player
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
+                                    single(rankedornotasf.get())])  # link to singleplayer
     Sp.place(x=200, y=300)
-    Mp = tk.Button(window, text="Multiplayer",  # make delete save button
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, 0), multi(rankedornotasf.get())])  # link to singleplayer
+    Mp = tk.Button(window, text="Multiplayer",  # make multi player
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
+                                    multi(rankedornotasf.get())])  # link to singleplayer
     Mp.place(x=400, y=300)
 
 
@@ -960,22 +983,26 @@ def tutorial(asdf):
                            "the sum would be 9\n\n There are special cards in this game \nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: "
                            "5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: "
                            "Automatically to 99\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n CLICK HERE TO CONTINUE"
-                      , bg="cyan", command=lambda: [destroyBTN(N, 0, 0, 0), load()])
-        N.place(x=0, y=0)
+                      , bg="cyan", width=50, height=10, command=lambda: [destroyBTN(N, 0, 0, 0), load()])
+        N.place(x=0, y=0, anchor=tk.CENTER)
 
 
 print("=========================")
-# rankedcheck()  # new may break
-A = tk.Button(window, text="Tutorial", width=20, height=3, command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
-A.place(x=200, y=400)
-V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, assss)])
-V.place(x=400, y=400)
 
-window.mainloop()
-while True:
+
+# rankedcheck()  # new may break
+def main():
+    A = tk.Button(window, text="Tutorial", width=20, height=3,
+                  command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
+    A.place(x=200, y=400)
+    V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, assss)])
+    V.place(x=400, y=400)
+
+
+'''while True:
     # XPFINDR = open("saveData.txt", "w")
     #    bcd = rank + xp
-    # XPFINDR.write(str(bcd) + "\n" + name + "true")
+    # XPFINDR.write(str(bcd) + "" + name + "true")
     # XPFINDR.close()
     ##filling cardl
     cardl = []  # cards left
@@ -1007,12 +1034,11 @@ while True:
     turn = 0
     botName = botNames[random.randint(0, 4)]
     ##ask if it is first time playing
-    '''
     # MP or DOM
     clearPg()
     if inpt != '':
         inpt = inpt[0]  # setting input to first letter if input is not enter
-    '''
+    
     if inpt == '2':
         MPorSP = 1
         print("=========================")
@@ -1028,7 +1054,7 @@ while True:
             setupN()  # setupMP NOST HAHAHHAHA NOSTING U KIDDING ME IDOT I TOLD U U GET FREE ISIMPYT SUBIF U GET HOST
             # SDJGHLSKJFJKLDKLJFLH
         multiplayer()
-    '''
+    
     elif inpt == 'x':
         if xpgained > 0:
             raise SystemExit("Successfully Exited. You have earned " + str(xpgained) + " XP Today. Well Done")
@@ -1036,11 +1062,11 @@ while True:
             raise SystemExit("Successfully Exited. You have lost " + str(xpgained) + " XP Today. Better Luck Next Time")
     elif inpt == '1':
         cardSetup()
-    '''
+    
     # gameplay
     if MPorSP == 0:
         # XPFINDR = open("saveData.txt", "w")
-        # XPFINDR.write(str(rank) + "\n" + name + "false")
+        # XPFINDR.write(str(rank) + "" + name + "false")
         # XPFINDR.close()
         clearPg()
         print("=========================")
@@ -1064,7 +1090,7 @@ while True:
         clearPg()
     else:
         # XPFINDR = open("saveData.txt", "w")
-        # XPFINDR.write(str(rank) + "\n" + name + "false")
+        # XPFINDR.write(str(rank) +  + name + "false")
         # XPFINDR.close()
         while sumc < 100:
             if turn == 0:
@@ -1096,3 +1122,7 @@ while True:
                         break
                     isOverAHunnit(1)
             checkforcardempty()
+            '''
+if __name__ == '__main__':
+    main()
+    window.mainloop()
