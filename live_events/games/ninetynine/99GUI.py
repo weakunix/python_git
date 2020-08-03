@@ -114,10 +114,10 @@ def premultiii(rankedorno):
     a = tk.Label(window, text="Host a game or join a game?", font=('charter', 30), bg='cyan',
                  fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
-    hostbtn = tk.Button(text='Host', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+    hostbtn = tk.Button(text='Host', width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         preH(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
     hostbtn.place(x=300, y=285)  # submit button place
-    nostbtn = tk.Button(text='Join', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+    nostbtn = tk.Button(text='Join', width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         preN(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
     nostbtn.place(x=500, y=285)  # submit button place
 
@@ -147,17 +147,19 @@ def simp():  # single player or mp
     rankedtext.place(x=20, y=200)
     rankedornotasf = tk.IntVar()
     rankedcheckboxthing = tk.Checkbutton(window, highlightbackground='#00FFFF', bg='#00FFFF', var=rankedornotasf,
-                                         text="Ranked?", )
-    rankedcheckboxthing.place(x=50, y=300)
-    Sp = tk.Button(window, text="Singleplayer", highlightbackground='#00FFFF', bg='#00FFFF',  # make single player
+                                         text="Ranked?")
+    rankedcheckboxthing.place(x=150, y=300, anchor=tk.CENTER)
+    Sp = tk.Button(window, text="Singleplayer", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
+                   # make single player
                    command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
                                     destroyBTN(rankedtext, 0, 0, 0),
                                     single(rankedornotasf.get())])  # link to singleplayer
-    Sp.place(x=200, y=300)
-    Mp = tk.Button(window, text="Multiplayer", highlightbackground='#00FFFF', bg='#00FFFF',  # make multi player
+    Sp.place(x=300, y=300, anchor=tk.CENTER)
+    Mp = tk.Button(window, text="Multiplayer", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
+                   # make multi player
                    command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), destroyBTN(rankedtext, 0, 0, 0),
                                     premulti(rankedornotasf.get())])  # link to mp
-    Mp.place(x=400, y=300)
+    Mp.place(x=500, y=300, anchor=tk.CENTER)
 
 
 def username():  # username prompt
@@ -259,12 +261,14 @@ def buttonifySuccess():  # if the save loads
         rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
-    ass = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Load",  # make load button
+    ass = tk.Button(window, highlightbackground='#00FFFF', width=20, height=3, bg='#00FFFF', text="Load",
+                    # make load button
                     command=lambda: [destroyBTN(ass, a, css, 0), simp()])
-    ass.place(x=200, y=300)
-    css = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Delete",  # make delete save button
+    ass.place(x=300, y=300, anchor=tk.CENTER)
+    css = tk.Button(window, highlightbackground='#00FFFF', width=20, height=3, bg='#00FFFF', text="Delete",
+                    # make delete save button
                     command=lambda: [destroyBTN(ass, a, css, 0), destroySave(0)])
-    css.place(x=500, y=300)
+    css.place(x=500, y=300, anchor=tk.CENTER)
 
 
 def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the save
@@ -338,7 +342,7 @@ def displaycardsperperson(updown, number):
         if cardn > 1:
             cardn -= number
     elif updown == ">":
-        if cardn < 10:
+        if cardn < 9:
             cardn += number
     elif updown == "cf":
         confirmcards = True
@@ -360,7 +364,7 @@ def cardSetup():
     global bcard
     global confirmcards
     ##ask for amount of cards per player
-    a = tk.Label(window, text="How Many Cards Per Player? (1-10)", font=('charter', 30), highlightbackground='#00FFFF',
+    a = tk.Label(window, text="How Many Cards Per Player? (1-9)", font=('charter', 30), highlightbackground='#00FFFF',
                  bg='#00FFFF',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
@@ -370,10 +374,10 @@ def cardSetup():
     css = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="<",  # make delete save button
                     command=lambda: [displaycardsperperson("<", 1)])
     css.place(x=300, y=300, anchor=tk.CENTER)
-    confirmbtn = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
+    confirmbtn = tk.Button(window, width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
                            # make delete save button
                            command=lambda: [displaycardsperperson("cf", 0), destroyBTN(confirmbtn, css, ass, a)])
-    confirmbtn.place(x=400, y=350, anchor=tk.CENTER)
+    confirmbtn.place(x=400, y=425, anchor=tk.CENTER)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
 
@@ -509,9 +513,8 @@ def setupH():  # setup the host
             h.write(str(temptuple1))
             h.close()
             clearPg()
-            print("=========================")
             print("successfully connected to game. Your Oppoent:" + name1)
-            print("=========================")  # adsf
+            # adsf
     else:
         preH()
 
@@ -597,9 +600,9 @@ def setupN():
         h.write(str(temptuple1))
         h.close()
         clearPg()
-        print("=========================")
+
         print("successfully connected to game. Your Oppoent:" + name1)
-        print("=========================")
+
     else:
         preN()
 
@@ -645,14 +648,14 @@ def multiplayer():
             cardl[i] = int(cardl[i])
             m = communications.recv(1024)
         clearPg()
-        print("=========================")
+
         print("Game Setup Success!")
-        print("=========================")
+
         print("\n\n\n")
     else:
-        print("=========================")
+
         print("waiting for oppoent...")
-        print("=========================")
+
         cardn = communications.recv(1024)
         cardn = cardn.decode()
         cardn = int(cardn)
@@ -687,9 +690,9 @@ def multiplayer():
             cardl[i] = int(cardl[i])
             communications.send(md.encode())
         clearPg()
-        print("=========================")
+
         print("Game Setup Success!")
-        print("=========================")
+
         print("\n\n\n")
     h.write("\nFinished setting up game!")
     h.close()
@@ -796,7 +799,7 @@ def isOverAHunnit(l):
 def checkotherstuff():
     if sumc > 99 and MPorSP == 0:
         clearPg()
-        print("=========================")
+
         print('Bot cards:\n')
         for i in bcard:  # print cards
             if i == 1:
@@ -822,10 +825,6 @@ def checkotherstuff():
     #    else:
     #       isOverAHunnit(1)
     print('Sum: {}'.format(sumc))
-    if sumc <= 99:
-        clearPg()  # potential bug
-    else:
-        print("=========================")
 
 
 def aysecheck(ayse):
@@ -844,10 +843,10 @@ def aysecheck(ayse):
             ayse = True
         else:
             print('\n!!!ERROR: Input was not 1 or 11\n')
-    window.after(100,aysecheck(ayse))
+    window.after(100, aysecheck(ayse))
 
 
-def playcardasplayer(haveplayerd):
+def playcardasplayer(haveplayerd, ins):
     global pcard
     global cardl
     global sumc
@@ -856,12 +855,12 @@ def playcardasplayer(haveplayerd):
     global xpgained
     global communications
     global xp
-    #whie True:
+    # whie True:
     haveplayerd = haveplayerd
     if haveplayerd:
         checkotherstuff()
     else:
-        inpt = input('Choose a card to play:\n\n>>>')
+        inpt = ins
         if inpt != '':
             if inpt[0] == 'a' or inpt[0] == 'A':  # ace
                 if 1 in pcard:
@@ -921,7 +920,8 @@ def playcardasplayer(haveplayerd):
                     p_replace_card(inpt)
                     haveplayerd = True
                     playcardasplayer(haveplayerd)
-        window.after(100,playcardasplayer(haveplayerd))
+        window.after(100, playcardasplayer(haveplayerd))
+
 
 ##player plays
 def player():
@@ -933,14 +933,14 @@ def player():
     global xpgained
     global communications
     global xp
-    # print("=========================")
+    #  
     # print("Your Cards: ")
     for i in pcard:  # print cards
         i = int(i)
         if i == 1:
             a = tk.Label(window, text="[Ayce]", font=('charter', 30), bg='cyan', fg='black')  #
             a.place(x=400, y=150, anchor=tk.CENTER)
-            #print('[A]', end='')
+            # print('[A]', end='')
         elif i == 11:
             a = tk.Label(window, text="[Jack]", font=('charter', 30), bg='cyan', fg='black')  #
             a.place(x=400, y=150, anchor=tk.CENTER)
@@ -957,7 +957,8 @@ def player():
             a = tk.Label(window, text="[" + str(i) + "]", font=('charter', 30), bg='cyan', fg='black')  #
             a.place(x=400, y=150, anchor=tk.CENTER)
             # print(type(pcard[i]))
-    playcardasplayer(False)
+    asdf = input(">>>")
+    playcardasplayer(False, asdf)
 
 
 ##bot plays
@@ -1223,7 +1224,7 @@ def recvplay():
         newcardplayedName = "-10"
     else:
         newcardplayedName = str(added)  # lol forgot to put this in that's why it didnt work
-    print("=========================")
+
     print(name1 + " Played:" + newcardplayedName + "\n Sum now: " + str(sumc))  # prints what person played and thing
     h = open(namething, "a")
     temptuple1 = (
@@ -1244,10 +1245,10 @@ window.geometry("800x600")
 
 
 def selectMode():
-    S = tk.Button(window, text="SinglePlayer", highlightbackground='#00FFFF', bg='#00FFFF',
+    S = tk.Button(window, text="SinglePlayer", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
                   command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
     S.place(x=160, y=80)
-    M = tk.Button(window, text="MultiPlayer", highlightbackground='#00FFFF', bg='#00FFFF',
+    M = tk.Button(window, text="MultiPlayer", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
                   command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
     M.place(x=240, y=80)
 
@@ -1255,12 +1256,12 @@ def selectMode():
 def load():
     a = tk.Label(window, text="Saves", font=('charter', 30), bg='cyan', fg='black')
     a.place(x=400, y=150, anchor=tk.CENTER)
-    L = tk.Button(window, text="Load Save", highlightbackground='#00FFFF', bg='#00FFFF',
+    L = tk.Button(window, text="Load Save", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
                   command=lambda: [rankedcheck(0), destroyBTN(La, L, a, 0)])
-    L.place(x=300, y=300)
-    La = tk.Button(window, text="New Save", highlightbackground='#00FFFF', bg='#00FFFF',
+    L.place(x=300, y=300, anchor=tk.CENTER)
+    La = tk.Button(window, text="New Save", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
                    command=lambda: [rankedcheck(1), destroyBTN(L, La, a, 0)])
-    La.place(x=500, y=300)
+    La.place(x=500, y=300, anchor=tk.CENTER)
 
 
 def inptchange(o):
@@ -1286,9 +1287,6 @@ def tutorial(asdf):
                       , highlightbackground='#00FFFF', bg='#00FFFF', width=800, height=600,
                       command=lambda: [destroyBTN(N, 0, 0, 0), load()])
         N.place(x=400, y=300, anchor=tk.CENTER)
-
-
-print("=========================")
 
 
 def main():
@@ -1341,9 +1339,9 @@ def main():
     
     if inpt == '2':
         MPorSP = 1
-        print("=========================")
+         
         print("[1]Host or [2]Nost?")
-        print("=========================")
+         
         inpt = input('>>>')
         clearPg()
         if inpt != '':
@@ -1369,9 +1367,9 @@ def main():
         # XPFINDR.write(str(rank) + "" + name + "false")
         # XPFINDR.close()
         clearPg()
-        print("=========================")
+         
         print("Do you want to go first?")
-        print("=========================")
+         
         inpt = input('>>>')  # add difficulties later
         clearPg()
         if inpt != '':
@@ -1381,7 +1379,7 @@ def main():
         else:
             inpt = 1
         clearPg()
-        print("=========================")
+         
         print("Oppoent is: " + botName)
         whie sumc < 100:
             inpt += 1
