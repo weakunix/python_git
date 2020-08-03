@@ -126,11 +126,11 @@ def premulti(rankorno):
                                    'cancel!\n Tip: Un-check '
                                    'ranked to play casual')
         if a:
-            premultiii(rankedorno)
+            premultiii(rankorno)
         else:
             simp()
     else:
-        premultiii(rankedorno)
+        premultiii(rankorno)
 
 
 def simp():  # single player or mp
@@ -307,8 +307,24 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
                                        "Save creation cancelled!")
             load()
 
+
+def isOverAHunnitorno(turnforplayer):
+    global sumc
+    if sumc < 100:
+        turnforplayer += 1
+        play(turnforplayer % 2)
+        checkforcardempty()
+        window.after(100, isOverAHunnit(turnforplayer))
+
+
 def gofirstornot():
-    pass
+    global MPorSP
+    MPorSP = 0
+    turnforplayer = random.randint(0, 1)
+    a = tk.messagebox.showinfo("On Noticed",("Oppoent is: " + botName))  # print the save informations of the save
+    if a:
+        isOverAHunnitorno(turnforplayer)
+
 
 def displaycardsperperson(updown, number):
     global cardn
@@ -347,7 +363,7 @@ def cardSetup():
     css.place(x=300, y=300, anchor=tk.CENTER)
     confirmbtn = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
                            # make delete save button
-                           command=lambda: [displaycardsperperson("cf", 0), destroyBTN(confirmbtn,css,ass,a)])
+                           command=lambda: [displaycardsperperson("cf", 0), destroyBTN(confirmbtn, css, ass, a)])
     confirmbtn.place(x=400, y=350, anchor=tk.CENTER)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
