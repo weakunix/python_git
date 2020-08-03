@@ -2,6 +2,7 @@
 import datetime, random, socket, time, urllib.request, os, tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+from sys import platform
 
 # files:
 window = tk.Tk()  # make window of TK as window var
@@ -13,7 +14,10 @@ assss.place(x=400, y=200, anchor=tk.CENTER)  # center text
 window.configure(bg="cyan")  # background of the window
 a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black')  # print 99 the card game
 a.place(x=400, y=150, anchor=tk.CENTER)
-external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+if platform == "darwin":
+    print("NOTE: You are running MACOS, the external IP identifier will not work")
+else:
+    external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""  # your name
 name1 = ""  # oppoent name
 communications = ''  # host send
