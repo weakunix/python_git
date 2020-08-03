@@ -16,8 +16,11 @@ a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', f
 a.place(x=400, y=150, anchor=tk.CENTER)
 if platform == "darwin":
     print("NOTE: You are running MACOS, the external IP identifier will not work")
+    external_ip = "111.111.111.111"
 else:
-    external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+    pass
+    external_ip = "111.111.111.111" #TODO FIX THIS
+    #external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""  # your name
 name1 = ""  # oppoent name
 communications = ''  # host send
