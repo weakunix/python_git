@@ -8,7 +8,7 @@ from sys import platform
 window = tk.Tk()  # make window of TK as window var
 window.title("99 The Card Game")  # title the window
 ISITHOSTORNOST = " "  # is the device hosting or a client
-version = 'BETA 1.5.5'  # TODO change this every time 99 version
+version = 'BETA 1.5.7'  # TODO change this every time 99 version
 assss = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
 assss.place(x=400, y=200, anchor=tk.CENTER)  # center text
 window.configure(bg="cyan")  # background of the window
@@ -19,8 +19,8 @@ if platform == "darwin":
     external_ip = "111.111.111.111"
 else:
     pass
-    external_ip = "111.111.111.111" #TODO FIX THIS
-    #external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+    external_ip = "111.111.111.111"  # TODO FIX THIS
+    # external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
 name = ""  # your name
 name1 = ""  # oppoent name
 communications = ''  # host send
@@ -317,14 +317,14 @@ def isOverAHunnitorno(turnforplayer):
         turnforplayer += 1
         play(turnforplayer % 2)
         checkforcardempty()
-        window.after(100, isOverAHunnitorno(turnforplayer))
+        window.after(1000, isOverAHunnitorno(turnforplayer))
 
 
 def gofirstornot():
     global MPorSP
     MPorSP = 0
     turnforplayer = random.randint(0, 1)
-    a = tk.messagebox.showinfo("On Noticed",("Oppoent is: " + botName))  # print the save informations of the save
+    a = tk.messagebox.showinfo("On Noticed", ("Oppoent is: " + botName))  # print the save informations of the save
     if a:
         isOverAHunnitorno(turnforplayer)
 
@@ -793,99 +793,7 @@ def isOverAHunnit(l):
             a = input('You Lost!, back to the lobby. \nEnter to Continue')
 
 
-##player plays
-def player():
-    global pcard
-    global cardl
-    global sumc
-    global MPorSP
-    global added
-    global xpgained
-    global communications
-    global xp
-    print("=========================")
-    print("Your Cards: ")
-    for i in pcard:  # print cards
-        i = int(i)
-        if i == 1:
-            print('[A]', end='')
-        elif i == 11:
-            print('[Ja]', end='')
-        elif i == 12:
-            print('[Q]', end='')
-        elif i == 13:
-            print('[K]', end='')
-        elif i == 14:
-            print('[Joker]', end='')
-        else:
-            print('[{}]'.format(i), end='')
-            # print(type(pcard[i]))
-    print("\n=========================")
-    while True:
-        inpt = input('Choose a card to play:\n\n>>>')
-        if inpt != '':
-            if inpt[0] == 'a' or inpt[0] == 'A':  # ace
-                if 1 in pcard:
-                    while True:
-                        inpt = input('>Should Ace be 1 or 11?<\n')
-                        if inpt == '1' or inpt == '11':
-                            if inpt == '1':
-                                sumc += 1
-                                added = 1
-                            else:
-                                sumc += 11
-                                added = 11
-                            p_replace_card(1)
-                            break
-                        else:
-                            print('\n!!!ERROR: Input was not 1 or 11\n')
-                    break
-            elif inpt[0] == 'j' or inpt[0] == 'J':
-                if len(inpt) > 1:
-                    if inpt[1] == 'a' or inpt[1] == 'A':  # jack
-                        if 11 in pcard:
-                            sumc += 10
-                            added = 10
-                            p_replace_card(11)
-                            break
-                    elif inpt[1] == 'o' or inpt[1] == 'O':  # joker
-                        if 14 in pcard:
-                            sumc = 99
-                            added = 1000
-                            p_replace_card(14)
-                            break
-            elif inpt[0] == 'q' or inpt[0] == 'Q':  # queen
-                if 12 in pcard:
-                    sumc += 10
-                    added = 10
-                    p_replace_card(12)
-                    break
-            elif inpt[0] == 'k' or inpt[0] == 'K':  # king
-                if 13 in pcard:
-                    sumc = 99
-                    added = 1000
-                    p_replace_card(13)
-                    break
-            elif inpt in nums:
-                inpt = int(inpt)
-                if inpt == 4:  # 4
-                    p_replace_card(4)
-                    added = 0
-                    break
-                elif inpt == 9:  # 9
-                    p_replace_card(9)
-                    added = 0
-                    break
-                elif inpt == 10:  # 10
-                    sumc -= 10
-                    p_replace_card(10)
-                    added = -10
-                    break
-                else:  # other numbers
-                    sumc += inpt
-                    added = inpt
-                    p_replace_card(inpt)
-                    break
+def checkotherstuff():
     if sumc > 99 and MPorSP == 0:
         clearPg()
         print("=========================")
@@ -920,6 +828,138 @@ def player():
         print("=========================")
 
 
+def aysecheck(ayse):
+    if ayse:
+        return True
+    else:
+        inpt = input('>Should Ace be 1 or 11?<\n')
+        if inpt == '1' or inpt == '11':
+            if inpt == '1':
+                sumc += 1
+                added = 1
+            else:
+                sumc += 11
+                added = 11
+            p_replace_card(1)
+            ayse = True
+        else:
+            print('\n!!!ERROR: Input was not 1 or 11\n')
+    window.after(100,aysecheck(ayse))
+
+
+def playcardasplayer(haveplayerd):
+    global pcard
+    global cardl
+    global sumc
+    global MPorSP
+    global added
+    global xpgained
+    global communications
+    global xp
+    #whie True:
+    haveplayerd = haveplayerd
+    if haveplayerd:
+        checkotherstuff()
+    else:
+        inpt = input('Choose a card to play:\n\n>>>')
+        if inpt != '':
+            if inpt[0] == 'a' or inpt[0] == 'A':  # ace
+                if 1 in pcard:
+                    haveplayerd = aysecheck()
+                    playcardasplayer(haveplayerd)
+            elif inpt[0] == 'j' or inpt[0] == 'J':
+                if len(inpt) > 1:
+                    if inpt[1] == 'a' or inpt[1] == 'A':  # jack
+                        if 11 in pcard:
+                            sumc += 10
+                            added = 10
+                            p_replace_card(11)
+                            haveplayerd = True
+                            playcardasplayer(haveplayerd)
+                    elif inpt[1] == 'o' or inpt[1] == 'O':  # joker
+                        if 14 in pcard:
+                            sumc = 99
+                            added = 1000
+                            p_replace_card(14)
+                            haveplayerd = True
+                            playcardasplayer(haveplayerd)
+            elif inpt[0] == 'q' or inpt[0] == 'Q':  # queen
+                if 12 in pcard:
+                    sumc += 10
+                    added = 10
+                    p_replace_card(12)
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+            elif inpt[0] == 'k' or inpt[0] == 'K':  # king
+                if 13 in pcard:
+                    sumc = 99
+                    added = 1000
+                    p_replace_card(13)
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+            elif inpt in nums:
+                inpt = int(inpt)
+                if inpt == 4:  # 4
+                    p_replace_card(4)
+                    added = 0
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+                elif inpt == 9:  # 9
+                    p_replace_card(9)
+                    added = 0
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+                elif inpt == 10:  # 10
+                    sumc -= 10
+                    p_replace_card(10)
+                    added = -10
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+                else:  # other numbers
+                    sumc += inpt
+                    added = inpt
+                    p_replace_card(inpt)
+                    haveplayerd = True
+                    playcardasplayer(haveplayerd)
+        window.after(100,playcardasplayer(haveplayerd))
+
+##player plays
+def player():
+    global pcard
+    global cardl
+    global sumc
+    global MPorSP
+    global added
+    global xpgained
+    global communications
+    global xp
+    # print("=========================")
+    # print("Your Cards: ")
+    for i in pcard:  # print cards
+        i = int(i)
+        if i == 1:
+            a = tk.Label(window, text="[Ayce]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+            #print('[A]', end='')
+        elif i == 11:
+            a = tk.Label(window, text="[Jack]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+        elif i == 12:
+            a = tk.Label(window, text="[Queen]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+        elif i == 13:
+            a = tk.Label(window, text="[KING]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+        elif i == 14:
+            a = tk.Label(window, text="[JOKER]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+        else:
+            a = tk.Label(window, text="[" + str(i) + "]", font=('charter', 30), bg='cyan', fg='black')  #
+            a.place(x=400, y=150, anchor=tk.CENTER)
+            # print(type(pcard[i]))
+    playcardasplayer(False)
+
+
 ##bot plays
 def bot():  # push now but bug here
     global bcard
@@ -940,10 +980,11 @@ def bot():  # push now but bug here
                 power = bcard[random.randint(0, cardn - 1)]
                 if power in nums:
                     sumc += power
-                    a = tk.Label(window, text=(botName+" played: "+str(power)+"\n Sum: "+str(sumc)), font=('charter', 30), bg='cyan',
+                    a = tk.Label(window, text=(botName + " played: " + str(power) + "\n Sum: " + str(sumc)),
+                                 font=('charter', 30), bg='cyan',
                                  fg='black')  #
                     a.place(x=400, y=150, anchor=tk.CENTER)
-                    #print('{} played: {}\nSum: {}'.format(botName, power, sumc))
+                    # print('{} played: {}\nSum: {}'.format(botName, power, sumc))
                     break
         else:
             power = bcard[random.randint(0, cardn - 1)]
@@ -957,7 +998,8 @@ def bot():  # push now but bug here
                     a.place(x=400, y=150, anchor=tk.CENTER)
                 else:
                     sumc += 11
-                    a = tk.Label(window, text=(botName + " played: Ayce(11) \n Sum: " + str(sumc)), font=('charter', 30),
+                    a = tk.Label(window, text=(botName + " played: Ayce(11) \n Sum: " + str(sumc)),
+                                 font=('charter', 30),
                                  bg='cyan',
                                  fg='black')  #
                     a.place(x=400, y=150, anchor=tk.CENTER)
@@ -968,7 +1010,7 @@ def bot():  # push now but bug here
                                  bg='cyan',
                                  fg='black')  #
                     a.place(x=400, y=150, anchor=tk.CENTER)
-                    #print('{} played: 10\nSum: {}'.format(botName, sumc))
+                    # print('{} played: 10\nSum: {}'.format(botName, sumc))
                 elif power == 11 or power == 12:
                     sumc += 10
                     if power == 11:
@@ -977,14 +1019,14 @@ def bot():  # push now but bug here
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: J\nSum: {}'.format(botName, sumc))
+                        # print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
                         a = tk.Label(window, text=(botName + " played: Queen(+10) \n Sum: " + str(sumc)),
                                      font=('charter', 30),
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: Q\nSum: {}'.format(botName, sumc))
+                        # print('{} played: Q\nSum: {}'.format(botName, sumc))
                 else:
                     sumc = 99
                     if power == 13:
@@ -993,26 +1035,26 @@ def bot():  # push now but bug here
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: K\nSum: {}'.format(botName, sumc))
+                        # print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
                         a = tk.Label(window, text=(botName + " played: Joker!(=99) \n Sum: " + str(sumc)),
                                      font=('charter', 30),
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: Joker\nSum: {}'.format(botName, sumc))
+                        # print('{} played: Joker\nSum: {}'.format(botName, sumc))
         b_replace_card(power)
     else:
         played = False  # did bot play yet?
         for i in bcard:
             if i in nums and i + sumc <= 99:
                 sumc += i
-                a = tk.Label(window, text=(botName + " played: "+i+" \n Sum: " + str(sumc)),
+                a = tk.Label(window, text=(botName + " played: " + i + " \n Sum: " + str(sumc)),
                              font=('charter', 30),
                              bg='cyan',
                              fg='black')  #
                 a.place(x=400, y=150, anchor=tk.CENTER)
-                #print('{} played: {}\nSum: {}'.format(botName, i, sumc))
+                # print('{} played: {}\nSum: {}'.format(botName, i, sumc))
                 played = True
         if not played:
             if sumc + 10 <= 99:
@@ -1025,7 +1067,7 @@ def bot():  # push now but bug here
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: J\nSum: {}'.format(botName, sumc))
+                        # print('{} played: J\nSum: {}'.format(botName, sumc))
                     else:
                         i = 12
                         a = tk.Label(window, text=(botName + " played: Queen(+10) \n Sum: " + str(sumc)),
@@ -1041,7 +1083,7 @@ def bot():  # push now but bug here
                              bg='cyan',
                              fg='black')  #
                 a.place(x=400, y=150, anchor=tk.CENTER)
-                #print('{} played: A(1)\nSum: {}'.format(botName, sumc))
+                # print('{} played: A(1)\nSum: {}'.format(botName, sumc))
             else:
                 if 13 in bcard or 14 in bcard:
                     sumc = 99
@@ -1052,7 +1094,7 @@ def bot():  # push now but bug here
                                      bg='cyan',
                                      fg='black')  #
                         a.place(x=400, y=150, anchor=tk.CENTER)
-                        #print('{} played: K\nSum: {}'.format(botName, sumc))
+                        # print('{} played: K\nSum: {}'.format(botName, sumc))
                     else:
                         i = 14
                         a = tk.Label(window, text=(botName + " played: JOKER(=99) \n Sum: " + str(sumc)),
@@ -1112,13 +1154,15 @@ def bot():  # push now but bug here
                     a = input('You won!, back to the lobby. \nEnter to Continue')
                     sumc = 103  # stops bugging th eprogram and keep the game going evne you win
         b_replace_card(i)
+    return a
 
 
 ##turn test
 def play(n):
     if n == 0:
         if sumc < 100:
-            bot()
+            brac = bot()
+            destroyBTN(brac, 0, 0, 0)
     else:
         if sumc < 100:
             player()
@@ -1260,7 +1304,7 @@ def main():
     # window.create_image(20, 20, anchor=tk.CENTER, image=deckninetynine)
 
 
-'''while True:
+'''whie True:
     # XPFINDR = open("saveData.txt", "w")
     #    bcd = rank + xp
     # XPFINDR.write(str(bcd) + "" + name + "true")
@@ -1339,7 +1383,7 @@ def main():
         clearPg()
         print("=========================")
         print("Oppoent is: " + botName)
-        while sumc < 100:
+        whie sumc < 100:
             inpt += 1
             play(inpt % 2)
             checkforcardempty()
@@ -1348,7 +1392,7 @@ def main():
         # XPFINDR = open("saveData.txt", "w")
         # XPFINDR.write(str(rank) +  + name + "false")
         # XPFINDR.close()
-        while sumc < 100:
+        whie sumc < 100:
             if turn == 0:
                 if sumc < 100:
                     try:
