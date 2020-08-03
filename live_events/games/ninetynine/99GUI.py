@@ -1,6 +1,7 @@
 # imports
 import datetime, random, socket, time, urllib.request, os, tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 
 # files:
 window = tk.Tk()  # make window of TK as window var
@@ -64,7 +65,7 @@ def destroyBTN(M, L, S, G):
 
 
 def clearPg():  # clear the page in console (deprecated)
-    print("\n" * 100)
+    print("clear page \n" * 100)
 
 
 def submitUsername(un):  # writes username into save
@@ -97,7 +98,7 @@ def single(rankorno):
     cardSetup()
 
 
-def multi(rankorno):
+def premulti(rankorno):
     if rankorno:
         a = tk.messagebox.askyesno("RANKED NOTICE",
                                    'You are playing RANKED 99. If you leave you will receive a penalty!! No to '
@@ -105,6 +106,15 @@ def multi(rankorno):
                                    'ranked to play casual')
         if not a:
             simp()
+    a = tk.Label(window, text="Host a game or join a game?", font=('charter', 30), bg='cyan',
+                 fg='black')  # username text
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    hostbtn = tk.Button(text='Host', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+        preH(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
+    hostbtn.place(x=300, y=285)  # submit button place
+    nostbtn = tk.Button(text='Join', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+        preN(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
+    nostbtn.place(x=500, y=285)  # submit button place
 
 
 def simp():  # single player or mp
@@ -117,16 +127,17 @@ def simp():  # single player or mp
                           fg='black')  # username text
     rankedtext.place(x=20, y=200)
     rankedornotasf = tk.IntVar()
-    rankedcheckboxthing = tk.Checkbutton(window, var=rankedornotasf, text="Ranked?", bg='cyan')
+    rankedcheckboxthing = tk.Checkbutton(window, highlightbackground='#00FFFF', bg='#00FFFF', var=rankedornotasf,
+                                         text="Ranked?", )
     rankedcheckboxthing.place(x=50, y=300)
-    Sp = tk.Button(window, text="Singleplayer",  # make single player
+    Sp = tk.Button(window, text="Singleplayer", highlightbackground='#00FFFF', bg='#00FFFF',  # make single player
                    command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), displaycardsperperson(">", 3),
                                     destroyBTN(rankedtext, 0, 0, 0),
                                     single(rankedornotasf.get())])  # link to singleplayer
     Sp.place(x=200, y=300)
-    Mp = tk.Button(window, text="Multiplayer",  # make multi player
+    Mp = tk.Button(window, text="Multiplayer", highlightbackground='#00FFFF', bg='#00FFFF',  # make multi player
                    command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), destroyBTN(rankedtext, 0, 0, 0),
-                                    multi(rankedornotasf.get())])  # link to mp
+                                    premulti(rankedornotasf.get())])  # link to mp
     Mp.place(x=400, y=300)
 
 
@@ -135,7 +146,7 @@ def username():  # username prompt
     a.place(x=400, y=150, anchor=tk.CENTER)
     entry1 = tk.Entry(window)  # make window for input
     entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
-    savetousername = tk.Button(text='Submit', command=lambda: [
+    savetousername = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0)])  # submit button
     savetousername.place(x=475, y=285)  # submit button place
 
@@ -178,10 +189,16 @@ def rankchecklevel(print, ranka, calculate):  # check what rank you are with you
     if print and calculate == 0:  # print current rank name
         return ranka
     if calculate == 1:  # for calculations after every game (how many points until next rank)
-        calculations = rankscore[R] - rank
+        if R < 9:
+            calculations = rankscore[R] - rank
+        else:
+            calculations = 0
         return calculations
     if calculate == 2:  # for calculations after every game (name of next rank)
-        ranka = ranks[R + 1]
+        if R < 9:
+            ranka = ranks[R + 1]
+        else:
+            ranka = "None"
         return ranka
 
 
@@ -223,10 +240,10 @@ def buttonifySuccess():  # if the save loads
         rank) + ")\nUsername:" + str(name)), font=('charter', 30), bg='cyan',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
-    ass = tk.Button(window, text="Load",  # make load button
+    ass = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Load",  # make load button
                     command=lambda: [destroyBTN(ass, a, css, 0), simp()])
     ass.place(x=200, y=300)
-    css = tk.Button(window, text="Delete",  # make delete save button
+    css = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Delete",  # make delete save button
                     command=lambda: [destroyBTN(ass, a, css, 0), destroySave(0)])
     css.place(x=500, y=300)
 
@@ -244,7 +261,8 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
                     name = data[1]
                     completed = data[2]
                     if completed == "false":
-                        Sbb = tk.Button(window, text="[RANKED PENALTY] \n YOU LEFT A GAME: -10 XP\n Click To Continue",
+                        Sbb = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF',
+                                        text="[RANKED PENALTY] \n YOU LEFT A GAME: -10 XP\n Click To Continue",
                                         command=lambda: [destroyBTN(0, 0, Sbb, 0)])
                         Sbb.place(x=160, y=200)
                         rank -= 10
@@ -285,7 +303,7 @@ def displaycardsperperson(updown, number):
             cardn += number
     elif updown == "cf":
         confirmcards = True
-    a = tk.Label(window, text=cardn,
+    a = tk.Label(window, text=cardn, highlightbackground='#FFFFFF', font=('charter', 30), bg='#FFFFFF',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=300, anchor=tk.CENTER)
 
@@ -298,25 +316,27 @@ def cardSetup():
     global bcard
     global confirmcards
     ##ask for amount of cards per player
-    a = tk.Label(window, text="How Many Cards Per Player? (1-10)",
+    a = tk.Label(window, text="How Many Cards Per Player? (1-10)", font=('charter', 30), highlightbackground='#00FFFF',
+                 bg='#00FFFF',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
-    ass = tk.Button(window, text=">",  # make load button
+    ass = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text=">",  # make load button
                     command=lambda: [displaycardsperperson(">", 1)])
-    ass.place(x=500, y=300)
-    css = tk.Button(window, text="<",  # make delete save button
+    ass.place(x=500, y=300, anchor=tk.CENTER)
+    css = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="<",  # make delete save button
                     command=lambda: [displaycardsperperson("<", 1)])
-    css.place(x=300, y=300)
-    confirmbtn = tk.Button(window, text="Confirm",  # make delete save button
+    css.place(x=300, y=300, anchor=tk.CENTER)
+    confirmbtn = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
+                           # make delete save button
                            command=lambda: [displaycardsperperson("cf", 0)])
-    confirmbtn.place(x=400, y=350)
+    confirmbtn.place(x=400, y=350, anchor=tk.CENTER)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
         for i in range(cardn):  # player
             pcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
         for i in range(cardn):  # bot
             bcard.append(cardl.pop(random.randint(0, len(cardl) - 1)))
-        print("afk")
+
     else:
         window.after(1000, cardSetup)
         '''if cardn <= 10:
@@ -341,6 +361,46 @@ def get_ip():
     return IP
 
 
+def portbind(a, noh):
+    global port
+    port = a
+    try:
+        port = int(port)
+        if 1 <= port <= 65535:
+            if noh == 1:
+                setupH()
+        else:
+            msg = messagebox.showinfo("Bad Port", "Port is not a number from 1-65535!")  # if it deletes
+            if noh == 1:
+                preH()
+            else:
+                preN()
+    except:
+        msg = messagebox.showinfo("Bad Port", "Port is not a number from 1-65535!")  # if it deletes
+        if noh == 1:
+            preH()
+        else:
+            preN()
+
+
+def preH():
+    a = tk.Label(window, text="Port (To Host On)", font=('charter', 30), bg='cyan', fg='black')  #
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    portenter = tk.Entry(window)  # make window for input
+    portenter.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
+    submitbtn = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+        portbind(portenter.get(), 1), destroyBTN(a, submitbtn, portenter, 0)])  # submit button
+    submitbtn.place(x=475, y=285)  # submit button place
+
+
+def stopListening():
+    global port
+    global host
+    socket.socket(socket.AF_INET,
+                  socket.SOCK_STREAM).connect((host, port))
+    communications.close()
+
+
 def setupH():  # setup the host
     global ISITHOSTORNOST
     global name
@@ -353,69 +413,104 @@ def setupH():  # setup the host
     global namething
     ISITHOSTORNOST = "host"
     turn = random.randint(0, 1)
-    print("=========================")
-    print("port (1-5 digit)")
-    print("=========================")
-    port = int(input(">>>"))  # port
+    print(port)
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
     communications.bind((host, port))
-    clearPg()
-    print("=========IP(Local)===========")
-    print(host)  # print out local ip
-    print("=========IP(Global)==========")
-    print(external_ip)  # print global ip
-    print("============PORT=============")
-    print(port)  # print port for global ip
-    print("=============================")
-    print("Room started\nWaiting for connections...")
-    communications.listen(1)  # wait for ppl to join
-    communications, adr = communications.accept()  # if see ppl accept it
-    name = name.encode()  # send your name to them
-    communications.sendall(name)  # ^^
-    name = name.decode()
-    name1 = communications.recv(1024)  # receive their name
-    name1 = name1.decode()
-    external_ip = external_ip.encode()  # send external ip
-    communications.sendall(external_ip)
-    host = host.encode()  # send local ip
-    communications.sendall(host)
-    host = host.decode()
-    external_ip = external_ip.decode()
-    theirIP = communications.recv(1024)  # receive their ip (local)
-    theirIP = theirIP.decode()
-    print(theirIP)
-    theirEIP = communications.recv(1024)  # receive their ip (global)
-    theirEIP = theirEIP.decode()
-    turn = str(turn).encode()  # send your order of cards to them
-    communications.sendall(turn)
-    turn.decode()
-    turn = int(turn)
-    if turn == 1:
-        turn = 0
-    elif turn == 0:
-        turn = 1
-    print(theirEIP)
-    temptuple = (
-        "Game", str(datetime.datetime.now()),
-        ".txt")  # make a string that can be converted into file (no spaces or _)
-    namething = str("".join(temptuple))
-    namething = namething.replace(' ', '_')
-    namething = namething.replace(':', '_')
-    h = open(namething, "w+")  # make a file with the name
-    temptuple1 = (
-        "From HOST, on port: ", str(port), ": game between ", name, " [you] (", host, ")(", external_ip, ") and ",
-        name1,
-        " (", theirIP, ") (", theirEIP, ")\n ================= \n")
-    # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
-    temptuple1 = "".join(temptuple1)
-    h.write(str(temptuple1))
-    h.close()
-    clearPg()
-    print("=========================")
-    print("successfully connected to game. Your Oppoent:" + name1)
-    print("=========================")  # adsf
+    msg = messagebox.askyesno("Hosting",
+                              "Host on:\n" + "IP(Local):\n" + str(host) + "\n IP(Global):\n" + str(
+                                  external_ip) + "\n Port: \n" + str(port))
+    if msg:
+        a = tk.Label(window, text="Waiting for connections...", font=('charter', 30), bg='cyan', fg='black')  #
+        a.place(x=400, y=150, anchor=tk.CENTER)
+        cancelbtn = tk.Button(text='Cancel', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+            destroyBTN(a, cancelbtn, 0, 0), stopListening])
+        cancelbtn.place(x=400, y=300, anchor=tk.CENTER)
+        msg = messagebox.showinfo("Starting",
+                                  "click ok to start")
+        if msg:
+            communications.listen(1)  # wait for ppl to join
+            communications, adr = communications.accept()  # if see ppl accept it
+            name = name.encode()  # send your name to them
+            communications.sendall(name)  # ^^
+            name = name.decode()
+            name1 = communications.recv(1024)  # receive their name
+            name1 = name1.decode()
+            external_ip = external_ip.encode()  # send external ip
+            communications.sendall(external_ip)
+            host = host.encode()  # send local ip
+            communications.sendall(host)
+            host = host.decode()
+            external_ip = external_ip.decode()
+            theirIP = communications.recv(1024)  # receive their ip (local)
+            theirIP = theirIP.decode()
+            print(theirIP)
+            theirEIP = communications.recv(1024)  # receive their ip (global)
+            theirEIP = theirEIP.decode()
+            turn = str(turn).encode()  # send your order of cards to them
+            communications.sendall(turn)
+            turn.decode()
+            turn = int(turn)
+            if turn == 1:
+                turn = 0
+            elif turn == 0:
+                turn = 1
+            print(theirEIP)
+            temptuple = (
+                "Game", str(datetime.datetime.now()),
+                ".txt")  # make a string that can be converted into file (no spaces or _)
+            namething = str("".join(temptuple))
+            namething = namething.replace(' ', '_')
+            namething = namething.replace(':', '_')
+            h = open(namething, "w+")  # make a file with the name
+            temptuple1 = (
+                "From HOST, on port: ", str(port), ": game between ", name, " [you] (", host, ")(", external_ip,
+                ") and ",
+                name1,
+                " (", theirIP, ") (", theirEIP, ")\n ================= \n")
+            # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
+            temptuple1 = "".join(temptuple1)
+            h.write(str(temptuple1))
+            h.close()
+            clearPg()
+            print("=========================")
+            print("successfully connected to game. Your Oppoent:" + name1)
+            print("=========================")  # adsf
+    else:
+        preH()
+
+
+def ipbind(a):
+    global theirEIP
+    theirEIP = a
+    try:
+        socket.inet_aton(theirEIP)
+    except:
+        msg = messagebox.showinfo("Bad IP", "The IP you entered is not an IP. Please try again")  # if it deletes
+        preN()
+    try:
+        setupN()
+    except:
+        msg = messagebox.showinfo("Bad IP & Port", "The IP & port combo you entered is not hosting a 99 game. Please\n "
+                                                   "verify that the machine you are trying to connect to is on \n"
+                                                   "MULTIPLAYER and is HOSTING")
+        preN()
+
+
+def preN():
+    a = tk.Label(window, text="IP and Port (To Connect To)", font=('charter', 30), bg='cyan', fg='black')  #
+    a.place(x=400, y=150, anchor=tk.CENTER)
+    b = tk.Label(window, text="IP\nPort", font=('charter', 30), bg='cyan', fg='black')  #
+    b.place(x=300, y=290, anchor=tk.CENTER)
+    ipenter = tk.Entry(window)  # make window for input
+    ipenter.place(x=400, y=275, anchor=tk.CENTER)  # anchor input box
+    portenter = tk.Entry(window)  # make window for input
+    portenter.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
+    submitbtn = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
+        portbind(portenter.get(), 0), ipbind(ipenter.get()),
+        destroyBTN(a, submitbtn, portenter, ipenter), destroyBTN(0, 0, 0, b)])  # submit button
+    submitbtn.place(x=475, y=285)  # submit button place
 
 
 def setupN():
@@ -429,57 +524,49 @@ def setupN():
     global turn
     global namething
     ISITHOSTORNOST = "nost"
-    print("=========================")
-    print("port (1-5 digit)")
-    print("=========================")
-    port = int(input(">>>"))
-    clearPg()
     ipplaceholder = get_ip()
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tries to reuse socket
-    print("=======IP(Local)=========")
-    print(ipplaceholder)  # local ip
-    print("=======IP(Global)========")
-    print(external_ip)  # glob ip
-    print("=========Port============")
-    print(port)  # port
-    print("==Connect To (Enter IP)==")
-    theirEIP = input(str(">>>"))  # enter ip to connect to
-    communications.connect((theirEIP, port))
-    name1 = communications.recv(1024)  # recieve their name
-    name1 = name1.decode()
-    name = name.encode()  # encode and send ur name
-    communications.send(name)
-    name = name.decode()  # eecode name after sending
-    theirEIP = communications.recv(1024)  # receive their ip (ext)
-    theirEIP = theirEIP.decode()
-    theirIP = communications.recv(1024)  # recv their ip (loc)
-    theirIP = theirIP.decode()
-    print(ipplaceholder)
-    ipplaceholder = ipplaceholder.encode()  # send local ip
-    communications.send(ipplaceholder)
-    ipplaceholder = ipplaceholder.decode()
-    time.sleep(0.5)
-    extern = external_ip.encode()
-    communications.send(extern)  # send glob ip
-    turn = communications.recv(1024)  # Recv game order
-    turn = turn.decode()
-    turn = int(turn)
-    temptuple = ("Game", str(datetime.datetime.now()), ".txt")
-    namething = str("".join(temptuple))
-    namething = namething.replace(' ', '_')
-    namething = namething.replace(':', '_')
-    h = open(namething, "w+")
-    temptuple1 = (
-        "From NOST, on port: ", str(port), ": game between ", name, " [you] (", ipplaceholder, ")(", external_ip,
-        ") and ", name1, " (", theirIP, ") (", theirEIP, ")\n ================= \n")
-    temptuple1 = "".join(temptuple1)
-    h.write(str(temptuple1))
-    h.close()
-    clearPg()
-    print("=========================")
-    print("successfully connected to game. Your Oppoent:" + name1)
-    print("=========================")
+    msg = messagebox.askyesno("Connecting",
+                              "Connecting to:\n" + "IP(Their):\n" + str(theirEIP) + "\n Port: \n" + str(port))
+    if msg:
+        communications.connect((theirEIP, port))
+        name1 = communications.recv(1024)  # recieve their name
+        name1 = name1.decode()
+        name = name.encode()  # encode and send ur name
+        communications.send(name)
+        name = name.decode()  # eecode name after sending
+        theirEIP = communications.recv(1024)  # receive their ip (ext)
+        theirEIP = theirEIP.decode()
+        theirIP = communications.recv(1024)  # recv their ip (loc)
+        theirIP = theirIP.decode()
+        print(ipplaceholder)
+        ipplaceholder = ipplaceholder.encode()  # send local ip
+        communications.send(ipplaceholder)
+        ipplaceholder = ipplaceholder.decode()
+        time.sleep(0.5)
+        extern = external_ip.encode()
+        communications.send(extern)  # send glob ip
+        turn = communications.recv(1024)  # Recv game order
+        turn = turn.decode()
+        turn = int(turn)
+        temptuple = ("Game", str(datetime.datetime.now()), ".txt")
+        namething = str("".join(temptuple))
+        namething = namething.replace(' ', '_')
+        namething = namething.replace(':', '_')
+        h = open(namething, "w+")
+        temptuple1 = (
+            "From NOST, on port: ", str(port), ": game between ", name, " [you] (", ipplaceholder, ")(", external_ip,
+            ") and ", name1, " (", theirIP, ") (", theirEIP, ")\n ================= \n")
+        temptuple1 = "".join(temptuple1)
+        h.write(str(temptuple1))
+        h.close()
+        clearPg()
+        print("=========================")
+        print("successfully connected to game. Your Oppoent:" + name1)
+        print("=========================")
+    else:
+        preN()
 
 
 def multiplayer():
@@ -1005,18 +1092,22 @@ window.geometry("800x600")
 
 
 def selectMode():
-    S = tk.Button(window, text="SinglePlayer", command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
+    S = tk.Button(window, text="SinglePlayer", highlightbackground='#00FFFF', bg='#00FFFF',
+                  command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
     S.place(x=160, y=80)
-    M = tk.Button(window, text="MultiPlayer", command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
+    M = tk.Button(window, text="MultiPlayer", highlightbackground='#00FFFF', bg='#00FFFF',
+                  command=lambda: [rankedcheck(), destroyBTN(M, 0, S, 0)])
     M.place(x=240, y=80)
 
 
 def load():
     a = tk.Label(window, text="Saves", font=('charter', 30), bg='cyan', fg='black')
     a.place(x=400, y=150, anchor=tk.CENTER)
-    L = tk.Button(window, text="Load Save", command=lambda: [rankedcheck(0), destroyBTN(La, L, a, 0)])
+    L = tk.Button(window, text="Load Save", highlightbackground='#00FFFF', bg='#00FFFF',
+                  command=lambda: [rankedcheck(0), destroyBTN(La, L, a, 0)])
     L.place(x=300, y=300)
-    La = tk.Button(window, text="New Save", command=lambda: [rankedcheck(1), destroyBTN(L, La, a, 0)])
+    La = tk.Button(window, text="New Save", highlightbackground='#00FFFF', bg='#00FFFF',
+                   command=lambda: [rankedcheck(1), destroyBTN(L, La, a, 0)])
     La.place(x=500, y=300)
 
 
@@ -1036,22 +1127,29 @@ def tutorial(asdf):
                       text="Objective of game: Get to 99 but don\'t go over. \nMake the other person go over 99 to "
                            "win\nHow to play: When you play a card it adds to the sum of all the cards.\n For "
                            "example if the first card played was 6 and the second card played \nwas 3, "
-                           "the sum would be 9\n\n There are special cards in this game \nCard values:\nA: 1 or 11 (your choice)\n2: 2\n3: 3\n4: 0\n5: "
+                           "the sum would be 9\n\n There are special cards in this game \nCard values:\nA: 1 or 11 ("
+                           "your choice)\n2: 2\n3: 3\n4: 0\n5: "
                            "5\n6: 6\n7: 7\n8: 8\n9: 0\n10: -10\nJ: 10\nQ: 10\nK: Automatically to 99\nJoker: "
-                           "Automatically to 99\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n CLICK HERE TO CONTINUE"
-                      , bg="cyan", width=50, height=10, command=lambda: [destroyBTN(N, 0, 0, 0), load()])
-        N.place(x=0, y=0, anchor=tk.CENTER)
+                           "Automatically to 99\n\n\n\n\n\n\n\nCLICK HERE TO CONTINUE"
+                      , highlightbackground='#00FFFF', bg='#00FFFF', width=800, height=600,
+                      command=lambda: [destroyBTN(N, 0, 0, 0), load()])
+        N.place(x=400, y=300, anchor=tk.CENTER)
 
 
 print("=========================")
 
 
 def main():
-    A = tk.Button(window, text="Tutorial", width=20, height=3,
+    A = tk.Button(window, text="Tutorial", width=20, height=3, bg='#00FFFF', highlightbackground='#00FFFF',
                   command=lambda: [tutorial(0), destroyBTN(A, a, V, assss)])
     A.place(x=200, y=400)
-    V = tk.Button(window, text="Start", width=20, height=3, command=lambda: [load(), destroyBTN(A, V, a, assss)])
+    V = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Start", width=20, height=3,
+                  command=lambda: [load(), destroyBTN(A, V, a, assss)])
     V.place(x=400, y=400)
+    deckninetynine = Image.open("title.png")
+    deckninetynine = ImageTk.PhotoImage(deckninetynine)
+    deckninetynine = tk.Label(image=deckninetynine)
+    # window.create_image(20, 20, anchor=tk.CENTER, image=deckninetynine)
 
 
 '''while True:
