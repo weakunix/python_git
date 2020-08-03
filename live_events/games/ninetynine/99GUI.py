@@ -97,19 +97,17 @@ def single(rankorno):
                                    "You are playing RANKED 99. If you leave you will receive a penalty!! No to "
                                    "cancel!\n Tip: Un-check "
                                    "ranked to play casual")
-        if not a:
+        if a:
+            displaycardsperperson(">", 3)
+            cardSetup()
+        else:
             simp()
-    cardSetup()
+    else:
+        displaycardsperperson(">", 3)
+        cardSetup()
 
 
-def premulti(rankorno):
-    if rankorno:
-        a = tk.messagebox.askyesno("RANKED NOTICE",
-                                   'You are playing RANKED 99. If you leave you will receive a penalty!! No to '
-                                   'cancel!\n Tip: Un-check '
-                                   'ranked to play casual')
-        if not a:
-            simp()
+def premultiii(rankedorno):
     a = tk.Label(window, text="Host a game or join a game?", font=('charter', 30), bg='cyan',
                  fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
@@ -119,6 +117,20 @@ def premulti(rankorno):
     nostbtn = tk.Button(text='Join', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         preN(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
     nostbtn.place(x=500, y=285)  # submit button place
+
+
+def premulti(rankorno):
+    if rankorno:
+        a = tk.messagebox.askyesno("RANKED NOTICE",
+                                   'You are playing RANKED 99. If you leave you will receive a penalty!! No to '
+                                   'cancel!\n Tip: Un-check '
+                                   'ranked to play casual')
+        if a:
+            premultiii(rankedorno)
+        else:
+            simp()
+    else:
+        premultiii(rankedorno)
 
 
 def simp():  # single player or mp
@@ -135,7 +147,7 @@ def simp():  # single player or mp
                                          text="Ranked?", )
     rankedcheckboxthing.place(x=50, y=300)
     Sp = tk.Button(window, text="Singleplayer", highlightbackground='#00FFFF', bg='#00FFFF',  # make single player
-                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a), displaycardsperperson(">", 3),
+                   command=lambda: [destroyBTN(Sp, rankedcheckboxthing, Mp, a),
                                     destroyBTN(rankedtext, 0, 0, 0),
                                     single(rankedornotasf.get())])  # link to singleplayer
     Sp.place(x=200, y=300)
@@ -295,6 +307,8 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
                                        "Save creation cancelled!")
             load()
 
+def gofirstornot():
+    pass
 
 def displaycardsperperson(updown, number):
     global cardn
@@ -307,6 +321,7 @@ def displaycardsperperson(updown, number):
             cardn += number
     elif updown == "cf":
         confirmcards = True
+        gofirstornot()
     a = tk.Label(window, text=cardn, highlightbackground='#FFFFFF', font=('charter', 30), bg='#FFFFFF',
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=300, anchor=tk.CENTER)
@@ -332,7 +347,7 @@ def cardSetup():
     css.place(x=300, y=300, anchor=tk.CENTER)
     confirmbtn = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
                            # make delete save button
-                           command=lambda: [displaycardsperperson("cf", 0)])
+                           command=lambda: [displaycardsperperson("cf", 0), destroyBTN(confirmbtn,css,ass,a)])
     confirmbtn.place(x=400, y=350, anchor=tk.CENTER)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
@@ -343,11 +358,6 @@ def cardSetup():
 
     else:
         window.after(1000, cardSetup)
-        '''if cardn <= 10:
-                break
-            print('!!!ERROR: Input was greater than 10\n')
-        except:
-            print('!!!ERROR: Input was not an integer\n')'''
     ##giving cards
 
 
@@ -1150,9 +1160,9 @@ def main():
     V = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Start", width=20, height=3,
                   command=lambda: [load(), destroyBTN(A, V, a, assss)])
     V.place(x=400, y=400)
-    deckninetynine = Image.open("title.png")
-    deckninetynine = ImageTk.PhotoImage(deckninetynine)
-    deckninetynine = tk.Label(image=deckninetynine)
+    # deckninetynine = Image.open("title.png")
+    # deckninetynine = ImageTk.PhotoImage(deckninetynine)
+    # deckninetynine = tk.Label(image=deckninetynine)
     # window.create_image(20, 20, anchor=tk.CENTER, image=deckninetynine)
 
 
