@@ -40,10 +40,13 @@ font = ('font', [fontsize])
 #background color
 bg = 'color'
 
+#background color for ONLY BUTTONS ON MAC
+highlightbackground = 'hexvalue'
+
 #font color
 fg = 'color'
 
-#mainloop to tell program to wait
+#mainloop to tell program to listen
 window.mainloop()
 
 #change background
@@ -52,14 +55,28 @@ window.configure(bg = 'color')
 #text
 word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color', fg = 'color')
 
-#make button disappear
-button.destroy()
+#make widget disappear
+widget.destroy()
 
 #bind a key to a function
-window.bind('<Key>', function)
+window.bind('<key>', function) #when using a letter key use lowercase. when using other keys use capital letters
 
 #unbind a key
-window.unbind('<Key>')
+window.unbind('<key>')
 
 #focus on window (used after a messagebox)
 window.focus_force()
+
+#import image
+from PIL import Image, ImageTk
+load = Image.open('file')
+render = ImageTk.PhotoImage(load)
+img = [k.Label / tk.Button](window, image = render)
+img.image = render
+img.place(relx = [num], rely = [num], anchor = tk.[anchor])
+
+#resize image
+load = load.resize(([x], [y]))
+
+#create another window
+subwindow = tk.Toplevel(window)
