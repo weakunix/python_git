@@ -40,7 +40,7 @@ font = ('font', [fontsize])
 #background color
 bg = 'color'
 
-#background color for ONLY BUTTONS ON MAC
+#border color shortcut
 highlightbackground = 'hexvalue'
 
 #font color
@@ -59,7 +59,7 @@ word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color'
 widget.destroy()
 
 #bind a key to a function
-window.bind('<key>', function) #when using a letter key use lowercase. when using other keys use capital letters
+window.bind('<key>', lambda event:function(event)) #when using a letter key use lowercase. when using other keys use capital letters
 
 #unbind a key
 window.unbind('<key>')
