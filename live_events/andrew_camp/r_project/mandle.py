@@ -47,9 +47,21 @@ def get_mouse_click_coord(x, y):
     print(x, y)
     centerx += x
     centery += y
-    ZOOM *= 1.5
-    mandledraw(12, centerx, centery, ZOOM)
+    ZOOM *= 2
+    mandledraw(12, int(centerx), centery, ZOOM)
+    scream.update()
+
+def get_right_click(x, y):
+    bob.clear()
+    global ZOOM, centerx, centery
+    print(x, y)
+    centerx += x
+    centery += y
+    ZOOM *= 3 / 4
+    mandledraw(12, int(centerx), int(centery), ZOOM)
+    scream.update()
 
 scream.onscreenclick(get_mouse_click_coord)
+scream.onscreenclick(get_right_click, 3)
 scream.listen()
 scream.mainloop()
