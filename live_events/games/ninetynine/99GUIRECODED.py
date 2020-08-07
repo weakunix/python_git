@@ -1,15 +1,22 @@
 # imports
-import datetime, random, socket, time, threading, urllib.request, os, tkinter as tk
-from tkinter import messagebox
-from PIL import Image, ImageTk
-from sys import platform
+import datetime
+import os
+import random
+import socket
+import time
+import tkinter as tk
+import urllib.request
 from functools import partial
+from sys import platform
+from tkinter import messagebox
+
+from PIL import Image, ImageTk
 
 window = tk.Tk()  # make window of TK as window var
 
-# files:
-u = 0
 
+# files:
+# TODO MULTIPLAYER ALL OF IT IS BUGGED NEED TO FIX WHEN WIFI COMES BACK PLEASE WIFI COME BACK DON'T BE LIKE AYSE AND LEAVE ME FOREVERJA0IDHJOSJXZPJFAJSDK;AJL;GDFJKALSJFDLK/
 
 # making images
 # load = Image.open("title.png")
@@ -75,16 +82,16 @@ window.geometry("800x600")
 clearPgLoad()
 print("getting IP addresses (Local and External), detecting OS (This may take up to 1 minute)\n\n")
 if platform == "darwin":
-    print("\033[1;31;48m <INFO>: You are running MACOS, the background color of buttons will not work!")
+    print("\033[0;31;48m <INFO>: You are running MACOS, the background color of buttons will not work!")
     try:
         external_ip = urllib.request.urlopen('https://ident.me').read().decode(
             'utf8')  # get('https://api.ipify.org').text  # Global ip
         print("\033[1;32;48m Connected to External IP")
     except:
         print(
-            "\033[1;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
         external_ip = "111.111.111.111"
-else:
+elif platform == "nt":
     pass
     # TODO FIX THIS
     try:
@@ -93,7 +100,17 @@ else:
     except:
         external_ip = "111.111.111.111"
         print(
-            "\033[1;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+else:
+    print("\033[0;31;48m <INFO>: You are running a UNSUPPORTED platform, some features of this app may not work or "
+          "may crash!")
+    try:
+        external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+        print("\033[1;32;48m Connected to External IP")
+    except:
+        external_ip = "111.111.111.111"
+        print(
+            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
 
 
 # ip reacher (loc)
@@ -104,7 +121,7 @@ def get_ip():
         IP = s.getsockname()[0]
         print("\033[1;32;48m Connected to Local IP")
     except:
-        print("\033[1;31;48m ERROR: CAN NOT GET LOCAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+        print("\033[0;31;48m ERROR: CAN NOT GET LOCAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
         IP = '127.0.0.1'
     finally:
         s.close()
@@ -127,7 +144,7 @@ sumc = 0  # sum of cards
 cardn = 0  # amount of cards per player
 pcard = []  # player cards
 inpt = ''  # input
-#nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
+# nums = ['2', '3', '4', '5', '6', '7', '8', '9', '10']  # number cards
 # single player
 botNames = ["SoccerMom", "PlasticFoods", "BustedKneeCap", "gitPushOrca", "godlyPro", "iFrag", "BotMoooo"]
 bcard = []  # bot cards
@@ -172,6 +189,7 @@ def submitUsername(un):  # writes username into save
                                "Are you sure you want to use '" + un + "' as your username? \n(You can't change this "
                                                                        "later!)")
     if a:
+        window.unbind("<Enter>")
         name = str(un)  # set name to argument "un"
         XPFINDR = open("saveData.txt", "w")
         XPFINDR.write(str(rank) + "\n" + name + "\n" + "true")
@@ -253,14 +271,20 @@ def simp():  # single player or mp
     Mp.place(x=500, y=300, anchor=tk.CENTER)
 
 
+def bindedfunctyion(a, b, c, d):
+    submitUsername(a)
+    destroyBTN(b, c, d, 0)
+
+
 def username():  # username prompt
     a = tk.Label(window, text="Username", font=('charter', 30), bg='cyan', fg='black')  # username text
     a.place(x=400, y=150, anchor=tk.CENTER)
     entry1 = tk.Entry(window)  # make window for input
     entry1.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
     savetousername = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
-        submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0)])  # submit button
+        submitUsername(entry1.get()), destroyBTN(a, entry1, savetousername, 0)])  # su# bmit button
     savetousername.place(x=475, y=285, anchor=tk.CENTER)  # submit button place
+    entry1.bind("<Return>", lambda event: bindedfunctyion(entry1.get(), a, entry1, savetousername))
 
 
 def rankchecklevel(print, ranka, calculate):  # check what rank you are with your rank scoer
@@ -487,6 +511,11 @@ def portbind(a, noh):
             preN()
 
 
+def Hportfunction(a, b, c, d):
+    portbind(a, 1)
+    destroyBTN(b, c, d, 0)
+
+
 def preH():
     a = tk.Label(window, text="Port (To Host On)", font=('charter', 30), bg='cyan', fg='black')  #
     a.place(x=400, y=150, anchor=tk.CENTER)
@@ -495,6 +524,7 @@ def preH():
     submitbtn = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         portbind(portenter.get(), 1), destroyBTN(a, submitbtn, portenter, 0)])  # submit button
     submitbtn.place(x=475, y=285)  # submit button place
+    portenter.bind("<Return>", lambda event: Hportfunction(portenter.get(), a, portenter, submitbtn))
 
 
 def stopListening():
@@ -607,6 +637,13 @@ def ipbind(a):
         preN()
 
 
+def Nportfunction(a, b, c, d, e, f, g):
+    ipbind(a)
+    portbind(b, 0)
+    destroyBTN(c, d, e, f)
+    destroyBTN(g, 0, 0, 0)
+
+
 def preN():
     a = tk.Label(window, text="IP and Port (To Connect To)", font=('charter', 30), bg='cyan', fg='black')  #
     a.place(x=400, y=150, anchor=tk.CENTER)
@@ -620,6 +657,8 @@ def preN():
         portbind(portenter.get(), 0), ipbind(ipenter.get()),
         destroyBTN(a, submitbtn, portenter, ipenter), destroyBTN(0, 0, 0, b)])  # submit button
     submitbtn.place(x=475, y=285)  # submit button place
+    portenter.bind("<Return>",
+                   lambda event: Nportfunction(ipenter.get(), portenter.get(), a, portenter, submitbtn, b, ipenter))
 
 
 def setupN():
@@ -865,6 +904,7 @@ def isOverAHunnit(l):
                                                                                                                rank,
                                                                                                                2)))  # rank
 
+
 def stopgame(botorplayer):
     if botorplayer == "bot":
         raise SystemExit("PERSON WINS!")
@@ -872,8 +912,7 @@ def stopgame(botorplayer):
         raise SystemExit("BOT WINS!")
 
 
-
-def bot(playercard):
+def bot(playercard, playercardnumber):
     global bcard
     global cardl
     global sumc
@@ -882,40 +921,47 @@ def bot(playercard):
     global xp
     nums = [2, 3, 5, 6, 7, 8]
     power = True
-    # if sumc <= 88:
-    showplayer = tk.Label(window, text=("You(" + name + ") played: " + str(playercard) + " \n Sum: " + str(sumc)),
+    word = ""
+    destroybotimg = []
+    card = 0
+
+    showplayer = tk.Label(window, text=("You(" + name + ") played: " + str(playercard)),
                           font=('charter', 30),
                           bg='cyan',
                           fg='black')
-    showplayer.place(x=400, y=150, anchor=tk.CENTER)
+    showplayer.place(x=250, y=150, anchor=tk.CENTER)
+    if playercardnumber != 14:
+        o = imagesforgame[((playercardnumber * 4) - random.randint(1, 3))]
+    else:
+        o = imagesforgame[((13 * 4) + 1)]
+    playerimg = tk.Label(window, image=o)
+    playerimg.image = o
+    playerimg.place(x=525, y=150, anchor=tk.CENTER)
     for i in bcard:
         if i in nums:
             power = False  # if any of bcard is not power then it doenst have full hand
             break
     # if not power:
     breakoutofloop = False
-    for i in bcard:
+    for card in bcard:
         if not breakoutofloop:
             for cnt in range(len(nums)):
-                if i == nums[5 - cnt] and sumc + i <= 99:
-                    sumc += i
-                    b_replace_card(i)
-                    show = tk.Label(window, text=(botName + " played: " + str(i) + " \n Sum: " + str(sumc)),
-                                    font=('charter', 30),
-                                    bg='cyan',
-                                    fg='black')  #
-                    show.place(x=400, y=350, anchor=tk.CENTER)
+                if card == nums[5 - cnt] and sumc + card <= 99 and card in bcard:
+                    print(card)
+                    sumc += card
+                    b_replace_card(card)
+                    word = str(card)
                     breakoutofloop = True
                     break
         else:
+            card = int(word)
             break
     # else:
-    word = ""
     for i in bcard:
         if not breakoutofloop:
             for cnt in range(0, 9):
-                card = bcard[cnt]  # chooses a random pwoer card
-                if card == 1:
+                card = bcard[cnt]  #
+                if card == 1 and sumc + 1 <= 99 and 1 in bcard:
                     if sumc + 11 <= 99:
                         sumc += 11
                         word = "A(11)"
@@ -923,69 +969,85 @@ def bot(playercard):
                         sumc += 1
                         word = "A(1)"
                 else:
-                    if card == 4 or card == 9:
-                        if card == 4:
-                            word = "4(0)"
-                        elif card == 9:
-                            word = "9(0)"
-                    elif card == 10:
+                    if 4 in bcard and card == 4:
+                        word = "4(0)"
+                        break
+                    elif 9 in bcard and card == 9:
+                        word = "9(0)"
+                        break
+                    elif 10 in bcard and card == 10:
                         word = "10(-10)"
                         sumc -= 10
-                    elif card == 11 or card == 12:
-                        if sumc + 10 <= 99:
-                            if card == 11:
-                                word = "Jack(10)"
-                            else:
-                                word = "Queen(10)"
-                            sumc = 10
-                    elif card == 13 or card == 14:
-                        if card == 13:
-                            word = "KING(99)"
-                        else:
-                            word = "JOKER(99)"
-                        sumc = 99
-                    else:
-                        stopgame("bot")
                         break
-                b_replace_card(card)
-                show = tk.Label(window, text=(botName + " played: " + str(word) + " \n Sum: " + str(sumc)),
-                                font=('charter', 30),
-                                bg='cyan',
-                                fg='black')  #
-                show.place(x=400, y=350, anchor=tk.CENTER)
-                breakoutofloop = True
-                break
+                    elif 11 in bcard and sumc + 10 <= 99 and card == 11:
+                        word = "Jack(10)"
+                        sumc += 10
+                        break
+                    elif 12 in bcard and sumc + 10 <= 99 and card == 12:
+                        word = "Queen(10)"
+                        sumc += 10
+                        break
+                    elif 13 in bcard and card == 13:
+                        word = "KING(99)"
+                        sumc = 99
+                        break
+                    elif 14 in bcard and card == 14:
+                        word = "JOKER(99)"
+                        sumc = 99
+                        break
+                if word != "":
+                    b_replace_card(card)
+                    breakoutofloop = True
+                    break
+                else:
+                    if 13 not in bcard and 9 not in bcard and 4 not in bcard and 14 not in bcard and 10 not in bcard:
+                        print("I lossssssss raaaaa")
+                        stopgame("bot")
         else:
             break
+    if card != 14:
+        o = imagesforgame[((card * 4) - random.randint(1, 3))]
+    else:
+        o = imagesforgame[(13 * 4) + 2]
+    botimage = tk.Label(window, image=o)
+    botimage.image = o
+    botimage.place(x=525, y=350, anchor=tk.CENTER)
+    show = tk.Label(window, text=(botName + " played:" + str(word) + "\n\n Sum: " + str(sumc)),
+                    font=('charter', 30),
+                    bg='cyan',
+                    fg='black')  #
+    show.place(x=250, y=350, anchor=tk.CENTER)
     # else:
     clicktocontinue = tk.Button(window, text="Click To Continue", command=lambda: [
-        destroyBTN(clicktocontinue, show, showplayer, 0), player()])
+        destroyBTN(clicktocontinue, show, showplayer, botimage), player(), destroyBTN(playerimg, 0, 0, 0)])
     clicktocontinue.place(x=400, y=500, anchor=tk.CENTER)
 
 
-def aysecheck(ayseconfirm):
+def aysecheck(ayseconfirm, num, araytodel, number):
     global sumc
     global added
-    if ayseconfirm == False:
+    if not ayseconfirm:
         a = tk.Label(window, text="Play ACE as 1 or 11?", font=('charter', 30),
                      bg='cyan',
                      fg='black')  #
         a.place(x=400, y=150, anchor=tk.CENTER)
         ayceone = tk.Button(window, text="1", width=20, height=3,
-                            command=lambda: [aysecheck(True), destroyBTN(ayceone, ayceelevn, a, 0)])
+                            command=lambda: [aysecheck(True, 1, araytodel, number),
+                                             destroyBTN(ayceone, ayceelevn, a, 0)])
         ayceone.place(x=300, y=385, anchor=tk.CENTER)
         ayceelevn = tk.Button(window, text="11", width=20, height=3,
-                              command=lambda: [aysecheck(True), destroyBTN(ayceone, ayceelevn, a, 0)])
+                              command=lambda: [aysecheck(True, 11, araytodel, number),
+                                               destroyBTN(ayceone, ayceelevn, a, 0)])
         ayceelevn.place(x=500, y=385, anchor=tk.CENTER)
     elif ayseconfirm:
-        if inpt == '1':
+        if num == 1:
             sumc += 1
             added = 1
         else:
             sumc += 11
             added = 11
         p_replace_card(1)
-
+        playthecard(araytodel, 1)
 
 
 def playthecard(araytodel, cardtoplay):
@@ -996,8 +1058,7 @@ def playthecard(araytodel, cardtoplay):
     worddoc = ""
     if cardtoplay == 1:  # ace
         if 1 in pcard:
-            number = aysecheck(False)
-            worddoc = "A"
+            worddoc = "Ace"
     elif cardtoplay == 11:
         if 11 in pcard:
             sumc += 10
@@ -1041,7 +1102,7 @@ def playthecard(araytodel, cardtoplay):
         p_replace_card(cardtoplay)
         worddoc = str(cardtoplay)
     if sumc <= 99:
-        bot(worddoc)
+        bot(worddoc, cardtoplay)
     else:
         stopgame("player")
 
@@ -1052,14 +1113,20 @@ def playcardconfirm(araytodel, numberarray, whichofthearray):
     if buttonthatwasclicked in numberarray:
         number = pcard[whichofthearray]
 
-    for i in range(cardn + 1):  # +1 because of the your turn tk.label
+    for i in range(cardn + 2):  # +2 because of the your turn tk.label and button cosmetic
         araytodel[i].destroy()
 
     if number != 13 and number != 12 and number != 11 and number != 14:
-        highlightcardselected = tk.Button(window, text=("Confirm play " + str(number)), width=20, height=3,
-                                          command=lambda: [playthecard(araytodel, number),
-                                                           destroyBTN(highlightcardselected,
-                                                                      cancelselection, 0, 0)])
+        if number != 1:
+            highlightcardselected = tk.Button(window, text=("Confirm play " + str(number)), width=20, height=3,
+                                              command=lambda: [playthecard(araytodel, number),
+                                                               destroyBTN(highlightcardselected,
+                                                                          cancelselection, 0, 0)])
+        elif number == 1:
+            highlightcardselected = tk.Button(window, text="Confirm play Ace(1/11)", width=20, height=3,
+                                              command=lambda: [destroyBTN(highlightcardselected,
+                                                                          cancelselection, 0, 0)])
+            aysecheck(False, 0, araytodel, number)
     elif number == 13:
         highlightcardselected = tk.Button(window, text="Confirm play King?", width=20, height=3,
                                           command=lambda: [playthecard(araytodel, number),
@@ -1096,6 +1163,7 @@ def player():
     # for i in range(cardn):
     # print(pcard[i])
     i = 0
+    checkforcardempty()
     cardposition = [100, 200, 300, 400, 500, 600, 700, 350, 450]
     cardposy = [350, 350, 350, 350, 350, 350, 350, 500, 500]
     counter = 0
@@ -1103,8 +1171,10 @@ def player():
                   font=('charter', 30),
                   bg='cyan',
                   fg='black')  #
-    ad.place(x=200, y=200, anchor=tk.CENTER)
-    arraytodelete = [ad]
+    ad.place(x=100, y=100, anchor=tk.CENTER)
+    buttoncosmetic = tk.Button(window, text="", width=77, height=20)
+    buttoncosmetic.place(x=50, y=260, anchor=tk.NW)
+    arraytodelete = [ad, buttoncosmetic]
     # for ai in range(cardn):
     # print(pcard[ai])
     temparray = []
