@@ -66,7 +66,7 @@ def upgrade_wall(event):
     else:
         for i in stuff_needed:
             if i[0] < i[2]:
-                still_need += '\n' + i[1] + ': ' + str(i[2])
+                still_need += '\n' + i[1] + ': ' + str(i[2] - i[0])
         if still_need == 'Not enough resources!\n\nYou still need:':
             msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], stuff_needed[3][2], stuff_needed[3][1], wall_level + 1))
             if msg:
@@ -87,83 +87,120 @@ def upgrade_wall(event):
     window.focus_force()
 
 ##get input for repair and heal
-def get_heal():
-    global heal
+def get_heal(event, need_heal):
+    global heal, menu, enter_type, enter_error, wall_types, wall_level, wallhp
     '''
     globals:
     heal: how much the player heals / repairs something by
+    menu: sub window
+    enter_type: entry box
+    enter_error: shows if input has an error
+    wall_types: types of walls with info on each one
+    wall_level: wall level
+    wallhp: wall health
     '''
-    heal = enter_type.get()
-    print(heal)
+    if need_heal == 'wall': #repairing wall
+        max_heal = wall_types[wall_level][2] - wallhp #set max heal
+    enter_error.destroy() #destroy the error message
+    heal = enter_type.get() #get input of entry box
+    if str(heal)[0] == 'f' or str(heal)[0] == 'F': #test if input was 'full'
+        heal = max_heal #set heal to max_heal
+        menu.unbind('<Return>') #unbind enter key
+        menu.destroy() #destroy sub window
+        repair_wall()
+    else:
+        try:
+            heal = int(heal) #test if input was int
+            if heal > max_heal : #if input was greater than needed heal / repair
+                heal = max_heal #set heal to max_heal
+            menu.unbind('<Return>') #unbind enter key
+            menu.destroy() #destroy sub window
+            repair_wall()
+        except:
+            #input was not an integer
+            enter_error = tk.Label(menu, text = 'Error: input was not an integer', bg = '#00FFFF', fg = '#FF0000', font = ('charter', 15))
+            enter_error.place(relx = 0.5, rely = 1, anchor = tk.S)
+            enter_type.delete(0, tk.END) #clear entry box
 
-##repair wall
-def repair_wall(event):
-    global wall_level, wall_types, research, money, cloth, metal, food, stone, moves, enter_type, enter_click, enter_word, menu, heal
+##how much repair wall
+def how_much_repair_wall(event):
+    global wall_level, wall_types, wallhp, money, cloth, metal, food, stone, enter_type, enter_click, enter_word, enter_error, menu
     '''
     globals:
     wall_level: wall level
     wall_types: types of walls and the image that goes with it
-    research: things that have been researched
+    wallhp = wall health
     money: amount of money
     cloth, metal, food, stone: resources needed for repair
-    moves: the number of moves made by the player
     enter_type: entry box for how much you want to repair wall by
     enter_click: button to submit input how much you want
     enter_word: describes what entry box is for
+    enter_error: shows if input has an error
     menu: sub window for entry box
-    heal: how much the wall will be repaired by
     '''
-    still_need = 'Not enough resources!\n\nYou still need:'
-    #stuff needed to repair depending on wall level
-    if wall_level == 1:
-        stuff_needed = [[money, '$', 200], [cloth, 'Cloth', 50], [food, 'Food', 50], ]
-    elif wall_level == 2:
-        stuff_needed = [[money, '$', 500], [cloth, 'Cloth', 100], [stone, 'Stone', 250], [food, 'Food', 100]]
-    elif wall_level == 3:
-        stuff_needed = [[money, '$', 1000], [cloth, 'Cloth', 200], [metal, 'Metal', 500], [food, 'Food', 200]]
-    else:
-        stuff_needed = [[money, '$', 2500],[cloth, 'Cloth', 500], [matal, 'Metal', 1000], [food, 'Food', 500]]
     if wallhp == wall_types[wall_level][2]:
         msg = messagebox.showinfo(message = 'Your wall is at max health!')
     else: 
         #making sub window and entry box
         menu = tk.Toplevel(window)
-        menu.geometry('400x300') #TODO CAN EDIT TO 800x600 WILL TEST LATER
+        menu.geometry('800x600') 
         menu.title('Repair Wall')
         menu.config(bg = '#00FFFF')
-        enter_type = tk.Entry(menu)
-        enter_type.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)
-        import pdb;pdb.set_trace() #TODO DELETE LATER
-        enter_click = tk.Button(menu, text = 'Enter', font = ('charter', 20), fg = '#000000', command = lambda: get_heal())
-        enter_click(relx = 0.75, rely = 0.5, anchor = tk.CENTER)
-        enter_word = tk.Label(menu, text = 'How much do you want to repair your wall by?\n(type full for full heal)', font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
-        enter_word.place(relx = 0.5, rely = 0.25, anchor = tk.CENTER)
-        '''
-        for i in stuff_needed:
-            if i[0] < i[2]:
-                still_need += '\n' + i[1] + ': ' + str(i[2])
-        if still_need == 'Not enough resources!\n\nYou still need:':
-            if wall_level == 1:
-                msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], wall_level + 1))
-            else: 
-                msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], stuff_needed[3][2], stuff_needed[3][1], wall_level + 1))
-            if msg:
-                money -= stuff_needed[0][2]
-                cloth -= stuff_needed[1][2]
-                food -= stuff_needed[3][2]
-                if wall_level == 1:
-                    stone -= stuff_needed[2][2]
-                    wallhp = 50
-                else:
-                    metal -= stuff_needed[2][2]
-                    wallhp = 100
-                wall_level += 1
-                moves += 1
-                wall_off(0) 
-        else:
-            msg = messagebox.showerror(message = still_need)
+        enter_type = tk.Entry(menu) #making the entry box
+        enter_type.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER) #entry box location
+        enter_click = tk.Button(menu, text = 'Enter', font = ('charter', 20), fg = '#000000', command = lambda: get_heal(0, 'wall')) #submit button
+        enter_click.place(relx = 0.7, rely = 0.5, anchor = tk.CENTER) #submit button location
+        enter_word = tk.Label(menu, text = 'How much do you want to repair your wall by?\n(type full for full heal)', font = ('charter', 30), bg = '#00FFFF', fg = '#000000') #tell player what to input text
+        enter_word.place(relx = 0.5, rely = 0.25, anchor = tk.CENTER) #text location
+        menu.bind('<Return>', lambda event: get_heal(event, 'wall')) #bind enter key
+
+##repair wall
+def repair_wall():
+    global wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, heal
+    '''
+    globals:
+    wall_level: wall level
+    wall_types: types of walls and the image that goes with it
+    wallhp = wall health
+    money: amount of money
+    cloth, metal, food, stone: resources needed for repair
+    moves: the number of moves made by the player
+    heal: how much the wall will be repaired by
+    '''
+    #resources still needed
+    still_need = 'Not enough resources!\n\nYou still need:'
+    #stuff needed to repair depending on wall level
+    if wall_level == 1:
+        stuff_needed = [[money, '$', 200], [cloth, 'Cloth', 50], [food, 'Food', 50]]
+    elif wall_level == 2:
+        stuff_needed = [[money, '$', 500], [cloth, 'Cloth', 100], [food, 'Food', 100], [stone, 'Stone', 250]]
+    elif wall_level == 3:
+        stuff_needed = [[money, '$', 1000], [cloth, 'Cloth', 200], [food, 'Food', 200], [metal, 'Metal', 500]]
+    else:
+        stuff_needed = [[money, '$', 2500],[cloth, 'Cloth', 500], [food, 'Food', 500], [matal, 'Metal', 1000]]
+    for i in stuff_needed:
+        if i[0] < i[2] * heal:
+            still_need += '\n' + i[1] + ': ' + str(i[2] * heal - i[0])
+    if still_need == 'Not enough resources!\n\nYou still need:':
+        if wall_level == 1:
+            msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, and {} {} to repair your wall by {}?'.format(stuff_needed[0][1], stuff_needed[0][2] * heal, stuff_needed[1][2] * heal, stuff_needed[1][1], stuff_needed[2][2] * heal, stuff_needed[2][1], heal))
+        else: 
+            msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, {} {}, and {} {} to repair you wall by {}?'.format(stuff_needed[0][1], stuff_needed[0][2] * heal, stuff_needed[1][2] * heal, stuff_needed[1][1], stuff_needed[2][2] * heal, stuff_needed[2][1], stuff_needed[3][2] * heal, stuff_needed[3][1], heal))
+        if msg:
+            money -= stuff_needed[0][2] * heal
+            cloth -= stuff_needed[1][2] * heal
+            food -= stuff_needed[2][2] * heal
+            if wall_level == 2:
+                stone -= stuff_needed[3][2] * heal
+            elif wall_level != 1:
+                metal -= stuff_needed[3][2] * heal
+            wallhp += heal
+            moves += 1
+            wall_off(0)
+    else:
+        msg = messagebox.showerror(message = still_need)
     window.focus_force()
-'''
+
 ##wall page
 def wall_on(event):
     global wall, wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, word, wordy, land, city, clicky, clicker, clickier, clickiest, click
@@ -195,7 +232,7 @@ def wall_on(event):
     wall.place(relx = 0, rely = 0, anchor = tk.NW) 
     clicky = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: upgrade_wall(0))
     clicky.place(relx = 0.95, rely = 0.9, anchor = tk.CENTER)
-    clicker = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: repair_wall(0))
+    clicker = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
     clicker.place(relx = 0.85, rely = 0.9, anchor = tk.CENTER)
     clickier = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('character', 10), fg = '#000000')
     clickier.place(relx = 0.727, rely = 0.9, anchor = tk.CENTER)
@@ -210,7 +247,7 @@ def wall_on(event):
     wordy.place(relx = 1, rely = 0, anchor = tk.NE)
     window.bind('<x>', lambda event: wall_off(event)) #bind x key
     window.bind('<w>', lambda event: upgrade_wall(event)) #bind w key
-    window.bind('<r>', lambda event: repair_wall(event)) #bind r key
+    window.bind('<r>', lambda event: how_much_repair_wall(event)) #bind r key
 
 ##destroy wall page
 def wall_off(event):
@@ -487,6 +524,8 @@ if __name__ == '__main__': #if main
     enter_click.destroy()
     enter_word = tk.Label(window, text = 'Define')
     enter_word.destroy()
+    enter_error = tk.Label(window, text = 'Define')
+    enter_error.destroy()
     menu = tk.Label(window, text = 'Define')
     menu.destroy()
     wall = tk.Label(window, text = 'Define') #wall image button
