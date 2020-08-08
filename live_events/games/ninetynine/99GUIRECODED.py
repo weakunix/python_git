@@ -63,6 +63,9 @@ def loadimg():
 
 
 loadimg()
+clearPgLoad()
+if len(imagesforgame) == 54:
+    print("\033[1;32;48m Images Successfully loaded! ~MootMoot")
 # variables
 ipandportfornosting = 0
 window.title("99 The Card Game")  # title the window
@@ -70,12 +73,11 @@ ISITHOSTORNOST = " "  # is the device hosting or a client
 version = 'BETA 1.5.9 (WORKING BOT)'  # TODO change this every time 99 version
 window.configure(bg="cyan")  # background of the window
 window.geometry("800x600")
-clearPgLoad()
-print("getting IP addresses (Local and External), detecting OS (This may take up to 1 minute)\n\n")
+print("\033[1;30;48m getting IP addresses (Local and External), detecting OS (This may take up to 1 minute)")
 if platform == "darwin":
-    print("\033[0;31;48m <INFO>: You are running MACOS, the background color of buttons will not work!")
+    print("\033[0;33;48m INFO: You are running MACOS, the background color of buttons will not work!")
 elif platform != "nt":
-    print("\033[0;31;48m <INFO>: You are running a UNSUPPORTED platform, some features of this app may not work or "
+    print("\033[0;31;48m INFO: You are running a UNSUPPORTED platform, some features of this app may not work or "
           "may crash!")
 try:
     external_ip = requests.get('https://api.ipify.org').text  # Global ip
@@ -83,7 +85,7 @@ try:
 except:
     external_ip = "111.111.111.111"
     print(
-        "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+        "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER. \n RESTART THE PROGRAM IF YOU ARE CONNECTED")
 
 
 # ip reacher (loc)
@@ -1284,16 +1286,25 @@ def tutorial(asdf):
 
 
 def main():
-    asdfgf = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
-    asdfgf.place(x=400, y=200, anchor=tk.CENTER)  # center text
-    a = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan', fg='black')  # print 99 the card game
-    a.place(x=400, y=150, anchor=tk.CENTER)
-    A = tk.Button(window, text="Tutorial", width=20, height=3, bg='#00FFFF', highlightbackground='#00FFFF',
-                  command=lambda: [tutorial(0), destroyBTN(A, a, V, asdfgf)])
-    A.place(x=200, y=400)
-    V = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Start", width=20, height=3,
-                  command=lambda: [load(), destroyBTN(A, V, a, asdfgf)])
-    V.place(x=400, y=400)
+    imageload = Image.open("./PNG/title.jpg")
+    imageload = imageload.resize((200, 200))
+    imagestuff = ImageTk.PhotoImage(imageload)
+    imagetitle = tk.Label(window, image=imagestuff)
+    imagetitle.image = imagestuff
+    imagetitle.place(x=400, y=250, anchor=tk.CENTER)
+    VRSN = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
+    VRSN.place(x=400, y=100, anchor=tk.CENTER)  # center text
+    TTL = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan',
+                   fg='black')  # print 99 the card game
+    TTL.place(x=400, y=50, anchor=tk.CENTER)
+    TUTBTN = tk.Button(window, text="Tutorial", width=20, height=3, bg='#00FFFF', highlightbackground='#00FFFF',
+                       command=lambda: [tutorial(0), destroyBTN(VRSN, TUTBTN, STTBTN, TTL),
+                                        destroyBTN(imagetitle, 0, 0, 0)])
+    TUTBTN.place(x=200, y=400)
+    STTBTN = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="Start", width=20, height=3,
+                       command=lambda: [load(), destroyBTN(VRSN, TUTBTN, STTBTN, TTL),
+                                        destroyBTN(imagetitle, 0, 0, 0)])
+    STTBTN.place(x=400, y=400)
     # deckninetynine = Image.open("title.png")
     # deckninetynine = ImageTk.PhotoImage(deckninetynine)
     # deckninetynine = tk.Label(image=deckninetynine)
