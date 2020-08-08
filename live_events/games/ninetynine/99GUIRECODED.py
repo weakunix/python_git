@@ -44,16 +44,7 @@ def loadimg():
                     letter = "H"
                 elif b == 3:
                     letter = "D"
-                if i == 1:
-                    nameoffile = ("./PNG/", "A", letter, ".png")
-                elif i == 11:
-                    nameoffile = ("./PNG/", "J", letter, ".png")
-                elif i == 12:
-                    nameoffile = ("./PNG/", "Q", letter, ".png")
-                elif i == 13:
-                    nameoffile = ("./PNG/", "K", letter, ".png")
-                else:
-                    nameoffile = ("./PNG/", str(i), letter, ".png")
+                nameoffile = ("./PNG/", str(i), letter, ".png")
                 nameoffile = "".join(nameoffile)
                 load = Image.open(nameoffile)
                 load = load.resize((70, 105))
@@ -64,7 +55,7 @@ def loadimg():
                 # [title,one,two,three,four,five,six,seven,eight,nine,ten,jack,queen,king,joker]'''
         else:
             for b in range(0, 2):
-                load = Image.open("./PNG/joker-card-18539665.jpg")
+                load = Image.open("./PNG/14.jpg")
                 load = load.resize((70, 105))
                 imagestuff = ImageTk.PhotoImage(load)
                 imagesforgame.append(imagestuff)
