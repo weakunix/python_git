@@ -5,10 +5,10 @@ import random
 import socket
 import time
 import tkinter as tk
-import urllib.request
 from functools import partial
 from sys import platform
 from tkinter import messagebox
+import requests
 
 from PIL import Image, ImageTk
 
@@ -84,8 +84,7 @@ print("getting IP addresses (Local and External), detecting OS (This may take up
 if platform == "darwin":
     print("\033[0;31;48m <INFO>: You are running MACOS, the background color of buttons will not work!")
     try:
-        external_ip = urllib.request.urlopen('https://ident.me').read().decode(
-            'utf8')  # get('https://api.ipify.org').text  # Global ip
+        external_ip = requests.get('https://api.ipify.org').text   # Global ip
         print("\033[1;32;48m Connected to External IP")
     except:
         print(
@@ -95,7 +94,7 @@ elif platform == "nt":
     pass
     # TODO FIX THIS
     try:
-        external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+        external_ip = requests.get('https://api.ipify.org').text  # Global ip
         print("\033[1;32;48m Connected to External IP")
     except:
         external_ip = "111.111.111.111"
@@ -105,7 +104,7 @@ else:
     print("\033[0;31;48m <INFO>: You are running a UNSUPPORTED platform, some features of this app may not work or "
           "may crash!")
     try:
-        external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')  # Global ip
+        external_ip = requests.get('https://api.ipify.org').text  # Global ip
         print("\033[1;32;48m Connected to External IP")
     except:
         external_ip = "111.111.111.111"
@@ -547,7 +546,6 @@ def setupH():  # setup the host
     global namething
     ISITHOSTORNOST = "host"
     turn = random.randint(0, 1)
-    print(port)
     communications = socket.socket()
     communications.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     host = get_ip()  # socket stuff
