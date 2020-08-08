@@ -85,7 +85,8 @@ try:
 except:
     external_ip = "111.111.111.111"
     print(
-        "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER. \n RESTART THE PROGRAM IF YOU ARE CONNECTED")
+        "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER. \n "
+        "RESTART THE PROGRAM IF YOU ARE CONNECTED")
 
 
 # ip reacher (loc)
@@ -141,6 +142,12 @@ for i in range(2):
     cardl.append(14)
 
 rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you need to advance to the next rank
+
+
+def cancelButton(a, b, c, d, e, f, g, h):
+    button = tk.Button(window, text="Back To Home",
+                       command=lambda: [simp(), destroyBTN(a, b, c, d), destroyBTN(e, f, g, h),destroyBTN(button,0,0,0)])
+    button.place(x=750, y=9, anchor=tk.CENTER)
 
 
 def destroyBTN(M, L, S, G):
@@ -204,6 +211,7 @@ def premultiii(rankedorno):
     nostbtn = tk.Button(text='Join', width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         preN(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
     nostbtn.place(x=500, y=285, anchor=tk.CENTER)  # submit button place
+    cancelButton(a, hostbtn, nostbtn, 0, 0, 0, 0, 0)
 
 
 def premulti(rankorno):
@@ -453,6 +461,7 @@ def cardSetup():
                            command=lambda: [displaycardsperperson("cf", 0), destroyBTN(affff, 0, 0, 0),
                                             destroyBTN(confirmbtn, css, ass, a), cardSetup()])
     confirmbtn.place(x=400, y=425, anchor=tk.CENTER)
+    cancelButton(a, ass, css, affff, confirmbtn, 0, 0, 0)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
         destroyBTN(affff, 0, 0, 0)
@@ -503,7 +512,7 @@ def preH():
     else:
         submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
     portenter.bind("<Return>", lambda event: Hportfunction(portenter.get(), a, portenter, submitbtn))
-
+    cancelButton(a, portenter, submitbtn, 0, 0, 0, 0, 0)
 
 def stopListening():
     global port
@@ -638,6 +647,7 @@ def preN():
     else:
         b.place(x=250, y=290, anchor=tk.CENTER)
         submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
+    cancelButton(a, portenter, submitbtn, ipenter, b, 0, 0, 0)
     portenter.bind("<Return>",
                    lambda event: Nportfunction(ipenter.get(), portenter.get(), a, portenter, submitbtn, b, ipenter))
 
@@ -1369,66 +1379,6 @@ def main():
             raise SystemExit("Successfully Exited. You have lost " + str(xpgained) + " XP Today. Better Luck Next Time")
     elif inpt == '1':
         cardSetup()
-    
-    # gameplay
-    if MPorSP == 0:
-        # XPFINDR = open("saveData.txt", "w")
-        # XPFINDR.write(str(rank) + "" + name + "false")
-        # XPFINDR.close()
-        clearPg()
-         
-        ("Do you want to go first?")
-         
-        inpt = input('>>>')  # add difficulties later
-        clearPg()
-        if inpt != '':
-            inpt = inpt[0]
-        if inpt == 'y' or inpt == 'Y':
-            inpt = 0
-        else:
-            inpt = 1
-        clearPg()
-         
-        ("Oppoent is: " + botName)
-        whie sumc < 100:
-            inpt += 1
-            play(inpt % 2)
-            checkforcardempty()
-        clearPg()
-    else:
-        # XPFINDR = open("saveData.txt", "w")
-        # XPFINDR.write(str(rank) +  + name + "false")
-        # XPFINDR.close()
-        whie sumc < 100:
-            if turn == 0:
-                if sumc < 100:
-                    try:
-                        player()  # second
-                    except:
-                        break
-                    isOverAHunnit(1)
-                if sumc < 100:
-                    try:
-                        recvplay()
-                    except:
-                        isOverAHunnit(0)
-                        break
-                    isOverAHunnit(0)
-            elif turn == 1:
-                if sumc < 100:
-                    try:
-                        recvplay()  # first
-                    except:
-                        isOverAHunnit(0)
-                        break
-                    isOverAHunnit(0)
-                if sumc < 100:
-                    try:
-                        player()
-                    except:
-                        break
-                    isOverAHunnit(1)
-            checkforcardempty()
 '''
 if __name__ == '__main__':
     main()
