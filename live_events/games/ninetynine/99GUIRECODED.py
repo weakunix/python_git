@@ -505,7 +505,10 @@ def preH():
     portenter.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
     submitbtn = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         portbind(portenter.get(), 1), destroyBTN(a, submitbtn, portenter, 0)])  # submit button
-    submitbtn.place(x=475, y=285)  # submit button place
+    if platform == "nt":
+        submitbtn.place(x=475, y=285)  # submit button place
+    else:
+        submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
     portenter.bind("<Return>", lambda event: Hportfunction(portenter.get(), a, portenter, submitbtn))
 
 
@@ -628,16 +631,20 @@ def Nportfunction(a, b, c, d, e, f, g):
 def preN():
     a = tk.Label(window, text="IP and Port (To Connect To)", font=('charter', 30), bg='cyan', fg='black')  #
     a.place(x=400, y=150, anchor=tk.CENTER)
-    b = tk.Label(window, text="IP\nPort", font=('charter', 30), bg='cyan', fg='black')  #
-    b.place(x=300, y=290, anchor=tk.CENTER)
     ipenter = tk.Entry(window)  # make window for input
     ipenter.place(x=400, y=275, anchor=tk.CENTER)  # anchor input box
     portenter = tk.Entry(window)  # make window for input
     portenter.place(x=400, y=300, anchor=tk.CENTER)  # anchor input box
+    b = tk.Label(window, text="IP\nPort", font=('charter', 30), bg='cyan', fg='black')  #
     submitbtn = tk.Button(text='Submit', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         portbind(portenter.get(), 0), ipbind(ipenter.get()),
         destroyBTN(a, submitbtn, portenter, ipenter), destroyBTN(0, 0, 0, b)])  # submit button
-    submitbtn.place(x=475, y=285)  # submit button place
+    if platform == "nt":
+        b.place(x=300, y=290, anchor=tk.CENTER)
+        submitbtn.place(x=475, y=285)  # submit button place
+    else:
+        b.place(x=250, y=290, anchor=tk.CENTER)
+        submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
     portenter.bind("<Return>",
                    lambda event: Nportfunction(ipenter.get(), portenter.get(), a, portenter, submitbtn, b, ipenter))
 
