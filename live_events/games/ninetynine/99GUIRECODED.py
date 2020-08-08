@@ -83,33 +83,16 @@ clearPgLoad()
 print("getting IP addresses (Local and External), detecting OS (This may take up to 1 minute)\n\n")
 if platform == "darwin":
     print("\033[0;31;48m <INFO>: You are running MACOS, the background color of buttons will not work!")
-    try:
-        external_ip = requests.get('https://api.ipify.org').text   # Global ip
-        print("\033[1;32;48m Connected to External IP")
-    except:
-        print(
-            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
-        external_ip = "111.111.111.111"
-elif platform == "nt":
-    pass
-    # TODO FIX THIS
-    try:
-        external_ip = requests.get('https://api.ipify.org').text  # Global ip
-        print("\033[1;32;48m Connected to External IP")
-    except:
-        external_ip = "111.111.111.111"
-        print(
-            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
-else:
+elif platform != "nt":
     print("\033[0;31;48m <INFO>: You are running a UNSUPPORTED platform, some features of this app may not work or "
           "may crash!")
-    try:
-        external_ip = requests.get('https://api.ipify.org').text  # Global ip
-        print("\033[1;32;48m Connected to External IP")
-    except:
-        external_ip = "111.111.111.111"
-        print(
-            "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
+try:
+    external_ip = requests.get('https://api.ipify.org').text  # Global ip
+    print("\033[1;32;48m Connected to External IP")
+except:
+    external_ip = "111.111.111.111"
+    print(
+        "\033[0;31;48m ERROR: CAN NOT GET EXTERNAL IP ADDRESS. CONNECT TO WIFI OR ETHERNET TO PLAY IN MULTIPLAYER")
 
 
 # ip reacher (loc)
