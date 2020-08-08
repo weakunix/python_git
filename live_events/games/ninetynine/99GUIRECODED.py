@@ -928,7 +928,6 @@ def bot(playercard, playercardnumber):
         if not breakoutofloop:
             for cnt in range(len(nums)):
                 if card == nums[5 - cnt] and sumc + card <= 99 and card in bcard:
-                    print(card)
                     sumc += card
                     b_replace_card(card)
                     word = str(card)
@@ -1152,9 +1151,14 @@ def player():
                   font=('charter', 30),
                   bg='cyan',
                   fg='black')  #
-    ad.place(x=100, y=100, anchor=tk.CENTER)
-    buttoncosmetic = tk.Button(window, text="", width=77, height=20)
-    buttoncosmetic.place(x=50, y=260, anchor=tk.NW)
+    if platform == "darwin":
+        ad.place(x=100, y=100, anchor=tk.CENTER)
+        buttoncosmetic = tk.Button(window, text="", width=77, height=20)
+        buttoncosmetic.place(x=50, y=260, anchor=tk.NW)
+    else:
+        ad.place(x=200, y=100, anchor=tk.CENTER)
+        buttoncosmetic = tk.Button(window, text="", width=100, height=20)
+        buttoncosmetic.place(x=50, y=260, anchor=tk.NW)
     arraytodelete = [ad, buttoncosmetic]
     # for ai in range(cardn):
     # print(pcard[ai])
