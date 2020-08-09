@@ -4,6 +4,7 @@ import os
 import random
 import socket
 import time
+import threading
 import tkinter as tk
 from functools import partial
 from sys import platform
@@ -146,7 +147,8 @@ rankscore = [250, 500, 800, 1000, 1350, 1500, 2000, 2500, 3000]  # the score you
 
 def cancelButton(a, b, c, d, e, f, g, h):
     button = tk.Button(window, text="Back To Home",
-                       command=lambda: [simp(), destroyBTN(a, b, c, d), destroyBTN(e, f, g, h),destroyBTN(button,0,0,0)])
+                       command=lambda: [simp(), destroyBTN(a, b, c, d), destroyBTN(e, f, g, h),
+                                        destroyBTN(button, 0, 0, 0)])
     button.place(x=750, y=9, anchor=tk.CENTER)
 
 
@@ -482,12 +484,8 @@ def portbind(a, noh):
             else:
                 ipandportfornosting += 1
         else:
-            msg = messagebox.showinfo("Bad Port", "Port is not a number from 1-65535!")  # if it deletes
-            if noh == 1:
-                preH()
-            else:
-                preN()
-    except:
+            raise ValueError
+    except ValueError:
         msg = messagebox.showinfo("Bad Port", "Port is not a number from 1-65535!")  # if it deletes
         if noh == 1:
             preH()
@@ -514,12 +512,73 @@ def preH():
     portenter.bind("<Return>", lambda event: Hportfunction(portenter.get(), a, portenter, submitbtn))
     cancelButton(a, portenter, submitbtn, 0, 0, 0, 0, 0)
 
+
 def stopListening():
     global port
     global host
     socket.socket(socket.AF_INET,
                   socket.SOCK_STREAM).connect((host, port))
     communications.close()
+
+
+def startmultiplayerdetection(isithost):
+    global ISITHOSTORNOST
+    global name
+    global port
+    global external_ip
+    global name1
+    global communications
+    global theirEIP
+    global turn
+    global namething
+    if isithost:
+        # socket.setdefaulttimeout()
+        communications.listen(1)  # wait for ppl to join
+        communications, adr = communications.accept()  # if see ppl accept it
+        name = name.encode()  # send your name to them
+        communications.sendall(name)  # ^^
+        name = name.decode()
+        name1 = communications.recv(1024)  # receive their name
+        name1 = name1.decode()
+        external_ip = external_ip.encode()  # send external ip
+        communications.sendall(external_ip)
+        host = host.encode()  # send local ip
+        communications.sendall(host)
+        host = host.decode()
+        external_ip = external_ip.decode()
+        theirIP = communications.recv(1024)  # receive their ip (local)
+        theirIP = theirIP.decode()
+        print(theirIP)
+        theirEIP = communications.recv(1024)  # receive their ip (global)
+        theirEIP = theirEIP.decode()
+        turn = str(turn).encode()  # send your order of cards to them
+        communications.sendall(turn)
+        turn.decode()
+        turn = int(turn)
+        if turn == 1:
+            turn = 0
+        elif turn == 0:
+            turn = 1
+        print(theirEIP)
+        temptuple = (
+            "Game", str(datetime.datetime.now()),
+            ".txt")  # make a string that can be converted into file (no spaces or _)
+        namething = str("".join(temptuple))
+        namething = namething.replace(' ', '_')
+        namething = namething.replace(':', '_')
+        h = open(namething, "w+")  # make a file with the name
+        temptuple1 = (
+            "From HOST, on port: ", str(port), ": game between ", name, " [you] (", host, ")(", external_ip,
+            ") and ",
+            name1,
+            " (", theirIP, ") (", theirEIP, ")\n ================= \n")
+        # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
+        temptuple1 = "".join(temptuple1)
+        h.write(str(temptuple1))
+        h.close()
+        clearPg()
+        print("successfully connected to game. Your Oppoent:" + name1)
+        # adsf
 
 
 def setupH():  # setup the host
@@ -547,55 +606,10 @@ def setupH():  # setup the host
         cancelbtn = tk.Button(text='Cancel', highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
             destroyBTN(a, cancelbtn, 0, 0), stopListening])
         cancelbtn.place(x=400, y=300, anchor=tk.CENTER)
-        msg = messagebox.showinfo("Starting",
-                                  "click ok to start")
-        if msg:
-            communications.listen(1)  # wait for ppl to join
-            communications, adr = communications.accept()  # if see ppl accept it
-            name = name.encode()  # send your name to them
-            communications.sendall(name)  # ^^
-            name = name.decode()
-            name1 = communications.recv(1024)  # receive their name
-            name1 = name1.decode()
-            external_ip = external_ip.encode()  # send external ip
-            communications.sendall(external_ip)
-            host = host.encode()  # send local ip
-            communications.sendall(host)
-            host = host.decode()
-            external_ip = external_ip.decode()
-            theirIP = communications.recv(1024)  # receive their ip (local)
-            theirIP = theirIP.decode()
-            print(theirIP)
-            theirEIP = communications.recv(1024)  # receive their ip (global)
-            theirEIP = theirEIP.decode()
-            turn = str(turn).encode()  # send your order of cards to them
-            communications.sendall(turn)
-            turn.decode()
-            turn = int(turn)
-            if turn == 1:
-                turn = 0
-            elif turn == 0:
-                turn = 1
-            print(theirEIP)
-            temptuple = (
-                "Game", str(datetime.datetime.now()),
-                ".txt")  # make a string that can be converted into file (no spaces or _)
-            namething = str("".join(temptuple))
-            namething = namething.replace(' ', '_')
-            namething = namething.replace(':', '_')
-            h = open(namething, "w+")  # make a file with the name
-            temptuple1 = (
-                "From HOST, on port: ", str(port), ": game between ", name, " [you] (", host, ")(", external_ip,
-                ") and ",
-                name1,
-                " (", theirIP, ") (", theirEIP, ")\n ================= \n")
-            # temptuple1 = ("conversation between ",name," (",host,") and ",name1," (",theirIP,") \n ================= \n")
-            temptuple1 = "".join(temptuple1)
-            h.write(str(temptuple1))
-            h.close()
-            clearPg()
-            print("successfully connected to game. Your Oppoent:" + name1)
-            # adsf
+        msg2 = messagebox.showinfo("Start",
+                                   "click ok to start")
+        if msg2:
+            multiplayerThread = threading.Thread(target=startmultiplayerdetection(True))
     else:
         preH()
 
@@ -898,9 +912,11 @@ def isOverAHunnit(l):
 
 def stopgame(botorplayer):
     if botorplayer == "bot":
-        raise SystemExit("PERSON WINS!")
+        win = tk.Button(window, text="YOU WIN!!! Now back to the lobby!",
+                        command=lambda: [simp(), destroyBTN(win, 0, 0, 0)])
     else:
-        raise SystemExit("BOT WINS!")
+        win = tk.Button(window, text="YOU WIN!!! Now back to the lobby!",
+                        command=lambda: [simp(), destroyBTN(win, 0, 0, 0)])
 
 
 def bot(playercard, playercardnumber):
