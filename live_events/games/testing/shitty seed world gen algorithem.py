@@ -6,12 +6,15 @@ from functools import partial
 window = tk.Tk()
 window.title("raaa generator pls wrk")
 window.configure(bg="cyan")  # background of the window
-window.geometry("800x620")
+window.geometry("800x640")
 imagesforgame = []
 usedcenters = [[]]
 seed = [[0 for y in range(30)] for x in range(40)]
 rendershit = False
 arraytodel = [[0 for y in range(30)] for x in range(40)]
+
+zoomscale = tk.Scale(window, from_=10, to=100, orient=tk.HORIZONTAL)
+zoomscale.place(x=300, y=600, anchor=tk.NW)
 
 
 def imageload():
@@ -24,6 +27,10 @@ def imageload():
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
         print(nameoffile)
+
+
+def zoom():
+    print(zoomscale.get())
 
 
 imageload()
@@ -189,7 +196,8 @@ def change(argx, argy):
         seed[argx][argy] = 20
     elif seed[argx][argy] == 20:
         seed[argx][argy] = 19
-    if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
+    if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or \
+            seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
         arraytodel[argx][argy].destroy()
         a = tk.Button(window, image=imagesforgame[seed[argx][argy]], command=partial(change, argx=argx, argy=argy))
         a.place(x=argx * 20, y=argy * 20)
