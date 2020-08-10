@@ -6,61 +6,86 @@ from functools import partial
 window = tk.Tk()
 window.title("raaa generator pls wrk")
 window.configure(bg="cyan")  # background of the window
-window.geometry("800x640")
+window.geometry("840x630")
 imagesforgame = []
 usedcenters = [[]]
 seed = [[0 for y in range(30)] for x in range(40)]
 rendershit = False
 arraytodel = [[0 for y in range(30)] for x in range(40)]
+bsize = 0
+xloc = 0
+yloc = 0
 
-zoomscale = tk.Scale(window, from_=10, to=100, orient=tk.HORIZONTAL)
-zoomscale.place(x=300, y=600, anchor=tk.NW)
 
-
-def imageload():
+def main():
+    global seed
+    global rendershit
+    global arraytodel
     global imagesforgame
+    imageload(20)
+    for y in range(0, 30):
+        for x in range(0, 40):
+            a = randomino.randint(0, 10)  # generates all grass
+            if a == 10:
+                seed[x][y] = 3
+            else:
+                seed[x][y] = 1
+
+    for y in range(0, 30):  # smort generation ocean
+        seed[37][y] = 13
+        seed[38][y] = 14
+        seed[39][y] = 16
+
+    for i in range(randomino.randint(1, 3)):
+        seed[38][randomino.randint(0, 29)] = 15  # 1-3 docks every game
+
+    for y in range(0, 30):
+        temp = []
+        for x in range(0, 40):
+            temp.append(seed[x][y])
+
+    spawnTerrain("grassmtn")
+    for i in range(2):
+        spawnTerrain("dessert")
+    spawnTerrain("desertmtn")
+    # mountains generate first so things can overwrite them
+    for i in range(2):
+        spawnTerrain("forest")
+    spawnTerrain("templeruin")
+    for i in range(4):
+        spawnTerrain("mineruin")
+    spawnTerrain("enemy")
+
+    seed[20][15] = 0  # city center of the map
+
+
+def zoom(event):
+    global arraytodel
+    zoompercentage = int(event)
+    for y in range(0, 29):
+        for x in range(0, 39):
+            arraytodel[x][y].destroy()
+    imageload(zoompercentage)
+    render(zoompercentage)
+
+
+def imageload(size):
+    global imagesforgame
+    imagesforgame = []
     for load in range(0, 21):
         nameoffile = ("./shittyworldgenimg/", str(load), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
-        load = load.resize((20, 20))
+        load = load.resize((size, size))
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
-        print(nameoffile)
-
-
-def zoom():
-    print(zoomscale.get())
-
-
-imageload()
-
-for y in range(0, 30):
-    for x in range(0, 40):
-        a = randomino.randint(0, 10)  # generates all grass
-        if a == 10:
-            seed[x][y] = 3
-        else:
-            seed[x][y] = 1
-
-for y in range(0, 30):  # smort generation ocean
-    seed[37][y] = 13
-    seed[38][y] = 14
-    seed[39][y] = 16
-
-for i in range(randomino.randint(1, 3)):
-    seed[38][randomino.randint(0, 29)] = 15  # 1-3 docks every game
-
-for y in range(0, 30):
-    temp = []
-    for x in range(0, 40):
-        temp.append(seed[x][y])
+        # print(nameoffile) lags too much while zooming
 
 
 def spawnTerrain(terrainname):
     global seed
     global rendershit
-    number = 0
+    number = 1
     loop = True
     rand = 0
     x = randomino.randint(10, 30)
@@ -153,6 +178,14 @@ def spawnTerrain(terrainname):
                     seed[x - 1][y + 1] = number
                 if x + 1 <= 35 and y - 1 >= 5:
                     seed[x + 1][y - 1] = number
+                if x - 1 >= 5:
+                    seed[x - 1][y] = number
+                if x + 1 <= 35:
+                    seed[x + 1][y] = number
+                if y + 1 <= 25:
+                    seed[x][y + 1] = number
+                if y - 1 >= 5:
+                    seed[x][y - 1] = number
                 bcd = randomino.randint(0, 3)
                 if bcd == 0:
                     x -= randomino.randint(0, 2)
@@ -169,21 +202,9 @@ def spawnTerrain(terrainname):
                     '''
 
 
-spawnTerrain("grassmtn")
-for i in range(2):
-    spawnTerrain("dessert")
-    spawnTerrain("forest")
-spawnTerrain("templeruin")
-for i in range(4):
-    spawnTerrain("mineruin")
-spawnTerrain("desertmtn")
-spawnTerrain("enemy")
-
-seed[20][15] = 0  # city center of the map
-
-
 def change(argx, argy):
     global seed
+    global bsize
     if seed[argx][argy] == 16:
         seed[argx][argy] = seed[argx][argy] + randomino.randint(1, 2)
     elif seed[argx][argy] == 17 or seed[argx][argy] == 18:
@@ -200,29 +221,46 @@ def change(argx, argy):
             seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
         arraytodel[argx][argy].destroy()
         a = tk.Button(window, image=imagesforgame[seed[argx][argy]], command=partial(change, argx=argx, argy=argy))
-        a.place(x=argx * 20, y=argy * 20)
+        a.place(x=argx * bsize, y=argy * bsize)
         arraytodel[argx][argy] = a
 
 
 # have player pick the spot to start off
 
-def render():
-    print(seed)
-    for yy in range(0, 30):
-        for xx in range(0, 40):
+def render(size):
+    global bsize
+    bsize = size
+    ypos = tk.Label(window, text=("Ypos\n" + str(yloc)))
+    ypos.place(x=800, y=420, anchor=tk.NW)
+    # print(seed)  too laggy while rendering
+    for yy in range(600//int(size)):
+        for xx in range(800//int(size)):
             a = tk.Button(window, image=imagesforgame[seed[xx][yy]], command=partial(change, argx=xx, argy=yy))
-            a.place(x=xx * 20, y=yy * 20)
+            a.place(x=xx * size, y=yy * size)
             arraytodel[xx][yy] = a
+    zoomscale = tk.Scale(window, from_=20, to=100, orient=tk.HORIZONTAL, command=zoom)
+    zoomscale.place(x=0, y=590, anchor=tk.NW)
+    textforzoom = tk.Label(window, text=("Zoom current size:" + str(size)))
+    textforzoom.place(x=0, y=585, anchor=tk.NW)
+    xScale = tk.Scale(window, from_=0, to=800, orient=tk.HORIZONTAL)
+    xScale.place(x=700, y=590, anchor=tk.NW)
+    xpos = tk.Label(window, text=("Xpos\n" + str(xloc)))
+    xpos.place(x=625, y=585, anchor=tk.NW)
+    yScale = tk.Scale(window, from_=800, to=0, orient=tk.VERTICAL)
+    yScale.place(x=790, y=470, anchor=tk.NW)
 
 
+
+'''
 def printSave():
     a = []
     for x in range(0, 40):
         for y in range(0, 30):
             a.append(seed[x][y])
     print(('{} ' * len(a)).format(*a))
+'''
 
-
+'''
 def loadcode(inpt):
     global arraytodel
     global seed
@@ -235,20 +273,19 @@ def loadcode(inpt):
         for x in range(0, 39):
             seed[x][y] = int(a[counter])
             counter += 1
-    render()
 
 
-inputs = tk.Entry()
-inputs.place(x=0, y=600, anchor=tk.NW)
-loadbtn = tk.Button(window, text="load", command=lambda: [loadcode(inputs.get())])
-loadbtn.place(x=200, y=600, anchor=tk.NW)
-savebtn = tk.Button(window, text="save", command=printSave)
-savebtn.place(x=700, y=600, anchor=tk.NW)
-
-if rendershit:
-    render()
+#inputs = tk.Entry()
+#inputs.place(x=0, y=600, anchor=tk.NW)
+#loadbtn = tk.Button(window, text="load", command=lambda: [loadcode(inputs.get())])
+#loadbtn.place(x=200, y=600, anchor=tk.NW)
+#savebtn = tk.Button(window, text="save", command=printSave)
+#savebtn.place(x=700, y=600, anchor=tk.NW)
+'''
 
 if __name__ == '__main__':
+    main()
+    render(20)
     tk.mainloop()
 
 '''
