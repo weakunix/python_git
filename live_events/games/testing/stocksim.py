@@ -24,7 +24,7 @@ def animate(i):
     if random.randint(0, 90) == 11:
         value *= multiplier
     elif random.randint(0, 100) == 11:
-        value /= multiplier
+        value /= divider
     xar.append(counter)
     yar.append(random.uniform(-0.05, 0.05) + value)
     ax1.clear()
