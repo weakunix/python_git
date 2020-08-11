@@ -69,6 +69,7 @@ def main():
         spawnTerrain("dessert")
     spawnTerrain("desertmtn")
     # mountains generate first so things can overwrite them
+    spawnTerrain("plains")
     for i in range(2):
         spawnTerrain("forest")
     spawnTerrain("templeruin")
@@ -96,7 +97,6 @@ def imageload(size):
         load = load.resize((size, size))
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
-        # print(nameoffile) lags too much while zooming
 
 
 def spawnTerrain(terrainname):
@@ -111,6 +111,10 @@ def spawnTerrain(terrainname):
         print("forset x:" + str(x) + "y:" + str(y))
         number = 9
         rand = randomino.randint(20, 40)
+        loop = True
+    elif terrainname == "plains":
+        number = 10
+        rand = randomino.randint(10, 20)
         loop = True
     elif terrainname == "dessert":
         print("desert x:" + str(x) + "y:" + str(y))
@@ -185,6 +189,12 @@ def spawnTerrain(terrainname):
         rendershit = True
     if loop:
         for i in range(rand):
+            if terrainname == "dessert":
+                number = randomino.randint(0, 10)
+                if number == 0:
+                    number = 4
+                else:
+                    number = 2
             if 35 >= x >= 5 and 25 >= y >= 5:
                 seed[x][y] = number
                 if x - 1 >= 5 and y - 1 >= 5:
@@ -217,6 +227,8 @@ def spawnTerrain(terrainname):
 def change(argx, argy):
     global seed
     global bsize
+    argx += xloc
+    argy += yloc
     if seed[argx][argy] == 16:
         seed[argx][argy] = seed[argx][argy] + randomino.randint(1, 2)
     elif seed[argx][argy] == 17 or seed[argx][argy] == 18:
@@ -235,6 +247,7 @@ def change(argx, argy):
         a = tk.Button(window, image=imagesforgame[seed[argx][argy]], command=partial(change, argx=argx, argy=argy))
         a.place(x=argx * bsize, y=argy * bsize)
         arraytodel[argx][argy] = a
+        render(bsize, xloc, yloc)
 
 
 def changelocx(event):
@@ -270,14 +283,13 @@ def render(size, locx, locy):
     bsize = size
     ypos = tk.Label(window, text=("Ypos\n" + str(yloc)))
     ypos.place(x=800, y=420, anchor=tk.NW)
-    # print(seed)  too laggy while rendering
     for yy in range(600 // int(size)):
         for xx in range(800 // int(size)):
             try:
                 a = tk.Button(window, image=imagesforgame[seed[xx + locx][yy + locy]],
                               command=partial(change, argx=xx, argy=yy))
                 a.place(x=xx * size, y=yy * size)
-                arraytodel[xx][yy] = a
+                arraytodel[xx + locx][yy + locy] = a
             except:
                 print("indexoutofrange")
     textforzoom = tk.Label(window, text=("Zoom current size:" + str(size)))
@@ -289,66 +301,33 @@ def render(size, locx, locy):
     deletethesewidgets.append(ypos)
 
 
-'''
-def printSave():
-    a = []
-    for x in range(0, 40):
-        for y in range(0, 30):
-            a.append(seed[x][y])
-    print(('{} ' * len(a)).format(*a))
-'''
-
-'''
-def loadcode(inpt):
-    global arraytodel
-    global seed
-    a = inpt
-    counter = 0
-    for i in range(39):
-        for ix in range(29):
-            arraytodel[i][ix].destroy()
-    for y in range(0, 29):
-        for x in range(0, 39):
-            seed[x][y] = int(a[counter])
-            counter += 1
-
-
-#inputs = tk.Entry()
-#inputs.place(x=0, y=600, anchor=tk.NW)
-#loadbtn = tk.Button(window, text="load", command=lambda: [loadcode(inputs.get())])
-#loadbtn.place(x=200, y=600, anchor=tk.NW)
-#savebtn = tk.Button(window, text="save", command=printSave)
-#savebtn.place(x=700, y=600, anchor=tk.NW)
-'''
-
 if __name__ == '__main__':
     main()
     render(20, 0, 0)
     tk.mainloop()
 
 '''
+the pngs and what they stand for:
 
-the print format:
-
-land -> ocean (10,11)
-
-x = 40 x 20
-y = 30 x 20
-
-0 flat land (grass) [may spawn enemy territory]
-1 plains [cattle and herding]
-2 grass mtn [a great inconvenience]
-3 forest [wood]
-4 enemy city (grass)
-5 flat land (desert) [mines from scratch, temples from scratch]
-6 enemy city (desert)
-7 desert mtn [mines]
-8 mines (ruin)
-9 mine [gold]
-10 temple (ruin)
-11 temple [magic and happiness]
-12 grass near beach 
-13 beach near ocean
-14 dock 
-15 your city
+0 your castle (always centered)
+1 flat land 
+2 flat land (desert) [mines from scratch, temples from scratch]
+3 flat land with rock (1/10th chance) per grass tile
+4 desert land with cactus (1/10th chance) per desert tile
+5 grass mtn [a great inconvenience] 
+6 desert mtn [mines]
+7 mines (ruin)
+8 mine [gold]
+9 forest [wood]
+10 plains (spawns on grass like forest)[cattle and herding]
+11 enemy castle grass
+12 enemy castle sand
+13 grass to sand
+14 beach near ocean 
+15 dock
+16 ocean
+17 fishing boat
+18 oil derrick
+19 temple (ruins)
+20 temple (rebuilt)
 '''
