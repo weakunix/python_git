@@ -15,9 +15,29 @@ arraytodel = [[0 for y in range(30)] for x in range(40)]
 bsize = 0
 xloc = 0
 yloc = 0
+deletethesewidgets = []
+
+
+def resetBTNSLIDER(a):
+    global deletethesewidgets
+    global xloc
+    global yloc
+    xloc = 0
+    yloc = 0
+    if a:
+        zoomscale = tk.Scale(window, from_=20, to=100, orient=tk.HORIZONTAL, command=zoom)
+        zoomscale.place(x=0, y=590, anchor=tk.NW)
+        deletethesewidgets.append(zoomscale)
+    yScale = tk.Scale(window, from_=24, to=0, orient=tk.VERTICAL, command=changelocy)
+    yScale.place(x=790, y=470, anchor=tk.NW)
+    deletethesewidgets.append(yScale)
+    xScale = tk.Scale(window, from_=0, to=32, orient=tk.HORIZONTAL, command=changelocx)
+    xScale.place(x=700, y=590, anchor=tk.NW)
+    deletethesewidgets.append(xScale)
 
 
 def main():
+    resetBTNSLIDER(True)
     global seed
     global rendershit
     global arraytodel
@@ -60,13 +80,10 @@ def main():
 
 
 def zoom(event):
-    global arraytodel
     zoompercentage = int(event)
-    for y in range(0, 29):
-        for x in range(0, 39):
-            arraytodel[x][y].destroy()
     imageload(zoompercentage)
-    render(zoompercentage)
+    resetBTNSLIDER(False)
+    render(zoompercentage, 0, 0)
 
 
 def imageload(size):
@@ -195,11 +212,6 @@ def spawnTerrain(terrainname):
                     y -= randomino.randint(0, 2)
                 elif bcd == 3:
                     y += randomino.randint(0, 2)
-            '''for b in range(len(usedcenters[0])):
-                if x - usedcenters[b] >= 20 or x - usedcenters[b] <= -20:
-                    if y - usedcenters[0][b]
-                    calculate distance from anotehr center
-                    '''
 
 
 def change(argx, argy):
@@ -225,30 +237,56 @@ def change(argx, argy):
         arraytodel[argx][argy] = a
 
 
+def changelocx(event):
+    global bsize
+    global xloc
+    global yloc
+    xloc = int(event)
+    render(bsize, xloc, yloc)
+
+
+def changelocy(event):
+    global bsize
+    global xloc
+    global yloc
+    yloc = int(event)
+    render(bsize, xloc, yloc)
+
+
 # have player pick the spot to start off
 
-def render(size):
+def render(size, locx, locy):
     global bsize
+    global arraytodel
+    global deletethesewidgets
+    for i in range(len(deletethesewidgets)):
+        deletethesewidgets[i].destroy
+    if arraytodel[0][0] != 0:
+        for y in range(0, 30):
+            for x in range(0, 40):
+                if arraytodel[x][y] != 0:
+                    arraytodel[x][y].destroy()
+        arraytodel = [[0 for y in range(30)] for x in range(40)]
     bsize = size
     ypos = tk.Label(window, text=("Ypos\n" + str(yloc)))
     ypos.place(x=800, y=420, anchor=tk.NW)
     # print(seed)  too laggy while rendering
-    for yy in range(600//int(size)):
-        for xx in range(800//int(size)):
-            a = tk.Button(window, image=imagesforgame[seed[xx][yy]], command=partial(change, argx=xx, argy=yy))
-            a.place(x=xx * size, y=yy * size)
-            arraytodel[xx][yy] = a
-    zoomscale = tk.Scale(window, from_=20, to=100, orient=tk.HORIZONTAL, command=zoom)
-    zoomscale.place(x=0, y=590, anchor=tk.NW)
+    for yy in range(600 // int(size)):
+        for xx in range(800 // int(size)):
+            try:
+                a = tk.Button(window, image=imagesforgame[seed[xx + locx][yy + locy]],
+                              command=partial(change, argx=xx, argy=yy))
+                a.place(x=xx * size, y=yy * size)
+                arraytodel[xx][yy] = a
+            except:
+                print("indexoutofrange")
     textforzoom = tk.Label(window, text=("Zoom current size:" + str(size)))
     textforzoom.place(x=0, y=585, anchor=tk.NW)
-    xScale = tk.Scale(window, from_=0, to=800, orient=tk.HORIZONTAL)
-    xScale.place(x=700, y=590, anchor=tk.NW)
     xpos = tk.Label(window, text=("Xpos\n" + str(xloc)))
     xpos.place(x=625, y=585, anchor=tk.NW)
-    yScale = tk.Scale(window, from_=800, to=0, orient=tk.VERTICAL)
-    yScale.place(x=790, y=470, anchor=tk.NW)
-
+    deletethesewidgets.append(textforzoom)
+    deletethesewidgets.append(xpos)
+    deletethesewidgets.append(ypos)
 
 
 '''
@@ -285,7 +323,7 @@ def loadcode(inpt):
 
 if __name__ == '__main__':
     main()
-    render(20)
+    render(20, 0, 0)
     tk.mainloop()
 
 '''
