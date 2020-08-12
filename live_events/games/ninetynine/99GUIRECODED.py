@@ -72,7 +72,6 @@ ipandportfornosting = 0
 window.title("99 The Card Game")  # title the window
 ISITHOSTORNOST = " "  # is the device hosting or a client
 version = 'BETA 1.5.9 (WORKING BOT)'  # TODO change this every time 99 version
-window.configure(bg="cyan")  # background of the window
 window.geometry("800x600")
 print("\033[1;30;48m getting IP addresses (Local and External), detecting OS (This may take up to 1 minute)")
 if platform == "darwin":
@@ -150,6 +149,7 @@ def cancelButton(a, b, c, d, e, f, g, h):
                        command=lambda: [simp(), destroyBTN(a, b, c, d), destroyBTN(e, f, g, h),
                                         destroyBTN(button, 0, 0, 0)])
     button.place(x=750, y=9, anchor=tk.CENTER)
+    return button
 
 
 def destroyBTN(M, L, S, G):
@@ -194,13 +194,13 @@ def single(rankorno):
                                    "cancel!\n Tip: Un-check "
                                    "ranked to play casual")
         if a:
-            displaycardsperperson(">", 3)
-            cardSetup()
+            displaycardsperperson(">", 3, 1)
+            cardSetup(1)
         else:
             simp()
     else:
-        displaycardsperperson(">", 3)
-        cardSetup()
+        displaycardsperperson(">", 3, 0)
+        cardSetup(0)
 
 
 def premultiii(rankedorno):
@@ -213,7 +213,7 @@ def premultiii(rankedorno):
     nostbtn = tk.Button(text='Join', width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', command=lambda: [
         preN(), destroyBTN(a, hostbtn, nostbtn, 0)])  # submit button
     nostbtn.place(x=500, y=285, anchor=tk.CENTER)  # submit button place
-    cancelButton(a, hostbtn, nostbtn, 0, 0, 0, 0, 0)
+    cancl = cancelButton(a, hostbtn, nostbtn, 0, 0, 0, 0, 0)
 
 
 def premulti(rankorno):
@@ -416,16 +416,21 @@ def rankedcheck(loadnew):  # loadnew is if it is to make new save or to load the
             load()
 
 
-def displaycardsperperson(updown, number):
+def displaycardsperperson(updown, number, ranked):
     global cardn
     global confirmcards
     global bcard
     global pcard
+    blimit = 1
+    tlimit = 9
+    if ranked == 1:
+        blimit = 3
+        tlimit = 6
     if updown == "<":
-        if cardn > 1:
+        if cardn > blimit:
             cardn -= number
     elif updown == ">":
-        if cardn < 9:
+        if cardn < tlimit:
             cardn += number
     if updown == "cf":
         confirmcards = True
@@ -436,7 +441,7 @@ def displaycardsperperson(updown, number):
 
 
 # game stuff
-def cardSetup():
+def cardSetup(ranked):
     global cardl
     global cardn
     global pcard
@@ -448,27 +453,27 @@ def cardSetup():
                  fg='black')  # print the save informations of the save
     a.place(x=400, y=150, anchor=tk.CENTER)
     ass = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text=">",  # make load button
-                    command=lambda: [displaycardsperperson(">", 1), destroyBTN(affff, 0, 0, 0),
-                                     destroyBTN(confirmbtn, css, ass, a), cardSetup()])
+                    command=lambda: [displaycardsperperson(">", 1, ranked), destroyBTN(affff, 0, 0, 0),
+                                     destroyBTN(confirmbtn, css, ass, a), cardSetup(ranked)])
     ass.place(x=500, y=300, anchor=tk.CENTER)
     css = tk.Button(window, highlightbackground='#00FFFF', bg='#00FFFF', text="<",  # make delete save button
-                    command=lambda: [displaycardsperperson("<", 1), destroyBTN(affff, 0, 0, 0),
-                                     destroyBTN(confirmbtn, css, ass, a), cardSetup()])
+                    command=lambda: [displaycardsperperson("<", 1, ranked), destroyBTN(affff, 0, 0, 0),
+                                     destroyBTN(confirmbtn, css, ass, a), cardSetup(ranked)])
     css.place(x=300, y=300, anchor=tk.CENTER)
     affff = tk.Label(window, text=cardn, highlightbackground='#FFFFFF', font=('charter', 30), bg='#FFFFFF',
                      fg='black')  #
     affff.place(x=400, y=300, anchor=tk.CENTER)
     confirmbtn = tk.Button(window, width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF', text="Confirm",
                            # make delete save button
-                           command=lambda: [displaycardsperperson("cf", 0), destroyBTN(affff, 0, 0, 0),
-                                            destroyBTN(confirmbtn, css, ass, a), cardSetup()])
+                           command=lambda: [displaycardsperperson("cf", 0, ranked), destroyBTN(affff, 0, 0, 0),
+                                            destroyBTN(confirmbtn, css, ass, a), cardSetup(ranked)])
     confirmbtn.place(x=400, y=425, anchor=tk.CENTER)
-    cancelButton(a, ass, css, affff, confirmbtn, 0, 0, 0)
+    cancl = cancelButton(a, ass, css, affff, confirmbtn, 0, 0, 0)
     if confirmcards:
         destroyBTN(ass, a, css, confirmbtn)
-        destroyBTN(affff, 0, 0, 0)
+        destroyBTN(affff, cancl, 0, 0)
         if MPorSP == 0:
-            play(1)
+            player()
     ##giving cards
 
 
@@ -510,7 +515,7 @@ def preH():
     else:
         submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
     portenter.bind("<Return>", lambda event: Hportfunction(portenter.get(), a, portenter, submitbtn))
-    cancelButton(a, portenter, submitbtn, 0, 0, 0, 0, 0)
+    cancl = cancelButton(a, portenter, submitbtn, 0, 0, 0, 0, 0)
 
 
 def stopListening():
@@ -661,7 +666,7 @@ def preN():
     else:
         b.place(x=250, y=290, anchor=tk.CENTER)
         submitbtn.place(x=525, y=300, anchor=tk.CENTER)  # submit button place
-    cancelButton(a, portenter, submitbtn, ipenter, b, 0, 0, 0)
+    cancl = cancelButton(a, portenter, submitbtn, ipenter, b, 0, 0, 0)
     portenter.bind("<Return>",
                    lambda event: Nportfunction(ipenter.get(), portenter.get(), a, portenter, submitbtn, b, ipenter))
 
@@ -938,7 +943,7 @@ def bot(playercard, playercardnumber):
                           fg='black')
     showplayer.place(x=250, y=150, anchor=tk.CENTER)
     if playercardnumber != 14:
-        o = imagesforgame[((playercardnumber * 4) - random.randint(1, 3))]
+        o = imagesforgame[((playercardnumber * 4) - random.randint(1, 2))]
     else:
         o = imagesforgame[((13 * 4) + 1)]
     playerimg = tk.Label(window, image=o)
@@ -965,7 +970,7 @@ def bot(playercard, playercardnumber):
     # else:
     for i in bcard:
         if not breakoutofloop:
-            for cnt in range(0, 9):
+            for cnt in range(cardn):
                 card = bcard[cnt]  #
                 if card == 1 and sumc + 1 <= 99 and 1 in bcard:
                     if sumc + 11 <= 99:
@@ -977,30 +982,23 @@ def bot(playercard, playercardnumber):
                 else:
                     if 4 in bcard and card == 4:
                         word = "4(0)"
-                        break
                     elif 9 in bcard and card == 9:
                         word = "9(0)"
-                        break
                     elif 10 in bcard and card == 10:
                         word = "10(-10)"
                         sumc -= 10
-                        break
                     elif 11 in bcard and sumc + 10 <= 99 and card == 11:
                         word = "Jack(10)"
                         sumc += 10
-                        break
                     elif 12 in bcard and sumc + 10 <= 99 and card == 12:
                         word = "Queen(10)"
                         sumc += 10
-                        break
                     elif 13 in bcard and card == 13:
                         word = "KING(99)"
                         sumc = 99
-                        break
                     elif 14 in bcard and card == 14:
                         word = "JOKER(99)"
                         sumc = 99
-                        break
                 if word != "":
                     b_replace_card(card)
                     breakoutofloop = True
@@ -1012,7 +1010,7 @@ def bot(playercard, playercardnumber):
         else:
             break
     if card != 14:
-        o = imagesforgame[((card * 4) - random.randint(1, 3))]
+        o = imagesforgame[((card * 4) - random.randint(1, 2))]
     else:
         o = imagesforgame[(13 * 4) + 2]
     botimage = tk.Label(window, image=o)
@@ -1039,12 +1037,15 @@ def aysecheck(ayseconfirm, num, araytodel, number):
         a.place(x=400, y=150, anchor=tk.CENTER)
         ayceone = tk.Button(window, text="1", width=20, height=3,
                             command=lambda: [aysecheck(True, 1, araytodel, number),
-                                             destroyBTN(ayceone, ayceelevn, a, 0)])
+                                             destroyBTN(ayceone, ayceelevn, a, cancelselection)])
         ayceone.place(x=300, y=385, anchor=tk.CENTER)
         ayceelevn = tk.Button(window, text="11", width=20, height=3,
                               command=lambda: [aysecheck(True, 11, araytodel, number),
-                                               destroyBTN(ayceone, ayceelevn, a, 0)])
+                                               destroyBTN(ayceone, ayceelevn, a, cancelselection)])
         ayceelevn.place(x=500, y=385, anchor=tk.CENTER)
+        cancelselection = tk.Button(window, text="Cancel", width=20, height=3,
+                                   command=lambda: [destroyBTN(ayceelevn, ayceone, cancelselection, a), player()])
+        cancelselection.place(x=300, y=285, anchor=tk.CENTER)
     elif ayseconfirm:
         if num == 1:
             sumc += 1
@@ -1128,31 +1129,32 @@ def playcardconfirm(araytodel, numberarray, whichofthearray):
                                               command=lambda: [playthecard(araytodel, number),
                                                                destroyBTN(highlightcardselected,
                                                                           cancelselection, 0, 0)])
+            highlightcardselected.place(x=500, y=285, anchor=tk.CENTER)
         elif number == 1:
-            highlightcardselected = tk.Button(window, text="Confirm play Ace(1/11)", width=20, height=3,
-                                              command=lambda: [destroyBTN(highlightcardselected,
-                                                                          cancelselection, 0, 0)])
             aysecheck(False, 0, araytodel, number)
     elif number == 13:
         highlightcardselected = tk.Button(window, text="Confirm play King?", width=20, height=3,
                                           command=lambda: [playthecard(araytodel, number),
                                                            destroyBTN(highlightcardselected,
                                                                       cancelselection, 0, 0)])
+        highlightcardselected.place(x=500, y=285, anchor=tk.CENTER)
     elif number == 14:
         highlightcardselected = tk.Button(window, text="Confirm play Joker?", width=20, height=3,
                                           command=lambda: [playthecard(araytodel, number),
                                                            destroyBTN(highlightcardselected,
                                                                       cancelselection, 0, 0)])
+        highlightcardselected.place(x=500, y=285, anchor=tk.CENTER)
     elif number == 12 or number == 11:
         highlightcardselected = tk.Button(window, text="Confirm play Jack/Queen?", width=20, height=3,
                                           command=lambda: [playthecard(araytodel, number),
                                                            destroyBTN(highlightcardselected,
                                                                       cancelselection, 0, 0)])
 
-    highlightcardselected.place(x=500, y=285, anchor=tk.CENTER)
-    cancelselection = tk.Button(window, text="Cancel", width=20, height=3,
-                                command=lambda: [destroyBTN(highlightcardselected, cancelselection, 0, 0), player()])
-    cancelselection.place(x=300, y=285, anchor=tk.CENTER)
+        highlightcardselected.place(x=500, y=285, anchor=tk.CENTER)
+    if number != 1:
+        cancelselection = tk.Button(window, text="Cancel", width=20, height=3,
+                                    command=lambda: [destroyBTN(highlightcardselected, cancelselection, 0, 0), player()])
+        cancelselection.place(x=300, y=285, anchor=tk.CENTER)
     # destroyBTN(highlightcardselected,cancelselection,0,0)
 
 
@@ -1207,13 +1209,6 @@ def player():
 
 
 ##turn test
-def play(n):
-    if n == 0:
-        if sumc < 100:
-            pass  # bot()
-    else:
-        if sumc < 100:
-            player()
 
 
 def checkforcardempty():
@@ -1286,6 +1281,7 @@ def recvplay():
 
 
 def load():
+    window.configure(bg="cyan")  # background of the window
     a = tk.Label(window, text="Saves", font=('charter', 30), bg='cyan', fg='black')
     a.place(x=400, y=150, anchor=tk.CENTER)
     L = tk.Button(window, text="Load Save", width=20, height=3, highlightbackground='#00FFFF', bg='#00FFFF',
@@ -1318,9 +1314,9 @@ def main():
     imagetitle = tk.Label(window, image=imagestuff)
     imagetitle.image = imagestuff
     imagetitle.place(x=400, y=250, anchor=tk.CENTER)
-    VRSN = tk.Label(window, text=version, font=('charter', 10), bg='cyan', fg='black')  # print 99 version
+    VRSN = tk.Label(window, text=version, font=('charter', 10), fg='black')  # print 99 version
     VRSN.place(x=400, y=100, anchor=tk.CENTER)  # center text
-    TTL = tk.Label(window, text="99 The Card Game", font=('charter', 30), bg='cyan',
+    TTL = tk.Label(window, text="99 The Card Game", font=('charter', 30),
                    fg='black')  # print 99 the card game
     TTL.place(x=400, y=50, anchor=tk.CENTER)
     TUTBTN = tk.Button(window, text="Tutorial", width=20, height=3, bg='#00FFFF', highlightbackground='#00FFFF',
@@ -1338,10 +1334,10 @@ def main():
 
 
 '''whie True:
-    # XPFINDR = open("saveData.txt", "w")
-    #    bcd = rank + xp
-    # XPFINDR.write(str(bcd) + "" + name + "true")
-    # XPFINDR.close()
+    XPFINDR = open("saveData.txt", "w")
+    bcd = rank + xp
+    XPFINDR.write(str(bcd) + "" + name + "true")
+    XPFINDR.close()
     ##filling cardl
     
     # files:
