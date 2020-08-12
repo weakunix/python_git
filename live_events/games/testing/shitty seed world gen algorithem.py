@@ -72,12 +72,26 @@ def main():
     spawnTerrain("plains")
     for i in range(2):
         spawnTerrain("forest")
-    spawnTerrain("templeruin")
     for i in range(4):
         spawnTerrain("mineruin")
+    spawnTerrain("templeruin")
     spawnTerrain("enemy")
+    returntuple = castleplace()
+    seed[returntuple[0]][returntuple[1]] = 0
 
-    seed[20][15] = 0  # city center of the map
+
+def castleplace():
+    xcastle = 0
+    ycastle = 0
+    if randomino.randint(0, 1):
+        xcastle = randomino.randint(0, 5)
+    else:
+        xcastle = randomino.randint(32, 37)
+    if randomino.randint(0, 1):
+        ycastle = randomino.randint(0, 5)
+    else:
+        ycastle = randomino.randint(24, 29)
+    return xcastle, ycastle
 
 
 def zoom(event):
@@ -142,47 +156,60 @@ def spawnTerrain(terrainname):
                 seed[x][y - 1] = number
     elif terrainname == "enemy":
         for i in range(randomino.randint(10, 20)):
-            x = randomino.randint(1, 36)
-            y = randomino.randint(1, 28)
-            print("city x:" + str(x) + "y:" + str(y))
-            if seed[x][y] == 2:
+            returntuple = castleplace()
+            if seed[returntuple[0]][returntuple[1]] == 2:
                 number = 12
-            elif seed[x][y] == 1 or seed[x][y] == 3:
+            else:
                 number = 11
-            seed[x][y] = number
+            seed[returntuple[0]][returntuple[1]] = number
             loop = False
-    elif terrainname == "templeruin" or terrainname == "desertmtn" or terrainname == "mineruin":
+    elif terrainname == "desertt":
+        number = 2
+        rand = randomino.randint(10, 20)
+        loop = True
+    elif terrainname == "templeruin":
+        spawnTerrain("desertt")
+        seed[20][15] = 19
+    elif terrainname == "desertmtn" or terrainname == "mineruin":
         found = False
-        if terrainname == "templeruin":
-            number = 19
-        elif terrainname == "mineruin":
+        if terrainname == "mineruin":
             number = 7
         elif terrainname == "desertmtn":
             number = 6
+        havefoundx = []
+        havefoundy = []
+        build = True
         for exactly in range(0, 39):
             if not found:
                 for whynot in range(0, 29):
                     if seed[exactly][whynot] == 2:
-                        print("desert found at" + str(exactly) + " " + str(whynot))
-                        seed[x][y] = number
-                        if terrainname == "desertmtn":
-                            for i in range(2):
-                                x = randomino.randint(5, 35)
-                                y = randomino.randint(5, 25)
-                                seed[x][y] = number
-                                if x - 1 >= 5 and y - 1 >= 5 and x + 1 <= 35 and y + 1 <= 25:
-                                    seed[x - 1][y] = number
-                                    seed[x - 2][y] = number
-                                    seed[x + 1][y] = number
-                                x = randomino.randint(5, 35)
-                                y = randomino.randint(5, 25)
-                                seed[x][y] = number
-                                if 5 <= x + 1 <= 35 and y + 1 <= 25 and y - 1 >= 5:
-                                    seed[x][y + 1] = number
-                                    seed[x][y + 2] = number
-                                    seed[x][y - 1] = number
-                        found = True
-                        break
+                        for ala in range(len(havefoundx)):
+                            for blb in range(len(havefoundy)):
+                                if havefoundy[blb] == whynot and havefoundx[ala] == exactly:
+                                    build = False
+                        if build:
+                            print("desert found at" + str(exactly) + " " + str(whynot))
+                            seed[x][y] = number
+                            havefoundx.append(x)
+                            havefoundy.append(y)
+                            if terrainname == "desertmtn":
+                                for i in range(2):
+                                    x = randomino.randint(5, 35)
+                                    y = randomino.randint(5, 25)
+                                    seed[x][y] = number
+                                    if x - 1 >= 5 and y - 1 >= 5 and x + 1 <= 35 and y + 1 <= 25:
+                                        seed[x - 1][y] = number
+                                        seed[x - 2][y] = number
+                                        seed[x + 1][y] = number
+                                    x = randomino.randint(5, 35)
+                                    y = randomino.randint(5, 25)
+                                    seed[x][y] = number
+                                    if 5 <= x + 1 <= 35 and y + 1 <= 25 and y - 1 >= 5:
+                                        seed[x][y + 1] = number
+                                        seed[x][y + 2] = number
+                                        seed[x][y - 1] = number
+                            found = True
+                            break
             else:
                 break
         loop = False
