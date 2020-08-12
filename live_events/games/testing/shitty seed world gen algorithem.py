@@ -5,10 +5,11 @@ from functools import partial
 from tkinter import messagebox
 
 window = tk.Tk()
-window.title("wow this is actually starting to impress myself")
+window.title("worldgen")
 window.configure(bg="cyan")  # background of the window
 window.geometry("840x630")
 imagesforgame = []
+clansimages = []
 usedcenters = [[]]
 seed = [[0 for y in range(30)] for x in range(40)]
 rendershit = False
@@ -16,6 +17,15 @@ arraytodel = [[0 for y in range(30)] for x in range(40)]
 bsize = 0
 xloc = 0
 yloc = 0
+castlenames = [
+    "mootbing",
+    'nailand',
+    'mootluz',
+    'skairm',
+    'cowland',
+    'mooland',
+    'botland'
+]
 deletethesewidgets = []
 
 
@@ -110,6 +120,12 @@ def imageload(size):
         load = load.resize((size, size))
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
+    # for load in range(1): change later
+    nameoffile = ("./shittyworldgenimg/clan.png")
+    load = Image.open(nameoffile)
+    load = load.resize((40, 40))
+    tempimg = ImageTk.PhotoImage(load)
+    clansimages.append(tempimg)
 
 
 def spawnTerrain(terrainname):
@@ -250,6 +266,42 @@ def spawnTerrain(terrainname):
                     y += randomino.randint(0, 2)
 
 
+def destroybtn(a, b, c, d, e, f, g, h):
+    try:
+        a.destroy()
+        b.destroy()
+        c.destroy()
+        d.destroy()
+        e.destroy()
+        f.destroy()
+        g.destroy()
+        h.destroy()
+    except:
+        print("yikers")
+
+
+def popup(ax, ay):
+    background = tk.Button(window, text="", width=22, height=5)
+    background.place(x=ax * bsize + bsize / 2, y=ay * bsize + 5, anchor=tk.S)
+    op1 = tk.Button(window, text="Spy")
+    op1.place(x=ax * bsize - 65, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    op2 = tk.Button(window, text="Attack")
+    op2.place(x=ax * bsize - 23, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    op3 = tk.Button(window, text="Send Resources")
+    op3.place(x=ax * bsize + 52, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    label = tk.Label(window, text=(
+            str(castlenames[randomino.randint(0, int(len(castlenames) - 1))]) + "\nat: \nx:" + str(
+        ax) + " y:" + str(ay)))
+    label.place(x=ax * bsize - 55, y=ay * bsize - 22, anchor=tk.S)
+    label2 = tk.Label(window, text="Clan:")
+    label2.place(x=ax * bsize, y=ay * bsize - 60, anchor=tk.CENTER)
+    clanimg = tk.Button(window, image=clansimages[0])
+    clanimg.place(x=ax * bsize + 40, y=ay * bsize - bsize * 2.4, anchor=tk.CENTER)
+    cancl = tk.Button(window, text="Exit\nMenu", height=3,
+                      command=lambda: [destroybtn(background, op1, op2, op3, label, cancl,label2,clanimg)])
+    cancl.place(x=ax * bsize + 85, y=ay * bsize - bsize * 2.4, anchor=tk.CENTER)
+
+
 def change(argx, argy):
     global seed
     global bsize
@@ -268,7 +320,8 @@ def change(argx, argy):
     elif seed[argx][argy] == 20:
         seed[argx][argy] = 19
     elif seed[argx][argy] == 12 or seed[argx][argy] == 11:
-        msg = tk.messagebox.askyesno("Options", "Attack? Spy? Send Material?")
+        popup(argx, argy)
+        # msg = tk.messagebox.askyesno("Options", "Attack? Spy? Send Material?")
     if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or \
             seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
         arraytodel[argx][argy].destroy()
