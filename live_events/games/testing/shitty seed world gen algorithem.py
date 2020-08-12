@@ -2,9 +2,10 @@ import random as randomino
 import tkinter as tk
 from PIL import Image, ImageTk
 from functools import partial
+from tkinter import messagebox
 
 window = tk.Tk()
-window.title("raaa generator pls wrk")
+window.title("wow this is actually starting to impress myself")
 window.configure(bg="cyan")  # background of the window
 window.geometry("840x630")
 imagesforgame = []
@@ -81,8 +82,6 @@ def main():
 
 
 def castleplace():
-    xcastle = 0
-    ycastle = 0
     if randomino.randint(0, 1):
         xcastle = randomino.randint(0, 5)
     else:
@@ -268,6 +267,8 @@ def change(argx, argy):
         seed[argx][argy] = 20
     elif seed[argx][argy] == 20:
         seed[argx][argy] = 19
+    elif seed[argx][argy] == 12 or seed[argx][argy] == 11:
+        msg = tk.messagebox.askyesno("Options", "Attack? Spy? Send Material?")
     if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or \
             seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
         arraytodel[argx][argy].destroy()
