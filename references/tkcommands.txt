@@ -89,3 +89,9 @@ var = entry.get()
 
 #clear entry box
 entry.delete(0, tk.END)
+
+#hide button
+widget.place_forget()
+
+#slider
+slider = tk.Scale(window, from_ = [number], to = [number], orient = tk.HORIZONTAL) #orient = tk.HORIZONTAL only used for horizontal slider. don't include orient to make a vertical slider
