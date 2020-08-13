@@ -20,13 +20,16 @@ usedcenters = [[]]
 pathdelarray = []
 planningPath = False
 seed = [[0 for y in range(30)] for x in range(40)]
-pathfind = [[0 for y in range(30)] for x in range(40)]
+pathfind = [[0 for yyy in range(30)] for xxx in range(40)]
+pathcoords = []
 rendershit = False
-arraytodel = [[0 for y in range(30)] for x in range(40)]
+arraytodel = [[0 for yyyy in range(30)] for xxxx in range(40)]
 clandict = {}
 bsize = 0
 xloc = 0
+turn = 0
 yloc = 0
+attacking = False
 castleLoc = (0, 0)
 castlenames = [
     "mootbing",
@@ -148,7 +151,7 @@ def loadcastle(size):
 def imageload(size):
     global imagesforgame
     imagesforgame = []
-    for load in range(0, 24):
+    for load in range(0, 25):
         nameoffile = ("./shittyworldgenimg/", str(load), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
@@ -301,17 +304,22 @@ def spawnTerrain(terrainname):
 
 
 def destroybtn(a, b, c, d, e, f, g, h):
-    try:
+    if a != 0:
         a.destroy()
+    if b != 0:
         b.destroy()
+    if c != 0:
         c.destroy()
+    if d != 0:
         d.destroy()
+    if e != 0:
         e.destroy()
+    if f != 0:
         f.destroy()
+    if g != 0:
         g.destroy()
+    if h != 0:
         h.destroy()
-    except:
-        print("yikers")
 
 
 def showallclans(aname, img, arg):
@@ -354,38 +362,73 @@ def imgtheclan(aname):
     return ret, bname, aname
 
 
+def ataktroops(tf, aray, turnt):
+    global attacking
+    global turn
+    if tf or attacking:
+        print("yrdd")
+        attacking = True
+        try:
+            attacktroops = tk.Label(window, image=imagesforgame[24])
+            location = aray[turn]
+            turn += turnt
+            attacktroops.place(x=location[0] * bsize, y=location[1] * bsize)
+            nextturnbtn = tk.Button(window, text="next turn", command=lambda: [ataktroops(tf, aray, 1),
+                                                                               destroybtn(nextturnbtn, attacktroops, 0,
+                                                                                          0, 0, 0, 0, 0)])
+            nextturnbtn.place(x=500, y=600, anchor=tk.NW)
+        except:
+            turn = 0
+            attacking = False
+
+
 def stopath(confirm):
     global planningPath
     global pathdelarray
     global pathfind
+    global pathcoords
     if confirm:
         for a in range(0, 40):
             for b in range(0, 30):
-                try:
-                    if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
-                        if pathfind[a][b] == 1:
-                            msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
-                except:
-                    pass
+                # try:
+                # if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
+                if pathfind[a][b] == 1:
+                    msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
+                    if msg:
+                        ataktroops(True, pathcoords, 1)
+                        # print("loc" + str(pathcoords))
+                        # print(str(pathcoords[turn]))
+                        pathcoords = []
+                # except:
+                # print("uhoh")
     planningPath = False
     for i in range(len(pathdelarray)):
         pathdelarray[i].destroy()
+
+
+def popcoord(x, y):
+    global pathcoords
+    pathcoords.pop()
 
 
 def planpath(ax, ay, T):
     global planningPath
     global pathfind
     global pathdelarray
+    global pathcoords
     if not T:
-        if seed[ax][ay] != 5 and seed[ax][ay] != 6: #not mountains
+        if seed[ax][ay] != 5 and seed[ax][ay] != 6:  # not mountains
             if planningPath:
-                if pathfind[ax][ay-1] == 1 or pathfind[ax-1][ay-1] == 1 or pathfind[ax-1][ay] == 1 or pathfind[ax+1][ay-1] == 1 or pathfind[ax+1][ay] == 1 or pathfind[ax+1][ay+1] == 1 or pathfind[ax][ay+1] == 1 or pathfind[ax-1][ay+1] == 1:
+                if pathfind[ax][ay - 1] == 1 or pathfind[ax - 1][ay - 1] == 1 or pathfind[ax - 1][ay] == 1 or \
+                        pathfind[ax + 1][ay - 1] == 1 or pathfind[ax + 1][ay] == 1 or pathfind[ax + 1][ay + 1] == 1 or \
+                        pathfind[ax][ay + 1] == 1 or pathfind[ax - 1][ay + 1] == 1:
                     planningPath = True
                     path = tk.Button(window, image=imagesforgame[23],
-                                     command=lambda: [destroybtn(path, 0, 0, 0, 0, 0, 0, 0)])
+                                     command=lambda: [destroybtn(path, 0, 0, 0, 0, 0, 0, 0), popcoord(ax, ay)])
                     path.place(x=ax * bsize, y=ay * bsize)
                     pathdelarray.append(path)
-                    for xxa in range(40):#cant branch out from random places
+                    pathcoords.append((ax, ay))
+                    for xxa in range(40):  # cant branch out from random places
                         for yya in range(30):
                             if pathfind[xxa][yya] == 1:
                                 pathfind[xxa][yya] = 2
@@ -399,6 +442,7 @@ def planpath(ax, ay, T):
         homebase = tk.Button(window, image=imagesforgame[22],
                              command=lambda: [stopath(False), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
         homebase.place(x=castleLoc[0] * bsize, y=castleLoc[1] * bsize)
+        pathcoords.append((castleLoc[0], castleLoc[1]))
         pathfind[castleLoc[0]][castleLoc[1]] = 1
         pathfind[ax][ay] = 2
 
