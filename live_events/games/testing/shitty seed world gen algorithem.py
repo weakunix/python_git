@@ -17,13 +17,17 @@ clans = [
     "moot"
 ]
 usedcenters = [[]]
+pathdelarray = []
+planningPath = False
 seed = [[0 for y in range(30)] for x in range(40)]
+pathfind = [[0 for y in range(30)] for x in range(40)]
 rendershit = False
 arraytodel = [[0 for y in range(30)] for x in range(40)]
 clandict = {}
 bsize = 0
 xloc = 0
 yloc = 0
+castleLoc = (0, 0)
 castlenames = [
     "mootbing",
     'nailand',
@@ -55,7 +59,7 @@ def resetBTNSLIDER(a):
     if a:
         zoomscale = tk.Scale(window, from_=20, to=100, orient=tk.HORIZONTAL, command=zoom)
         zoomscale.place(x=0, y=590, anchor=tk.NW)
-        #deletethesewidgets.append(zoomscale)
+        # deletethesewidgets.append(zoomscale)
     yScale = tk.Scale(window, from_=24, to=0, orient=tk.VERTICAL, command=changelocy)
     yScale.place(x=790, y=470, anchor=tk.NW)
     deletethesewidgets.append(yScale)
@@ -65,12 +69,13 @@ def resetBTNSLIDER(a):
 
 
 def main():
-    loadcastle(40)
-    resetBTNSLIDER(True)
     global seed
+    global castleLoc
     global rendershit
     global arraytodel
     global imagesforgame
+    loadcastle(40)
+    resetBTNSLIDER(True)
     imageload(20)
     for y in range(0, 30):
         for x in range(0, 40):
@@ -105,8 +110,8 @@ def main():
         spawnTerrain("mineruin")
     spawnTerrain("templeruin")
     spawnTerrain("enemy")
-    returntuple = castleplace()
-    seed[returntuple[0]][returntuple[1]] = 0
+    castleLoc = castleplace()
+    seed[castleLoc[0]][castleLoc[1]] = 0
 
 
 def castleplace():
@@ -143,7 +148,7 @@ def loadcastle(size):
 def imageload(size):
     global imagesforgame
     imagesforgame = []
-    for load in range(0, 21):
+    for load in range(0, 24):
         nameoffile = ("./shittyworldgenimg/", str(load), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
@@ -318,7 +323,7 @@ def showallclans(aname, img, arg):
                 if clans == aname:
                     if arg:
                         loadcastle(20)
-                        seed[xasd + xloc][yasd + yloc] = 6000
+                        seed[xasd + xloc][yasd + yloc] = 11
                         arraytodel[xasd + xloc][yasd + yloc].destroy()
                         clanshow = tk.Button(window, image=img,
                                              command=lambda: [showallclans(aname, img, False),
@@ -349,6 +354,55 @@ def imgtheclan(aname):
     return ret, bname, aname
 
 
+def stopath(confirm):
+    global planningPath
+    global pathdelarray
+    global pathfind
+    if confirm:
+        for a in range(0, 40):
+            for b in range(0, 30):
+                try:
+                    if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
+                        if pathfind[a][b] == 1:
+                            msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
+                except:
+                    pass
+    planningPath = False
+    for i in range(len(pathdelarray)):
+        pathdelarray[i].destroy()
+
+
+def planpath(ax, ay, T):
+    global planningPath
+    global pathfind
+    global pathdelarray
+    if not T:
+        if seed[ax][ay] != 5 and seed[ax][ay] != 6: #not mountains
+            if planningPath:
+                if pathfind[ax][ay-1] == 1 or pathfind[ax-1][ay-1] == 1 or pathfind[ax-1][ay] == 1 or pathfind[ax+1][ay-1] == 1 or pathfind[ax+1][ay] == 1 or pathfind[ax+1][ay+1] == 1 or pathfind[ax][ay+1] == 1 or pathfind[ax-1][ay+1] == 1:
+                    planningPath = True
+                    path = tk.Button(window, image=imagesforgame[23],
+                                     command=lambda: [destroybtn(path, 0, 0, 0, 0, 0, 0, 0)])
+                    path.place(x=ax * bsize, y=ay * bsize)
+                    pathdelarray.append(path)
+                    for xxa in range(40):#cant branch out from random places
+                        for yya in range(30):
+                            if pathfind[xxa][yya] == 1:
+                                pathfind[xxa][yya] = 2
+                    pathfind[ax][ay] = 1
+    elif T:
+        planningPath = True
+        enemybase = tk.Button(window, image=imagesforgame[21],
+                              command=lambda: [stopath(True), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+        enemybase.place(x=ax * bsize, y=ay * bsize)
+        planningPath = True
+        homebase = tk.Button(window, image=imagesforgame[22],
+                             command=lambda: [stopath(False), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+        homebase.place(x=castleLoc[0] * bsize, y=castleLoc[1] * bsize)
+        pathfind[castleLoc[0]][castleLoc[1]] = 1
+        pathfind[ax][ay] = 2
+
+
 def popup(ax, ay):
     print("popuped")
     ayloc = 0
@@ -375,11 +429,17 @@ def popup(ax, ay):
     background.place(x=axloc * csize + csize / 2, y=ayloc * csize + 5, anchor=tk.S)
     label = tk.Label(window, text=(clanname[1] + "\nat: \nx:" + str(ax) + " y:" + str(ay)))
     label.place(x=axloc * csize - 55, y=ayloc * csize - 20, anchor=tk.S)
-    op1 = tk.Button(window, text="Spy")
+    op1 = tk.Button(window, text="Spy",
+                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+                                                                        label2, clanimg)])
     op1.place(x=axloc * csize - 65, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
-    op2 = tk.Button(window, text="Attack")
+    op2 = tk.Button(window, text="Attack",
+                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+                                                                        label2, clanimg)])
     op2.place(x=axloc * csize - 23, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
-    op3 = tk.Button(window, text="Send Resources")
+    op3 = tk.Button(window, text="Send Resources",
+                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+                                                                        label2, clanimg)])
     op3.place(x=axloc * csize + 52, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
     label2.place(x=axloc * csize, y=ayloc * csize - 60, anchor=tk.CENTER)
@@ -396,28 +456,32 @@ def change(argx, argy):
     print(argx, argy)
     global seed
     global bsize
-    if seed[argx][argy] == 16:
-        seed[argx][argy] = seed[argx][argy] + randomino.randint(1, 2)
-    elif seed[argx][argy] == 17 or seed[argx][argy] == 18:
-        seed[argx][argy] = 16
-    elif seed[argx][argy] == 7:
-        seed[argx][argy] = 8
-    elif seed[argx][argy] == 8:
-        seed[argx][argy] = 7
-    elif seed[argx][argy] == 19:
-        seed[argx][argy] = 20
-    elif seed[argx][argy] == 20:
-        seed[argx][argy] = 19
-    elif seed[argx][argy] == 12 or seed[argx][argy] == 11:
-        popup(argx, argy)
-        # msg = tk.messagebox.askyesno("Options", "Attack? Spy? Send Material?")
-    if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or \
-            seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
-        arraytodel[argx][argy].destroy()
-        a = tk.Button(window, image=imagesforgame[seed[argx][argy]], command=partial(change, argx=argx, argy=argy))
-        a.place(x=argx * bsize, y=argy * bsize)
-        arraytodel[argx][argy] = a
-        render(bsize, xloc, yloc)
+    global planningPath
+    if not planningPath:
+        if seed[argx][argy] == 16:
+            seed[argx][argy] = seed[argx][argy] + randomino.randint(1, 2)
+        elif seed[argx][argy] == 17 or seed[argx][argy] == 18:
+            seed[argx][argy] = 16
+        elif seed[argx][argy] == 7:
+            seed[argx][argy] = 8
+        elif seed[argx][argy] == 8:
+            seed[argx][argy] = 7
+        elif seed[argx][argy] == 19:
+            seed[argx][argy] = 20
+        elif seed[argx][argy] == 20:
+            seed[argx][argy] = 19
+        elif seed[argx][argy] == 12 or seed[argx][argy] == 11:
+            popup(argx, argy)
+            # msg = tk.messagebox.askyesno("Options", "Attack? Spy? Send Material?")
+        if seed[argx][argy] == 16 or seed[argx][argy] == 17 or seed[argx][argy] == 18 or seed[argx][argy] == 7 or \
+                seed[argx][argy] == 8 or seed[argx][argy] == 19 or seed[argx][argy] == 20:
+            arraytodel[argx][argy].destroy()
+            a = tk.Button(window, image=imagesforgame[seed[argx][argy]], command=partial(change, argx=argx, argy=argy))
+            a.place(x=argx * bsize, y=argy * bsize)
+            arraytodel[argx][argy] = a
+            render(bsize, xloc, yloc)
+    else:
+        planpath(argx, argy, False)
 
 
 def changelocx(event):
