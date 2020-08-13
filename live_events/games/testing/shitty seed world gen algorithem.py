@@ -10,10 +10,18 @@ window.configure(bg="cyan")  # background of the window
 window.geometry("840x630")
 imagesforgame = []
 clansimages = []
+clans = [
+    "naibings",
+    "bulls",
+    "cows",
+    "bingers",
+    "moot"
+]
 usedcenters = [[]]
 seed = [[0 for y in range(30)] for x in range(40)]
 rendershit = False
 arraytodel = [[0 for y in range(30)] for x in range(40)]
+clandict = {}
 bsize = 0
 xloc = 0
 yloc = 0
@@ -120,24 +128,27 @@ def imageload(size):
         load = load.resize((size, size))
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
-    # for load in range(1): change later
-    nameoffile = ("./shittyworldgenimg/clan.png")
-    load = Image.open(nameoffile)
-    load = load.resize((40, 40))
-    tempimg = ImageTk.PhotoImage(load)
-    clansimages.append(tempimg)
+    for load in range(1, 6):
+        nameoffile = ("./shittyworldgenimg/clan", str(load), ".png")
+        nameoffile = "".join(nameoffile)
+        load = Image.open(nameoffile)
+        load = load.resize((40, 40))
+        tempimg = ImageTk.PhotoImage(load)
+        clansimages.append(tempimg)
+    #print(clansimages)
 
 
 def spawnTerrain(terrainname):
     global seed
     global rendershit
+    global clandict
     number = 1
     loop = True
     rand = 0
     x = randomino.randint(10, 30)
     y = randomino.randint(10, 20)
     if terrainname == "forest":
-        print("forset x:" + str(x) + "y:" + str(y))
+        #print("forset x:" + str(x) + "y:" + str(y))
         number = 9
         rand = randomino.randint(20, 40)
         loop = True
@@ -146,12 +157,12 @@ def spawnTerrain(terrainname):
         rand = randomino.randint(10, 20)
         loop = True
     elif terrainname == "dessert":
-        print("desert x:" + str(x) + "y:" + str(y))
+        #print("desert x:" + str(x) + "y:" + str(y))
         number = 2
         rand = randomino.randint(30, 60)
         loop = True
     elif terrainname == "grassmtn":
-        print("grassmtn x:" + str(x) + "y:" + str(y))
+        #print("grassmtn x:" + str(x) + "y:" + str(y))
         number = 5
         loop = False
         for i in range(2):
@@ -172,6 +183,9 @@ def spawnTerrain(terrainname):
     elif terrainname == "enemy":
         for i in range(randomino.randint(10, 20)):
             returntuple = castleplace()
+            clandict[(returntuple[0], returntuple[1])] = (
+            clans[randomino.randint(0, (len(clans) - 2))], castlenames[randomino.randint(0, (len(castlenames)-2))])
+            #print(clandict)
             if seed[returntuple[0]][returntuple[1]] == 2:
                 number = 12
             else:
@@ -280,35 +294,58 @@ def destroybtn(a, b, c, d, e, f, g, h):
         print("yikers")
 
 
-def popup(ax, ay):
-    if ax <= 4:
-        ax = 4
-    elif ax >= 35:
-        ax = 35
-    if ay <= 4:
-        ay = 4
-    #elif ay >= 27:
-    #    ay = 27
+def imgtheclan(aname):
+    bname = aname[1]
+    aname = aname[0]
+    ret = ""
+    if aname == "naibings":
+        ret = clansimages[0]
+    elif aname == "bulls":
+        ret = clansimages[1]
+    elif aname == "cows":
+        ret = clansimages[2]
+    elif aname == "bingers":
+        ret = clansimages[3]
+    elif aname == "moot":
+        ret = clansimages[4]
+    return ret, bname
 
+
+def popup(ax, ay):
+    ayloc = 0
+    axloc = 0
+    if ax <= 4:
+        axloc = 4
+    elif ax >= 35:
+        axloc = 35
+    else:
+        axloc = ax
+    if ay <= 4:
+        ayloc = 4
+    else:
+        ayloc = ay
+    clanname = ""
+    if (ax, ay) in clandict:
+        #print(clandict[(ax, ay)])
+        clanname = imgtheclan(clandict[(ax, ay)])
+    #bsize = 20
     background = tk.Button(window, text="", width=22, height=5)
-    background.place(x=ax * bsize + bsize / 2, y=ay * bsize + 5, anchor=tk.S)
-    label = tk.Label(window, text=(
-            str(castlenames[randomino.randint(0, int(len(castlenames) - 1))]) + "\nat: \nx:" + str(
-        ax) + " y:" + str(ay)))
-    label.place(x=ax * bsize - 55, y=ay * bsize - 20, anchor=tk.S)
+    background.place(x=axloc * bsize + bsize / 2, y=ayloc * bsize + 5, anchor=tk.S)
+    label = tk.Label(window, text=(clanname[1]+"\nat: \nx:" + str(ax) + " y:" + str(ay)))
+    label.place(x=axloc * bsize - 55, y=ayloc * bsize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy")
-    op1.place(x=ax * bsize - 65, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    op1.place(x=axloc * bsize - 65, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
     op2 = tk.Button(window, text="Attack")
-    op2.place(x=ax * bsize - 23, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    op2.place(x=axloc * bsize - 23, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
     op3 = tk.Button(window, text="Send Resources")
-    op3.place(x=ax * bsize + 52, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
+    op3.place(x=axloc * bsize + 52, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
-    label2.place(x=ax * bsize, y=ay * bsize - 60, anchor=tk.CENTER)
-    clanimg = tk.Button(window, image=clansimages[0])
-    clanimg.place(x=ax * bsize + 40, y=ay * bsize - bsize * 2.4, anchor=tk.CENTER)
+    label2.place(x=axloc * bsize, y=ayloc * bsize - 60, anchor=tk.CENTER)
+    clanimg = tk.Button(window, image=clanname[0])
+    clanimg.place(x=axloc * bsize + 40, y=ayloc * bsize - bsize * 2.4, anchor=tk.CENTER)
     cancl = tk.Button(window, text="Exit\nMenu", height=3,
-                      command=lambda: [destroybtn(background, op1, op2, op3, label, cancl,label2,clanimg)])
-    cancl.place(x=ax * bsize + 85, y=ay * bsize - bsize * 2.4, anchor=tk.CENTER)
+                      command=lambda: [destroybtn(background, op1, op2, op3, label, cancl, label2, clanimg)])
+    cancl.place(x=axloc * bsize + 85, y=ayloc * bsize - bsize * 2.4, anchor=tk.CENTER)
 
 
 def change(argx, argy):
