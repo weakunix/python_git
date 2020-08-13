@@ -36,7 +36,7 @@ castlenames = [
 
 
 def wintitle():
-    d = (clans[randomino.randint(0, len(clans) - 1)], castlenames[randomino.randint(0, len(castlenames))])
+    d = (clans[randomino.randint(0, len(clans) - 1)], castlenames[randomino.randint(0, len(castlenames) - 1)])
     window.title(":".join(d))
 
 
@@ -319,47 +319,51 @@ def imgtheclan(aname):
 
 
 def popup(ax, ay):
+    print("popuped")
     ayloc = 0
     axloc = 0
     if ax <= 4:
         axloc = 4
     elif ax >= 35:
         axloc = 35
-    else:
+    elif bsize == 20:
         axloc = ax
+    else:
+        axloc = 4 #not worth the hassle to attach to castle zoomed in
     if ay <= 4:
         ayloc = 4
-    else:
+    elif bsize == 20:
         ayloc = ay
+    else:
+        ayloc =4
     clanname = ""
     if (ax, ay) in clandict:
         # print(clandict[(ax, ay)])
         clanname = imgtheclan(clandict[(ax, ay)])
-    # bsize = 20
+    csize = 20
     background = tk.Button(window, text="", width=22, height=5)
-    background.place(x=axloc * bsize + bsize / 2, y=ayloc * bsize + 5, anchor=tk.S)
+    background.place(x=axloc * csize + csize / 2, y=ayloc * csize + 5, anchor=tk.S)
     label = tk.Label(window, text=(clanname[1] + "\nat: \nx:" + str(ax) + " y:" + str(ay)))
-    label.place(x=axloc * bsize - 55, y=ayloc * bsize - 20, anchor=tk.S)
+    label.place(x=axloc * csize - 55, y=ayloc * csize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy")
-    op1.place(x=axloc * bsize - 65, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
+    op1.place(x=axloc * csize - 65, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     op2 = tk.Button(window, text="Attack")
-    op2.place(x=axloc * bsize - 23, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
+    op2.place(x=axloc * csize - 23, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     op3 = tk.Button(window, text="Send Resources")
-    op3.place(x=axloc * bsize + 52, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
+    op3.place(x=axloc * csize + 52, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
-    label2.place(x=axloc * bsize, y=ayloc * bsize - 60, anchor=tk.CENTER)
+    label2.place(x=axloc * csize, y=ayloc * csize - 60, anchor=tk.CENTER)
     clanimg = tk.Button(window, image=clanname[0])
-    clanimg.place(x=axloc * bsize + 40, y=ayloc * bsize - bsize * 2.4, anchor=tk.CENTER)
+    clanimg.place(x=axloc * csize + 40, y=ayloc * csize - csize * 2.4, anchor=tk.CENTER)
     cancl = tk.Button(window, text="Exit\nMenu", height=3,
                       command=lambda: [destroybtn(background, op1, op2, op3, label, cancl, label2, clanimg)])
-    cancl.place(x=axloc * bsize + 85, y=ayloc * bsize - bsize * 2.4, anchor=tk.CENTER)
+    cancl.place(x=axloc * csize + 85, y=ayloc * csize - csize * 2.4, anchor=tk.CENTER)
 
 
 def change(argx, argy):
+    print(argx, argy)
     global seed
     global bsize
-    argx += xloc
-    argy += yloc
     if seed[argx][argy] == 16:
         seed[argx][argy] = seed[argx][argy] + randomino.randint(1, 2)
     elif seed[argx][argy] == 17 or seed[argx][argy] == 18:
@@ -421,7 +425,7 @@ def render(size, locx, locy):
         for xx in range(800 // int(size)):
             try:
                 a = tk.Button(window, image=imagesforgame[seed[xx + locx][yy + locy]],
-                              command=partial(change, argx=xx, argy=yy))
+                              command=partial(change, argx=xx + locx, argy=yy + locy))  # TODO newline here fix
                 a.place(x=xx * size, y=yy * size)
                 arraytodel[xx + locx][yy + locy] = a
             except:
