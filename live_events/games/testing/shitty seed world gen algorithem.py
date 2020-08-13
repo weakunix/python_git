@@ -151,7 +151,7 @@ def loadcastle(size):
 def imageload(size):
     global imagesforgame
     imagesforgame = []
-    for load in range(0, 25):
+    for load in range(0, 27):
         nameoffile = ("./shittyworldgenimg/", str(load), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
@@ -362,18 +362,25 @@ def imgtheclan(aname):
     return ret, bname, aname
 
 
-def ataktroops(tf, aray, turnt):
+def ataktroops(tf, aray, armyspyormat):
     global attacking
     global turn
     if tf or attacking:
         print("yrdd")
         attacking = True
         try:
-            attacktroops = tk.Label(window, image=imagesforgame[24])
+            imgn = 0
+            if armyspyormat == "spy":
+                imgn = imagesforgame[25]
+            elif armyspyormat == "atk":
+                imgn = imagesforgame[24]
+            elif armyspyormat == "mat":
+                imgn = imagesforgame[26]
+            attacktroops = tk.Label(window, image=imgn)
             location = aray[turn]
-            turn += turnt
+            turn += 1
             attacktroops.place(x=location[0] * bsize, y=location[1] * bsize)
-            nextturnbtn = tk.Button(window, text="next turn", command=lambda: [ataktroops(tf, aray, 1),
+            nextturnbtn = tk.Button(window, text="next turn", command=lambda: [ataktroops(tf, aray, armyspyormat),
                                                                                destroybtn(nextturnbtn, attacktroops, 0,
                                                                                           0, 0, 0, 0, 0)])
             nextturnbtn.place(x=500, y=600, anchor=tk.NW)
@@ -382,7 +389,7 @@ def ataktroops(tf, aray, turnt):
             attacking = False
 
 
-def stopath(confirm):
+def stopath(confirm, armyspyormat):
     global planningPath
     global pathdelarray
     global pathfind
@@ -391,14 +398,15 @@ def stopath(confirm):
         for a in range(0, 40):
             for b in range(0, 30):
                 # try:
-                # if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
-                if pathfind[a][b] == 1:
-                    msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
-                    if msg:
-                        ataktroops(True, pathcoords, 1)
-                        # print("loc" + str(pathcoords))
-                        # print(str(pathcoords[turn]))
-                        pathcoords = []
+                if 1<=a<=38 and 1<=b<=28:
+                    if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
+                        if pathfind[a][b] == 1:
+                            msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
+                            if msg:
+                                ataktroops(True, pathcoords, armyspyormat)
+                                # print("loc" + str(pathcoords))
+                                # print(str(pathcoords[turn]))
+                                pathcoords = []
                 # except:
                 # print("uhoh")
     planningPath = False
@@ -411,7 +419,7 @@ def popcoord(x, y):
     pathcoords.pop()
 
 
-def planpath(ax, ay, T):
+def planpath(ax, ay, T, **kwargs):
     global planningPath
     global pathfind
     global pathdelarray
@@ -434,13 +442,14 @@ def planpath(ax, ay, T):
                                 pathfind[xxa][yya] = 2
                     pathfind[ax][ay] = 1
     elif T:
+        armyspyormat = kwargs.get('armyspyormat', None)
         planningPath = True
         enemybase = tk.Button(window, image=imagesforgame[21],
-                              command=lambda: [stopath(True), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+                              command=lambda: [stopath(True, armyspyormat), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
         enemybase.place(x=ax * bsize, y=ay * bsize)
         planningPath = True
         homebase = tk.Button(window, image=imagesforgame[22],
-                             command=lambda: [stopath(False), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+                             command=lambda: [stopath(False, armyspyormat), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
         homebase.place(x=castleLoc[0] * bsize, y=castleLoc[1] * bsize)
         pathcoords.append((castleLoc[0], castleLoc[1]))
         pathfind[castleLoc[0]][castleLoc[1]] = 1
@@ -474,15 +483,15 @@ def popup(ax, ay):
     label = tk.Label(window, text=(clanname[1] + "\nat: \nx:" + str(ax) + " y:" + str(ay)))
     label.place(x=axloc * csize - 55, y=ayloc * csize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy",
-                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="spy"), destroybtn(background, op1, op2, op3, label, cancl,
                                                                         label2, clanimg)])
     op1.place(x=axloc * csize - 65, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     op2 = tk.Button(window, text="Attack",
-                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="atk"), destroybtn(background, op1, op2, op3, label, cancl,
                                                                         label2, clanimg)])
     op2.place(x=axloc * csize - 23, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
-    op3 = tk.Button(window, text="Send Resources",
-                    command=lambda: [planpath(ax, ay, True), destroybtn(background, op1, op2, op3, label, cancl,
+    op3 = tk.Button(window, text="Send Materials",
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="mat"), destroybtn(background, op1, op2, op3, label, cancl,
                                                                         label2, clanimg)])
     op3.place(x=axloc * csize + 52, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
