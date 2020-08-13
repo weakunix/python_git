@@ -62,6 +62,7 @@ def resetBTNSLIDER(a):
 
 
 def main():
+    loadcastle(40)
     resetBTNSLIDER(True)
     global seed
     global rendershit
@@ -124,6 +125,18 @@ def zoom(event):
     render(zoompercentage, 0, 0)
 
 
+def loadcastle(size):
+    global clansimages
+    clansimages = []
+    for load in range(1, 6):
+        nameoffile = ("./shittyworldgenimg/clan", str(load), ".png")
+        nameoffile = "".join(nameoffile)
+        load = Image.open(nameoffile)
+        load = load.resize((size, size))
+        tempimg = ImageTk.PhotoImage(load)
+        clansimages.append(tempimg)
+
+
 def imageload(size):
     global imagesforgame
     imagesforgame = []
@@ -134,13 +147,6 @@ def imageload(size):
         load = load.resize((size, size))
         imagestuff = ImageTk.PhotoImage(load)
         imagesforgame.append(imagestuff)
-    for load in range(1, 6):
-        nameoffile = ("./shittyworldgenimg/clan", str(load), ".png")
-        nameoffile = "".join(nameoffile)
-        load = Image.open(nameoffile)
-        load = load.resize((40, 40))
-        tempimg = ImageTk.PhotoImage(load)
-        clansimages.append(tempimg)
     # print(clansimages)
 
 
@@ -192,7 +198,6 @@ def spawnTerrain(terrainname):
             clandict[(returntuple[0], returntuple[1])] = (
                 clans[randomino.randint(0, (len(clans) - 2))],
                 castlenames[randomino.randint(0, (len(castlenames) - 2))])
-            # print(clandict)
             if seed[returntuple[0]][returntuple[1]] == 2:
                 number = 12
             else:
@@ -301,6 +306,29 @@ def destroybtn(a, b, c, d, e, f, g, h):
         print("yikers")
 
 
+def showallclans(aname, img, arg):
+    for xasd in range(40):
+        for yasd in range(30):
+            if (xasd, yasd) in clandict:
+                clans = clandict[(xasd, yasd)]
+                clans = clans[0]
+                if clans == aname:
+                    if arg:
+                        loadcastle(20)
+                        seed[xasd + xloc][yasd + yloc] = 6000
+                        arraytodel[xasd + xloc][yasd + yloc].destroy()
+                        clanshow = tk.Button(window, image=img,
+                                             command=lambda: [showallclans(aname, img, False),
+                                                              destroybtn(clanshow, 0, 0, 0, 0, 0, 0, 0)])
+                        clanshow.place(x=xasd * bsize, y=yasd * bsize)
+                        arraytodel[xasd + xloc][yasd + yloc] = clanshow
+                    else:
+                        loadcastle(40)
+                        img = imagesforgame[11]
+                        seed[xasd + xloc][yasd + yloc] = 11
+                        render(bsize, xloc, yloc)
+
+
 def imgtheclan(aname):
     bname = aname[1]
     aname = aname[0]
@@ -315,7 +343,7 @@ def imgtheclan(aname):
         ret = clansimages[3]
     elif aname == "moot":
         ret = clansimages[4]
-    return ret, bname
+    return ret, bname, aname
 
 
 def popup(ax, ay):
@@ -329,16 +357,15 @@ def popup(ax, ay):
     elif bsize == 20:
         axloc = ax
     else:
-        axloc = 4 #not worth the hassle to attach to castle zoomed in
+        axloc = 4  # not worth the hassle to attach to castle zoomed in
     if ay <= 4:
         ayloc = 4
     elif bsize == 20:
         ayloc = ay
     else:
-        ayloc =4
+        ayloc = 4
     clanname = ""
     if (ax, ay) in clandict:
-        # print(clandict[(ax, ay)])
         clanname = imgtheclan(clandict[(ax, ay)])
     csize = 20
     background = tk.Button(window, text="", width=22, height=5)
@@ -353,7 +380,9 @@ def popup(ax, ay):
     op3.place(x=axloc * csize + 52, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
     label2.place(x=axloc * csize, y=ayloc * csize - 60, anchor=tk.CENTER)
-    clanimg = tk.Button(window, image=clanname[0])
+    clanimg = tk.Button(window, image=clanname[0], command=lambda: [showallclans(clanname[2], clanname[0], True),
+                                                                    destroybtn(background, op1, op2, op3, label, cancl,
+                                                                               label2, clanimg)])
     clanimg.place(x=axloc * csize + 40, y=ayloc * csize - csize * 2.4, anchor=tk.CENTER)
     cancl = tk.Button(window, text="Exit\nMenu", height=3,
                       command=lambda: [destroybtn(background, op1, op2, op3, label, cancl, label2, clanimg)])
