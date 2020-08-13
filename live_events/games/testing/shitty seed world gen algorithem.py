@@ -49,10 +49,13 @@ def resetBTNSLIDER(a):
     global yloc
     xloc = 0
     yloc = 0
+    if len(deletethesewidgets) != 0:
+        for i in range(len(deletethesewidgets)):
+            deletethesewidgets[i].destroy()
     if a:
         zoomscale = tk.Scale(window, from_=20, to=100, orient=tk.HORIZONTAL, command=zoom)
         zoomscale.place(x=0, y=590, anchor=tk.NW)
-        deletethesewidgets.append(zoomscale)
+        #deletethesewidgets.append(zoomscale)
     yScale = tk.Scale(window, from_=24, to=0, orient=tk.VERTICAL, command=changelocy)
     yScale.place(x=790, y=470, anchor=tk.NW)
     deletethesewidgets.append(yScale)
