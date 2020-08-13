@@ -5,7 +5,6 @@ from functools import partial
 from tkinter import messagebox
 
 window = tk.Tk()
-window.title("worldgen")
 window.configure(bg="cyan")  # background of the window
 window.geometry("840x630")
 imagesforgame = []
@@ -34,6 +33,13 @@ castlenames = [
     'mooland',
     'botland'
 ]
+
+
+def wintitle():
+    d = (clans[randomino.randint(0, len(clans) - 1)], castlenames[randomino.randint(0, len(castlenames))])
+    window.title(":".join(d))
+
+
 deletethesewidgets = []
 
 
@@ -135,7 +141,7 @@ def imageload(size):
         load = load.resize((40, 40))
         tempimg = ImageTk.PhotoImage(load)
         clansimages.append(tempimg)
-    #print(clansimages)
+    # print(clansimages)
 
 
 def spawnTerrain(terrainname):
@@ -148,7 +154,7 @@ def spawnTerrain(terrainname):
     x = randomino.randint(10, 30)
     y = randomino.randint(10, 20)
     if terrainname == "forest":
-        #print("forset x:" + str(x) + "y:" + str(y))
+        # print("forset x:" + str(x) + "y:" + str(y))
         number = 9
         rand = randomino.randint(20, 40)
         loop = True
@@ -157,12 +163,12 @@ def spawnTerrain(terrainname):
         rand = randomino.randint(10, 20)
         loop = True
     elif terrainname == "dessert":
-        #print("desert x:" + str(x) + "y:" + str(y))
+        # print("desert x:" + str(x) + "y:" + str(y))
         number = 2
         rand = randomino.randint(30, 60)
         loop = True
     elif terrainname == "grassmtn":
-        #print("grassmtn x:" + str(x) + "y:" + str(y))
+        # print("grassmtn x:" + str(x) + "y:" + str(y))
         number = 5
         loop = False
         for i in range(2):
@@ -184,8 +190,9 @@ def spawnTerrain(terrainname):
         for i in range(randomino.randint(10, 20)):
             returntuple = castleplace()
             clandict[(returntuple[0], returntuple[1])] = (
-            clans[randomino.randint(0, (len(clans) - 2))], castlenames[randomino.randint(0, (len(castlenames)-2))])
-            #print(clandict)
+                clans[randomino.randint(0, (len(clans) - 2))],
+                castlenames[randomino.randint(0, (len(castlenames) - 2))])
+            # print(clandict)
             if seed[returntuple[0]][returntuple[1]] == 2:
                 number = 12
             else:
@@ -326,12 +333,12 @@ def popup(ax, ay):
         ayloc = ay
     clanname = ""
     if (ax, ay) in clandict:
-        #print(clandict[(ax, ay)])
+        # print(clandict[(ax, ay)])
         clanname = imgtheclan(clandict[(ax, ay)])
-    #bsize = 20
+    # bsize = 20
     background = tk.Button(window, text="", width=22, height=5)
     background.place(x=axloc * bsize + bsize / 2, y=ayloc * bsize + 5, anchor=tk.S)
-    label = tk.Label(window, text=(clanname[1]+"\nat: \nx:" + str(ax) + " y:" + str(ay)))
+    label = tk.Label(window, text=(clanname[1] + "\nat: \nx:" + str(ax) + " y:" + str(ay)))
     label.place(x=axloc * bsize - 55, y=ayloc * bsize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy")
     op1.place(x=axloc * bsize - 65, y=ayloc * bsize - bsize / 2, anchor=tk.CENTER)
@@ -429,6 +436,7 @@ def render(size, locx, locy):
 
 
 if __name__ == '__main__':
+    wintitle()
     main()
     render(20, 0, 0)
     tk.mainloop()
