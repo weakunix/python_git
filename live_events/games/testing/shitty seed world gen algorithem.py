@@ -281,18 +281,27 @@ def destroybtn(a, b, c, d, e, f, g, h):
 
 
 def popup(ax, ay):
+    if ax <= 4:
+        ax = 4
+    elif ax >= 35:
+        ax = 35
+    if ay <= 4:
+        ay = 4
+    #elif ay >= 27:
+    #    ay = 27
+
     background = tk.Button(window, text="", width=22, height=5)
     background.place(x=ax * bsize + bsize / 2, y=ay * bsize + 5, anchor=tk.S)
+    label = tk.Label(window, text=(
+            str(castlenames[randomino.randint(0, int(len(castlenames) - 1))]) + "\nat: \nx:" + str(
+        ax) + " y:" + str(ay)))
+    label.place(x=ax * bsize - 55, y=ay * bsize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy")
     op1.place(x=ax * bsize - 65, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
     op2 = tk.Button(window, text="Attack")
     op2.place(x=ax * bsize - 23, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
     op3 = tk.Button(window, text="Send Resources")
     op3.place(x=ax * bsize + 52, y=ay * bsize - bsize / 2, anchor=tk.CENTER)
-    label = tk.Label(window, text=(
-            str(castlenames[randomino.randint(0, int(len(castlenames) - 1))]) + "\nat: \nx:" + str(
-        ax) + " y:" + str(ay)))
-    label.place(x=ax * bsize - 55, y=ay * bsize - 22, anchor=tk.S)
     label2 = tk.Label(window, text="Clan:")
     label2.place(x=ax * bsize, y=ay * bsize - 60, anchor=tk.CENTER)
     clanimg = tk.Button(window, image=clansimages[0])
