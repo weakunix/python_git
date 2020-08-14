@@ -27,7 +27,7 @@ arraytodel = [[0 for yyyy in range(30)] for xxxx in range(40)]
 clandict = {}
 bsize = 0
 xloc = 0
-turn = 0
+turn = 1
 yloc = 0
 attacking = False
 castleLoc = (0, 0)
@@ -303,23 +303,9 @@ def spawnTerrain(terrainname):
                     y += randomino.randint(0, 2)
 
 
-def destroybtn(a, b, c, d, e, f, g, h):
-    if a != 0:
-        a.destroy()
-    if b != 0:
-        b.destroy()
-    if c != 0:
-        c.destroy()
-    if d != 0:
-        d.destroy()
-    if e != 0:
-        e.destroy()
-    if f != 0:
-        f.destroy()
-    if g != 0:
-        g.destroy()
-    if h != 0:
-        h.destroy()
+def destroybtn(*destroys):
+    for args in destroys:
+        args.destroy()
 
 
 def showallclans(aname, img, arg):
@@ -335,7 +321,7 @@ def showallclans(aname, img, arg):
                         arraytodel[xasd + xloc][yasd + yloc].destroy()
                         clanshow = tk.Button(window, image=img,
                                              command=lambda: [showallclans(aname, img, False),
-                                                              destroybtn(clanshow, 0, 0, 0, 0, 0, 0, 0)])
+                                                              destroybtn(clanshow)])
                         clanshow.place(x=xasd * bsize, y=yasd * bsize)
                         arraytodel[xasd + xloc][yasd + yloc] = clanshow
                     else:
@@ -362,13 +348,31 @@ def imgtheclan(aname):
     return ret, bname, aname
 
 
-def ataktroops(tf, aray, armyspyormat):
+def retreatmsg(aray, armyspyordip, turnspermove):
+    background = tk.Button(window, text="", width=13, height=2)
+    background.place(x=400, y=300, anchor=tk.CENTER)
+    retreatbtn = tk.Button(window, text="Retreat",
+                           command=lambda: [ataktroops(True, aray, armyspyordip, howmuchgoupdown=-3),
+                                            destroybtn(background, retreatbtn, fastbtn)])
+    retreatbtn.place(x=375, y=300, anchor=tk.CENTER)
+    fastbtn = tk.Button(window, text="Boost",
+                        command=lambda: [ataktroops(True, aray, armyspyordip, howmuchgoupdown=turnspermove+1),
+                                         destroybtn(background, retreatbtn, fastbtn)])
+    fastbtn.place(x=430, y=300, anchor=tk.CENTER)
+
+
+def ataktroops(tf, aray, armyspyormat, **kwargs):
     global attacking
     global turn
+    turnincrease = 1
     if tf or attacking:
-        print("yrdd")
-        attacking = True
         try:
+            turnincrease = kwargs.get("howmuchgoupdown", None)
+        except:
+            pass
+        finally:
+            attacking = True
+            '''try:'''
             imgn = 0
             if armyspyormat == "spy":
                 imgn = imagesforgame[25]
@@ -376,17 +380,21 @@ def ataktroops(tf, aray, armyspyormat):
                 imgn = imagesforgame[24]
             elif armyspyormat == "mat":
                 imgn = imagesforgame[26]
-            attacktroops = tk.Label(window, image=imgn)
-            location = aray[turn]
-            turn += 1
-            attacktroops.place(x=location[0] * bsize, y=location[1] * bsize)
-            nextturnbtn = tk.Button(window, text="next turn", command=lambda: [ataktroops(tf, aray, armyspyormat),
-                                                                               destroybtn(nextturnbtn, attacktroops, 0,
-                                                                                          0, 0, 0, 0, 0)])
-            nextturnbtn.place(x=500, y=600, anchor=tk.NW)
-        except:
-            turn = 0
-            attacking = False
+            attacktroops = tk.Button(window, image=imgn, command=lambda: [retreatmsg(aray, armyspyormat, turnincrease), destroybtn(attacktroops)])
+            if turnincrease is None:
+                turnincrease = 1
+            location = (0, 0)
+            if turn >= len(aray) or turn < 0:
+                turn = 1
+                attacking = False
+            else:
+                location = aray[turn]
+                turn += turnincrease
+                attacktroops.place(x=location[0] * bsize, y=location[1] * bsize)
+                nextturnbtn = tk.Button(window, text="next turn", command=lambda: [
+                    ataktroops(tf, aray, armyspyormat, howmuchgoupdown=turnincrease),
+                    destroybtn(nextturnbtn, attacktroops)])
+                nextturnbtn.place(x=500, y=600, anchor=tk.NW)
 
 
 def stopath(confirm, armyspyormat):
@@ -398,8 +406,10 @@ def stopath(confirm, armyspyormat):
         for a in range(0, 40):
             for b in range(0, 30):
                 # try:
-                if 1<=a<=38 and 1<=b<=28:
-                    if pathfind[a][b-1] == 2 or pathfind[a-1][b-1] == 2 or pathfind[a-1][b] == 2 or pathfind[a+1][b-1] == 2 or pathfind[a+1][b] == 2 or pathfind[a+1][b+1] == 2 or pathfind[a][b+1] == 2 or pathfind[a-1][b+1] == 2:
+                if 1 <= a <= 38 and 1 <= b <= 28:
+                    if pathfind[a][b - 1] == 2 or pathfind[a - 1][b - 1] == 2 or pathfind[a - 1][b] == 2 or \
+                            pathfind[a + 1][b - 1] == 2 or pathfind[a + 1][b] == 2 or pathfind[a + 1][b + 1] == 2 or \
+                            pathfind[a][b + 1] == 2 or pathfind[a - 1][b + 1] == 2:
                         if pathfind[a][b] == 1:
                             msg = tk.messagebox.askyesno("go to castle", "Are you sure you want to go to this castle?")
                             if msg:
@@ -432,7 +442,7 @@ def planpath(ax, ay, T, **kwargs):
                         pathfind[ax][ay + 1] == 1 or pathfind[ax - 1][ay + 1] == 1:
                     planningPath = True
                     path = tk.Button(window, image=imagesforgame[23],
-                                     command=lambda: [destroybtn(path, 0, 0, 0, 0, 0, 0, 0), popcoord(ax, ay)])
+                                     command=lambda: [destroybtn(path), popcoord(ax, ay)])
                     path.place(x=ax * bsize, y=ay * bsize)
                     pathdelarray.append(path)
                     pathcoords.append((ax, ay))
@@ -445,11 +455,13 @@ def planpath(ax, ay, T, **kwargs):
         armyspyormat = kwargs.get('armyspyormat', None)
         planningPath = True
         enemybase = tk.Button(window, image=imagesforgame[21],
-                              command=lambda: [stopath(True, armyspyormat), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+                              command=lambda: [stopath(True, armyspyormat),
+                                               destroybtn(homebase, enemybase)])
         enemybase.place(x=ax * bsize, y=ay * bsize)
         planningPath = True
         homebase = tk.Button(window, image=imagesforgame[22],
-                             command=lambda: [stopath(False, armyspyormat), destroybtn(homebase, enemybase, 0, 0, 0, 0, 0, 0)])
+                             command=lambda: [stopath(False, armyspyormat),
+                                              destroybtn(homebase, enemybase)])
         homebase.place(x=castleLoc[0] * bsize, y=castleLoc[1] * bsize)
         pathcoords.append((castleLoc[0], castleLoc[1]))
         pathfind[castleLoc[0]][castleLoc[1]] = 1
@@ -483,16 +495,19 @@ def popup(ax, ay):
     label = tk.Label(window, text=(clanname[1] + "\nat: \nx:" + str(ax) + " y:" + str(ay)))
     label.place(x=axloc * csize - 55, y=ayloc * csize - 20, anchor=tk.S)
     op1 = tk.Button(window, text="Spy",
-                    command=lambda: [planpath(ax, ay, True, armyspyormat="spy"), destroybtn(background, op1, op2, op3, label, cancl,
-                                                                        label2, clanimg)])
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="spy"),
+                                     destroybtn(background, op1, op2, op3, label, cancl,
+                                                label2, clanimg)])
     op1.place(x=axloc * csize - 65, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     op2 = tk.Button(window, text="Attack",
-                    command=lambda: [planpath(ax, ay, True, armyspyormat="atk"), destroybtn(background, op1, op2, op3, label, cancl,
-                                                                        label2, clanimg)])
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="atk"),
+                                     destroybtn(background, op1, op2, op3, label, cancl,
+                                                label2, clanimg)])
     op2.place(x=axloc * csize - 23, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     op3 = tk.Button(window, text="Send Materials",
-                    command=lambda: [planpath(ax, ay, True, armyspyormat="mat"), destroybtn(background, op1, op2, op3, label, cancl,
-                                                                        label2, clanimg)])
+                    command=lambda: [planpath(ax, ay, True, armyspyormat="mat"),
+                                     destroybtn(background, op1, op2, op3, label, cancl,
+                                                label2, clanimg)])
     op3.place(x=axloc * csize + 52, y=ayloc * csize - csize / 2, anchor=tk.CENTER)
     label2 = tk.Label(window, text="Clan:")
     label2.place(x=axloc * csize, y=ayloc * csize - 60, anchor=tk.CENTER)
@@ -580,7 +595,7 @@ def render(size, locx, locy):
             except:
                 print("indexoutofrange")
     textforzoom = tk.Label(window, text=("Zoom current size:" + str(size)))
-    textforzoom.place(x=0, y=585, anchor=tk.NW)
+    textforzoom.place(x=100, y=600, anchor=tk.NW)
     xpos = tk.Label(window, text=("Xpos\n" + str(xloc)))
     xpos.place(x=625, y=585, anchor=tk.NW)
     deletethesewidgets.append(textforzoom)
