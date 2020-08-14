@@ -4,38 +4,53 @@ from tkinter import messagebox #message box for yes or no and information
 from PIL import Image, ImageTk #Image and ImageTk for importing images
 
 #vars
-money = 1000 #money
-cloth = 1000 #cloth
-metal = 1000 #metals
-food = 1000 #food
-stone = 1000 #stone 
+money = 100000000000 #money
+cloth = 100000000000 #cloth
+metal = 10000000000 #metals
+food = 100000000000 #food
+stone = 10000000000 #stone 
+wood = 10000000000 #wood
 day = 1 #day
 land = 1 #land player has conquered
 city = 100 #city happiness
 research = [] #things that have been researched
 moves = 0 #number of moves made by the player during the day (max 3 (max 5 if researched time efficiency))
+support_level = 0
 wall_level = 1 #wall level
 wallhp = 20 #wall health
 #types of walls and the image that goes with it
-wall_types = {  1: ['./images/dirtwall.png', 'Level 1 Dirt Wall', ],
-                2: ['./images/stonewall.png', 'Level 2 Stone Wall'],
-                3: ['./images/metalwall.png', 'Level 3 Metal Wall'],
-                4: ['./images/trumpwall.png', 'Level 4 Trump Wall']}
+wall_types = {  1: ['./empire_sim_images/dirtwall.png', 'Level 1: Dirt Wall', 20],
+                2: ['./empire_sim_images/stonewall.png', 'Level 2: Stone Wall', 50],
+                3: ['./empire_sim_images/metalwall.png', 'Level 3: Metal Wall', 100],
+                4: ['./empire_sim_images/trumpwall.png', 'Level 4: Trump Wall', 1000],
+                5: ['./empire_sim_images/magicwall.png', 'Max Level: Magic "Wall"', 1234567890]   }
+support_types = {   1: ['./empire_sim_images/muscle.png', 'Level 1: Stone Thrower'],
+                    2: ['./empire_sim_images/slingshotty.png', 'Level 2: Slingshotter'],
+                    3: ['./empire_sim_images/chushir.png', 'Level 3: Javelin Thrower'],
+                    4: ['./empire_sim_images/robinhood.png', 'Level 4: Archer'],
+                    5: ['./empire_sim_images/princess.png', 'Level 5: Princess'],
+                    6: ['./empire_sim_images/panini.png', 'Level 6: Gun Man'],
+                    7: ['./empire_sim_images/cannon.png', 'Level 7: Cannon'],
+                    8: ['./empire_sim_images/albreto.png', 'Level 8: Albreto Scientist'],
+                    9: ['./empire_sim_images/merlin.png', 'Max Level: Wizard']  }
 
 #user def functions
+##destroy widgets
+def vanish(event, widgets):
+    for i in widgets:
+        i.destroy()
+
+##unbind keys
+def unstick(event, binds):
+    for i in binds:
+        window.unbind(i)
+
 ##upgrade wall
 def upgrade_wall(event):
-    global wall_level, wall_types, research, money, cloth, metal, food, stone, moves
-    '''
-    globals:
-    wall_level: wall level
-    wall_types: types of walls and the image that goes with it
-    research: things that have been researched
-    money: amount of money
-    cloth, metal, food, stone: resources needed for upgrade
-    moves: the number of moves made by the player
-    '''
-    still_need = 'Not enough resources!\n\nYou still need:'
+    #global variables
+    global wall_level, wall_types, wallhp, research, money, cloth, metal, food, stone, moves, widgets
+    #pre define resources player would still need to upgrade wall
+    still_need = ''
     #stuff needed to upgrade depending on wall level
     if wall_level == 1:
         stuff_needed = [[money, '$', 50000], [cloth, 'Cloth', 10000], [stone, 'Stone', 25000], [food, 'Food', 10000]]
@@ -43,144 +58,241 @@ def upgrade_wall(event):
         stuff_needed = [[money, '$', 100000], [cloth, 'Cloth', 30000], [metal, 'Metal', 75000], [food, 'Food', 30000]]
     else:
         stuff_needed = [[money, '$', 1000000], [cloth, 'Cloth', 100000], [food, 'Food', 100000]]
-    if wall_level == 4:
+    #if wall is level 5 tell player that their wall is at max level
+    if wall_level == 5:
         msg = messagebox.showinfo(message = 'Your wall is at max level!')
+    elif wall_level == 4:
+        msg = messagebox.showinfo(message = 'In order to upgrade your wall you need to do the following:\n\nRepair the temple\nResearch and build a statue\nHold a ritual everyday for magic xp\nOnce you reach a certain amount of magic xp you can get special rewards and upgrades')
+    #if wall level is 3
     elif wall_level == 3:
+        #if player still needs more resources add those resources into still_need
         for i in stuff_needed:
             if i[0] < i[2]:
                 still_need += '\n' + i[1] + ': ' + str(i[2])
+        #if donald trump isn't researched then also add that to still_need
         if 'trump' not in research:
             still_need += ('\nResearch: Donald Trump (ONLY AVAILABLE AFTER DAY 50)')
-        if still_need == 'Not enough resources!\n\nYou still need:':
+        #if player has everything
+        if still_need == '':
+            #ask if player wants to upgrade wall
             msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], wall_level + 1))
+            #if response is yes
             if msg:
+                #take away all needed resources
                 money -= stuff_needed[0][2]
                 cloth -= stuff_needed[1][2]
                 food -= stuff_needed[2][2]
-                wall_level += 1
-                wallhp = 1000
-                moves += 1
-                wall_off(0) 
+                wall_level += 1 #increase wall level by one
+                wallhp = 1000 #wall health goes to full
+                moves += 1 #add 1 move to moves
+                for i in widgets: #destroy everything on wall page
+                    i.destroy()
+                wall_page(0) #back to wall page
+        #if player still need resources
         else:
-            msg = messagebox.showerror(message = still_need)
+            #tell player they still need more resources
+            msg = messagebox.showerror(message = 'Not enough resources!\n\nYou still need:\n' + still_need)
+    #if wall level is 1 or 2
     else:
+        #if player still needs more resources add those resources into still_need
         for i in stuff_needed:
             if i[0] < i[2]:
-                still_need += '\n' + i[1] + ': ' + str(i[2])
-        if still_need == 'Not enough resources!\n\nYou still need:':
-            msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], stuff_needed[3][2], stuff_needed[3][1], wall_level + 1))
+                still_need += '\n' + i[1] + ': ' + str(i[2] - i[0])
+        #if player has everything
+        if still_need == '':
+            #ask if player wants to upgrade wall
+            msg = messagebox.askyesno(message = 
+'Do you want to spend {} {}, {} {}, {} {}, and {} {} to upgrade to a level {} wall?'.format(stuff_needed[0][1], stuff_needed[0][2], stuff_needed[1][2], stuff_needed[1][1], stuff_needed[2][2], stuff_needed[2][1], stuff_needed[3][2], stuff_needed[3][1], wall_level + 1))
+            #if response is yes
             if msg:
+                #take away all needed resources
                 money -= stuff_needed[0][2]
                 cloth -= stuff_needed[1][2]
                 food -= stuff_needed[3][2]
+                #if wall level 1 then take away stone and wall health goes to full
                 if wall_level == 1:
                     stone -= stuff_needed[2][2]
                     wallhp = 50
+                #else take away metal and wall health goes to full
                 else:
                     metal -= stuff_needed[2][2]
                     wallhp = 100
-                wall_level += 1
-                moves += 1
-                wall_off(0) 
+                wall_level += 1 #increase wall level buy 1
+                moves += 1 #add 1 move to moves
+                for i in widgets: #destroy everything on wall page
+                    i.destroy()
+                wall_page(0) #back to home page
+        #if player still need resources
         else:
-            msg = messagebox.showerror(message = still_need)
+            #tell player they still need more resources
+            msg = messagebox.showerror(message = 'Not enough resources!\n\nYou still need:' + still_need)
+    window.focus_force() #focus back on window after use of messageboxes
+
+##get input for repair and heal
+def get_heal(event):
+    #global variables
+    global heal, repair_widgets
+    #getting slide input
+    heal = repair_widgets[1].get()
+    vanish(0, repair_widgets)
+    unhide_back_to_home(0)
+    repair_wall()
+
+##unhide the back to home button
+def unhide_back_to_home(event):
+    global widgets
+    widgets[6].place(x = 0, y = 0, anchor = tk.NW) 
+
+##how much repair wall
+def how_much_repair_wall(event):
+    #global variables
+    global wall_level, wall_trpes, wallhp, heal, widgets, repair_widgets
+    #if wall is level 5
+    if wall_level == 5:
+        #tell player that level 5 wall doesn't need heal
+        msg = messagebox.showinfo(message = 'Your Magic "Wall" doesn\'t need to be repaired!')
+    #if wall is at full health
+    elif wallhp == wall_types[wall_level][2]:
+        msg = messagebox.showinfo(message = 'Your wall is at max health!') #tell player wall is at max health
+    #if not at full health
+    else: 
+        #how much you want to heal text
+        question = tk.Label(window, text = 'How much do you want to repair your wall by?', font = ('charter', 15), bg = '#00FFFF', fg = '#000000') 
+        question.place(x = 645, y = 415, anchor = tk.CENTER)
+        #making slider
+        heal_slider = tk.Scale(window, from_ = 1, to = wall_types[wall_level][2] - wallhp, bg = '#00FFFF', fg = '#000000', orient = tk.HORIZONTAL)
+        heal_slider.place(x = 645, y = 450, anchor = tk.CENTER) #entry box location
+        #making heal button
+        confirm_heal = tk.Button(window, text = 'Heal', highlightbackground = '#00FF00', font = ('charter', 15), width = 5, height = 1, fg = '#000000', command = lambda: get_heal(0))
+        confirm_heal.place(x = 613, y = 490, anchor = tk.CENTER) 
+        #cancel repair button
+        cancel = tk.Button(window, text = 'Cancel', width = 5, height = 1, font = ('charter', 15), highlightbackground = '#FF0000', fg = '#000000', command = lambda: [vanish(0, repair_widgets), unstick(event, binds), unhide_back_to_home(0)]) 
+        cancel.place(x = 673, y = 490, anchor = tk.CENTER)
+        #hide back to home button so it doesn't cause an error
+        widgets[6].place_forget()
+        #repair wall widgets
+        repair_widgets = [question, heal_slider, confirm_heal, cancel]
+        binds = ['<Return>', '<x>']
+        window.bind('<Return>', lambda event: get_heal(event)) #bind enter key to heal button 
+        window.bind('<x>', lambda event: [vanish(event, repair_widgets), unstick(event, binds), unhide_back_to_home(event)]) #bind x key to cancel repair button 
+    window.focus_force() #focus back on window after messageboxes
+
+##repair wall
+def repair_wall():
+    #global variables
+    global wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, heal, widgets
+    #resources still needed
+    still_need = ''
+    #stuff needed to repair depending on wall level
+    if wall_level == 1:
+        stuff_needed = [[money, '$', 200], [cloth, 'Cloth', 50], [food, 'Food', 50]]
+    elif wall_level == 2:
+        stuff_needed = [[money, '$', 500], [cloth, 'Cloth', 100], [food, 'Food', 100], [stone, 'Stone', 250]]
+    elif wall_level == 3:
+        stuff_needed = [[money, '$', 1000], [cloth, 'Cloth', 200], [food, 'Food', 200], [metal, 'Metal', 500]]
+    else:
+        stuff_needed = [[money, '$', 2500],[cloth, 'Cloth', 500], [food, 'Food', 500], [metal, 'Metal', 1000]]
+    for i in stuff_needed:
+        if i[0] < i[2] * heal:
+            still_need += '\n' + i[1] + ': ' + str(i[2] * heal - i[0])
+    #if player has all resources
+    if still_need == '':
+        #asking if player wants to repair (level 1 wall)
+        if wall_level == 1:
+            msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, and {} {} to repair your wall by {}?'.format(stuff_needed[0][1], stuff_needed[0][2] * heal, stuff_needed[1][2] * heal, stuff_needed[1][1], stuff_needed[2][2] * heal, stuff_needed[2][1], heal))
+        #asking if player wants to repair (other level walls)
+        else: 
+            msg = messagebox.askyesno(message = 'Do you want to spend {} {}, {} {}, {} {}, and {} {} to repair you wall by {}?'.format(stuff_needed[0][1], stuff_needed[0][2] * heal, stuff_needed[1][2] * heal, stuff_needed[1][1], stuff_needed[2][2] * heal, stuff_needed[2][1], stuff_needed[3][2] * heal, stuff_needed[3][1], heal))
+        #if response is yes
+        if msg:
+            #take away resources
+            money -= stuff_needed[0][2] * heal
+            cloth -= stuff_needed[1][2] * heal
+            food -= stuff_needed[2][2] * heal
+            #if wall level is 2
+            if wall_level == 2:
+                stone -= stuff_needed[3][2] * heal #take away stone
+            #if wall level is 3 or 4
+            elif wall_level != 1:
+                metal -= stuff_needed[3][2] * heal #take away metal
+            #heal the wall
+            wallhp += heal
+            moves += 1 #add 1 move to moves
+            for i in widgets: #destroy everything on wall page
+                i.destroy()
+            wall_page(0) #back to wall page
+    #if not enough resources
+    else:
+        msg = messagebox.showerror(message = 'Not enough resources!\n\nYou still need:\n' + still_need) #tell player which resources are still needed
     window.focus_force()
 
-##wall page
-def wall_on(event):
-    global wall, wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, word, wordy, land, city, clicky, clicker, clickier, clickiest, click
-    '''
-    globals:
-    wall: wall image button
-    wall_level: wall level
-    wall_types: types of walls and the image that goes with it
-    wallhp: wall health
-    money: amount of money
-    cloth, metal, food, stone: resources
-    moves: the number of moves made by the player
-    word: name of the wall
-    wordy: shows all info of player
-    land: land player conquered
-    city: city happiness
-    clicky: upgrade wall
-    clicker: repair wall
-    clickier: upgrade wall support
-    clickiest: repair / heal wall support
-    '''
-    home_off()
-    window.title('Wall')
-    load = Image.open(wall_types[wall_level][0])
-    load = load.resize((800, 600)) 
-    render = ImageTk.PhotoImage(load)
-    wall = tk.Label(window, image = render, width = 800, height = 600, bg = '#00FFFF')
-    wall.image = render
-    wall.place(relx = 0, rely = 0, anchor = tk.NW) 
-    clicky = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: upgrade_wall(0))
-    clicky.place(relx = 0.95, rely = 0.9, anchor = tk.CENTER)
-    clicker = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000')
-    clicker.place(relx = 0.85, rely = 0.9, anchor = tk.CENTER)
-    clickier = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('character', 10), fg = '#000000')
-    clickier.place(relx = 0.727, rely = 0.9, anchor = tk.CENTER)
-    clickiest = tk.Button(window, text = 'Repair / Heal Wall Support', width = 20, height = 4, font = ('character', 10), fg = '#000000')
-    clickiest.place(relx = 0.562, rely = 0.9, anchor = tk.CENTER)
-    click = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', fg = '#000000', command = lambda: wall_off(0))
-    click.place(relx = 0, rely = 0, anchor = tk.NW)
-    word = tk.Label(window, text = wall_types[wall_level][1], bg = '#00FFFF', font = ('charter', 40), fg = '#000000')
-    word.place(relx = 0.25, rely = 0, anchor = tk.NW)
-    wordy = '$: ' + str(money) + '\nCloth: ' + str(cloth) + '\nMetal: ' + str(metal) + '\nStone:' + str(stone) + '\nFood: ' + str(food)
-    wordy = tk.Label(window, text = wordy, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
-    wordy.place(relx = 1, rely = 0, anchor = tk.NE)
-    window.bind('<x>', lambda event: wall_off(event)) #bind x key
-    window.bind('<w>', lambda event: upgrade_wall(event)) #bind w key
+##upgrade wall support
 
-##destroy wall page
-def wall_off(event):
-    global wall, clicky, clicker, clickier, clickiest, click, word, wordy
-    '''
-    globals:
-    wall: wall image
-    clicky: upgrade wall
-    clicker: repair wall
-    clickier: upgrade wall support
-    clickiest: repair / heal  wall support
-    click: back to home
-    word: type of wall text
-    wordy: shows all player info
-    '''
-    window.title(None) #unset title
-    #destroy
-    wall.destroy()
-    clicky.destroy()
-    click.destroy()
-    clicker.destroy()
-    clickier.destroy()
-    clickiest.destroy()
-    click.destroy()
-    word.destroy()
-    wordy.destroy()
-    #unbind
-    window.unbind('<x>')
-    home_on()
+##wall page
+def wall_page(event):
+    #global variables
+    global wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, land, city, support_level, support_types, widgets
+    window.title('Wall') #rename window title
+    #wall image
+    load = Image.open(wall_types[wall_level][0])
+    load = load.resize((400, 300)) 
+    render = ImageTk.PhotoImage(load)
+    wall = tk.Label(window, image = render, width = 400, height = 300, bg = '#00FFFF')
+    wall.image = render
+    wall.place(x = 400, y = 300, anchor = tk.CENTER)
+    #two wall support images
+    if support_level != 0: #if wall support not 0
+        load = Image.open(support_types[support_level][0])
+        load = load.resize((35, 50))
+        render = ImageTk.PhotoImage(load)
+        support_1 = tk.Label(window, image = render, bg = '#00FFFF', width = 25, height = 40)
+        support_1.image = render
+        support_1.place(x = 265, y = 267, anchor = tk.SW)
+        support_2 = tk.Label(window, image = render, bg = '#00FFFF', width = 25, height = 40)
+        support_2.image = render
+        support_2.place(x = 510, y = 235, anchor = tk.SW)
+    else: #if player doesn't have wall support
+        #define wall support labels so we can destroy
+        support_1 = tk.Label(window, bg = '#00FFFF')
+        support_1.place(x = 0, y = 0, anchor = tk.NW)
+        support_2 = tk.Label(window, bg = '#00FFFF')
+        support_2.place(x = 0, y = 0, anchor = tk.NW)
+    #upgrade wall button
+    upgrade_wall_button = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: upgrade_wall(0))
+    upgrade_wall_button.place(x = 760, y = 540, anchor = tk.CENTER)
+    #repair wall button
+    repair = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
+    repair.place(x = 680, y = 540, anchor = tk.CENTER)
+    #upgrade support wall button
+    upgrade_support_button = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('character', 10), fg = '#000000')
+    upgrade_support_button.place(x = 581, y = 540, anchor = tk.CENTER)
+    #back to home button
+    back_to_home = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', fg = '#000000', command = lambda: [vanish(0, widgets), unstick(0, binds), home_page(0)])
+    back_to_home.place(x = 0, y = 0, anchor = tk.NW)
+    #wall details label
+    wall_details = tk.Label(window, text = wall_types[wall_level][1] + '\nWall Health: ' + str(wallhp) + ' / ' + str(wall_types[wall_level][2]), bg = '#00FFFF', font = ('charter', 30), fg = '#000000')
+    wall_details.place(x = 200, y = 0, anchor = tk.NW)
+    #resources text
+    resources = '$: ' + str(money) + '\nCloth: ' + str(cloth) + '\nMetal: ' + str(metal) + '\nStone:' + str(stone) + '\nFood: ' + str(food) 
+    #resources label
+    resources = tk.Label(window, text = resources, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
+    resources.place(x = 800, y = 0, anchor = tk.NE)
+    #widgets to destroy after wall upgrade function
+    widgets = [wall, support_1, support_2, upgrade_wall_button, repair, upgrade_support_button, back_to_home, wall_details, resources]
+    binds = ['<x>', '<w>', '<r>', '<s>']
+    window.bind('<x>', lambda event: [vanish(event, widgets), unstick(event, binds), home_page(event)])
+    window.bind('<w>', lambda event: [upgrade_wall(event)]) #bind w key
+    window.bind('<r>', lambda event: [how_much_repair_wall(event)]) #bind r key
 
 ##home page
-def home_on():
-    global wall, wall_level, wall_types, wallhp, money, cloth, metal, food, stone, moves, word, land, city
-    '''
-    globals:
-    wall: wall image button
-    wall_level: wall level
-    wall_types: types of walls and the image that goes with it
-    wallhp: wall health
-    money: amount of money
-    cloth, metal, food, stone: resources
-    moves: the number of moves made by the player
-    word: shows all info of player
-    land: land player conquered
-    city: city happiness
-    '''
-    if moves == 3:
-        day += 1
-        moves = 0
+def home_page(event):
+    #global variables
+    global wall_level, wall_types, wallhp, research, money, cloth, metal, wood, food, stone, moves, land, city, day, support_level, support_types
+    window.title('Home') #rename window title
+    if 'time' not in research and moves == 3 or 'time' in research and moves == 5: #if player reaches maximum moves per day
+        day += 1 #day advances
+        moves = 0 #moves goes back to 0
+        #taking away resources from player, if player not have enough resources, then city happiness goes down by 5
         if food >= land * 20:
             food -= land * 20
         else:
@@ -191,192 +303,56 @@ def home_on():
         else:
             cloth = 0
             city -= 5
-    window.title('Home') #rename window title
     #wall image button
     load = Image.open(wall_types[wall_level][0])
-    load = load.resize((400, 300)) 
+    load = load.resize((211, 158)) 
     render = ImageTk.PhotoImage(load)
-    wall = tk.Button(window, image = render, width = 375, height = 275, command = lambda: wall_on(0)) 
+    wall = tk.Button(window, image = render, width = 201, height = 150, command = lambda: [vanish(0, widgets), unstick(0, binds), wall_page(0)])
     wall.image = render
-    wall.place(relx = 0.7, rely = 0.7, anchor = tk.CENTER)
-    word = '$: ' + str(money) + '\nCloth: ' + str(cloth) + '\nMetal: ' + str(metal) + '\nStone:' + str(stone) + '\nFood: ' + str(food) + '\nLand: ' + str(land) + '\nCity Happiness: ' + str(city) + ' / 100\nMoves played: ' + str(moves) + ' / '
+    wall.place(x = 800, y = 600, anchor = tk.SE)
+    #two wall support images
+    if support_level != 0: #if wall support not 0
+        load = Image.open(support_types[support_level][0])
+        load = load.resize((20, 29))
+        render = ImageTk.PhotoImage(load)
+        support_1 = tk.Label(window, image = render, bg = '#00FFFF', width = 10, height = 19)
+        support_1.image = render
+        support_1.place(x = 627, y = 505, anchor = tk.SW)
+        support_2 = tk.Label(window, image = render, bg = '#00FFFF', width = 10, height = 19)
+        support_2.image = render
+        support_2.place(x = 757, y = 490, anchor = tk.SW)
+    else: #if player doesn't have wall suppor
+        #define wall support labels so we can destroy
+        support_1 = tk.Label(window, bg = '#00FFFF')
+        support_1.place(x = 0, y = 0, anchor = tk.NW)
+        support_2 = tk.Label(window, bg = '#00FFFF')
+        support_2.place(x = 0, y = 0, anchor = tk.NW)
+    #player resources text
+    resources = '$: ' + str(money) + '  Cloth: ' + str(cloth) + '  Metal: ' + str(metal) + '  Stone: ' + str(stone) + '  Wood: ' + str(wood) + '  Food: ' + str(food) + '\nLand: ' + str(land) + '  City Happiness: ' + str(city) + ' / 100  Day: ' + str(day) + '  Moves played: ' + str(moves) + ' / '
+    #moves depending on if time efficiency has been researched
     if 'time' in research:
-        word += '5'
+        resources += '5'
     else:
-        word += '3'
-    word = tk.Label(window, text = word, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
-    word.place(relx = 1, rely = 0, anchor = tk.NE)
-    window.bind('<w>', lambda event: wall_on(event)) #bind w key
-
-##destroy home page
-def home_off():
-    global wall, word
-    '''
-    globals:
-    wall: wall image button
-    word: shows all player info
-    '''
-    window.title(None) #unset title
-    #clear page
-    wall.destroy()
-    word.destroy()
-
-##next page of tutorial
-def next_page(event):
-    global page
-    '''
-    globals:
-    page: page you are on for tutorial
-    '''
-    page += 1 #page goes up by one
-    if page == 9: #if goes over 8 resets to page 1
-        page = 1
-    give_info() #give info function
-
-##previous page of tutorial
-def previous_page(event):
-    global page
-    '''
-    globals:
-    page: page you are on for tutorial
-    '''
-    page -= 1 #page goes down by one
-    if page == 0: #if goes under 1 resets to page 8
-        page = 8
-    give_info() #give info function
-
-##showing info on page
-def give_info():
-    global page, word, wordy 
-    '''
-    globals:
-    page: page you are on for tutorial
-    word: tutorial text
-    wordy: page number
-    '''
-    #dictionary of all the txt files that need to be read depending on page
-    allhelp = { 1: 'trade.txt',
-                2: 'attack.txt',
-                3: 'build.txt',
-                4: 'defend.txt',
-                5: 'city.txt',
-                6: 'retreat.txt',
-                7: 'save_load.txt',
-                8: 'keyboard.txt'}
-    f = allhelp[page] #txt file depending on page
-    msg = ''
-    #read txt file
-    with open(f, 'r') as t:
-        for line in t:
-            msg += line
-    #clear previous page
-    word.destroy()
-    wordy.destroy()
-    #create page
-    word = tk.Label(window, text = msg, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
-    word.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)
-    wordy = tk.Label(window, text = page, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
-    wordy.place(relx = 0.5, rely = 1, anchor = tk.S)
-    
-##tutorial page
-def tutorial_on():
-    global page, click, clicker, clicky
-    '''
-    globals:
-    page: page you are on for tutorial
-    click: back to home button
-    clicker: previous page button
-    clicky: next page button
-    '''
-    page = 1 #page set to 1
-    give_info() #give info function to display text
-    window.title('Help') #rename window title
-    window.bind('<Right>', lambda event: next_page(event)) #bind right arrow key
-    window.bind('<Left>', lambda event: previous_page(event)) #bind left arrow key
-    window.bind('<x>', lambda event: tutorial_off(event)) #bind x key
-    #clear
-    clicky.destroy()
-    clicker.destroy()
-    click.destroy()
-    #next page button
-    load = Image.open('./images/greenrightarrow.png')
-    load = load.resize((100, 50))
-    render = ImageTk.PhotoImage(load)
-    clicky = tk.Button(window, image = render, width = 80, height = 30, command = lambda: next_page(0))
-    clicky.image = render
-    clicky.place(relx = 0.975, rely = 0.975, anchor = tk.SE)
-    #previous page button
-    load = Image.open('./images/greenleftarrow.png')
-    load = load.resize((100, 50))
-    render = ImageTk.PhotoImage(load)
-    clicker = tk.Button(window, image = render, width = 80, height = 30, command = lambda: previous_page(0))
-    clicker.image = render
-    clicker.place(relx = 0.025, rely = 0.975, anchor = tk.SW)
-    #back to home button
-    click = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', bg = '#FF0000', fg = '#000000', command = lambda: tutorial_off(0))
-    click.place(relx = 0, rely = 0, anchor = tk.NW)
-
-def tutorial_off(event):
-    global click, clicker, clicky, word, wordy
-    '''
-    globals:
-    click: back to home button
-    clicker: previous page button
-    clicky: next page button
-    word: tutorial text
-    wordy: page number
-    '''
-    window.title(None) #unset window title
-    clicky.destroy() #destroy
-    clicker.destroy()
-    click.destroy()
-    word.destroy()
-    wordy.destroy()
-    window.unbind('<Right>') #unbind
-    window.unbind('<Left>')
-    window.unbind('<x>')
-    home_on() #home page
-
-##start button message box
-def start_button(event):
-    msg = messagebox.askyesno(message = 'Have you played this game before?') #messagebox
-    start_off() #destroy start page
-    window.focus_force() #focus back onto window
-    if not msg: #if not played before
-        tutorial_on() #create tutorial page
-    else:
-        home_on() #home page
+        resources += '3'
+    #player resources label
+    resources = tk.Label(window, text = resources, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
+    resources.place(x = 400, y = 0, anchor = tk.N)
+    widgets = [wall, support_1, support_2, resources]
+    binds = ['<w>']
+    window.bind('<w>', lambda event: [vanish(event, widgets), unstick(event, binds), wall_page(event)]) #bind w key to wall image button
 
 ##create start page
-def start_on():
-    global click, word
-    '''
-    globals:
-    click: start button
-    word: Empire Simulator title
-    '''
+def start_page():
     window.title('Empire Simulator') #name window title 
     #Empire Simulator title
-    word = tk.Label(window, text = 'Empire Simulator', font = ('charter', 60, 'italic'), bg = '#00FFFF', fg = '#000000')
-    word.place(relx = 0.5, rely = 0.3, anchor = tk.CENTER) #place text
-    #start button
-    click = tk.Button(window, text = 'Start', font = ('charter', 20), width = 10, height = 3, highlightbackground = '#00FF00', bg = '#00FF00', fg = '#000000', command = lambda: start_button(0)) 
-    click.place(relx = 0.5, rely = 0.65, anchor = tk.CENTER) #place button
-    window.bind('<Return>', lambda event: start_button(event)) #bind enter key
-
-##destroy start page
-def start_off():
-    global click, word
-    '''
-    globals:
-    click: start button
-    word: Empire Simulator title
-    '''
-    window.title(None) #unset window title
-    #clear page
-    word.destroy()
-    click.destroy()
-    window.unbind('<Return>') #unbind enter key
+    start_title = tk.Label(window, text = 'Empire Simulator', font = ('charter', 60, 'italic'), bg = '#00FFFF', fg = '#000000')
+    start_title.place(x = 400, y = 180, anchor = tk.CENTER) #place text
+    #start button (when clicked brings you to home page and destroys start page)
+    start = tk.Button(window, text = 'Start', font = ('charter', 20), width = 10, height = 3, highlightbackground = '#00FF00', bg = '#00FF00', fg = '#000000', command = lambda: [vanish(0, widgets), unstick(0, binds), home_page(0)])
+    start.place(x = 400, y = 390, anchor = tk.CENTER) #place button
+    widgets = [start, start_title]
+    binds = ['<Return>']
+    window.bind('<Return>', lambda event: [vanish(event, widgets), unstick(event, binds), home_page(event)]) #bind enter key to start button
 
 #actual game
 if __name__ == '__main__': #if main
@@ -385,21 +361,5 @@ if __name__ == '__main__': #if main
     window.geometry('800x600') #window size
     window.config(bg = '#00FFFF') #window color
     #defining all widgets
-    click = tk.Label(window, text = 'Define')
-    click.destroy()
-    clicky = tk.Label(window, text = 'Define')
-    clicky.destroy()
-    clicker = tk.Label(window, text = 'Define') 
-    clicker.destroy()
-    clickier = tk.Label(window, text = 'Define') 
-    clickier.destroy()
-    clickiest = tk.Label(window, text = 'Define') 
-    clickiest.destroy()
-    word = tk.Label(window, text = 'Define')
-    word.destroy()
-    wordy = tk.Label(window, text = 'Define')
-    wordy.destroy()
-    wall = tk.Label(window, text = 'Define') #wall image button
-    wall.destroy()
-    start_on() #create start page
+    start_page() #create start page
     window.mainloop() #mainloop

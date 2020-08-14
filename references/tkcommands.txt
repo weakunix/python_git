@@ -64,7 +64,7 @@ window.bind('<key>', lambda event:function(event)) #when using a letter key use 
 #unbind a key
 window.unbind('<key>')
 
-#focus on window (used after a messagebox)
+#focus on window (used after a messagebox or sub window)
 window.focus_force()
 
 #import image
@@ -80,3 +80,18 @@ load = load.resize(([x], [y]))
 
 #create another window
 subwindow = tk.Toplevel(window)
+
+#entry box
+entry = tk.Entry(window, bg = 'color')
+
+#get input of entry box
+var = entry.get()
+
+#clear entry box
+entry.delete(0, tk.END)
+
+#hide button
+widget.place_forget()
+
+#slider
+slider = tk.Scale(window, from_ = [number], to = [number], orient = tk.HORIZONTAL) #orient = tk.HORIZONTAL only used for horizontal slider. don't include orient to make a vertical slider
