@@ -30,10 +30,10 @@ def start(timetoadd):
             timewait = albreto.ceil((((command[i][1] - command[i - 1][1]) + random.randint(10,
                                                                                            1200)) + timetoadd) / 2)  # random delay from 10seconds to 12 minutes to confirm anti-bot
         print(timewait)
-        keyboardsim.type("%" + command[i][0])
         time.sleep(timewait)
         keyboardsim.type(botconfusion[random.randint(0, len(botconfusion))])
         time.sleep(timewait)
+        keyboardsim.type("%" + command[i][0])
         # pass
 
 
