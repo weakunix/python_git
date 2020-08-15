@@ -5,7 +5,7 @@ import math as albreto
 import os
 from pynput.keyboard import Controller, Listener, Key
 
-#version 0.1
+#version 0.1.1
 print('r-cmd to start cheet')
 alphabet = list(string.ascii_uppercase)
 keyboardsim = Controller()
@@ -24,14 +24,14 @@ botconfusion = [
 
 
 def start(timetoadd):
-    for i in range(0, len(command)):
+    for i in range(0, len(command) - 1):
         timewait = 300
         if i != 0:
             timewait = albreto.ceil((((command[i][1] - command[i - 1][1]) + random.randint(10,
                                                                                            1200)) + timetoadd) / 2)  # random delay from 10seconds to 12 minutes to confirm anti-bot
         print(timewait)
         time.sleep(timewait)
-        keyboardsim.type(botconfusion[random.randint(0, len(botconfusion))])
+        keyboardsim.type(botconfusion[random.randint(0, len(botconfusion) - 1)])
         time.sleep(timewait)
         keyboardsim.type("%" + command[i][0])
         # pass
