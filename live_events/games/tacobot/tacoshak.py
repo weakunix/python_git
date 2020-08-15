@@ -15,6 +15,8 @@ command = [  # y=0, y=1
     ["daily\n", 86400],  # x=4
 ]
 botconfusion = []
+dayfromnow = (86400 + random.randint(100, 300))
+counter = 1
 with open('distract.txt', 'r') as b:
     for line in b:
         botconfusion.append(line[:-1])
@@ -24,8 +26,8 @@ with open('distract.txt', 'r') as b:
 
 
 def start(timetoadd):
-    dayfromnow = (86400 + random.randint(100, 300))
-    counter = 1
+    global counter
+    global dayfromnow
     b = open("documentation.txt", "w+")
     b.write("")
     b.close()
