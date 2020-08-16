@@ -52,7 +52,7 @@ def start(timetoadd):
     a.write("command: "+command[0][0])
     if dayfromnow <= 0:
         for i in range(0, 2):
-            #time.sleep(random.randint(5, 10))
+            time.sleep(random.randint(5, 10))
             print("%" + command[2 + i][0])
             a.write("DAILYS: " + command[2+i][0])
         dayfromnow = (86400 + random.randint(100, 300))

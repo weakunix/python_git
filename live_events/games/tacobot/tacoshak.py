@@ -33,8 +33,9 @@ def start(timetoadd):
     b.close()
     a = open("documentation.txt", "a+")
     randomdivision = 3#random.randint(1, 40)
-    timewait = 120#albreto.ceil(((300 + random.randint(0,
-                                                   #100)) + timetoadd) / randomdivision)  # random delay from 10seconds to 9 minutes to confirm anti-bot
+    timewait = 120
+    print(albreto.ceil(((300 + random.randint(0,
+                                                   100)) + timetoadd) / randomdivision))  # random delay from 10seconds to 9 minutes to confirm anti-bot
     timewait = int(timewait)
     print(timewait * randomdivision)
     exampl = 0
