@@ -32,11 +32,9 @@ def start(timetoadd):
     b.write("")
     b.close()
     a = open("documentation.txt", "a+")
-    i = counter % 2
-    timewait = 300
-    randomdivision = random.randint(1, 40)
-    timewait = albreto.ceil(((300 + random.randint(0,
-                                                   1)) + timetoadd) / randomdivision)  # random delay from 10seconds to 9 minutes to confirm anti-bot
+    randomdivision = 3#random.randint(1, 40)
+    timewait = 120#albreto.ceil(((300 + random.randint(0,
+                                                   #100)) + timetoadd) / randomdivision)  # random delay from 10seconds to 9 minutes to confirm anti-bot
     timewait = int(timewait)
     print(timewait * randomdivision)
     exampl = 0
@@ -47,17 +45,18 @@ def start(timetoadd):
     print(exampl)
     dayfromnow -= (timewait * randomdivision)
     a.write("days time: "+str(dayfromnow))
-    if i == 0:
+    print("days time: "+str(dayfromnow))
+    if counter % 2 == 0:
         keyboardsim.type("%" + command[1][0])  # work if it is 10 mins
         a.write("command: "+command[1][0])
         time.sleep(random.randint(4, 30))
     keyboardsim.type("%" + command[0][0])  # tips every 5 mins or so
     a.write("command: "+command[0][0])
     if dayfromnow <= 0:
-        for i in range(0, 2):
+        for b in range(0, 2):
             time.sleep(random.randint(5, 10))
-            keyboardsim.type("%" + command[2 + i][0])
-            a.write("DAILYS: " + command[2+i][0])
+            keyboardsim.type("%" + command[2 + b][0])
+            a.write("DAILYS: " + command[2 + b][0])
         dayfromnow = (86400 + random.randint(100, 300))
     a.close()
     counter += 1
@@ -67,13 +66,12 @@ def start(timetoadd):
 def on_press(key):  # using cmd and ctrl bc they cant be repeated (smort)
     print("key pressed" + str(key))
     if key == Key.cmd_r or key == Key.ctrl_r:
-        print("starting... in 10-50 seconds")
-        a = 0
+        print("starting... in 10-20 seconds")
         for i in range(0, len(command)):
-            a = random.randint(10, 49)
+            a = random.randint(10, 20)
             time.sleep(a)
             keyboardsim.type("%" + command[i][0])
-        start(a)
+        start(0)
         # pass
 
 

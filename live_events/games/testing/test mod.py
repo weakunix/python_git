@@ -1,3 +1,2 @@
-for i in range(0,2):
-    print("d")
-    print(i)
+for i in range(0, 1000):
+    print(i % 2)
