@@ -35,11 +35,10 @@ def start(timetoadd):
     i = counter % 2
     timewait = 300
     randomdivision = random.randint(1, 40)
-    if i != 0:
-        timewait = albreto.ceil(((300 + random.randint(0,
-                                                       1)) + timetoadd) / randomdivision)  # random delay from 10seconds to 9 minutes to confirm anti-bot
-        timewait = int(timewait)
-        print(timewait * randomdivision)
+    timewait = albreto.ceil(((300 + random.randint(0,
+                                                   1)) + timetoadd) / randomdivision)  # random delay from 10seconds to 9 minutes to confirm anti-bot
+    timewait = int(timewait)
+    print(timewait * randomdivision)
     exampl = 0
     for distractlesgo in range(randomdivision):
         keyboardsim.type(str(botconfusion[random.randint(0, len(botconfusion) - 1)]) + "\n")
