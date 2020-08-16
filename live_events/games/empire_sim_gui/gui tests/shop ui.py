@@ -22,8 +22,8 @@ imagesforgame = []
 def imageload():
     global imagesforgame
     imagesforgame = []
-    for load in range(26, 27):
-        nameoffile = ("./shittyworldgenimg/", str(load), ".png")
+    for load in range(0, 3):
+        nameoffile = ("./shittyworldgenimg/mat", str(load), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
         load = load.resize((100, 100))
@@ -74,9 +74,12 @@ def pageo():
             0,
             "Buy"
         ]
+        texts[0] = "Merchant" if texts[0] == 0 else texts[0]
         offer = tk.Button(window, text="", width=17, height=13)
         offer.place(x=whereToPlace[i][0], y=whereToPlace[i][1])
-        offerimg = tk.Button(window, image=imagesforgame[0])
+        #print("no") if x > 42 else print("yes") if x == 42 else print("maybe") lmao 1 liners
+        img = 0 if solddata[i][1] == "Food" else 2 if solddata[i][1] == "Materials" else 1
+        offerimg = tk.Button(window, image=imagesforgame[img])
         offerimg.place(x=whereToPlace[i][0] + 25, y=whereToPlace[i][1] + 20)
         for b in range(0, 5):
             if b == 3:
