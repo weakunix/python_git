@@ -2,9 +2,8 @@ import random
 import tkinter as tk
 from PIL import Image, ImageTk
 from functools import partial
-from tkinter import messagebox
+import platform
 from tkinter import messagebox  # messagebox must be explicitly imported
-
 # make window window
 window = tk.Tk()
 window.geometry("800x600")
@@ -98,7 +97,7 @@ def setsomething(event):
     buyamt[0] = event
 
 
-def pageo(**kwargs):
+def pageo():
     global deletearray
     global isSold
     delarray = []
@@ -136,14 +135,24 @@ def pageo(**kwargs):
                                                                                                   1] == "Stone" else 3 if \
                 solddata[i][1] == "Wood" else 1
             # img = 0 if solddata[i][1] == "Food" else 3 if solddata[i][1] == "Wood" else 1
-            offerimg = tk.Button(window, image=imagesforgame[img])
-            offerimg.place(x=whereToPlace[i][0] + 25, y=whereToPlace[i][1] + 20)
-            howmuch = tk.Scale(window, from_=0, to=solddata[i][2], orient=tk.HORIZONTAL, command=setsomething)
-            howmuch.place(x=whereToPlace[i][0] + whereToPlacetxt[4][0],
-                          y=whereToPlace[i][1] + whereToPlacetxt[4][1])
-            buy = tk.Button(window, text=texts[4],
-                            command=partial(change, ab=True, arry=delarray, ai=i))
-            buy.place(x=whereToPlace[i][0] + whereToPlacetxt[3][0], y=whereToPlace[i][1] + whereToPlacetxt[3][1])
+            if platform.system() == "Windows":
+                offerimg = tk.Button(window, image=imagesforgame[img])
+                offerimg.place(x=whereToPlace[i][0] + 10, y=whereToPlace[i][1] + 20)
+                howmuch = tk.Scale(window, from_=0, to=solddata[i][2], orient=tk.HORIZONTAL, command=setsomething)
+                howmuch.place(x=whereToPlace[i][0] + whereToPlacetxt[4][0] - 10,
+                              y=whereToPlace[i][1] + whereToPlacetxt[4][1] - 10)
+                buy = tk.Button(window, text=texts[4],
+                                command=partial(change, ab=True, arry=delarray, ai=i))
+                buy.place(x=whereToPlace[i][0] + whereToPlacetxt[3][0] - 25, y=whereToPlace[i][1] + whereToPlacetxt[3][1] - 10)
+            else:
+                offerimg = tk.Button(window, image=imagesforgame[img])
+                offerimg.place(x=whereToPlace[i][0] + 25, y=whereToPlace[i][1] + 20)
+                howmuch = tk.Scale(window, from_=0, to=solddata[i][2], orient=tk.HORIZONTAL, command=setsomething)
+                howmuch.place(x=whereToPlace[i][0] + whereToPlacetxt[4][0],
+                              y=whereToPlace[i][1] + whereToPlacetxt[4][1])
+                buy = tk.Button(window, text=texts[4],
+                                command=partial(change, ab=True, arry=delarray, ai=i))
+                buy.place(x=whereToPlace[i][0] + whereToPlacetxt[3][0], y=whereToPlace[i][1] + whereToPlacetxt[3][1])
             for b in range(0, 3):
                 info = tk.Label(window, text=texts[b])
                 info.place(x=whereToPlace[i][0] + whereToPlacetxt[b][0], y=whereToPlace[i][1] + whereToPlacetxt[b][1])
@@ -157,12 +166,12 @@ def pageo(**kwargs):
                      command=lambda: [quit(0)])  # TODO RUOYU CHANGE THIS
     Home.place(x=0, y=0, anchor=tk.NW)
     if not isSold:
+        for ii in range(len(deletearray)):
+            deletearray[ii].destroy()
         nexxt = tk.Button(window, text=">",
-                          command=lambda: [paget(0, ott=123, sold=isSold), destroybtn(nexxt, Home, offersText, ary=delarray)])
+                          command=lambda: [paget(0, ott=123), destroybtn(nexxt, Home, offersText, ary=delarray)])
         nexxt.place(x=500, y=550, anchor=tk.CENTER)
         deletearray.append(nexxt)
-        for ii in range(len(deletearray) - 1):
-            deletearray[ii].destroy()
     else:
         for ii in range(len(deletearray)):
             deletearray[ii].destroy()
@@ -193,6 +202,15 @@ def sell(selectedG, selectedC):
                 break
         if not brr:
             solddata.append([castleName, selectedG.get(), int(buyamt[1]), int(buyamt[2])])
+        pageo()
+    else:
+        isSold = False
+        paget(0, ott=123)
+
+
+def falsesold():
+    global isSold
+    isSold = False
 
 
 def paget(event, **kwargs):
@@ -226,8 +244,12 @@ def paget(event, **kwargs):
             imgthing = tk.Button(window, image=imagesforgame[10])
             imgthing.place(x=50, y=120)
             deletearray.append(imgthing)
-            padding = tk.Button(window, text="", width=40, height=20)
-            padding.place(x=490, y=150)
+            if platform.system() == "Windows":
+                padding = tk.Button(window, text="", width=50, height=25)
+                padding.place(x=500, y=150)
+            else:
+                padding = tk.Button(window, text="", width=40, height=20)
+                padding.place(x=490, y=150)
             selectedG = tk.StringVar()
             selectedG.set("Pick The Material")
             selectedC = tk.StringVar()
@@ -238,7 +260,7 @@ def paget(event, **kwargs):
             dropcastle.place(x=600, y=400)
             confirm = tk.Button(window, text="Confirm",
                                 command=lambda: [sell(selectedG, selectedC), destroybtn(last, Home, padding, dropgift, confirm, dropgift, dropcastle,
-                                                         howmuchgive, howmuchsell, ary=deletearray), pageo()])
+                                                         howmuchgive, howmuchsell, ary=deletearray)])
             confirm.place(x=610, y=440)
             for i in range(len(say)):
                 label = tk.Label(window, text=say[i][0])
@@ -248,9 +270,9 @@ def paget(event, **kwargs):
                              command=lambda: [quit(0)])  # TODO RUOYU CHANGE THIS
             Home.place(x=0, y=0, anchor=tk.NW)
             last = tk.Button(window, text="<",
-                             command=lambda: [pageo(),
+                             command=lambda: [pageo(), #using sell to get back to home page
                                               destroybtn(last, Home, padding, dropgift, confirm, dropgift, dropcastle,
-                                                         howmuchgive, howmuchsell, ary=deletearray)])
+                                                         howmuchgive, howmuchsell, ary=deletearray), falsesold()])
             last.place(x=300, y=550, anchor=tk.CENTER)
         else:
             img = 6 if event == "Food" else 9 if event == "Metal" else 8 if event == "Stone" else 7 if event == "Wood" \
