@@ -59,7 +59,7 @@ def imageload():
     load = load.resize((350, 350))
     imagestuff = ImageTk.PhotoImage(load)
     imagesforgame.append(imagestuff)
-    for loadd in range(3, 6):
+    for loadd in range(3, 7):
         nameoffile = ("./shittyworldgenimg/mat", str(loadd), ".png")
         nameoffile = "".join(nameoffile)
         load = Image.open(nameoffile)
@@ -223,6 +223,9 @@ def paget(event, **kwargs):
         howmuchsell.place(x=600, y=250)
         deletearray.extend((howmuchsell, howmuchgive))
         if tf == 123:
+            imgthing = tk.Button(window, image=imagesforgame[10])
+            imgthing.place(x=50, y=120)
+            deletearray.append(imgthing)
             padding = tk.Button(window, text="", width=40, height=20)
             padding.place(x=490, y=150)
             selectedG = tk.StringVar()
@@ -250,7 +253,8 @@ def paget(event, **kwargs):
                                                          howmuchgive, howmuchsell, ary=deletearray)])
             last.place(x=300, y=550, anchor=tk.CENTER)
         else:
-            img = 6 if event == "Food" else 9 if event == "Metal" else 8 if event == "Stone" else 7
+            img = 6 if event == "Food" else 9 if event == "Metal" else 8 if event == "Stone" else 7 if event == "Wood" \
+                else 10
             imgthing = tk.Button(window, image=imagesforgame[img])
             imgthing.place(x=50, y=120)
             deletearray.append(imgthing)
