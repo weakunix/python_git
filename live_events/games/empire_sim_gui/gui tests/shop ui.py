@@ -235,7 +235,6 @@ def paget(*args):
                                                      howmuchgive, howmuchsell, ary=deletearray)])
         last.place(x=300, y=550, anchor=tk.CENTER)
     else:
-        print(imagesforgame)
         img = 6 if tf == "Food" else 9 if tf == "Metal" else 8 if tf == "Stone" else 7
         imgthing = tk.Button(window, image=imagesforgame[img])
         imgthing.place(x=50, y=120)
