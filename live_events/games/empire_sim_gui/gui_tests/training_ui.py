@@ -2,15 +2,20 @@ import random
 import tkinter as tk
 from PIL import Image, ImageTk
 import destroything
-from functools import partial
+import matplotlib
+
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import platform
 from tkinter import messagebox  # messagebox must be explicitly imported
 
 # make window window
 window = tk.Tk()
 window.geometry("800x600")
-window.title("royadle")
+window.title("Training")
 
+#                0     1     2        3       4          5       6           7             8          9     10
 recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food/day, wood to make, stone, metal
     ["muscle", "Mr.I did pushups for fun...\n (no he's not on steroids)", 10, 1000, 0, 5, 0, 1, 0, 25, 0],
     ["slingshotty", "Ka-pow... splat\n reload, repeat", 10, 800, 5, 7, 0, 5, 50, 0, 0],
@@ -23,7 +28,7 @@ recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food
 ]
 imagesforgame = []
 amnt = 0
-new = 0
+new = True
 delarray = []
 
 
@@ -47,32 +52,59 @@ imageload()
 def switchamt(event, number):
     global amnt
     global delarray
+    global new
+    new = False
     amnt = event
     destroything.destroyBTN(arry=delarray)
     makeItems(number=number)
 
 
+def plot(number):
+    mats = [
+        500,  # wood
+        10000,  # rock
+        20000,  # metal
+        50000  # food
+    ]
+    datapoints = [
+        [mats[0] - recruits[number][8], mats[0] - recruits[number][8] - recruits[number][4]],
+        [mats[1] - recruits[number][9], mats[1] - recruits[number][9] - recruits[number][5]],
+        [mats[2] - recruits[number][10], mats[2] - recruits[number][10] - recruits[number][6]],
+        [mats[3], mats[3] - recruits[number][10] - recruits[number][6]]
+    ]
+    for i in range(3):
+        pass
+    plotting = tk.Toplevel(window)
+    plotting.title("Graph")
+    closeanim = tk.Button(window, text="Close Graph")
+    closeanim.place(x=670, y=175, anchor=tk.CENTER)
+    fg = plt.Figure(figsize=(5, 4), dpi=100)
+    a = fg.add_subplot(111)
+    line2 = FigureCanvasTkAgg(fg, plotting)
+    line2.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+    #plt.plot(datapoints[0]-)
+    a.set_title('Materials Over Time')
+
+
 def animate(make, number):
     global new
     if make == "sdf":
-        new = tk.Toplevel(window)
-        new.title("Animation")
-        new.geometry("225x300")
         closeanim = tk.Button(window, text="Close Animations Running", command=lambda: [animate("close", closeanim)])
         closeanim.place(x=670, y=175, anchor=tk.CENTER)
+        new = True
         make = True
     elif make == "close":
+        new = False
         number.destroy()
-        new.destroy()
-    if type(make) == bool:
+    if type(make) == bool and new:
         if make:
-            person = tk.Button(new, image=imagesforgame[number])
-            person.place(x=0, y=0, anchor=tk.NW)
-            new.after(recruits[number][3], lambda: [animate(False, number), destroything.destroyBTN(person)])
+            person = tk.Button(window, image=imagesforgame[number])
+            person.place(x=400, y=300, anchor=tk.CENTER)
+            window.after(recruits[number][3], lambda: [animate(False, number), destroything.destroyBTN(person)])
         elif not make:
-            person = tk.Button(new, image=imagesforgame[number+len(recruits)])
-            person.place(x=0, y=0, anchor=tk.NW)
-            new.after(recruits[number][3], lambda: [animate(True, number), destroything.destroyBTN(person)])
+            person = tk.Button(window, image=imagesforgame[number + len(recruits)])
+            person.place(x=400, y=300, anchor=tk.CENTER)
+            window.after(recruits[number][3], lambda: [animate(True, number), destroything.destroyBTN(person)])
 
 
 def makeItems(
@@ -111,12 +143,12 @@ def makeItems(
         " \nReload Speed (lower is better):\n", str(recruits[number][3] * amnt)]
     dmg = "".join(dmg)
     costdisplayday = tk.Label(window, text=costsday, font=('Lucida Grande', 15))
-    costdisplayday.place(x=110, y=525, anchor=tk.CENTER)
+    costdisplayday.place(x=150, y=525, anchor=tk.CENTER)
     costdisplaymake = tk.Label(window, text=costsmake, font=('Times', 15))
-    costdisplaymake.place(x=110, y=460, anchor=tk.CENTER)
+    costdisplaymake.place(x=150, y=460, anchor=tk.CENTER)
     damagetxt = tk.Label(window, text=dmg, font=('Times', 15))
     damagetxt.place(x=650, y=100, anchor=tk.CENTER)
-    array=[]
+    array = []
     playanim = tk.Button(window, text="Play Animation!", command=lambda: [animate("sdf", number)])
     playanim.place(x=650, y=175, anchor=tk.CENTER)
     recruitbtn = tk.Button(window, text=("Recruit! (x" + str(amnt) + ")"), width=20, height=4)
