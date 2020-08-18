@@ -19,7 +19,7 @@ recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food
     ["princess", "shotgun of the medieval age\n (not CR copy)", 200, 1000, 30, 0, 10, 20, 50, 100, 0],
     ["panini", "Highly trained elite-\n Hmm i wonder what that hat is...", 20, 100, 0, 0, 20, 20, 0, 0, 100],
     ["cannon", "Big round thing that shoots\n (No it doesn't look like a ballsac)", 1000, 500, 0, 70, 0, 0, 0, 500, 0],
-    ["albreto", "Smart man\n albreto scientist", 200, 1200, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
+    ["albreto", "Smart man\n albreto scientist", 200, 600, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
 ]
 imagesforgame = []
 amnt = 0
@@ -58,15 +58,21 @@ def animate(make, number):
         new = tk.Toplevel(window)
         new.title("Animation")
         new.geometry("225x300")
+        closeanim = tk.Button(window, text="Close Animations Running", command=lambda: [animate("close", closeanim)])
+        closeanim.place(x=670, y=175, anchor=tk.CENTER)
         make = True
-    if make:
-        person = tk.Button(new, image=imagesforgame[number])
-        person.place(x=0, y=0, anchor=tk.NW)
-        new.after(recruits[number][3], lambda: [animate(False, number), destroything.destroyBTN(person)])
-    elif not make:
-        person = tk.Button(new, image=imagesforgame[number+len(recruits)])
-        person.place(x=0, y=0, anchor=tk.NW)
-        new.after(recruits[number][3], lambda: [animate(True, number), destroything.destroyBTN(person)])
+    elif make == "close":
+        number.destroy()
+        new.destroy()
+    if type(make) == bool:
+        if make:
+            person = tk.Button(new, image=imagesforgame[number])
+            person.place(x=0, y=0, anchor=tk.NW)
+            new.after(recruits[number][3], lambda: [animate(False, number), destroything.destroyBTN(person)])
+        elif not make:
+            person = tk.Button(new, image=imagesforgame[number+len(recruits)])
+            person.place(x=0, y=0, anchor=tk.NW)
+            new.after(recruits[number][3], lambda: [animate(True, number), destroything.destroyBTN(person)])
 
 
 def makeItems(
