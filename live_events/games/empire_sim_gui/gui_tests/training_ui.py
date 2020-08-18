@@ -18,7 +18,7 @@ recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food
     ["robinhood", "100% accuracy..., \n but the decimal is between 1/0", 40, 500, 10, 20, 0, 10, 25, 50, 0],
     ["princess", "shotgun of the medieval age\n (not CR copy)", 200, 1000, 30, 0, 10, 20, 50, 100, 0],
     ["panini", "Highly trained elite-\n Hmm i wonder what that hat is...", 20, 100, 0, 0, 20, 20, 0, 0, 100],
-    ["cannon", "Big round thing that shoots\n (No it doesn't look like a ballsac)", 1000, 500, 0, 70, 0, 0, 0, 500, 0],
+    ["cannon", "Big round thing that shoots\n (No it doesn't look like a ballsac)", 1000, 2000, 0, 70, 0, 0, 0, 500, 0],
     ["albreto", "Smart man\n albreto scientist", 200, 600, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
 ]
 imagesforgame = []
