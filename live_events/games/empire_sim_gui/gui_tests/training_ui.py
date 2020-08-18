@@ -12,17 +12,18 @@ window.geometry("800x600")
 window.title("royadle")
 
 recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food/day, wood to make, stone, metal
-    ["muscle", "Mr.I did pushups for fun...\n (no he's not on steroids)", 10, 100, 0, 5, 0, 1, 0, 25, 0],
-    ["slingshotty", "Ka-pow... splat\n reload, repeat", 10, 60, 5, 7, 0, 5, 50, 0, 0],
-    ["chushir", "One knife is cool, \n Two and you're a chef", 20, 30, 10, 0, 1, 0, 25, 0, 25],
-    ["robinhood", "100% accuracy..., \n but the decimal is between 1/0", 40, 30, 10, 20, 0, 10, 25, 50, 0],
-    ["princess", "shotgun of the medieval age\n (not CR copy)", 200, 100, 30, 0, 10, 20, 50, 100, 0],
-    ["panini", "Highly trained elite-\n Hmm i wonder what that hat is...", 20, 10, 0, 0, 20, 20, 0, 0, 100],
+    ["muscle", "Mr.I did pushups for fun...\n (no he's not on steroids)", 10, 1000, 0, 5, 0, 1, 0, 25, 0],
+    ["slingshotty", "Ka-pow... splat\n reload, repeat", 10, 800, 5, 7, 0, 5, 50, 0, 0],
+    ["chushir", "One knife is cool, \n Two and you're a chef", 20, 400, 10, 0, 1, 0, 25, 0, 25],
+    ["robinhood", "100% accuracy..., \n but the decimal is between 1/0", 40, 500, 10, 20, 0, 10, 25, 50, 0],
+    ["princess", "shotgun of the medieval age\n (not CR copy)", 200, 1000, 30, 0, 10, 20, 50, 100, 0],
+    ["panini", "Highly trained elite-\n Hmm i wonder what that hat is...", 20, 100, 0, 0, 20, 20, 0, 0, 100],
     ["cannon", "Big round thing that shoots\n (No it doesn't look like a ballsac)", 1000, 500, 0, 70, 0, 0, 0, 500, 0],
-    ["albreto", "Smart man\n albreto scientist", 200, 120, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
+    ["albreto", "Smart man\n albreto scientist", 200, 1200, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
 ]
 imagesforgame = []
 amnt = 0
+new = 0
 delarray = []
 
 
@@ -51,6 +52,23 @@ def switchamt(event, number):
     makeItems(number=number)
 
 
+def animate(make, number):
+    global new
+    if make == "sdf":
+        new = tk.Toplevel(window)
+        new.title("Animation")
+        new.geometry("225x300")
+        make = True
+    if make:
+        person = tk.Button(new, image=imagesforgame[number])
+        person.place(x=0, y=0, anchor=tk.NW)
+        new.after(recruits[number][3], lambda: [animate(False, number), destroything.destroyBTN(person)])
+    elif not make:
+        person = tk.Button(new, image=imagesforgame[number+len(recruits)])
+        person.place(x=0, y=0, anchor=tk.NW)
+        new.after(recruits[number][3], lambda: [animate(True, number), destroything.destroyBTN(person)])
+
+
 def makeItems(
         **kwargs):  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food/day, wood to make, stone, metal
     global amnt
@@ -68,14 +86,14 @@ def makeItems(
         howmuch = tk.Scale(window, from_=1, to=100, orient=tk.HORIZONTAL, length=150, width=15, bg="grey",
                            command=lambda x: [switchamt(howmuch.get(), number)])
         howmuch.place(x=650, y=400, anchor=tk.CENTER)
-        #delarray.append(howmuch)
+        # delarray.append(howmuch)
     if amnt == 0:
         amnt = 1
     costsday = (
-    "Materials/Day\n", "Wood:", str(recruits[number][4] * amnt), "  Stone:", str(recruits[number][5] * amnt),
-    "\nMetal:",
-    str(recruits[number][6] * amnt), "  Food:",
-    str(recruits[number][7] * amnt))
+        "Materials/Day\n", "Wood:", str(recruits[number][4] * amnt), "  Stone:", str(recruits[number][5] * amnt),
+        "\nMetal:",
+        str(recruits[number][6] * amnt), "  Food:",
+        str(recruits[number][7] * amnt))
     costsday = "".join(costsday)
     costsmake = (
         "Materials/Make\n", "Wood:", str(recruits[number][8] * amnt), "  Stone:", str(recruits[number][9] * amnt),
@@ -92,9 +110,10 @@ def makeItems(
     costdisplaymake.place(x=110, y=460, anchor=tk.CENTER)
     damagetxt = tk.Label(window, text=dmg, font=('Times', 15))
     damagetxt.place(x=650, y=100, anchor=tk.CENTER)
-    playanim = tk.Button(window, text="Play Animation!")
+    array=[]
+    playanim = tk.Button(window, text="Play Animation!", command=lambda: [animate("sdf", number)])
     playanim.place(x=650, y=175, anchor=tk.CENTER)
-    recruitbtn = tk.Button(window, text=("Recruit! (x"+str(amnt)+")"), width=20, height=4)
+    recruitbtn = tk.Button(window, text=("Recruit! (x" + str(amnt) + ")"), width=20, height=4)
     recruitbtn.place(x=650, y=500, anchor=tk.CENTER)
     delarray.extend((person, name, desc, costdisplayday, costdisplaymake, namet, recruitbtn, damagetxt, playanim))
     if number + 1 < len(recruits):
