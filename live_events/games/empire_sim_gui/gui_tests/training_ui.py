@@ -19,7 +19,7 @@ window.title("Training")
 recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food/day, wood to make, stone, metal
     ["muscle", "Mr.I did pushups for fun...\n (no he's not on steroids)", 10, 1000, 0, 5, 0, 1, 0, 25, 0],
     ["slingshotty", "Ka-pow... splat\n reload, repeat", 10, 800, 5, 7, 0, 5, 50, 0, 0],
-    ["chushir", "One knife is cool, \n Two and you're a chef", 20, 400, 10, 0, 1, 0, 25, 0, 25],
+    ["厨师", "One knife is cool, \n Two and you're a chef", 20, 400, 10, 0, 1, 0, 25, 0, 25],
     ["robinhood", "100% accuracy..., \n but the decimal is between 1/0", 40, 500, 10, 20, 0, 10, 25, 50, 0],
     ["princess", "shotgun of the medieval age\n (not CR copy)", 200, 1000, 30, 0, 10, 20, 50, 100, 0],
     ["panini", "Highly trained elite-\n Hmm i wonder what that hat is...", 20, 100, 0, 0, 20, 20, 0, 0, 100],
