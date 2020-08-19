@@ -11,7 +11,7 @@ land = 1 #land player has conquered
 happy = 100 #happy happiness
 research = [] #things that have been researched
 moves = 0 #number of moves made by the player during the day (max 3 (max 5 if researched time efficiency))
-levels = [0, 1, 20]
+levels = [0, 1, 20, 1] #levels and health of things in the format [wall support level, wall level, wall health, training camp level]
 #types of walls
 wall_types = {  1: ['./empire_sim_images/dirtwall.png', 'Level 1: Dirt Wall', 20],
                 2: ['./empire_sim_images/stonewall.png', 'Level 2: Stone Wall', 50],
@@ -28,6 +28,11 @@ support_types = {   1: ['./empire_sim_images/muscle.png', 'Level 1: Stone Throwe
                     7: ['./empire_sim_images/cannon.png', 'Level 7: Cannon'],
                     8: ['./empire_sim_images/albreto.png', 'Level 8: Albreto Scientist'],
                     9: ['./empire_sim_images/merlin.png', 'Max Level: Wizard']  }
+#training camp types
+training_types = {  1: './empire_sim_images/stonecamp.png',
+                    2: './empire_sim_images/arrowcamp.png',
+                    3: './empire_sim_images/cannoncamp.png',
+                    4: './empire_sim_images/albretocamp.png'    }
 
 #user def functions
 ##destroy widgets
@@ -297,6 +302,12 @@ def home_page(event):
         support_1.place(x = 0, y = 0, anchor = tk.NW)
         support_2 = tk.Label(window, bg = '#00FFFF')
         support_2.place(x = 0, y = 0, anchor = tk.NW)
+    load = Image.open(training_types[levels[3]])
+    load = load.resize((211, 158))
+    render = ImageTk.PhotoImage(load)
+    training = tk.Button(window, image = render, width = 201, height = 150)
+    training.image = render
+    training.place(x = 600, y = 400, anchor = tk.CENTER)
     #player stats text
     stats = '$: ' + str(materials[0]) + '  Food: ' + str(materials[1]) + '  Stone: ' + str(materials[2]) + '  Metal: ' + str(materials[3]) + '  Wood: ' + str(materials[4]) + '\nLand: ' + str(land) + '  City Happiness: ' + str(happy) + ' / 100  Day: ' + str(day) + '  Moves played: ' + str(moves) + ' / '
     #moves depending on if time efficiency has been researched
@@ -307,7 +318,7 @@ def home_page(event):
     #player resources label
     stats = tk.Label(window, text = stats, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
     stats.place(x = 400, y = 0, anchor = tk.N)
-    widgets = [wall, support_1, support_2, stats]
+    widgets = [wall, support_1, support_2, stats, training]
     binds = ['<w>']
     window.bind('<w>', lambda event: [vanish(event, widgets), unstick(event, binds), wall_page(event)]) #bind w key to wall image button
 
