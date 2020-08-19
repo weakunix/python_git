@@ -21,21 +21,23 @@ with open('fortune.txt', 'r') as b:
         fortune.append(line[:-1])  # need to add a extra char
 
 cmd = [
-    "help",
-    "simp",
-    "prefix",
-    "moo",
-    "version",
-    "timer",
-    "dznr",
-    "yessir",
-    "bug",
-    "spam",
-    "lecture",
-    "pushorca",
-    "internet",
-    "fortune cookie",
-    "clean"
+    ["help", "help: This command"],
+    ["simp", "simp: Simp for your girl,"],
+    ["prefix", "prefix []: change prefix to [], (it is always __/cow prefix []__ just in case your friend changes it "
+               "to smt you don't know)additionall command(s): /cow prefix 'default' resets prefix"],
+    ["moo", "moo: joins your voice channel and moos, if you are not in vc, it'll send you a MooTube video and a joke"],
+    ["version", "version: checks version of this bot and github"],
+    ["timer", "timer: format is(timer h and m and s), example: prefix timer 1h and 4m and 30s, additional commands: "
+              "timer show (shows all timers and their channels) timer stop (stops all timers)"],
+    ["dznr", "dznr: Louis Vuitton, Gucci, Vercase"],
+    ["yessir", "yessir: Spamms YESSIRRRRRR (ferg style)"],
+    ["bug", "bug: uh oh, theres a bug? let pdb and pushorca help!"],
+    ["spam", "spam: spam [message] spams the message (can be mentions too ;))"],
+    ["lecture", "lecture: Ruoyu popping off af"],
+    ["pushorca", "pushorca: Shows Pushorca for good luck"],
+    ["internet", "internet: Checks for ping and (later) IP..."],
+    ["fortune cookie", "fortune cookie: tells you your fortune!"],
+    ["clean", "clean: clean [number of messages], clean less than 5 at a time because safety"]
 ]
 
 cowpun = [
@@ -93,7 +95,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     if message.content.startswith(prefix + cmd[0]):
-        a = "\n".join(cmd)
+        #a = "\n".join(cmd)
         emb = embedMake(title="Help", desc="MOO? You need halp? Here is the list of commands", color=0x00D2FF,
                         field=["Prefix", '\n' + prefix], fieldt=["Commands", ' ```' + a + '```'])
         await message.channel.send(embed=emb)
