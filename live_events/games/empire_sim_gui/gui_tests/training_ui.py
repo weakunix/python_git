@@ -29,7 +29,7 @@ recruits = [  # name, desc, dmg, fire rate, wood/day, stone/day, metal/day, food
     ["albreto", "Smart man\n albreto scientist", 200, 600, 0, 0, 0, 40, 0, 0, 0]  # albreto cant be trained
 ]
 imagesforgame = []
-amnt = 0
+amnt = 1
 new = True
 delarray = []
 
@@ -62,6 +62,7 @@ def switchamt(event, number):
 
 
 def plot(number):
+    global amnt
     mats = [
         500,  # wood
         4000,  # rock
@@ -79,19 +80,23 @@ def plot(number):
     alens = []
     for ii in range(4):
         tempw = []
-        matc = mats[ii] - recruits[number][8]
+        matc = mats[ii] - (recruits[number][8] * amnt)
         if recruits[number][4 + ii] != 0:
             if ii < 3:
-                alen = albreto.floor((mats[ii] - recruits[number][8 + ii]) / recruits[number][4 + ii])
+                alen = albreto.floor(matc / (recruits[number][4 + ii] * amnt)) + 1
             else:
-                alen = albreto.floor((mats[ii]) / recruits[number][4 + ii])
+                alen = albreto.floor(mats[ii] / (recruits[number][4 + ii] * amnt)) + 1
+            alen = 1 if alen == 0 else alen
             for i in range(alen):
-                matc -= recruits[number][4 + ii]
-                tempw.append(matc)
+                if matc != 0:
+                    matc -= (recruits[number][4 + ii] * amnt)
+                    tempw.append(matc)
+            tempw.append(0)
             alens.append(alen)
         else:
             tempw = mats[ii]
         datapoints.append(tempw)
+    print(datapoints)
     window.title("Graph")
     fig = Figure(figsize=(3, 2), dpi=100)
     a = fig.add_subplot(1, 1, 1)
@@ -130,7 +135,8 @@ def makeItems(
     number = kwargs.get("number", None)
     plot(number)
     legend = tk.Button(window, text="red:wood/day blue:rock/day \ngreen:metal/day grey:food/day\n(when any of the "
-                                    "lines reach 0, your castle \ncan't sustain the troop(s) anymroe)", font=('Lucida '
+                                    "lines reach 0, your castle \ncan't sustain the troop(s) anymroe)\n if the graph "
+                                    "is warping, it is because the \namount of resources are less than 0", font=('Lucida ' 
                                                                                                          'Grande', 10))
     legend.place(x=25, y=250, anchor=tk.NW)
     person = tk.Button(window, image=imagesforgame[number])
@@ -141,13 +147,11 @@ def makeItems(
     namet.place(x=400, y=100, anchor=tk.CENTER)
     desc = tk.Label(window, text=recruits[number][1])
     desc.place(x=150, y=400, anchor=tk.CENTER)
-    if amnt == 0:
+    if amnt == 1:
         howmuch = tk.Scale(window, from_=1, to=100, orient=tk.HORIZONTAL, length=150, width=15, bg="grey",
                            command=lambda x: [switchamt(howmuch.get(), number)])
         howmuch.place(x=650, y=400, anchor=tk.CENTER)
         # delarray.append(howmuch)
-    if amnt == 0:
-        amnt = 1
     costsday = (
         "Materials/Day\n", "Wood:", str(recruits[number][4] * amnt), "  Stone:", str(recruits[number][5] * amnt),
         "\nMetal:",
@@ -169,7 +173,6 @@ def makeItems(
     costdisplaymake.place(x=150, y=460, anchor=tk.CENTER)
     damagetxt = tk.Label(window, text=dmg, font=('Times', 15))
     damagetxt.place(x=650, y=100, anchor=tk.CENTER)
-    array = []
     playanim = tk.Button(window, text="Play Animation!", command=lambda: [animate("sdf", number)])
     playanim.place(x=650, y=175, anchor=tk.CENTER)
     recruitbtn = tk.Button(window, text=("Recruit! (x" + str(amnt) + ")"), width=20, height=4)
@@ -179,14 +182,14 @@ def makeItems(
         nexitem = tk.Button(window, text=recruits[number + 1][0])
         nexitem.place(x=525, y=250, anchor=tk.NW)
         nexxt = tk.Button(window, text=">", width=3, height=3,
-                          command=lambda: [destroything.destroyBTN(arry=delarray), switchamt(0, number + 1)])
+                          command=lambda: [destroything.destroyBTN(arry=delarray), switchamt(1, number + 1)])
         nexxt.place(x=550, y=300, anchor=tk.CENTER)
         delarray.extend((nexxt, nexitem))
     if number - 1 >= 0:
         lastitem = tk.Button(window, text=recruits[number - 1][0])
         lastitem.place(x=275, y=250, anchor=tk.NE)
         last = tk.Button(window, text="<", width=3, height=3,
-                         command=lambda: [destroything.destroyBTN(arry=delarray), switchamt(0, number - 1)])
+                         command=lambda: [destroything.destroyBTN(arry=delarray), switchamt(1, number - 1)])
         last.place(x=250, y=300, anchor=tk.CENTER)
         delarray.extend((last, lastitem))
 
