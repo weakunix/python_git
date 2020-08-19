@@ -65,4 +65,4 @@ async def on_message(message):
     elif message.content.startswith(prefix + cmd[4]):
         await message.channel.send("> BingBingBot Version: ```Version: "+v+"```> github repo here:\n "
                                                                  "> ```https://github.com/weakunix/python_git```")
-client.run('NzQ1NDQ4Nzg5NjU3MTI0OTM1.Xzx7SQ.9v4GFjs4G0YdK-0vBo-wHvjozbo')
+client.run('key here')
