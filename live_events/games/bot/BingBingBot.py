@@ -11,7 +11,7 @@ v = '0.6'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
-        key.append(line[:-1])
+        key.append(line[:-1])  # need to add a extra char
 key = "".join(key)
 
 cmd = [
@@ -50,6 +50,7 @@ def getMsg(lenpfx, msg, string):
 @client.event
 async def on_ready():
     print('Logged as {0.user}'.format(client))
+    await client.change_presence(activity=discord.Activity(name='for /cow help', type=discord.ActivityType.watching))
 
 
 @client.event
@@ -89,9 +90,11 @@ async def on_message(message):
     elif message.content.startswith(prefix + cmd[5]):
         timeslep = getMsg(len(prefix) + len(cmd[5]) + 1, message.content, False)
         slp = 0
-        if "show" in timeslep:
+        if "show" in message.content:
             for i in range(len(timerslist)):
                 await message.channel.send(timerslist[i])
+            if len(timerslist) == 0:
+                await message.channel.send("no timers running, set one with ```" + prefix + "timer```")
         else:
             for i in range(len(timeslep)):
                 if "s" == timeslep[i]:
@@ -106,17 +109,24 @@ async def on_message(message):
             timeslep = "".join(timeslep)
             try:
                 timeslep = int(timeslep)
+                slp *= timeslep
                 ak = await message.channel.send("Timer set")
-                timerslist.append(ak)
-                for i in range(0, int(timeslep) * slp):
+                timerslist.append("o")
+                brr = len(timerslist)
+                print(brr)
+                for i in range(0, slp):
                     await asyncio.sleep(1)
-                    a = "s" if timeslep * slp < 60 else "m" if timeslep * slp <= 3600 else "h"
-                    display = slp / 60 if timeslep * slp > 60 else slp
+                    a = "s" if slp < 60 else "m" if slp <= 3600 else "h"
+                    display = slp if slp < 60 else slp / 60 if slp < 3600 else slp / 3600
+                    timerslist[brr - 1] = (
+                                '> timer set: ' + str(albreto.floor(display)) + a + " #" + str(message.channel))
                     await ak.edit(content="> Timer set for ```" + str(albreto.floor(display)) + a + "```")
                     slp -= 1
-                await message.channel.send('> Timer done! : @{} '.format(message.author))  # '''
-            except:
+                await message.channel.send('> Timer done! : {} '.format(message.author))  # '''
+                await message.author.send('Your timer is done!')
+                timerslist[brr-1].pop()
+            except ValueError:
                 await message.channel.send('> Failed to set timer\n Make it like this  ```1h```,```1m```,```1s```')
 
 
-client.run("")
+client.run(key)
