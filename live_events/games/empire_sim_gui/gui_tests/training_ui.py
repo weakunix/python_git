@@ -4,8 +4,10 @@ from PIL import Image, ImageTk
 import destroything
 import matplotlib
 
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
+import math as albreto
+import matplotlib as plt
+plt.use("TkAgg")
+from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import platform
 from tkinter import messagebox  # messagebox must be explicitly imported
@@ -62,28 +64,42 @@ def switchamt(event, number):
 def plot(number):
     mats = [
         500,  # wood
-        10000,  # rock
-        20000,  # metal
-        50000  # food
+        4000,  # rock
+        2000,  # metal
+        1000  # food
     ]
-    datapoints = [
-        [mats[0] - recruits[number][8], mats[0] - recruits[number][8] - recruits[number][4]],
-        [mats[1] - recruits[number][9], mats[1] - recruits[number][9] - recruits[number][5]],
-        [mats[2] - recruits[number][10], mats[2] - recruits[number][10] - recruits[number][6]],
-        [mats[3], mats[3] - recruits[number][10] - recruits[number][6]]
+    color = [
+        "red",
+        "blue",
+        "green",
+        "grey"
     ]
-    for i in range(3):
-        pass
-    plotting = tk.Toplevel(window)
-    plotting.title("Graph")
-    closeanim = tk.Button(window, text="Close Graph")
-    closeanim.place(x=670, y=175, anchor=tk.CENTER)
-    fg = plt.Figure(figsize=(5, 4), dpi=100)
-    a = fg.add_subplot(111)
-    line2 = FigureCanvasTkAgg(fg, plotting)
-    line2.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
-    #plt.plot(datapoints[0]-)
-    a.set_title('Materials Over Time')
+    datapoints = []
+
+    alens = []
+    for ii in range(4):
+        tempw = []
+        matc = mats[ii] - recruits[number][8]
+        if recruits[number][4 + ii] != 0:
+            if ii < 3:
+                alen = albreto.floor((mats[ii] - recruits[number][8 + ii]) / recruits[number][4 + ii])
+            else:
+                alen = albreto.floor((mats[ii]) / recruits[number][4 + ii])
+            for i in range(alen):
+                matc -= recruits[number][4 + ii]
+                tempw.append(matc)
+            alens.append(alen)
+        else:
+            tempw = mats[ii]
+        datapoints.append(tempw)
+    window.title("Graph")
+    fig = Figure(figsize=(3, 2), dpi=100)
+    a = fig.add_subplot(1, 1, 1)
+    a.set_title('Materials(y)/Days(x)')
+    for ii in range(4):
+        a.plot(datapoints[ii], color=color[ii])
+    canvas = FigureCanvasTkAgg(fig, window)
+    canvas.get_tk_widget().place(x=0, y=50, anchor=tk.NW)
 
 
 def animate(make, number):
@@ -112,6 +128,11 @@ def makeItems(
     global amnt
     global delarray
     number = kwargs.get("number", None)
+    plot(number)
+    legend = tk.Button(window, text="red:wood/day blue:rock/day \ngreen:metal/day grey:food/day\n(when any of the "
+                                    "lines reach 0, your castle \ncan't sustain the troop(s) anymroe)", font=('Lucida '
+                                                                                                         'Grande', 10))
+    legend.place(x=25, y=250, anchor=tk.NW)
     person = tk.Button(window, image=imagesforgame[number])
     person.place(x=400, y=300, anchor=tk.CENTER)
     name = tk.Label(window, text=("About:" + recruits[number][0]), font=('Lucida Grande', 20))
@@ -153,7 +174,7 @@ def makeItems(
     playanim.place(x=650, y=175, anchor=tk.CENTER)
     recruitbtn = tk.Button(window, text=("Recruit! (x" + str(amnt) + ")"), width=20, height=4)
     recruitbtn.place(x=650, y=500, anchor=tk.CENTER)
-    delarray.extend((person, name, desc, costdisplayday, costdisplaymake, namet, recruitbtn, damagetxt, playanim))
+    delarray.extend((person, legend, name, desc, costdisplayday, costdisplaymake, namet, recruitbtn, damagetxt, playanim))
     if number + 1 < len(recruits):
         nexitem = tk.Button(window, text=recruits[number + 1][0])
         nexitem.place(x=525, y=250, anchor=tk.NW)
