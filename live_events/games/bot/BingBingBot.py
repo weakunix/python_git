@@ -21,7 +21,9 @@ cmd = [
     "moo",
     "version",
     "timer",
-    "timers"
+    "dznr",
+    "yessir",
+    "bug"
 ]
 
 cowpun = [
@@ -63,7 +65,6 @@ async def on_message(message):
                                    'change prefix [itll always be /cow prefix to change]) \n' + prefix + 'moo (play cow moo sound) \n' + prefix + 'simp [girlfriend (i sad no '
                                                                                                                                                   'hav)] (cow spams her name and hearts)\n' + prefix + 'moo```')
     elif message.content.startswith(prefix + cmd[1]):
-
         simp = getMsg(len(prefix) + len(cmd[1]) + 1, message.content, True)
         if simp != " i sad no hav":
             simp = (":heart:" + simp) * 5
@@ -88,6 +89,7 @@ async def on_message(message):
         await message.channel.send("> BingBingBot Version: ```Version: " + v + "```> github repo here:\n "
                                                                                "> ```https://github.com/weakunix/python_git```")
     elif message.content.startswith(prefix + cmd[5]):
+        user = message.author
         timeslep = getMsg(len(prefix) + len(cmd[5]) + 1, message.content, False)
         slp = 0
         if "show" in message.content:
@@ -115,18 +117,31 @@ async def on_message(message):
                 brr = len(timerslist)
                 print(brr)
                 for i in range(0, slp):
-                    await asyncio.sleep(1)
+                    time.sleep(1)
                     a = "s" if slp < 60 else "m" if slp <= 3600 else "h"
                     display = slp if slp < 60 else slp / 60 if slp < 3600 else slp / 3600
                     timerslist[brr - 1] = (
-                                '> timer set: ' + str(albreto.floor(display)) + a + " #" + str(message.channel))
+                                '> timer set: ' + str(albreto.floor(display)) + a + " #" + str(message.channel.mention))
                     await ak.edit(content="> Timer set for ```" + str(albreto.floor(display)) + a + "```")
                     slp -= 1
-                await message.channel.send('> Timer done! : {} '.format(message.author))  # '''
+                bss = '> Timer done! : '+str(user.mention)
+                await ak.edit(content=bss)
                 await message.author.send('Your timer is done!')
-                timerslist[brr-1].pop()
+                timerslist.pop(brr - 1)
             except ValueError:
                 await message.channel.send('> Failed to set timer\n Make it like this  ```1h```,```1m```,```1s```')
+    elif message.content.startswith(prefix + cmd[6]):
+        await message.channel.send('> https://media.discordapp.net/attachments/730581364675575858/744609727752962185'
+                                   '/image0.jpg?width=1248&height=936')
+    elif message.content.startswith(prefix + cmd[7]):
+        yay = ("YESSIRRRRR " * 5)
+        for i in range(5):
+            await message.channel.send(yay)
+        await message.channel.send("https://www.youtube.com/watch?v=3xsZnMLrH2U")
+    elif message.content.startswith(prefix + cmd[8]):
+        await message.channel.send(":bug: ```import pdb;bdp.settrace```")
+    #elif message.content.startswith(prefix + cmd[9])
+
 
 
 client.run(key)
