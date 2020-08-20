@@ -5,7 +5,7 @@ import math as albreto
 import asyncio
 
 client = discord.Client()
-prefix = "/cow "
+prefix = "/cow " #default prefix
 v = '0.8'
 stopTimer = False
 
@@ -38,7 +38,8 @@ cmd = [
     ["internet", "internet: Checks for ping and (later) IP..."],
     ["fortune cookie", "fortune cookie: tells you your fortune!"],
     ["clean", "clean: clean [number of messages], clean less than 5 at a time!"],
-    ["bounce", "bounce: BOUNCE IT"]
+    ["bounce", "bounce: BOUNCE IT"],
+    ["emojirole", "gives roles according to reactions"],
 ]
 
 cowpun = [
@@ -51,7 +52,11 @@ cowpun = [
     "What does cows drive into war?\n> milk TANKERS"
 ]
 
+emojirole = []
+
 timerslist = []
+messageid = 0
+messagerole = ""
 
 
 def getMsg(lenpfx, msg, string):
@@ -91,9 +96,34 @@ async def on_ready():
 
 
 @client.event
+async def on_reaction_add(reaction, user):
+    global emojirole
+    if reaction.message.id == messageid:
+        if messagerole not in user.roles:
+            await user.add_roles(discord.utils.get(user.guild.roles, name=messagerole))
+            await reaction.message.channel.send("added "+messagerole+" to "+user.mention)
+            emojirole.append([messagerole, messageid])
+            print(emojirole)
+    await user.send(str(user.name)+" added "+str(reaction.emoji)+" id:"+str(reaction.message.id))
+
+
+@client.event
+async def on_reaction_remove(reaction, user):
+    global emojirole
+    num = 0
+    for num in range(len(emojirole)):
+        if emojirole[num][1] == reaction.message.id:
+            break
+    await user.remove_roles(discord.utils.get(user.guild.roles, name=emojirole[num][0]))
+    await reaction.message.channel.send("removed " + emojirole[num][0] + " to " + user.mention)
+
+
+@client.event
 async def on_message(message):
     global prefix
     global stopTimer
+    global messageid
+    global messagerole
     if message.author == client.user:
         return
     if message.content.startswith(prefix + cmd[0][0]) or message.content.startswith(prefix + "halp"):
@@ -233,6 +263,19 @@ async def on_message(message):
         await message.channel.send("bounce!!\n https://images-ext-2.discordapp.net/external/_e-mp-bsozl"
                                    "-BZDp2dPhJ9uExzpf6T6rFNgCXob-mzo/%3Fw%3D640/https/kmccready.files.wordpress.com"
                                    "/2009/04/bouncing-cow.gif")
+    elif message.content.startswith(prefix + cmd[16][0]):
+        try:
+            messageid = int(getMsg(len(prefix) + len(cmd[16][0]) + 1, message.content, True))
+            await message.channel.send("id:"+str(messageid))
+            await message.channel.send("Continue setup with "+prefix+" role [role to add with emoji]")
+        except:
+            await message.channel.send("NOT A ID U DOOFUS :RAAAA: ")
+    elif message.content.startswith(prefix + "role"):
+        try:
+            messagerole = getMsg(len(prefix) + len("role") + 1, message.content, True)
+            await message.channel.send("role assigned to emoji:"+str(messagerole))
+        except:
+            await message.channel.send("NOT A ID U DOOFUS :RAAAA: ")
 
 
 client.run(key)
