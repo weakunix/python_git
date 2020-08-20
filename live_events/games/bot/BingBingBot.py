@@ -57,6 +57,7 @@ emojirole = []
 timerslist = []
 messageid = 0
 messagerole = ""
+roleset = False
 
 
 def getMsg(lenpfx, msg, string):
@@ -98,13 +99,14 @@ async def on_ready():
 @client.event
 async def on_reaction_add(reaction, user):
     global emojirole
+    print(reaction.message.id)
+    print(messageid)
     if reaction.message.id == messageid:
-        if messagerole not in user.roles:
-            await user.add_roles(discord.utils.get(user.guild.roles, name=messagerole))
-            await reaction.message.channel.send("added "+messagerole+" to "+user.mention)
-            emojirole.append([messagerole, messageid])
-            print(emojirole)
-    await user.send(str(user.name)+" added "+str(reaction.emoji)+" id:"+str(reaction.message.id))
+        await user.add_roles(discord.utils.get(user.guild.roles, name=messagerole))
+        await reaction.message.channel.send("added "+messagerole+" to "+user.mention)
+        emojirole.append([messagerole, messageid])
+        print(emojirole)
+    #await user.send(str(user.name)+" added "+str(reaction.emoji)+" id:"+str(reaction.message.id))
 
 
 @client.event
@@ -121,6 +123,7 @@ async def on_reaction_remove(reaction, user):
 @client.event
 async def on_message(message):
     global prefix
+    global roleset
     global stopTimer
     global messageid
     global messagerole
@@ -264,18 +267,24 @@ async def on_message(message):
                                    "-BZDp2dPhJ9uExzpf6T6rFNgCXob-mzo/%3Fw%3D640/https/kmccready.files.wordpress.com"
                                    "/2009/04/bouncing-cow.gif")
     elif message.content.startswith(prefix + cmd[16][0]):
+        messagestuff = getMsg(len(prefix) + len(cmd[16][0]) + 1, message.content, True)
+        a = await message.channel.send(messagestuff)
+        await a.add_reaction("🐮")
+        messageid = a.id
+        await message.channel.send("Continue setup with /setrole [role to add with emoji]")
+        roleset = True
+    elif message.content.startswith("/setrole") and roleset:
+        messagerole = getMsg(len("/setrole") + 1, message.content, True)
         try:
-            messageid = int(getMsg(len(prefix) + len(cmd[16][0]) + 1, message.content, True))
-            await message.channel.send("id:"+str(messageid))
-            await message.channel.send("Continue setup with "+prefix+" role [role to add with emoji]")
+            await message.author.add_roles(discord.utils.get(message.author.guild.roles, name=messagerole))
+            await message.author.remove_roles(discord.utils.get(message.author.guild.roles, name=messagerole))
+            await message.channel.send("role assigned to emoji:" + str(messagerole))
+            roleset = False
         except:
-            await message.channel.send("NOT A ID U DOOFUS :RAAAA: ")
-    elif message.content.startswith(prefix + "role"):
-        try:
-            messagerole = getMsg(len(prefix) + len("role") + 1, message.content, True)
-            await message.channel.send("role assigned to emoji:"+str(messagerole))
-        except:
-            await message.channel.send("NOT A ID U DOOFUS :RAAAA: ")
+            await message.channel.send("Not a role, setup cancelled")
+            roleset = False
+            msg = await message.channel.fetch_message(messageid)
+            await msg.delete()
 
 
 client.run(key)
