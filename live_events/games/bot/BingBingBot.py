@@ -3,10 +3,11 @@ import random
 import time
 import math as albreto
 import asyncio
+import json
 
 client = discord.Client()
 prefix = "/cow "  # default prefix
-v = '0.9'
+v = '0.9.1'
 stopTimer = False
 
 key = []
@@ -53,8 +54,16 @@ cowpun = [
     "What did the cow say at the Mexican Restaurant?\n MOOchas gracias!"
 ]
 
-emojirole = []
 
+def jason_it(whatindex,filename, msg):
+    with open(filename, 'r') as brr:
+        prefixes = json.load(brr)
+    prefixes[str(whatindex)] = msg
+    with open(filename, 'w') as brrr:
+        json.dump(prefixes, brrr, indent=4)
+
+
+emojirole = []
 timerslist = []
 messageid = 0
 messagerole = ""
@@ -92,70 +101,77 @@ def embedMake(*args, **kwargs):
 
 
 async def timer(message):
-    user = message.author
-    timeslep = getMsg(len(prefix) + len(cmd[5][0]) + 1, message.content, False)
-    slp = 0
-    if "show" in message.content:
-        for i in range(len(timerslist)):
-            await message.channel.send(timerslist[i])
-        if len(timerslist) == 0:
-            await message.channel.send("no timers running, set one with ```" + prefix + "timer```")
-    elif "stop" in message.content:
-        stopTimer = True
-        await message.channel.send("Cleared Timers, use ```" + prefix + "timer``` to set one")
-        # timerslist.clear()
-    else:
-        stopTimer = False
-        stuff = [["s", 1], ["m", 60], ["h", 3600], ['a', 0], ['n', 0], ['d', 0]]
-        for i in range(len(timeslep)):
-            for x in range(len(stuff)):
-                if stuff[x][0] == timeslep[i]:
-                    timeslep[i] = ""
-        timeslep = "".join(timeslep)
-        arry = timeslep.split(" ")
-        hr = int(arry[0])
-        minu = int(arry[1])
-        sec = int(arry[2])
-        slp = hr * 3600
-        slp += minu * 60
-        slp += sec
-        ak = await message.channel.send("Timer set")
-        timerslist.append("o")
-        brr = len(timerslist)
-        display = [0, 0, 0]
-        for i in range(0, slp):
-            if not stopTimer:
-                time.sleep(1)
-                display[0] = 0
-                display[1] = 0
-                display[2] = 0
-                if slp < 60:
-                    display[2] = slp
-                elif slp <= 3600:
-                    display[1] = slp // 60
-                    display[2] = slp % 60
-                else:
-                    display[0] = slp // 3600
-                    display[1] = (slp % 3600) // 60
-                    display[2] = (slp % 3600) % 60
-                # display = slp if slp < 60 else slp / 60 if slp < 3600 else slp / 3600
-                timerslist[brr - 1] = (
-                        '> timer set: ' + str(display[0]) + 'h ' + str(display[1]) + 'm ' + str(
-                    display[2]) + 's ' + " #" + str(message.channel.mention))
-                await ak.edit(content="> Timer set for ```" + str(display[0]) + 'h ' + str(display[1]) + 'm ' + str(
-                    display[2]) + 's ' + "```")
-                slp -= 1
-        if not stopTimer:
-            if message.channel.id == 745753093915934772:
-                await message.channel.purge(limit=2)
-            bss = '> Timer done! : ' + str(user.mention)
-            time.sleep(1)
-            await message.author.send(bss)
-            timerslist.pop(brr - 1)
+    try:
+        user = message.author
+        timeslep = getMsg(len(prefix) + len(cmd[5][0]) + 1, message.content, False)
+        slp = 0
+        if "show" in message.content:
+            for i in range(len(timerslist)):
+                await message.channel.send(timerslist[i])
+            if len(timerslist) == 0:
+                await message.channel.send("no timers running, set one with ```" + prefix + "timer```")
+        elif "stop" in message.content:
+            stopTimer = True
+            await message.channel.send("Cleared Timers, use ```" + prefix + "timer``` to set one")
+            # timerslist.clear()
         else:
+            stopTimer = False
+            stuff = [["s", 1], ["m", 60], ["h", 3600], ['a', 0], ['n', 0], ['d', 0]]
+            for i in range(len(timeslep)):
+                for x in range(len(stuff)):
+                    if stuff[x][0] == timeslep[i]:
+                        timeslep[i] = ""
+            timeslep = "".join(timeslep)
+            arry = timeslep.split(" ")
+            hr = int(arry[0])
+            minu = int(arry[1])
+            sec = int(arry[2])
+            slp = hr * 3600
+            slp += minu * 60
+            slp += sec
+            ak = await message.channel.send("Timer set")
+            timerslist.append("o")
+            brr = len(timerslist)
+            display = [0, 0, 0]
+            for i in range(0, slp):
+                if not stopTimer:
+                    time.sleep(1)
+                    display[0] = 0
+                    display[1] = 0
+                    display[2] = 0
+                    if slp < 60:
+                        display[2] = slp
+                    elif slp <= 3600:
+                        display[1] = slp // 60
+                        display[2] = slp % 60
+                    else:
+                        display[0] = slp // 3600
+                        display[1] = (slp % 3600) // 60
+                        display[2] = (slp % 3600) % 60
+                    # display = slp if slp < 60 else slp / 60 if slp < 3600 else slp / 3600
+                    timerslist[brr - 1] = (
+                            '> timer set: ' + str(display[0]) + 'h ' + str(display[1]) + 'm ' + str(
+                        display[2]) + 's ' + " #" + str(message.channel.mention))
+                    await ak.edit(content="> Timer set for ```" + str(display[0]) + 'h ' + str(display[1]) + 'm ' + str(
+                        display[2]) + 's ' + "```")
+                    slp -= 1
+            if not stopTimer:
+                if message.channel.id == 745753093915934772:
+                    await message.channel.purge(limit=2)
+                bss = '> Timer done! : ' + str(user.mention)
+                time.sleep(1)
+                await message.author.send(bss)
+                timerslist.pop(brr - 1)
+            else:
+                if message.channel.id == 745753093915934772:
+                    await message.channel.purge(limit=2)
+                bss = '> Timer Cancelled! : '
+                await message.channel.send(bss + str(user.mention))
+    except:
+        await message.channel.send("Timer Failed To Start. Check that it is in the format: h m s")
+        if message.channel.id == 745753093915934772:
+            time.sleep(1)
             await message.channel.purge(limit=2)
-            bss = '> Timer Cancelled! : '
-            await message.channel.send(bss + str(user.mention))
 
 
 @client.event
@@ -167,7 +183,9 @@ async def on_ready():
 @client.event
 async def on_reaction_add(reaction, user):
     global emojirole
-    try:
+    if user == client.user:
+        return
+    else:
         num = -1
         for i in range(len(emojirole)):
             if emojirole[i][1] == reaction.message.id:
@@ -175,14 +193,16 @@ async def on_reaction_add(reaction, user):
         if num != -1:
             await user.add_roles(discord.utils.get(user.guild.roles, name=emojirole[num][0]))
         # await reaction.message.channel.send("added " + emojirole[num][0] + " to " + user.mention)
-    except:
-        return 0
+    # except:
+    #    return 0
 
 
 @client.event
 async def on_reaction_remove(reaction, user):
     global emojirole
-    try:
+    if user == client.user:
+        return
+    else:
         num = -1
         for i in range(len(emojirole)):
             if emojirole[i][1] == reaction.message.id:
@@ -190,8 +210,13 @@ async def on_reaction_remove(reaction, user):
         if num != -1:
             await user.remove_roles(discord.utils.get(user.guild.roles, name=emojirole[num][0]))
         # await reaction.message.channel.send("removed " + emojirole[num][0] + " to " + user.mention)
-    except:
-        return 0
+    # except:
+    #    return 0
+
+
+@client.event
+async def on_guild_join(guild):
+    jason_it(guild.id, 'prefixes.json', "/moo ")
 
 
 @client.event
@@ -203,7 +228,7 @@ async def on_message(message):
     global messagerole
     if message.author == client.user:
         return
-    if message.channel.id != 745753093915934772 and message.channel.id != 725404488030224616: #the channels #at the same clock and talk and announcements
+    if message.channel.id != 745753093915934772 and message.channel.id != 725404488030224616:  # the channels #at the same clock and talk and announcements
         if message.content.startswith(prefix + cmd[0][0]) or message.content.startswith(prefix + "halp"):
             emb = embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=cmd, title="Help",
                             desc="Ayy... Slidin into yo dms. MOO? You need halp? Here is the list of commands",
@@ -225,6 +250,7 @@ async def on_message(message):
                 prefix = newPFX + " "
             else:
                 prefix = "/cow "
+            jason_it(message.guild.id, 'prefixes.json', prefix)
             await message.channel.send("> Prefix Successfully Changed To:\n```" + prefix + "```")
         elif message.content.startswith(prefix + cmd[3][0]):
             await message.channel.send(
@@ -286,7 +312,10 @@ async def on_message(message):
                                        "/2009/04/bouncing-cow.gif")
         elif message.content.startswith(prefix + cmd[16][0]):
             messagestuff = getMsg(len(prefix) + len(cmd[16][0]) + 1, message.content, True)
-            a = await message.channel.send(messagestuff)
+            if messagestuff != '':
+                a = await message.channel.send(messagestuff)
+            else:
+                a = await message.channel.send("example text")
             await a.add_reaction("🐮")
             messageid = a.id
             await message.channel.send("Continue setup with /setrole [role to add with emoji]")
@@ -310,7 +339,7 @@ async def on_message(message):
                 msg = await message.channel.fetch_message(messageid)
                 await msg.delete()
         elif message.content.startswith(prefix):
-            await message.channel.send("moo? That's not a cow command. Type "+prefix+"help")
+            await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
     else:
         '''if message.channel.id == 663150753946402820:
             if message.content.startswith(prefix):
@@ -325,7 +354,7 @@ async def on_message(message):
             if not message.content.startswith("[ANNOUNCEMENT]"):
                 await message.channel.purge(limit=1)
                 await message.author.send("dont small talk in " + str(message.channel.mention) + "Use [ANNOUNCEMENT] "
-                                                                                                "message as a prefix.")
+                                                                                                 "message as a prefix.")
         else:
             if message.content.startswith(prefix + cmd[5][0]):
                 await timer(message)
