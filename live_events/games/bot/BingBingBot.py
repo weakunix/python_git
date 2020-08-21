@@ -1,7 +1,6 @@
 import discord
 import random
 import time
-import math as albreto
 import asyncio
 import json
 
@@ -40,8 +39,15 @@ cmd = [
     ["fortune cookie", "fortune cookie: tells you your fortune!"],
     ["clean", "clean: clean [number of messages], clean less than 5 at a time!"],
     ["bounce", "bounce: BOUNCE IT"],
-    ["emojirole", "gives roles according to reactions"],
+    ["emojirole", "emojirole: gives roles according to reactions"],
+    ["purge channel", "purge channel: COMPLETELY CLEANS THE CHANNEL. BE CAREFUL!!!"],
+    ["say", "say: cowsay from linux! (except no cow figure ;( )"]
 ]
+
+'''
+        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\n                ||----w |\n                ||     ||\n
+'''
+
 
 cowpun = [
     "What is a happy cowboy?\n> A jolly rancher",
@@ -67,6 +73,7 @@ timerslist = []
 messageid = 0
 messagerole = ""
 roleset = False
+deletion = False
 
 
 def getMsg(lenpfx, msg, string):
@@ -234,7 +241,10 @@ async def on_message(message):
     global stopTimer
     global messageid
     global messagerole
+    global deletion
     if message.author == client.user:
+        return
+    if message.guild is None:
         return
     if message.channel.id != 745753093915934772 and message.channel.id != 725404488030224616:  # the channels #at the same clock and talk and announcements
         if message.content.startswith(prefix + cmd[0][0]) or message.content.startswith(prefix + "halp"):
@@ -347,6 +357,17 @@ async def on_message(message):
                 roleset = False
                 msg = await message.channel.fetch_message(messageid)
                 await msg.delete()
+        elif message.content.startswith(prefix + cmd[17][0]):
+            deletion = True
+            await message.channel.send("Are moo sure about that? \n WARNING: you can't retrieve the messages back... \n Confirm With:```"+prefix+"DELETE MOO IS SURE```")
+        elif message.content.startswith(prefix + "DELETE MOO IS SURE") and deletion:
+            if message.channel.name == '🤭qmbo-time' or message.guild.id != 663150753946402817:
+                a = message.channel
+                await discord.TextChannel.clone(self=a)
+                await discord.TextChannel.delete(self=a)
+        elif message.content.startswith(prefix + cmd[18][0]):
+            messagestuff = getMsg(len(prefix) + len(cmd[18][0]) + 1, message.content, True)
+            await message.channel.send("``` " + messagestuff + "\n        \    ^__^\n         \  (oo)\_______\n            (__)\       )\/\n                ||----w |\n                ||     ||\n```")
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
     else:

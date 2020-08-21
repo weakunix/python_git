@@ -13,6 +13,7 @@ command = [  # y=0, y=1
     ["work\n", 600],  # 10 min x=2
     ["clean\n", 86400],  # one day in seconds x=3
     ["daily\n", 86400],  # x=4
+    ["overtime\n", 89]
 ]
 botconfusion = []
 dayfromnow = (86400 + random.randint(100, 300))
@@ -27,12 +28,11 @@ with open('distract.txt', 'r') as b:
 
 def start(timetoadd):
     global counter
-    global dayfromnow
     b = open("documentation.txt", "w+")
     b.write("")
     b.close()
     a = open("documentation.txt", "a+")
-    randomdivision = 3#random.randint(1, 40)
+    randomdivision = 3
     timewait = 120
     print(albreto.ceil(((300 + random.randint(0,
                                                    100)) + timetoadd) / randomdivision))  # random delay from 10seconds to 9 minutes to confirm anti-bot
@@ -43,23 +43,13 @@ def start(timetoadd):
         keyboardsim.type(str(botconfusion[random.randint(0, len(botconfusion) - 1)]) + "\n")
         time.sleep(timewait)
         exampl += timewait
-    print(exampl)
-    dayfromnow -= (timewait * randomdivision)
-    a.write("days time: "+str(dayfromnow))
-    print("days time: "+str(dayfromnow))
     if counter % 2 == 0:
         keyboardsim.type("%" + command[1][0])  # work if it is 10 mins
-        a.write("command: "+command[1][0])
         time.sleep(random.randint(4, 30))
     keyboardsim.type("%" + command[0][0])  # tips every 5 mins or so
-    a.write("command: "+command[0][0])
-    if dayfromnow <= 0:
-        for b in range(0, 2):
-            time.sleep(random.randint(5, 10))
-            keyboardsim.type("%" + command[2 + b][0])
-            a.write("DAILYS: " + command[2 + b][0])
-        dayfromnow = (86400 + random.randint(100, 300))
-    a.close()
+    if counter % 6 == 0:
+        keyboardsim.type("%" + command[14][0])  # work if it is 10 mins
+        time.sleep(random.randint(4, 30))
     counter += 1
     start(0)
 
