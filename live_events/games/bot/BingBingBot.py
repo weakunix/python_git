@@ -7,7 +7,7 @@ import json
 
 client = discord.Client()
 prefix = "/cow "  # default prefix
-v = '0.9.1'
+v = '1'
 stopTimer = False
 
 key = []
@@ -63,7 +63,6 @@ def jason_it(whatindex,filename, msg):
         json.dump(prefixes, brrr, indent=4)
 
 
-emojirole = []
 timerslist = []
 messageid = 0
 messagerole = ""
@@ -181,37 +180,42 @@ async def on_ready():
 
 
 @client.event
+async def on_voice_state_update(member, before, after):
+    if after.channel is not None:
+        if before.channel is None and after.channel.id == 746126673761534023:
+            await member.add_roles(discord.utils.get(member.guild.roles, name="moosicow"))
+            await member.move_to(client.get_channel(711999517184098436))
+        elif before.channel is not None and after.channel.id == 712350731751129158:
+            await member.move_to(None)
+        elif after.channel.id == 731188789254553632:
+            await member.remove_roles(discord.utils.get(member.guild.roles, name="moosicow"))
+    elif before.channel is not None:
+        if before.channel.id == 746174850858614835 or before.channel.id == 711999517184098436 or before.channel.id == 712350731751129158:
+            await member.remove_roles(discord.utils.get(member.guild.roles, name="moosicow"))
+
+
+@client.event
 async def on_reaction_add(reaction, user):
-    global emojirole
+    emojirole = {}
     if user == client.user:
         return
     else:
-        num = -1
-        for i in range(len(emojirole)):
-            if emojirole[i][1] == reaction.message.id:
-                num = i
-        if num != -1:
-            await user.add_roles(discord.utils.get(user.guild.roles, name=emojirole[num][0]))
-        # await reaction.message.channel.send("added " + emojirole[num][0] + " to " + user.mention)
-    # except:
-    #    return 0
+        with open("reactionmsg.json", 'r') as brr:
+            emojirole = json.load(brr)
+        if str(reaction.message.id) in emojirole:
+            await user.add_roles(discord.utils.get(user.guild.roles, name=emojirole[str(reaction.message.id)]))
 
 
 @client.event
 async def on_reaction_remove(reaction, user):
-    global emojirole
+    emojirole = {}
     if user == client.user:
         return
     else:
-        num = -1
-        for i in range(len(emojirole)):
-            if emojirole[i][1] == reaction.message.id:
-                num = i
-        if num != -1:
-            await user.remove_roles(discord.utils.get(user.guild.roles, name=emojirole[num][0]))
-        # await reaction.message.channel.send("removed " + emojirole[num][0] + " to " + user.mention)
-    # except:
-    #    return 0
+        with open("reactionmsg.json", 'r') as brr:
+            emojirole = json.load(brr)
+        if str(reaction.message.id) in emojirole:
+            await user.remove_roles(discord.utils.get(user.guild.roles, name=emojirole[str(reaction.message.id)]))
 
 
 @client.event
@@ -327,7 +331,8 @@ async def on_message(message):
                 await message.author.remove_roles(discord.utils.get(message.author.guild.roles, name=messagerole))
                 await message.channel.send("role assigned to emoji:" + str(messagerole))
                 roleset = False
-                emojirole.append([messagerole, messageid])
+                jason_it(messageid, "reactionmsg.json", messagerole)
+                #emojirole.append([messagerole, messageid])
             except AttributeError:
                 await message.channel.send("Not a role, setup cancelled")
                 roleset = False
@@ -341,15 +346,6 @@ async def on_message(message):
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
     else:
-        '''if message.channel.id == 663150753946402820:
-            if message.content.startswith(prefix):
-                await message.channel.purge(limit=1)
-                await message.channel.send("In order to not clog up "+str(message.channel.mention)+", Please move to "
-                                                                                                   "the bot "
-                                                                                                   "channel"+str(
-                    message.author.mention))
-                time.sleep(1)
-                await message.channel.purge(limit=1)'''
         if message.channel.id == 725404488030224616:
             if not message.content.startswith("[ANNOUNCEMENT]"):
                 await message.channel.purge(limit=1)
