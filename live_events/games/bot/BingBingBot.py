@@ -195,27 +195,31 @@ async def on_voice_state_update(member, before, after):
 
 
 @client.event
-async def on_reaction_add(reaction, user):
+async def on_raw_reaction_add(payload):
     emojirole = {}
-    if user == client.user:
+    if payload.user_id == client.user:
+        return
+    if payload.guild_id is None:
         return
     else:
         with open("reactionmsg.json", 'r') as brr:
             emojirole = json.load(brr)
-        if str(reaction.message.id) in emojirole:
-            await user.add_roles(discord.utils.get(user.guild.roles, name=emojirole[str(reaction.message.id)]))
+        if str(payload.message_id) in emojirole:
+            await client.get_guild(payload.guild_id).get_member(payload.user_id).add_roles(discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
 
 
 @client.event
-async def on_reaction_remove(reaction, user):
+async def on_raw_reaction_remove(payload):
     emojirole = {}
-    if user == client.user:
+    if payload.user_id == client.user:
+        return
+    if payload.guild_id is None:
         return
     else:
         with open("reactionmsg.json", 'r') as brr:
             emojirole = json.load(brr)
-        if str(reaction.message.id) in emojirole:
-            await user.remove_roles(discord.utils.get(user.guild.roles, name=emojirole[str(reaction.message.id)]))
+        if str(payload.message_id) in emojirole:
+            await client.get_guild(payload.guild_id).get_member(payload.user_id).remove_roles(discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
 
 
 @client.event
