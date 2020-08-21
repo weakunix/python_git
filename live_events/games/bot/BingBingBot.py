@@ -244,8 +244,6 @@ async def on_message(message):
     global deletion
     if message.author == client.user:
         return
-    if message.guild is None:
-        return
     if message.channel.id != 745753093915934772 and message.channel.id != 725404488030224616:  # the channels #at the same clock and talk and announcements
         if message.content.startswith(prefix + cmd[0][0]) or message.content.startswith(prefix + "halp"):
             emb = embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=cmd, title="Help",
@@ -312,6 +310,8 @@ async def on_message(message):
         elif message.content.startswith(prefix + cmd[13][0]):
             await message.channel.send(fortune[random.randint(0, len(fortune))])
         elif message.content.startswith(prefix + cmd[14][0]):
+            if message.guild is None:
+                return
             howMuchToPurge = 0
             try:
                 howMuchToPurge = int(getMsg(len(prefix) + len(cmd[14][0]) + 1, message.content, True))
@@ -329,6 +329,8 @@ async def on_message(message):
                                        "-BZDp2dPhJ9uExzpf6T6rFNgCXob-mzo/%3Fw%3D640/https/kmccready.files.wordpress.com"
                                        "/2009/04/bouncing-cow.gif")
         elif message.content.startswith(prefix + cmd[16][0]):
+            if message.guild is None:
+                return
             messagestuff = getMsg(len(prefix) + len(cmd[16][0]) + 1, message.content, True)
             if messagestuff != '':
                 a = await message.channel.send(messagestuff)
@@ -358,6 +360,8 @@ async def on_message(message):
                 msg = await message.channel.fetch_message(messageid)
                 await msg.delete()
         elif message.content.startswith(prefix + cmd[17][0]):
+            if message.guild is None:
+                return
             deletion = True
             await message.channel.send("Are moo sure about that? \n WARNING: you can't retrieve the messages back... \n Confirm With:```"+prefix+"DELETE MOO IS SURE```")
         elif message.content.startswith(prefix + "DELETE MOO IS SURE") and deletion:
