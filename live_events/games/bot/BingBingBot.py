@@ -409,10 +409,9 @@ async def on_message(message):
                 money = prefixes[str(message.author.id)]
             else:
                 jason_it(authorid, 'cowsino.json', 0)
-                money = 0
                 return
             print(money)
-            if howmuchbet <= 1000000 and str(howmuchbet)[0] != '-' and money >= 0:
+            if howmuchbet <= money and str(howmuchbet)[0] != '-' and money >= 0:
                 slot = []
                 aaa = 0
                 bbb = 0
@@ -452,7 +451,7 @@ async def on_message(message):
                 mony = int(mony)
             else:
                 jason_it(message.author.id, 'cowsino.json', 0)
-                money = 0
+                await message.channel.send('New account made')
                 return
             status = ''
             if mony < 0:
@@ -467,7 +466,7 @@ async def on_message(message):
                             title='$Check How Rich You Are$', color=0x00D2FF)
             await message.channel.send(embed=emb)
         elif message.content.startswith(prefix + cmd[21][0]):
-            await message.channel.send('‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎')
+            await message.channel.send('‎‎\n'*6)
         elif message.content.startswith(prefix + cmd[22][0]):
             with open('cowsino.json', 'r') as countr:
                 prefixes = json.load(countr)
@@ -475,7 +474,7 @@ async def on_message(message):
                 mony = int(prefixes[str(message.author.id)])
             else:
                 jason_it(message.author.id, 'cowsino.json', 0)
-                money = 0
+                await message.channel.send('New account made')
                 return
             work = random.randint(100, 700)
             jason_it(message.author.id, 'cowsino.json', work + mony)
@@ -489,7 +488,7 @@ async def on_message(message):
                 mony = int(prefixes[str(message.author.id)])
             else:
                 jason_it(message.author.id, 'cowsino.json', 0)
-                money = 0
+                await message.channel.send('New account made')
                 return
             win = random.randint(1, 1000)
             if win <= random.randint(1, 1000):
@@ -498,6 +497,7 @@ async def on_message(message):
                 emb = embedMake(["You Earned", "|| $" + str(addmany) + "||"],
                                 title='$Scratch off$', color=0x00D2FF)
             else:
+                jason_it(message.author.id, 'cowsino.json', mony - 20)
                 emb = embedMake(["You Earned", "|| $0 LOL ||"],
                                 title='$Scratch off$', color=0x00D2FF)
             await message.channel.send(embed=emb)
@@ -510,8 +510,6 @@ async def on_message(message):
             target = int(getMsg(len(prefix) + len(cmd[25][0]) + 1, message.content, True))
             with open('cowsino.json', 'r') as countr:
                 prefixes = json.load(countr)
-            print(str(message.author.id))
-            print(str(target))
             mony = 0
             money = 0
             if str(message.author.id) in prefixes and str(target) in prefixes:
@@ -519,15 +517,19 @@ async def on_message(message):
                 money = int(prefixes[str(target)])
             elif str(message.author.id) not in prefixes:
                 jason_it(message.author.id, 'cowsino.json', 0)
+                await message.channel.send('New account made')
                 return
             elif str(target) not in prefixes:
                 await message.channel.send("target is not found")
                 return
             else:
                 return
-            jason_it(message.author.id, 'cowsino.json', mony - 1000)
-            jason_it(target, 'cowsino.json', money + 1000)
-            await message.channel.send("Sent funds to "+str(target))
+            if mony >= 1000:
+                jason_it(message.author.id, 'cowsino.json', mony - 1000)
+                jason_it(target, 'cowsino.json', money + 1000)
+                await message.channel.send("Sent funds to "+str(target))
+            else:
+                await message.channel.send("U BROKE BOI NO MANEY SEND")
         # end here ^^^^
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
