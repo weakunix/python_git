@@ -48,8 +48,8 @@ def start(timetoadd):
         time.sleep(random.randint(4, 30))
     keyboardsim.type("%" + command[0][0])  # tips every 5 mins or so
     if counter % 6 == 0:
-        keyboardsim.type("%" + command[14][0])  # work if it is 10 mins
         time.sleep(random.randint(4, 30))
+        keyboardsim.type("%" + command[4][0])  # work if it is 10 mins
     counter += 1
     start(0)
 

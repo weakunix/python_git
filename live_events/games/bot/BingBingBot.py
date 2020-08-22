@@ -1,8 +1,10 @@
 import discord
 import random
 import time
+import youtube_dl
 import asyncio
 import json
+import os
 
 client = discord.Client()
 prefix = "/cow "  # default prefix
@@ -30,7 +32,7 @@ cmd = [
     ["timer", "timer: format is(timer h and m and s), example: prefix timer 1h and 4m and 30s, additional commands: "
               "timer show (shows all timers and their channels) timer stop (stops all timers)"],
     ["dznr", "dznr: Louis Vuitton, Gucci, Vercase"],
-    ["yessir", "yessir: Spamms YESSIRRRRRR (ferg style)"],
+    ["random", "random: random from 1 to [number]"],
     ["bug", "bug: uh oh, theres a bug? let pdb and pushorca help!"],
     ["spam", "spam: spam [message] spams the message (can be mentions too ;))"],
     ["lecture", "lecture: Ruoyu popping off af"],
@@ -41,27 +43,21 @@ cmd = [
     ["bounce", "bounce: BOUNCE IT"],
     ["emojirole", "emojirole: gives roles according to reactions"],
     ["purge channel", "purge channel: COMPLETELY CLEANS THE CHANNEL. BE CAREFUL!!!"],
-    ["say", "say: cowsay from linux! (except no cow figure ;( )"]
+    ["say", "say: cowsay from linux! (except no cow figure ;( )"],
+    ["gamble", "gamble: play slots"],
+    ["bal", "bal: checks your ballence"],
+    ["invis", "invis: you cant see this"],
+    ["work", "work: work for dat paper"]
 ]
 
-'''
-        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\n                ||----w |\n                ||     ||\n
-'''
+cowpun = []
+
+with open('cowpuns.txt', 'r') as b:
+    for line in b:
+        cowpun.append(line[:-1])
 
 
-cowpun = [
-    "What is a happy cowboy?\n> A jolly rancher",
-    "What's a pampered cow?\n> Spoiled Milk",
-    "Who did the cow call to relocate?\n> the MOOVING company",
-    "What do you call a scardycow?\n> a coward",
-    "Who is MrMoooo?\n> a business cow",
-    "What did the cow say to the spilled milk?\n> udder cowtastrophe",
-    "What does cows drive into war?\n> milk TANKERS",
-    "What did the cow say at the Mexican Restaurant?\n MOOchas gracias!"
-]
-
-
-def jason_it(whatindex,filename, msg):
+def jason_it(whatindex, filename, msg):
     with open(filename, 'r') as brr:
         prefixes = json.load(brr)
     prefixes[str(whatindex)] = msg
@@ -94,6 +90,8 @@ def embedMake(*args, **kwargs):
     author = kwargs.get('author', None)
     fieldarry = kwargs.get('arraytoembd', None)
     color = kwargs.get('color', None)
+    if color is None:
+        color = 0x00D2FF
     embed = discord.Embed(
         title=title,
         description=desc,
@@ -101,8 +99,9 @@ def embedMake(*args, **kwargs):
     )
     for arg in args:
         embed.add_field(name=arg[0], value=arg[1], inline=False)
-    for i in range(len(fieldarry)):
-        embed.add_field(name=prefix + fieldarry[i][0], value="`" + fieldarry[i][1] + "`", inline=False)
+    if fieldarry is not None:
+        for i in range(len(fieldarry)):
+            embed.add_field(name=prefix + fieldarry[i][0], value="`" + fieldarry[i][1] + "`", inline=False)
     return embed
 
 
@@ -212,7 +211,8 @@ async def on_raw_reaction_add(payload):
         with open("reactionmsg.json", 'r') as brr:
             emojirole = json.load(brr)
         if str(payload.message_id) in emojirole:
-            await client.get_guild(payload.guild_id).get_member(payload.user_id).add_roles(discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
+            await client.get_guild(payload.guild_id).get_member(payload.user_id).add_roles(
+                discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
 
 
 @client.event
@@ -226,7 +226,8 @@ async def on_raw_reaction_remove(payload):
         with open("reactionmsg.json", 'r') as brr:
             emojirole = json.load(brr)
         if str(payload.message_id) in emojirole:
-            await client.get_guild(payload.guild_id).get_member(payload.user_id).remove_roles(discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
+            await client.get_guild(payload.guild_id).get_member(payload.user_id).remove_roles(
+                discord.utils.get(client.get_guild(payload.guild_id).roles, name=emojirole[str(payload.message_id)]))
 
 
 @client.event
@@ -262,13 +263,15 @@ async def on_message(message):
                 await message.channel.send(simp)
         elif message.content.startswith("/cow " + cmd[2][0]):
             newPFX = getMsg(len("/cow ") + len(cmd[2][0]) + 1, message.content, True)
-            if newPFX != "'default'":
+            if newPFX != "'default'" and newPFX != '':
                 prefix = newPFX + " "
             else:
                 prefix = "/cow "
             jason_it(message.guild.id, 'prefixes.json', prefix)
             await message.channel.send("> Prefix Successfully Changed To:\n```" + prefix + "```")
         elif message.content.startswith(prefix + cmd[3][0]):
+            # if message.author.voice != None:
+            # await play(message, 'https://www.youtube.com/watch?v=J0HgEEY2jts')
             await message.channel.send(
                 "> " + cowpun[random.randint(0, 6)] + "\n https://www.youtube.com/watch?v=J0HgEEY2jts")
         elif message.content.startswith("/bing"):
@@ -286,10 +289,16 @@ async def on_message(message):
                 '> https://media.discordapp.net/attachments/730581364675575858/744609727752962185'
                 '/image0.jpg?width=1248&height=936')
         elif message.content.startswith(prefix + cmd[7][0]):
-            yay = ("YESSIRRRRR " * 5)
-            for i in range(5):
-                await message.channel.send(yay)
-            await message.channel.send("https://www.youtube.com/watch?v=3xsZnMLrH2U")
+            await message.channel.send("STAWP GAMBLING LIKE A GATBING")
+            spam = getMsg(len(prefix) + len(cmd[7][0]), message.content, True) + ""
+            try:
+                spam = int(spam)
+            except:
+                await message.channel.send('aint a integer lmao')
+                return
+            id = await message.channel.send('```' + str(random.randint(1, spam)) + '```')
+            await id.edit(content='You Won: ```' + str(random.randint(1, spam)) + '```')
+
         elif message.content.startswith(prefix + cmd[8][0]):
             await message.channel.send(":bug: ```import pdb;pdb.set_trace()```")
         elif message.content.startswith(prefix + cmd[9][0]):
@@ -348,7 +357,6 @@ async def on_message(message):
                 await message.channel.send("role assigned to emoji:" + str(messagerole))
                 roleset = False
                 jason_it(messageid, "reactionmsg.json", messagerole)
-                #emojirole.append([messagerole, messageid])
             except AttributeError:
                 await message.channel.send("Not a role, setup cancelled")
                 roleset = False
@@ -363,7 +371,8 @@ async def on_message(message):
             if message.guild is None:
                 return
             deletion = True
-            await message.channel.send("Are moo sure about that? \n WARNING: you can't retrieve the messages back... \n Confirm With:```"+prefix+"DELETE MOO IS SURE```")
+            await message.channel.send(
+                "Are moo sure about that? \n WARNING: you can't retrieve the messages back... \n Confirm With:```" + prefix + "DELETE MOO IS SURE```")
         elif message.content.startswith(prefix + "DELETE MOO IS SURE") and deletion:
             if message.channel.name == '🤭qmbo-time' or message.guild.id != 663150753946402817:
                 a = message.channel
@@ -371,7 +380,79 @@ async def on_message(message):
                 await discord.TextChannel.delete(self=a)
         elif message.content.startswith(prefix + cmd[18][0]):
             messagestuff = getMsg(len(prefix) + len(cmd[18][0]) + 1, message.content, True)
-            await message.channel.send("``` " + messagestuff + "\n        \    ^__^\n         \  (oo)\_______\n            (__)\       )\/\n                ||----w |\n                ||     ||\n```")
+            await message.channel.send(
+                "``` " + messagestuff + "\n        \    ^__^\n         \  (oo)\_______\n            (__)\       )\/\n                ||----w |\n                ||     ||\n```")
+        elif message.content.startswith(prefix + cmd[19][0]):
+            try:
+                howmuchbet = int(getMsg(len(prefix) + len(cmd[19][0]) + 1, message.content, True))
+            except:
+                await message.channel.send('AAA not integer')
+                return
+            authorid = message.author.id
+            num = len(str(howmuchbet)) + 1
+            with open('cowsino.json', 'r') as countr:
+                prefixes = json.load(countr)
+            if str(authorid) in prefixes:
+                money = prefixes[str(message.author.id)]
+            else:
+                jason_it(authorid, 'cowsino.json', 0)
+                money = 0
+            print(money)
+            if howmuchbet <= 1000000 and str(howmuchbet)[0] != '-' and money >= 0:
+                slot = []
+                aaa = 0
+                bbb = 0
+                ccc = 0
+                with open('slots.txt', 'r') as brr:
+                    for line in brr:
+                        slot.append(line[:-1])
+                slot.pop()  # the end one is alwasy blank fsr
+                id = await message.channel.send('Gambling is addiction. so feed it')
+                for i in range(5):
+                    await asyncio.sleep(i / 7)
+                    aaa = random.randint(0, len(slot) - 1)  # 3 different slots
+                    bbb = random.randint(0, len(slot) - 1)
+                    ccc = random.randint(0, len(slot) - 1)
+                    emb = embedMake(["Your Spin", ">:" + str(slot[aaa]) + str(slot[bbb]) + str(slot[ccc]) + ":<"],
+                                    title='Moogas Cowsino', color=0x00D2FF)
+                    await id.edit(embed=emb)
+                if aaa == bbb and bbb == ccc:
+                    await message.channel.send('YOU WON BIGGGGG \n+' + str(howmuchbet * 10))
+                    jason_it(authorid, 'cowsino.json', money + howmuchbet * 10)
+                elif aaa == bbb or bbb == ccc or aaa == ccc:
+                    await message.channel.send('You win participation prize\n +' + str(howmuchbet * 2))
+                    jason_it(authorid, 'cowsino.json', money + howmuchbet * 2)
+                else:
+                    await message.channel.send('lost money at cowsino\n -' + str(howmuchbet))
+                    jason_it(authorid, 'cowsino.json', money - howmuchbet)
+            else:
+                if money < 0:
+                    await message.channel.send('U BROKE BISH NO GAMBLE FOR U')
+                else:
+                    await message.channel.send('NO BETTING ABSURD AMOUNTS FOOL')
+        elif message.content.startswith(prefix + cmd[20][0]):
+            with open('cowsino.json', 'r') as countr:
+                prefixes = json.load(countr)
+            if str(message.author.id) in prefixes:
+                mony = prefixes[str(message.author.id)]
+                mony = int(mony)
+            else:
+                await message.channel.send('u dont hav acct in database')
+                return
+            status = ''
+            if mony < 0:
+                status = 'broke'
+            elif mony > 10000:
+                status = 'rich'
+            elif mony > 1000:
+                status = 'good'
+            else:
+                status = 'none'
+            emb = embedMake(["Your Bal:", "```$" + str(mony) + "```"], ["Your $tatus:", "```" + str(status) + "```"],
+                            title='$Check How Rich You Are$', color=0x00D2FF)
+            await message.channel.send(embed=emb)
+        elif message.content.startswith(prefix + cmd[21][0]):
+            await message.channel.send('‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎\n‎‎')
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
     else:
