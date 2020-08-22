@@ -538,6 +538,7 @@ async def on_message(message):
                             color=0x00D2FF)
             await message.channel.send(embed=emb)
         elif message.content.startswith(prefix + cmd[25][0]):
+            user = message.author.mention
             target = getMsg(len(prefix) + len(cmd[25][0]) + 1, message.content, True)
             target = target.split()
             a = target[0]
@@ -548,8 +549,6 @@ async def on_message(message):
             a = a.replace("&", "")
             a = a.replace("!", "")
             target[0] = a
-            print(message.author.id)
-            print(target[0])
             if str(target[0]) == str(message.author.id):
                 await message.channel.send("dont send to urself")
                 return
@@ -582,6 +581,9 @@ async def on_message(message):
                 jason_it(message.author.id, 'cowsino.json', mony - int(target[1]))
                 jason_it(target[0], 'cowsino.json', money + int(target[1]))
                 await message.channel.send("Sent funds to "+str(bb))
+                reciever = client.get_user(int(target[0]))
+                emb = embedMake(['Mooney transfer', 'How much? ```$'+str(target[1])+'```'], ['From', '```'+str(user)+'```'], title='Money Transfer', desc='WeChatPay', footer='credit card fraud happens sometimes')
+                await reciever.send(embed=emb)
             else:
                 await message.channel.send("U BROKE BOI NO MANEY SEND")
         # end here ^^^^
