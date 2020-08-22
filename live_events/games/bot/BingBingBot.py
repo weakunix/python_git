@@ -416,7 +416,7 @@ async def on_message(message):
                 aaa = 0
                 bbb = 0
                 ccc = 0
-                with open('slots.txt', 'r') as brr:
+                with open('slots.txt', 'r', encoding="utf8") as brr:
                     for line in brr:
                         slot.append(line[:-1])
                 slot.pop()  # the end one is alwasy blank fsr
