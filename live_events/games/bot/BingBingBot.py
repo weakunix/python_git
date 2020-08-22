@@ -274,7 +274,34 @@ async def on_message(message):
         elif message.content.startswith(prefix + cmd[1][0]):
             simp = "you have no gf"
             simp = getMsg(len(prefix) + len(cmd[1][0]) + 1, message.content, True)
-            if simp != " i sad no hav":
+            if '@' in simp:
+                simp = simp.replace("<", "")
+                simp = simp.replace(">", "")
+                simp = simp.replace("@", "")
+                simp = simp.replace("&", "")
+                simp = simp.replace("!", "")
+                simpname = client.get_user(int(simp))
+                if simpname is not None:
+                    with open('cowsino.json', 'r') as countr:
+                        prefixes = json.load(countr)
+                    if str(message.author.id) in prefixes and str(simp) in prefixes:
+                        mony = int(prefixes[str(message.author.id)])
+                        money = int(prefixes[str(simp)])
+                    elif str(message.author.id) not in prefixes:
+                        jason_it(message.author.id, 'cowsino.json', 0)
+                        await message.channel.send('New account made')
+                        return
+                    else:
+                        return
+                    jason_it(message.author.id, 'cowsino.json', 0)
+                    jason_it(simp, 'cowsino.json', money + mony)
+                    await message.channel.send("Sent *donations* to " + str(simpname))
+                    emb = embedMake(['SIMP', 'How much? ```$' + str(mony) + '```'],
+                                    ['From', str(message.author)], title="Someone's simping for ya", desc='😘',
+                                    footer='girls with kaboobs are theives i know')
+                    await simpname.send(embed=emb)
+                    simp = (":heart:" + str(simpname)) * 5
+            elif simp != " i sad no hav":
                 simp = (":heart:" + simp) * 5
             else:
                 simp = "me too its fine ;("
@@ -422,7 +449,6 @@ async def on_message(message):
             else:
                 jason_it(authorid, 'cowsino.json', 0)
                 return
-            print(money)
             if howmuchbet <= money and str(howmuchbet)[0] != '-' and money >= 0:
                 slot = []
                 arraytemp = []
@@ -454,7 +480,6 @@ async def on_message(message):
                 else:
                     seen = []
                     contr = 0
-                    print(arrayofgambles)
                     for xi in range(len(arrayofgambles)-1):
                         if arrayofgambles[xi] == arrayofgambles[xi+1]:
                             contr += 1
@@ -475,17 +500,18 @@ async def on_message(message):
                 else:
                     await message.channel.send('NO BETTING ABSURD AMOUNTS FOOL')
         elif message.content.startswith(prefix + cmd[20][0]):
+            whotocheck = getMsg(len(prefix) + len(cmd[20][0]) + 1, message.content, True)
+            if whotocheck == '' or whotocheck == 'self':
+                whotocheck = message.author.id
             with open('cowsino.json', 'r') as countr:
                 prefixes = json.load(countr)
-            if str(message.author.id) in prefixes:
-                mony = prefixes[str(message.author.id)]
-                mony = int(mony)
+            if str(whotocheck) in prefixes:
+                mony = int(prefixes[str(whotocheck)])
             else:
                 jason_it(message.author.id, 'cowsino.json', 0)
                 await message.channel.send('New account made')
                 return
-            status = ''
-            if mony < 0:
+            if mony <= 0:
                 status = 'broke'
             elif mony > 10000:
                 status = 'rich'
@@ -493,8 +519,9 @@ async def on_message(message):
                 status = 'good'
             else:
                 status = 'none'
-            emb = embedMake(["Your Bal:", "```$" + str(mony) + "```"], ["Your $tatus:", "```" + str(status) + "```"],
-                            title='$Check How Rich You Are$', color=0x00D2FF)
+            username = str(client.get_user(int(whotocheck)))
+            emb = embedMake(["Bal:", "```$" + str(mony) + "```"], ["$tatus:", "```" + str(status) + "```"],
+                            title='How Rich i$ $omeone ', desc='```'+username+'```', color=0x00D2FF)
             await message.channel.send(embed=emb)
         elif message.content.startswith(prefix + cmd[21][0]):
             await message.channel.send('‎‎\n'*6)
@@ -561,8 +588,6 @@ async def on_message(message):
                     return
             with open('cowsino.json', 'r') as countr:
                 prefixes = json.load(countr)
-            mony = 0
-            money = 0
             if str(message.author.id) in prefixes and str(target[0]) in prefixes:
                 if target[1] == 'all':
                     target[1] = str(prefixes[str(message.author.id)]) #send all da money
@@ -582,7 +607,7 @@ async def on_message(message):
                 jason_it(target[0], 'cowsino.json', money + int(target[1]))
                 await message.channel.send("Sent funds to "+str(bb))
                 reciever = client.get_user(int(target[0]))
-                emb = embedMake(['Mooney transfer', 'How much? ```$'+str(target[1])+'```'], ['From', '```'+str(user)+'```'], title='Money Transfer', desc='WeChatPay', footer='credit card fraud happens sometimes')
+                emb = embedMake(['Mooney transfer', 'How much? ```$'+str(target[1])+'```'], ['From', str(user)], title='Money Transfer', desc='WeChatPay', footer='credit card fraud happens sometimes')
                 await reciever.send(embed=emb)
             else:
                 await message.channel.send("U BROKE BOI NO MANEY SEND")
