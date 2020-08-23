@@ -54,11 +54,11 @@ cmd = [
 
 upgradesPassives = [
     ["kid", "costs 10k, labor +1k/work (sorry fbi)"],
-    ["bot", "costs 20k, super efficient. 10k/work"],
-    ["caleb", "costs 50k, makes programs for you. gives you 20k/work"],
-    ["quantom pc", "costs 150k, godly fps on Minecraft, but costs a lot of power. 50k/work"],
-    ["spaceship", "costs 1mil WHO TF DOESN'T WANT ONE OF THESE, advertises to aliens, 100k/work"],
-    ["script to beat chrome dinosaur game", "costs 100mil legend has it if you beat the dino game, you will cause a "
+    ["bot", "costs 20k, super efficient. 5k/work"],
+    ["caleb", "costs 50k, makes programs for you. gives you 10k/work"],
+    ["quantum", "costs 150k, godly fps on Minecraft, but costs a lot of power. 75k/work"],
+    ["spaceship", "costs 1mil WHO TF DOESN'T WANT ONE OF THESE, advertises to aliens, 125k/work"],
+    ["dino", "costs 100mil legend has it if you beat the dino game, you will cause a "
                                             "time paradox and the dinos won't be extinct which means you can "
                                             "advertise to dinos. 1mil/work"]
 ]
@@ -280,7 +280,11 @@ async def on_message(message):
                 simp = simp.replace("@", "")
                 simp = simp.replace("&", "")
                 simp = simp.replace("!", "")
-                simpname = client.get_user(int(simp))
+                try:
+                    simpname = client.get_user(int(simp))
+                except:
+                    await message.channel.send('person no exist')
+                    return
                 if simpname is not None:
                     with open('cowsino.json', 'r') as countr:
                         prefixes = json.load(countr)
@@ -473,25 +477,29 @@ async def on_message(message):
                     await id.edit(embed=emb)
                 arrayofgambles.sort()
                 if all(ele == arrayofgambles[0] for ele in arrayofgambles):
-                    emb = embedMake(["Your Spin", str(msgtemp)], ['Result', '**YOU WON BIGGGGG** \n+' + str(howmuchbet * 10)],
+                    emb = embedMake(["Your Spin", str(msgtemp)],
+                                    ['Result', '**YOU WON BIGGGGG** \n+' + str(howmuchbet * 10)],
                                     title='Moogas Cowsino', color=0x00D2FF, footer='Gambling is addiction. so feed it')
                     await id.edit(embed=emb)
                     jason_it(authorid, 'cowsino.json', money + howmuchbet * 10)
                 else:
                     seen = []
                     contr = 0
-                    for xi in range(len(arrayofgambles)-1):
-                        if arrayofgambles[xi] == arrayofgambles[xi+1]:
+                    for xi in range(len(arrayofgambles) - 1):
+                        if arrayofgambles[xi] == arrayofgambles[xi + 1]:
                             contr += 1
                     if contr >= num // 2:
                         emb = embedMake(
-                            ["Your Spin", str(msgtemp)], ['Result', '**Ayy some colors match**\n +' + str(howmuchbet * 2)],
+                            ["Your Spin", str(msgtemp)],
+                            ['Result', '**Ayy some colors match**\n +' + str(howmuchbet * 2)],
                             title='Moogas Cowsino', color=0x00D2FF, footer='Gambling is addiction. so feed it')
                         await id.edit(embed=emb)
                         jason_it(authorid, 'cowsino.json', money + howmuchbet * 2)
                     else:
-                        emb = embedMake(["Your Spin", str(msgtemp)], ['Result', '**lost money at cowsino**\n -' + str(howmuchbet)],
-                                        title='Moogas Cowsino', color=0x00D2FF, footer='Gambling is addiction. so feed it')
+                        emb = embedMake(["Your Spin", str(msgtemp)],
+                                        ['Result', '**lost money at cowsino**\n -' + str(howmuchbet)],
+                                        title='Moogas Cowsino', color=0x00D2FF,
+                                        footer='Gambling is addiction. so feed it')
                         await id.edit(embed=emb)
                         jason_it(authorid, 'cowsino.json', money - howmuchbet)
             else:
@@ -513,6 +521,8 @@ async def on_message(message):
                 return
             if mony <= 0:
                 status = 'broke'
+            elif mony > 1000000:
+                status = 'business man'
             elif mony > 10000:
                 status = 'rich'
             elif mony > 1000:
@@ -521,10 +531,10 @@ async def on_message(message):
                 status = 'none'
             username = str(client.get_user(int(whotocheck)))
             emb = embedMake(["Bal:", "```$" + str(mony) + "```"], ["$tatus:", "```" + str(status) + "```"],
-                            title='How Rich i$ $omeone ', desc='```'+username+'```', color=0x00D2FF)
+                            title='How Rich i$ $omeone ', desc='```' + username + '```', color=0x00D2FF)
             await message.channel.send(embed=emb)
         elif message.content.startswith(prefix + cmd[21][0]):
-            await message.channel.send('‎‎\n'*6)
+            await message.channel.send('‎‎\n' * 6)
         elif message.content.startswith(prefix + cmd[22][0]):
             with open('cowsino.json', 'r') as countr:
                 prefixes = json.load(countr)
@@ -534,7 +544,13 @@ async def on_message(message):
                 jason_it(message.author.id, 'cowsino.json', 0)
                 await message.channel.send('New account made')
                 return
-            work = random.randint(100, 700)
+            with open('boosts.json', 'r') as contr:
+                boosts = json.load(contr)
+            if str(message.author.id) in boosts:
+                moneey = int(boosts[str(message.author.id)])
+            else:
+                moneey = 0
+            work = random.randint(100, 500 + moneey)
             jason_it(message.author.id, 'cowsino.json', work + mony)
             emb = embedMake(["You Earned", "```" + str(work) + "```"],
                             title='$Work Slav Work!$', color=0x00D2FF)
@@ -559,11 +575,53 @@ async def on_message(message):
                 emb = embedMake(["You Earned", "|| $0 LOL ||"],
                                 title='$Scratch off$', color=0x00D2FF)
             await message.channel.send(embed=emb)
-        elif message.content.startswith(prefix + cmd[24][0]):
-            emb = embedMake(["Prefix:", '\n `' + prefix + "buy item`"], arraytoembd=upgradesPassives, title="Buy",
-                            desc="The white market for passive income",
-                            color=0x00D2FF)
-            await message.channel.send(embed=emb)
+        elif message.content.startswith(prefix + cmd[24][0]) or message.content.startswith(prefix + 'buy'):
+            if message.content.startswith(prefix + cmd[24][0]):
+                item = getMsg(len(prefix) + len(cmd[24][0]) + 1, message.content, True)
+            else:
+                item = getMsg(len(prefix+"buy") + 1, message.content, True)
+            if item == 'list':
+                emb = embedMake(["Prefix:", '\n `' + prefix + "buy item`"], arraytoembd=upgradesPassives, title="Buy",
+                                desc="The white market for passive income",
+                                color=0x00D2FF)
+                await message.channel.send(embed=emb)
+                return
+            item = item.split()
+            with open('cowsino.json', 'r') as contr:
+                money = json.load(contr)
+            with open('boosts.json', 'r') as countr:
+                boosts = json.load(countr)
+            if str(message.author.id) in money:
+                money = int(money[str(message.author.id)])
+                if str(message.author.id) in boosts:
+                    moneystuff = int(boosts[str(message.author.id)])
+                else:
+                    moneystuff = 0
+            else:
+                jason_it(message.author.id, 'cowsino.json', 0)
+                await message.channel.send('New account made')
+                return
+            moneyarray = [ #work boosts, cost
+                [1000, 10000],
+                [5000, 20000],
+                [10000, 50000],
+                [75000, 150000],
+                [125000, 1000000],
+                [1000000, 100000000]
+            ]
+            ugh = 0
+            for y in range(len(upgradesPassives)):
+                if item[0] == upgradesPassives[y][0]:
+                    ugh = y
+            for i in range(len(moneyarray)):
+                if i == ugh:
+                    if money >= (moneyarray[i][1] * int(item[1])):
+                        if item[0] == upgradesPassives[i][0]:
+                            jason_it(message.author.id, 'boosts.json', moneystuff + (moneyarray[i][0] * int(item[1])))
+                            jason_it(message.author.id, 'cowsino.json', money - (moneyarray[i][1] * int(item[1])))
+                            await message.channel.send('Buy '+str(item[1])+' '+str(item[0]))
+                    else:
+                        await message.channel.send('Costs too much!!!!')
         elif message.content.startswith(prefix + cmd[25][0]):
             user = message.author.mention
             target = getMsg(len(prefix) + len(cmd[25][0]) + 1, message.content, True)
@@ -590,7 +648,7 @@ async def on_message(message):
                 prefixes = json.load(countr)
             if str(message.author.id) in prefixes and str(target[0]) in prefixes:
                 if target[1] == 'all':
-                    target[1] = str(prefixes[str(message.author.id)]) #send all da money
+                    target[1] = str(prefixes[str(message.author.id)])  # send all da money
                 mony = int(prefixes[str(message.author.id)])
                 money = int(prefixes[str(target[0])])
             elif str(message.author.id) not in prefixes:
@@ -605,9 +663,10 @@ async def on_message(message):
             if mony >= int(target[1]):
                 jason_it(message.author.id, 'cowsino.json', mony - int(target[1]))
                 jason_it(target[0], 'cowsino.json', money + int(target[1]))
-                await message.channel.send("Sent funds to "+str(bb))
+                await message.channel.send("Sent funds to " + str(bb))
                 reciever = client.get_user(int(target[0]))
-                emb = embedMake(['Mooney transfer', 'How much? ```$'+str(target[1])+'```'], ['From', str(user)], title='Money Transfer', desc='WeChatPay', footer='credit card fraud happens sometimes')
+                emb = embedMake(['Mooney transfer', 'How much? ```$' + str(target[1]) + '```'], ['From', str(user)],
+                                title='Money Transfer', desc='WeChatPay', footer='credit card fraud happens sometimes')
                 await reciever.send(embed=emb)
             else:
                 await message.channel.send("U BROKE BOI NO MANEY SEND")
