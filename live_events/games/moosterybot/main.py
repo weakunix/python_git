@@ -22,7 +22,7 @@ friendCmd = [
     ['friend request', 'usage: friend request [player id/mention]. friend requests the person (bot will dm them)'],
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
-v = '0.0.2'
+v = '0.0.3'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
@@ -124,6 +124,10 @@ async def embedMake(*args, **kwargs):  # makes an embedded element
                             value="id: `" + str(fieldarrytt[i]) + "`", inline=True)
     if footer is not None:
         embed.set_footer(text=footer)
+    if author is not None:
+        embed.set_author(name=author)
+    if thumbnail is not None:
+        embed.set_thumbnail(url=thumbnail)
     return embed
 
 
@@ -147,18 +151,18 @@ async def isFriend(message):
                 for i in range(len(friendo)):
                     arraynewfriend.append(friendo[i])
                 emb = await embedMake(arraytoembdt=arraynewfriend, title='Friends List',
-                                desc='All your friends here \n========================',
-                                footer='~~ still shipping until the end of time -Cowland ~~')
+                                      desc='All your friends here \n========================',
+                                      footer='~~ still shipping until the end of time -Cowland ~~')
             else:
                 arraynewfriend.append(friendo)
                 emb = await embedMake(['.', arraynewfriend], title='Friends List',
-                                desc='All your friends here \n========================',
-                                footer='~~ still shipping until the end of time -Cowland ~~')
+                                      desc='All your friends here \n========================',
+                                      footer='~~ still shipping until the end of time -Cowland ~~')
             await message.channel.send(embed=emb)
         else:
             emb = await embedMake(['You have no friends', 'LOL'], title='Friends List',
-                            desc='All your friend- oh wait... \n========================',
-                            footer='get rekt')
+                                  desc='All your friend- oh wait... \n========================',
+                                  footer='get rekt')
             await message.channel.send(embed=emb)
     elif message.content.startswith(prefix + friendCmd[1][0]) or message.content.startswith(prefix + friendCmd[2][0]):
         idofdmtarget = message.author.id
@@ -172,39 +176,43 @@ async def isFriend(message):
             target = client.get_user(int(target))
             if target is None:
                 embedurbad = await embedMake(title='Friend Request - ERROR',
-                                       desc='`Error! No person found by that alias! Check the ID again!`',
-                                       footer='Bad ID!')
+                                             desc='`Error! No person found by that alias! Check the ID again!`',
+                                             footer='Bad ID!')
                 await message.author.send(embed=embedurbad)
                 return
         except:
             embedurbad = await embedMake(title='Friend Request - ERROR',
-                                   desc='`Error! No person found by that alias! Check the ID again!`',
-                                   footer='You typed a string for the ID mate')
+                                         desc='`Error! No person found by that alias! Check the ID again!`',
+                                         footer='You typed a string for the ID mate')
             await message.author.send(embed=embedurbad)
             return
         with open("friend.json", 'r') as brr:
             friend = json.load(brr)
         if message.content.startswith(prefix + friendCmd[1][0]):
-            if str(target.id) not in friend[str(message.author.id)] and str(target.id) != str(message.author.id): #not self lol
-                embsent = await embedMake(["To:", '\n `' + str(target) + "`"], title='Friend Request', desc='Sent Friend Request ('
-                                                                                                      'You will get dm if '
-                                                                                                      'they accept)',
-                                    footer='always friend good players!')
+            if str(target.id) not in friend[str(message.author.id)] and str(target.id) != str(
+                    message.author.id):  # not self lol
+                embsent = await embedMake(["To:", '\n `' + str(target) + "`"], title='Friend Request',
+                                          desc='Sent Friend Request ('
+                                               'You will get dm if '
+                                               'they accept)',
+                                          footer='always friend good players!')
                 await message.author.send(embed=embsent)
-                emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request', desc='Pending Friend '
-                                                                                                            'Request (click "✅" to accept, ignore to ignore)',
-                                footer='beware of strangers online!')
+                emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request',
+                                      desc='Pending Friend '
+                                           'Request (click "✅" to accept, ignore to ignore)',
+                                      footer='beware of strangers online!')
                 emoji = await target.send(embed=emb)
                 jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
                 await emoji.add_reaction("✅")
             else:
                 emb = await embedMake(
-                                title='Friend Request - ERROR',
-                                desc='Error! User is already friends with you! (or you friended yourself)',
-                                footer='and I ship still...')
+                    title='Friend Request - ERROR',
+                    desc='Error! User is already friends with you! (or you friended yourself)',
+                    footer='and I ship still...')
                 await message.author.send(embed=emb)
         else:
-            if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(message.author.id): #not self lol
+            if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(
+                    message.author.id):  # not self lol
                 embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],
                                           title='Friend Removed',
                                           desc='You have removed this person from your friends list',
@@ -212,11 +220,11 @@ async def isFriend(message):
                 await message.author.send(embed=embsent)
             else:
                 emb = await embedMake(
-                                title='Friend Request - ERROR',
-                                desc='Error! User is not friends with you! (or you unfriended yourself)',
-                                footer='sad...')
+                    title='Friend Request - ERROR',
+                    desc='Error! User is not friends with you! (or you unfriended yourself)',
+                    footer='sad...')
                 await message.author.send(embed=emb)
-    #elif message.content.startswith(prefix + friendCmd[1][0]):
+    # elif message.content.startswith(prefix + friendCmd[1][0]):
 
 
 async def isGame(message):
@@ -229,9 +237,9 @@ async def isGame(message):
         else:
             personid = message.author.id
             emb = await embedMake(["Game Creation:", "Click on the reaction to make a game"],
-                            title='New Moorder Moostery Game!',
-                            desc='Find out who\'s the killer and stop them before its too late!',
-                            footer='🔒: makes a private game 🔓:makes a public game')
+                                  title='New Moorder Moostery Game!',
+                                  desc='Find out who\'s the killer and stop them before its too late!',
+                                  footer='🔒: makes a private game 🔓:makes a public game')
             emoji = await message.channel.send(embed=emb)
             await emoji.add_reaction('🔒')
             await emoji.add_reaction('🔓')
@@ -276,10 +284,11 @@ async def on_raw_reaction_add(payload):
                 jason_it(str(payload.user_id), 'friend.json', str(target))
             target = client.get_user(int(target))
             selfperson = client.get_user(int(payload.user_id))
-            emb = await embedMake(["You are now friends with:", '\n `' + str(client.get_user(int(payload.user_id))) + "`"],
-                            title='Friend Request Accepted!',
-                            desc='Congratulations! ',
-                            footer='I ship')
+            emb = await embedMake(
+                ["You are now friends with:", '\n `' + str(client.get_user(int(payload.user_id))) + "`"],
+                title='Friend Request Accepted!',
+                desc='Congratulations! ',
+                footer='I ship')
             await client.http.delete_message(payload.channel_id, payload.message_id)
             await target.send(embed=emb)
             await selfperson.send(embed=emb)
@@ -297,7 +306,8 @@ async def on_raw_reaction_add(payload):
             with open("games.json", 'r') as brr:
                 activegames = json.load(brr)
             if str(payload.message_id) in activegames:
-                if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == activegames[str(payload.message_id)]: #if is host
+                if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
+                        activegames[str(payload.message_id)]:  # if is host
                     if payload.emoji.name == '☑️':
                         await actual_game.startGame(payload, client)
                     elif payload.emoji.name == '❌':
@@ -320,38 +330,40 @@ async def isOther(message):  # help and other stuff
         msgcontent = getMsg(len(prefix) + len(cmd[0][0]) + 1, message.content, True)
         if msgcontent == 'game':
             emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=gameCmd,
-                            img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                            title="Help - Game",
-                            desc="Ayy... Slidin into yo dms. Here is the list of commands about the game",
-                            footer='the blood on sword is actually ketchup',
-                            color=0x00D2FF)
+                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
+                                  title="Help - Game",
+                                  desc="Ayy... Slidin into yo dms. Here is the list of commands about the game",
+                                  footer='the "blood" on sword is actually ketchup',
+                                  color=0x00D2FF)
         elif msgcontent == 'friend':
             emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=gameCmd,
-                            img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                            title="Help - Friend",
-                            desc="Ayy... Slidin into yo dms. Here is the list of commands about friends",
-                            footer='the blood on sword is actually ketchup',
-                            color=0x00D2FF)
+                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
+                                  title="Help - Friend",
+                                  desc="Ayy... Slidin into yo dms. Here is the list of commands about friends",
+                                  footer='the "blood" on sword is actually ketchup',
+                                  color=0x00D2FF)
         else:
             emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=cmd,
-                            img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                            title="Help - General",
-                            desc="Ayy... Slidin into yo dms. Here is the list of commands in general",
-                            footer='the blood on sword is actually ketchup',
-                            color=0x00D2FF)
+                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
+                                  title="Help - General",
+                                  desc="Ayy... Slidin into yo dms. Here is the list of commands in general",
+                                  footer='the "blood" on sword is actually ketchup',
+                                  color=0x00D2FF)
         await message.author.send(embed=emb)
         await message.channel.send("> Help sent to " + message.author.mention + "'s DM. Please Check. ")
     elif message.content.startswith(prefix + cmd[1][0]):
         abtemb = await embedMake(["Version: ", '`' + str(v) + '`'],
-                           ["Developed by", '`' + str(client.get_user(369652997308809226)) + "`"],
-                           ["Special Thanks To", '`' + str(client.get_user(333398956958810114)) + "` and `" + str(
-                               client.get_user(149491899240153088)) + '`'],
-                           title="About Murder Moostery",
-                           img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                           desc="The game inspired by Town of Salem",
-                           color=0x00D2FF,
-                           footer='the pen is mightier than the sword'
-                           )
+                                 ["Developed by", '`' + str(client.get_user(369652997308809226)) + "` with help from `" + str(client.get_user(583755143074283531)) + "`"],
+                                 ["Artwork by", '`' + str(client.get_user(369652997308809226)) + "` and `" + str(client.get_user(605125493120827413)) + '`'],
+                                 ["Special Thanks To", '`' + str(client.get_user(333398956958810114)) + "` and `" + str(
+                                     client.get_user(149491899240153088)) + '` for letting me "borrow" ideas'],
+                                 title="About Murder Moostery",
+                                 img='https://media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
+                                 desc="The game inspired by Town of Salem",
+                                 color=0x00D2FF,
+                                 footer='the pen is mightier than the sword',
+                                 thumbnail='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png'
+                                 )
         await message.channel.send(embed=abtemb)
 
 
@@ -361,19 +373,27 @@ async def on_raw_reaction_remove(payload):
 
 
 @client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    if message.guild is None:  # in dm
+        if not message.content.startswith(prefix):
+            emb = await embedMake(["Prefix is:", '`' + str(prefix) + '`'],
+                                  title='About this bot',
+                                  desc='it seems like you have DM\'d the bot with a message!',
+                                  footer="type '" + str(prefix) + "help' to get commands")
+            await message.author.send(embed=emb)
+    await isOther(message)  # help, meta...
+    await isFriend(message)  # friend
+    await isGame(message)  # game
+
+
+@client.event
 async def on_ready():
     print('\033[92m Logged as {0.user}'.format(client))
     await client.change_presence(
         activity=discord.Activity(name='for ' + str(prefix), type=discord.ActivityType.watching))
 
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    await isOther(message)  # help, meta...
-    await isFriend(message)  # friend
-    await isGame(message)  # game
 
 if __name__ == '__main__':
     client.run(key)

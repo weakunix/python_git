@@ -1,11 +1,11 @@
-import home
+import main
 import json
 
 
 async def startGame(payload, client):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
-    emb = await home.embedMake(title='Starting game',
+    emb = await main.embedMake(title='Starting game',
                                desc='Game starting',
                                footer='L')
     await channel.send(embed=emb)
@@ -14,7 +14,7 @@ async def startGame(payload, client):
 async def noGame(payload, client, prefix):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
-    emb = await home.embedMake(title='Game Cancelled By Host',
+    emb = await main.embedMake(title='Game Cancelled By Host',
                                desc='use `' + str(prefix) + 'create` to host a game',
                                footer='BOOOOOOOO why cancel!')
     await channel.send(embed=emb)
@@ -34,7 +34,7 @@ async def joinGame(payload, client):
         arraynewgame.append(temparraystore)
     channel = client.get_channel(payload.channel_id)
     msg = await channel.fetch_message(payload.message_id)
-    emb = await home.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"],
+    emb = await main.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"],
                                ["Users queued:", "==============="],
                                arraytoembdtt=arraynewgame,
                                valuett=arraypeople,
@@ -61,7 +61,7 @@ if __name__ == '__main__':
         arraynewgame.append(pplingme)
     channel = client.get_channel(payload.channel_id)
     msg = await channel.fetch_message(payload.message_id)
-    emb = await home.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"], ["Users queued:", "==============="],
+    emb = await main.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"], ["Users queued:", "==============="],
                          arraytoembdt=arraynewgame,
                          title='New Room Made!',
                          desc='Game type: 🔓, Public',
