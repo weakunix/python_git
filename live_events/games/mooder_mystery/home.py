@@ -13,13 +13,14 @@ cmd = [
 gameCmd = [
     ['create', 'usage: create. creates new mooder moostery game'],
     ['join', 'usage: join. joins game with code (use at dm)'],
-    ['invite', 'usage: invite [player id] invites the player to a game'],
-    ['kick', 'kicks person from room (if you are host)']
+    ['invite', 'usage: invite [player id/mention] invites the player to a game'],
+    ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)']
 ]
 
 friendCmd = [
     ['friend list', 'usage: friend list. shows the lists of your friends'],
-    ['friend request', 'usage: friend request [player id]. friend requests the person (bot will dm them)']
+    ['friend request', 'usage: friend request [player id/mention]. friend requests the person (bot will dm them)'],
+    ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 v = '0.0.2'
 key = []
@@ -159,7 +160,7 @@ async def isFriend(message):
                             desc='All your friend- oh wait... \n========================',
                             footer='get rekt')
             await message.channel.send(embed=emb)
-    elif message.content.startswith(prefix + friendCmd[1][0]):
+    elif message.content.startswith(prefix + friendCmd[1][0]) or message.content.startswith(prefix + friendCmd[2][0]):
         idofdmtarget = message.author.id
         target = getMsg(len(prefix) + len(friendCmd[1][0]) + 1, message.content, True)
         target = target.replace("<", "")
@@ -181,23 +182,41 @@ async def isFriend(message):
                                    footer='You typed a string for the ID mate')
             await message.author.send(embed=embedurbad)
             return
-        embsent = await embedMake(["To:", '\n `' + str(target) + "`"], title='Friend Request', desc='Sent Friend Request ('
-                                                                                              'You will get dm if '
-                                                                                              'they accept)',
-                            footer='always friend good players!')
-        await message.author.send(embed=embsent)
-        emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request', desc='Pending Friend '
-                                                                                                    'Request (click "✅" to accept, ignore to ignore)',
-                        footer='beware of strangers online!')
-        emoji = await target.send(embed=emb)
-        jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
-        await emoji.add_reaction("✅")
-        '''else:
-            emb = await embedMake(
-                            title='Friend Request',
-                            desc='User is already friends with you! ',
-                            footer='I ship still...')
-            await message.author.send(embed=emb)'''
+        with open("friend.json", 'r') as brr:
+            friend = json.load(brr)
+        if message.content.startswith(prefix + friendCmd[1][0]):
+            if str(target.id) not in friend[str(message.author.id)] and str(target.id) != str(message.author.id): #not self lol
+                embsent = await embedMake(["To:", '\n `' + str(target) + "`"], title='Friend Request', desc='Sent Friend Request ('
+                                                                                                      'You will get dm if '
+                                                                                                      'they accept)',
+                                    footer='always friend good players!')
+                await message.author.send(embed=embsent)
+                emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request', desc='Pending Friend '
+                                                                                                            'Request (click "✅" to accept, ignore to ignore)',
+                                footer='beware of strangers online!')
+                emoji = await target.send(embed=emb)
+                jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
+                await emoji.add_reaction("✅")
+            else:
+                emb = await embedMake(
+                                title='Friend Request - ERROR',
+                                desc='Error! User is already friends with you! (or you friended yourself)',
+                                footer='and I ship still...')
+                await message.author.send(embed=emb)
+        else:
+            if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(message.author.id): #not self lol
+                embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],
+                                          title='Friend Removed',
+                                          desc='You have removed this person from your friends list',
+                                          footer='dang, my ship for you two sank')
+                await message.author.send(embed=embsent)
+            else:
+                emb = await embedMake(
+                                title='Friend Request - ERROR',
+                                desc='Error! User is not friends with you! (or you unfriended yourself)',
+                                footer='sad...')
+                await message.author.send(embed=emb)
+    #elif message.content.startswith(prefix + friendCmd[1][0]):
 
 
 async def isGame(message):

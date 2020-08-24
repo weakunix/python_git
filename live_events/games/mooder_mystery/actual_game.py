@@ -6,8 +6,8 @@ async def startGame(payload, client):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
     emb = await home.embedMake(title='Starting game',
-                         desc='Game starting',
-                         footer='L')
+                               desc='Game starting',
+                               footer='L')
     await channel.send(embed=emb)
 
 
@@ -15,8 +15,8 @@ async def noGame(payload, client, prefix):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
     emb = await home.embedMake(title='Game Cancelled By Host',
-                         desc='use `' + str(prefix) + 'create` to host a game',
-                         footer='BOOOOOOOO why cancel!')
+                               desc='use `' + str(prefix) + 'create` to host a game',
+                               footer='BOOOOOOOO why cancel!')
     await channel.send(embed=emb)
 
 
