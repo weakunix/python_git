@@ -4,17 +4,20 @@ import json
 import string
 import random
 import asyncio
+import math
 
 cmd = [
     ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
     ['about', 'usage: about. shows info (version... credits... desc...)'],
     ['meta', 'usage: meta [gun]. shows meta of weapons/items. use "meta list" for a list of weapons'],
+    ['prefix', 'usage: -moostery prefix [new prefix]. sets new prefix (always -moostery as prefix for this)']
 ]
 gameCmd = [
     ['create', 'usage: create. creates new mooder moostery game'],
     ['join', 'usage: join. joins game with code (use at dm)'],
     ['invite', 'usage: invite [player id/mention] invites the player to a game'],
-    ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)']
+    ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)'],
+    ['how to play', 'usage: how to play. shows all the tips to getting started']
 ]
 
 friendCmd = [
@@ -22,6 +25,17 @@ friendCmd = [
     ['friend request', 'usage: friend request [player id/mention]. friend requests the person (bot will dm them)'],
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
+
+roles = [
+    ["killer", ""],
+    ["detective", ""],
+    ["medic", ""],
+    ["dash the deer hunter", ""],
+    ["workhorse parents", "choose a person to stay up all night"],
+    ["cupid man the stupid man", ""],
+    ["", ""]
+]
+
 v = '0.0.3'
 key = []
 with open('key.txt', 'r') as b:
@@ -41,6 +55,7 @@ async def makeGame(pubpriv, payload, fromline):
             ["Game Code (for ppl in other servers):", '\n `' + str(gamecode) + "`"],
             title='New Room Made!',
             desc='Game type: 🔓, Public',
+            thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
         if not fromline:
             await client.http.delete_message(payload.channel_id, payload.message_id)
@@ -60,6 +75,7 @@ async def makeGame(pubpriv, payload, fromline):
             ["Game Code:", '\n `' + str(gamecode) + "`"],
             title='New Room Made!',
             desc='Game type: 🔒, Private',
+            thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer='Invite people to play!')
         if not fromline:
             target = client.get_user(payload.user_id)
@@ -238,12 +254,54 @@ async def isGame(message):
             personid = message.author.id
             emb = await embedMake(["Game Creation:", "Click on the reaction to make a game"],
                                   title='New Moorder Moostery Game!',
+                                  thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                   desc='Find out who\'s the killer and stop them before its too late!',
                                   footer='🔒: makes a private game 🔓:makes a public game')
             emoji = await message.channel.send(embed=emb)
             await emoji.add_reaction('🔒')
             await emoji.add_reaction('🔓')
             jason_it(str(emoji.id), 'games.json', str(personid))
+    elif message.content.startswith(prefix + gameCmd[4][0]):
+        emb = await embedMake(
+            title='How To Play',
+            thumbnail='https://images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+            desc='This G-Doc shows everything you need to get started: https://bit.ly/2ExNTIr',
+            footer='i gave up on multipage and read from file'
+        )
+        await message.channel.send(embed=emb)
+    elif message.content.startswith(prefix + 'roles'):
+        pass
+        '''roles = []
+        messages = []
+        messagecountperln = []
+        message_send = []
+        with open('./files/roles.txt', 'r') as b:
+            for line in b:
+                roles.append(line[:-1])  # need to add a extra char#roles =
+                messagecountperln.append(len(b.readline()))
+        brek = False
+        for x in range(len(messagecountperln)):
+            for y in range(len(roles[x])):
+                message_send.append(roles[x][y])
+        message_send = "".join(message_send)
+        '# under is bugged
+        divisible = math.ceil(len(message_send) / 1990)
+        messagePart = []
+        countr = 1990
+        cc = 0
+        c = 0
+        for i in range(divisible):
+            while countr > 0:
+                if countr - int(messagecountperln[c]) >= 0 and c < len(messagecountperln) - 1:
+                    messagePart.append(roles[c])
+                    countr -= int(messagecountperln[c])
+                    c += 1
+                else:
+                    countr = 0
+            else:
+                countr = 1990
+                await message.channel.send(str(str("".join(messagePart)).replace('==', '\n')))
+                messagePart = []'''
 
 
 @client.event
@@ -255,7 +313,6 @@ async def on_raw_reaction_add(payload):
             acceptreq = json.load(brr)
         if str(payload.message_id) in acceptreq:
             target = acceptreq[str(payload.message_id)]
-            # del acceptreq[str(payload.message_id)] del json requests with these two
             with open("friend.json", 'r') as brr:
                 friend = json.load(brr)
             if str(target) in friend:
@@ -326,12 +383,14 @@ async def on_raw_reaction_add(payload):
 
 
 async def isOther(message):  # help and other stuff
+    global prefix
     if message.content.startswith(prefix + cmd[0][0]):
         msgcontent = getMsg(len(prefix) + len(cmd[0][0]) + 1, message.content, True)
         if msgcontent == 'game':
             emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=gameCmd,
                                   img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
                                   title="Help - Game",
+                                  thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                   desc="Ayy... Slidin into yo dms. Here is the list of commands about the game",
                                   footer='the "blood" on sword is actually ketchup',
                                   color=0x00D2FF)
@@ -341,6 +400,7 @@ async def isOther(message):  # help and other stuff
                                   title="Help - Friend",
                                   desc="Ayy... Slidin into yo dms. Here is the list of commands about friends",
                                   footer='the "blood" on sword is actually ketchup',
+                                  thumbnail='https://media.discordapp.net/attachments/747159474753503343/747595752141881393/unknown.png',
                                   color=0x00D2FF)
         else:
             emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=cmd,
@@ -353,8 +413,11 @@ async def isOther(message):  # help and other stuff
         await message.channel.send("> Help sent to " + message.author.mention + "'s DM. Please Check. ")
     elif message.content.startswith(prefix + cmd[1][0]):
         abtemb = await embedMake(["Version: ", '`' + str(v) + '`'],
-                                 ["Developed by", '`' + str(client.get_user(369652997308809226)) + "` with help from `" + str(client.get_user(583755143074283531)) + "`"],
-                                 ["Artwork by", '`' + str(client.get_user(369652997308809226)) + "` and `" + str(client.get_user(605125493120827413)) + '`'],
+                                 ["Developed by",
+                                  '`' + str(client.get_user(369652997308809226)) + "` with help from `" + str(
+                                      client.get_user(583755143074283531)) + "`"],
+                                 ["Artwork by", '`' + str(client.get_user(369652997308809226)) + "` and `" + str(
+                                     client.get_user(605125493120827413)) + '`'],
                                  ["Special Thanks To", '`' + str(client.get_user(333398956958810114)) + "` and `" + str(
                                      client.get_user(149491899240153088)) + '` for letting me "borrow" ideas'],
                                  title="About Murder Moostery",
@@ -365,6 +428,21 @@ async def isOther(message):  # help and other stuff
                                  thumbnail='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png'
                                  )
         await message.channel.send(embed=abtemb)
+    elif message.content.startswith(prefix + cmd[2][0]):
+        pass
+    elif message.content.startswith("-moostery " + cmd[3][0]):
+        newPFX = getMsg(len("-moostery ") + len(cmd[3][0]) + 1, message.content, True)
+        if newPFX != "default" and newPFX != '':
+            prefix = newPFX + " "
+        else:
+            prefix = "-moostery "
+        emb = await embedMake(
+            title='Prefix Change',
+            desc="New prefix: `" + str(prefix) + "`",
+            color=0x00D2FF,
+            footer='the command to change prefix is always `-moostery prefix [new prefix]`'
+        )
+        await message.channel.send(embed=emb)
 
 
 @client.event
