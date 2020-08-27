@@ -12,7 +12,7 @@ cmd = [
     ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
     ['about', 'usage: about. shows info (version... credits... desc...)'],
     ['meta', 'usage: meta [gun]. shows meta of weapons/items. use "meta list" for a list of weapons'],
-    ['prefix', 'usage: -moostery prefix [new prefix]. sets new prefix (always -moostery as prefix for this)']
+    ['prefix', 'usage: -moostery prefix [new prefix]. sets new prefix for your server (always -moostery as prefix for change)']
 ]
 gameCmd = [
     ['create', 'usage: create. creates new mooder moostery game'],
@@ -49,13 +49,22 @@ prefix = '-moostery '  # default prefix
 
 
 async def makeGame(pubpriv, payload, fromline):
-    gamecode = ''.join(random.choice(string.ascii_letters) for i in range(5))  # 5 number game code
+    with open('games.json', 'r') as brr:
+        prefixes = json.load(brr)
+    #gamecode = ''.join(random.choice(string.ascii_letters) for i in range(5))  # 5 number game code
     emoji = ''
     if pubpriv:
         # public
+        if fromline:
+            a = payload.id
+            b = payload.author.id
+        else:
+            a = payload.message_id
+            b = payload.user_id
         emb = await embedMake(
-            ["Game Code (for ppl in other servers):", '\n `' + str(gamecode) + "`"],
-            title='New Room Made!',
+            ["Game Code (for ppl in other servers):", '\n `' + str(a) + "`"],
+            ["Users queued:", client.get_user(int(b))],
+            title='New Table Created!',
             desc='Game type: 🔓, Public',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
@@ -72,9 +81,11 @@ async def makeGame(pubpriv, payload, fromline):
         await emoji.add_reaction('☑️')
         await emoji.add_reaction('❌')
         await emoji.add_reaction('🚪')
+        jason_it(str(emoji.id), 'games.json', str(author))
     else:
         emb = await embedMake(
-            ["Game Code:", '\n `' + str(gamecode) + "`"],
+            ["Game Code (for ppl in other servers): ", '\n `' + str(payload.message_id) + "`"],
+            ["Users queued:", client.get_user(int(payload.user_id))],
             title='New Room Made!',
             desc='Game type: 🔒, Private',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
@@ -93,7 +104,6 @@ async def makeGame(pubpriv, payload, fromline):
     new = [obj for obj in game if [str(id)] != str(author)]
     with open('games.json', 'w') as brrr:
         json.dump(new, brrr, indent=4)'''
-    jason_it(str(emoji.id), 'games.json', str(author))
 
 
 def jason_it(whatindex, filename, msg):
@@ -360,6 +370,10 @@ async def on_raw_reaction_add(payload):
                 activegames = json.load(brr)
             if str(payload.message_id) in activegames:
                 if str(payload.user_id) == activegames[str(payload.message_id)]:
+                    activegames.pop(str(payload.message_id))
+                    out_file = open("games.json", "w")
+                    json.dump(activegames, out_file, indent=4)
+                    out_file.close()
                     if payload.emoji.name == '🔒':
                         await makeGame(False, payload, False)
                     else:
@@ -371,7 +385,7 @@ async def on_raw_reaction_add(payload):
                 if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
                         activegames[str(payload.message_id)]:  # if is host
                     if payload.emoji.name == '☑️':
-                        await actual_game.startGame(payload, client)
+                        await actual_game.startGame(payload, client, activegames)
                     elif payload.emoji.name == '❌':
                         await actual_game.noGame(payload, client, prefix, activegames)
                 elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
@@ -401,6 +415,9 @@ async def on_raw_reaction_add(payload):
                         desc='You have joined the table \n Host: ' + str(client.get_user(int(ara[0]))) + '\n Code: `code`',
                         footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
                     )
+                    #out_file = open("games.json", "w")
+                    #json.dump(activegames, out_file, indent=4)
+                    #out_file.close()
                     await client.get_user(int(payload.user_id)).send(embed=emb)
 
 
@@ -483,8 +500,10 @@ async def isOther(message):  # help and other stuff
         newPFX = getMsg(len("-moostery ") + len(cmd[3][0]) + 1, message.content, True)
         if newPFX != "default" and newPFX != '':
             prefix = newPFX + " "
+            jason_it(str(message.guild.id), 'server_prefixes.json', str(prefix))
         else:
             prefix = "-moostery "
+            jason_it(str(message.guild.id), 'server_prefixes.json', str(prefix))
         emb = await embedMake(
             title='Prefix Change',
             desc="New prefix: `" + str(prefix) + "`",

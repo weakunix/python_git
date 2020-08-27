@@ -3,45 +3,50 @@ import json
 import discord
 
 
-async def startGame(payload, client):
-    await client.http.delete_message(payload.channel_id, payload.message_id)
+async def startGame(payload, client, ppl):
+    roles = [
+        []
+    ]
+    play = True
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Starting game',
                                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                desc='Game starting',
                                footer='You will get your role in the dm.')
     await channel.send(embed=emb)
-    emb = await main.embedMake(title='test',
-                               thumbnail='https://media.discordapp.net/attachments/747639128593793118/747639293773742140/Screen_Shot_2020-08-24_at_10.09.04_PM.png',
-                               desc='photo test',
-                               img='https://media.discordapp.net/attachments/747639183547433063/747646676042252369/detective_shot.png',
-                               )
-    await channel.send(embed=emb)
-    emb = await main.embedMake(title='test',
-                               thumbnail='https://media.discordapp.net/attachments/747639128593793118/747639293773742140/Screen_Shot_2020-08-24_at_10.09.04_PM.png',
-                               desc='photo test',
-                               img='https://media.discordapp.net/attachments/747639183547433063/747646663635763200/detective_hung.png',
-                               )
-    await channel.send(embed=emb)
+    emb = await main.embedMake(title='Your Role:',
+                               thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                               desc='',
+                               footer='This is your role. Goodluck and have fun!!!')
+    if str(payload.message_id) in ppl:
+        for i in range(len(ppl[str(payload.message_id)])):
+            if i != 0:  # not host
+                try:
+                    await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
+                except:
+                    break  # is host
 
 
 async def noGame(payload, client, prefix, ppl):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
-    emb = await main.embedMake(title='Game Cancelled By Host',
-                               thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='use `' + str(prefix) + 'create` to host a game',
-                               footer='BOOOOOOOO why cancel!')
+    emb = await main.embedMake(
+        title='Game Cancelled By Host',
+        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+        desc='use `' + str(prefix) + 'create` to host a game',
+        footer='BOOOOOOOO why cancel!')
     await channel.send(embed=emb)
     if str(payload.message_id) in ppl:
         for i in range(len(ppl[str(payload.message_id)])):
-            emb = await main.embedMake(
-                title='Game Has Been Canceled',
-                desc='The Host Has Cancelled The Game. GG',
-                footer='sad. what a bummer.'
-            )
             if i != 0:  # not host
-                await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
+                try:
+                    await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
+                except:
+                    break #is host
+    ppl.pop(str(payload.message_id))
+    out_file = open("games.json", "w")
+    json.dump(ppl, out_file, indent=4)
+    out_file.close()
 
 
 async def joinGame(payload, client):
@@ -59,7 +64,7 @@ async def joinGame(payload, client):
     channel = client.get_channel(payload.channel_id)
     msg = await channel.fetch_message(payload.message_id)
     emb = await main.embedMake(
-        ["Users queued:", "==============="],
+        ["Game Code (for ppl in other servers): ", '\n `' + str(payload.message_id) + "`"],
         arraytoembdtt=arraynewgame,
         valuett=arraypeople,
         title='New Room Made!',
