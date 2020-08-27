@@ -384,8 +384,9 @@ async def on_raw_reaction_add(payload):
             if str(payload.message_id) in activegames:
                 if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
                         activegames[str(payload.message_id)]:  # if is host
-                    if payload.emoji.name == '☑️':
-                        await actual_game.startGame(payload, client, activegames)
+                    if payload.emoji.name == '☑️' and type(activegames[str(payload.message_id)]) != str:
+                        if len(activegames[str(payload.message_id)]) > 1:
+                            await actual_game.startGame(payload, client, activegames)
                     elif payload.emoji.name == '❌':
                         await actual_game.noGame(payload, client, prefix, activegames)
                 elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
@@ -411,8 +412,9 @@ async def on_raw_reaction_add(payload):
                     emb = await embedMake(['People sat at the table', 'Name and ID'],
                         title='Joined Game',
                         arraytoembdtt=ara,
+                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                         valuett=values,
-                        desc='You have joined the table \n Host: ' + str(client.get_user(int(ara[0]))) + '\n Code: `code`',
+                        desc='You have joined the table \n Host: ' + str(client.get_user(int(ara[0]))) + '\n Game Code: `'+str(payload.message_id)+'`',
                         footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
                     )
                     #out_file = open("games.json", "w")
@@ -442,6 +444,7 @@ async def on_raw_reaction_remove(payload):
                     await actual_game.joinGame(payload, client)
                     emb = await embedMake(
                           title='Left Game',
+                          thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                           desc='You have left the table. GG',
                           footer='sad. what a bummer.'
                           )
@@ -543,6 +546,10 @@ def clearFiles():
     w.close()
     os.remove('games.json')
     w = open('games.json', 'w+')
+    w.write('{}')
+    w.close()
+    os.remove('roles.json')
+    w = open('roles.json', 'w+')
     w.write('{}')
     w.close()
 

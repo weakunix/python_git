@@ -1,30 +1,70 @@
+import asyncio
+
 import main
 import json
 import discord
+import random
 
 
 async def startGame(payload, client, ppl):
+    #name   desc    day    night
     roles = [
-        []
+        ["murder", "**KILL EVERYONE!**"],
+        ["detective", "Find out who the **murder** is!"],
+        ["hacker", "Spy that the market! Control it!"],
+        ["hunter", "Find the murder's weapons and avenge yourself!"],
+        ["millionaire", "Use your influence to manipulate the votes!"],
+        ["overprotective_mom", "Stall and distract!"],
+        ["scientist", "Find out who is lying and who is truthful!"],
+        ["witch", "Medicate and protect the city!"],
+        ["workhorse_dad", "Stall and distract v2!"]
     ]
     play = True
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Starting game',
                                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='Game starting',
-                               footer='You will get your role in the dm.')
+                               desc='Game starting!! Check your DM\'s!',
+                               footer='The game will be played through DM\'s')
     await channel.send(embed=emb)
-    emb = await main.embedMake(title='Your Role:',
-                               thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='',
-                               footer='This is your role. Goodluck and have fun!!!')
-    if str(payload.message_id) in ppl:
-        for i in range(len(ppl[str(payload.message_id)])):
-            if i != 0:  # not host
-                try:
-                    await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
-                except:
-                    break  # is host
+    ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(payload.message_id)]))]
+    ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0
+    tempcheck = random.randint(0, len(ppltoroles) - 1)
+    if ppltoroles[tempcheck] != 0:
+        ppltoroles[tempcheck] = 1
+    else:
+        ppltoroles[0] = 1
+    a = 0
+    for i in range(len(ppl[str(payload.message_id)])):
+        emb = await main.embedMake(['You Are The', '**' + str(roles[int(ppltoroles[i])][0]) + '**' + '\n `' + str(roles[int(ppltoroles[i])][1]) + '`'],
+                                   title='Role Reveal!',
+                                   thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                                   desc='',
+                                   footer='This is your role. Goodluck and have fun!!!')
+        await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
+    await asyncio.sleep(1) #for ppl to get to their dms first
+    #main.jason_it(str(payload.message_id), 'roles.json', str)
+    await intro(payload, client, ppl)
+    '''while play:
+        await day()
+        await night()'''
+
+
+async def intro(payload, client, ppl):
+    emb = await main.embedMake(['Splat!', 'There\'s a killer in this town...'],
+                               title='It was a ordinary night in the city...',
+                               thumbnail='https://media.discordapp.net/attachments/696699604003061784/748557547501256775/pfp2.png',
+                               desc='until...',
+                               img='https://media.discordapp.net/attachments/696699604003061784/748568734578376814/business_man_colored2.png'
+                               )
+    for i in range(len(ppl[str(payload.message_id)])):
+        await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
+    emb = await main.embedMake(['Remember...', 'He may be behind you'],
+                               title='It is up to you to save the town!',
+                               desc='and execute the murder...',
+                               img='https://media.discordapp.net/attachments/747186165378973796/748573847934075070/unknown.png'
+                               )
+    for i in range(len(ppl[str(payload.message_id)])):
+        await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
 
 
 async def noGame(payload, client, prefix, ppl):
