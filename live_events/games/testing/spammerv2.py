@@ -8,7 +8,7 @@ keyboardsim = Controller()
 def on_press(key):
     if key == Key.cmd_r or key == Key.ctrl_r:
         for i in range(100):
-            keyboardsim.type(str("/cow work"))
+            keyboardsim.type(str("WHO DA PHUC U"))
             keyboardsim.type("\n")
 
 
