@@ -673,6 +673,12 @@ async def on_message(message):
         # end here ^^^^
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
+        elif message.content.startswith('does jason still have feelings for Megan'):
+            await message.channel.send(
+                "``` yes he gets a boner for the fucking girl every goddamn time and cant wait until she's 18. "
+                "said by a cow so you know its real 0_0"
+                "\n        \    ^__^\n         \  (oo)\_______\n            (__)\       )\/\n "
+                                        "               ||----w |\n                ||     ||\n```")
     else:
         if message.channel.id == 725404488030224616:
             if not message.content.startswith("[ANNOUNCEMENT]"):
