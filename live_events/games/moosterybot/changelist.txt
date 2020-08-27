@@ -1,0 +1,4 @@
+v5 pending_requests.json resets everytime bot restarts!
+---
+v4 it removes you after you unreact the room door
+----

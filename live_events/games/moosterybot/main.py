@@ -5,6 +5,8 @@ import string
 import random
 import asyncio
 import math
+import os
+
 
 cmd = [
     ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
@@ -113,7 +115,7 @@ async def embedMake(*args, **kwargs):  # makes an embedded element
     fieldarryt = kwargs.get('arraytoembdt', None)
     fieldarrytt = kwargs.get('arraytoembdtt', None)
     fieldarryttt = kwargs.get('valuett', None)
-
+    imgfile = kwargs.get('imgf', None)
     color = kwargs.get('color', None)
     if color is None:
         color = 0x00D2FF
@@ -126,6 +128,9 @@ async def embedMake(*args, **kwargs):  # makes an embedded element
         embed.add_field(name=arg[0], value=arg[1], inline=False)
     if img is not None:
         embed.set_image(url=img)
+    if imgfile is not None:
+        a = ''.join('attachment://' + str(imgfile))
+        embed.set_image(url=a)
     if fieldarry is not None:
         for i in range(len(fieldarry)):
             embed.add_field(name=prefix + str(fieldarry[i][0]), value="`" + str(fieldarry[i][1]) + "`", inline=False)
@@ -368,8 +373,8 @@ async def on_raw_reaction_add(payload):
                     if payload.emoji.name == '☑️':
                         await actual_game.startGame(payload, client)
                     elif payload.emoji.name == '❌':
-                        await actual_game.noGame(payload, client, prefix)
-                elif payload.emoji.name == '🚪':
+                        await actual_game.noGame(payload, client, prefix, activegames)
+                elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
                     gamestuff = activegames[str(payload.message_id)]
                     arraynewgames = []
                     if type(gamestuff) != str:
@@ -380,6 +385,50 @@ async def on_raw_reaction_add(payload):
                     arraynewgames.append(str(payload.user_id))
                     jason_it(str(payload.message_id), 'games.json', arraynewgames)
                     await actual_game.joinGame(payload, client)
+                    values = []
+                    ara = []
+                    if type(activegames[str(payload.message_id)]) != str:
+                        for i in range(len(activegames[str(payload.message_id)])):
+                            ara.append(activegames[str(payload.message_id)][i])
+                            values.append(str(client.get_user(int(activegames[str(payload.message_id)][i]))))
+                    else:
+                        ara.append(activegames[str(payload.message_id)])
+                        values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
+                    emb = await embedMake(['People sat at the table', 'Name and ID'],
+                        title='Joined Game',
+                        arraytoembdtt=ara,
+                        valuett=values,
+                        desc='You have joined the table \n Host: ' + str(client.get_user(int(ara[0]))) + '\n Code: `code`',
+                        footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
+                    )
+                    await client.get_user(int(payload.user_id)).send(embed=emb)
+
+
+@client.event
+async def on_raw_reaction_remove(payload):
+    if payload.user_id == client.user.id:
+        return
+    if payload.emoji.name == '🚪':
+        with open("games.json", 'r') as brr:
+            activegames = json.load(brr)
+        if str(payload.message_id) in activegames:
+            if str(payload.user_id) in activegames[str(payload.message_id)]:
+                if activegames[str(payload.message_id)] != str(payload.user_id) and activegames[str(payload.message_id)][0] != str(payload.user_id): #checks for if u r room owner
+                    #pr#int(activegames)
+                    for i in range(len(activegames[str(payload.message_id)])):
+                        if str(payload.user_id) == activegames[str(payload.message_id)][i]:
+                            activegames[str(payload.message_id)].pop(i)
+                            break
+                    out_file = open("games.json", "w")
+                    json.dump(activegames, out_file, indent=4)
+                    out_file.close()
+                    await actual_game.joinGame(payload, client)
+                    emb = await embedMake(
+                          title='Left Game',
+                          desc='You have left the table. GG',
+                          footer='sad. what a bummer.'
+                          )
+                    await client.get_user(int(payload.user_id)).send(embed=emb)
 
 
 async def isOther(message):  # help and other stuff
@@ -446,12 +495,8 @@ async def isOther(message):  # help and other stuff
 
 
 @client.event
-async def on_raw_reaction_remove(payload):
-    pass
-
-
-@client.event
 async def on_message(message):
+    #await actual_game.playGame(message)
     if message.author == client.user:
         return
     if message.guild is None:  # in dm
@@ -472,6 +517,17 @@ async def on_ready():
     await client.change_presence(
         activity=discord.Activity(name='for ' + str(prefix), type=discord.ActivityType.watching))
 
+def clearFiles():
+    os.remove('pending_requests.json')
+    w = open('pending_requests.json', 'w+')
+    w.write('{}')
+    w.close()
+    os.remove('games.json')
+    w = open('games.json', 'w+')
+    w.write('{}')
+    w.close()
+
 
 if __name__ == '__main__':
+    clearFiles()
     client.run(key)

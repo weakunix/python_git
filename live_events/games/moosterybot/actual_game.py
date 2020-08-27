@@ -1,5 +1,6 @@
 import main
 import json
+import discord
 
 
 async def startGame(payload, client):
@@ -24,7 +25,7 @@ async def startGame(payload, client):
     await channel.send(embed=emb)
 
 
-async def noGame(payload, client, prefix):
+async def noGame(payload, client, prefix, ppl):
     await client.http.delete_message(payload.channel_id, payload.message_id)
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Game Cancelled By Host',
@@ -32,6 +33,15 @@ async def noGame(payload, client, prefix):
                                desc='use `' + str(prefix) + 'create` to host a game',
                                footer='BOOOOOOOO why cancel!')
     await channel.send(embed=emb)
+    if str(payload.message_id) in ppl:
+        for i in range(len(ppl[str(payload.message_id)])):
+            emb = await main.embedMake(
+                title='Game Has Been Canceled',
+                desc='The Host Has Cancelled The Game. GG',
+                footer='sad. what a bummer.'
+            )
+            if i != 0:  # not host
+                await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
 
 
 async def joinGame(payload, client):
@@ -48,14 +58,14 @@ async def joinGame(payload, client):
         arraynewgame.append(temparraystore)
     channel = client.get_channel(payload.channel_id)
     msg = await channel.fetch_message(payload.message_id)
-    emb = await main.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"],
-                               ["Users queued:", "==============="],
-                               arraytoembdtt=arraynewgame,
-                               valuett=arraypeople,
-                               title='New Room Made!',
-                               desc='Game type: 🔓, Public',
-                               thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
+    emb = await main.embedMake(
+        ["Users queued:", "==============="],
+        arraytoembdtt=arraynewgame,
+        valuett=arraypeople,
+        title='New Room Made!',
+        desc='Game type: 🔓, Public',
+        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+        footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
     await msg.edit(embed=emb)
 
 
