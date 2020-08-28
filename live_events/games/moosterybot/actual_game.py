@@ -23,7 +23,7 @@ async def startGame(payload, client, ppl):
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Starting game',
                                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='Game starting!! Check your DM\'s!',
+                               desc='Game starting!! Check your DM\'s! \n If you need to leave, this is the gamecode: `'+str(payload.message_id)+'`',
                                footer='The game will be played through DM\'s')
     await channel.send(embed=emb)
     ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(payload.message_id)]))]
@@ -32,38 +32,72 @@ async def startGame(payload, client, ppl):
     if ppltoroles[tempcheck] != 0:
         ppltoroles[tempcheck] = 1
     else:
-        ppltoroles[0] = 1
-    a = 0
+        for i in range(len(ppltoroles)): #assigns murder to first perosn availible
+            if i != tempcheck:
+                ppltoroles[i] = 1
+                break
+    main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     for i in range(len(ppl[str(payload.message_id)])):
         emb = await main.embedMake(['You Are The', '**' + str(roles[int(ppltoroles[i])][0]) + '**' + '\n `' + str(roles[int(ppltoroles[i])][1]) + '`'],
                                    title='Role Reveal!',
                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                   desc='',
+                                   desc='If you need to leave, this is the gamecode: `'+str(payload.message_id)+'`',
                                    footer='This is your role. Goodluck and have fun!!!')
         await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
-    await asyncio.sleep(1) #for ppl to get to their dms first
-    #main.jason_it(str(payload.message_id), 'roles.json', str)
-    await intro(payload, client, ppl)
-    '''while play:
-        await day()
-        await night()'''
+    await client.http.delete_message(payload.channel_id, payload.message_id)
+    await intro(payload, client, ppl, ppltoroles)
+    emb = await main.embedMake(title='a')
+    arymsg = []
+    for i in range(len(ppl[str(payload.message_id)])):
+        arymsg.append(await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb))
+    for i in range(10):
+        if i < 9:
+            emb = await main.embedMake(title='Game starting in:',
+                                       desc=str(10-(i+1)),
+                                       img='https://images-ext-2.discordapp.net/external/Wls1jDtGcUz3SaDbBd5_KHKTJ82Nem77ECA4Tx2Rz5g/https/media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
+                                       thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                                       footer='Tip: tip here')
+        else:
+            emb = await main.embedMake(
+                ['Day one', 'First day after the murder, it is on the local news\n Everyone saw the grusome scene on camera and wonders...\n Who did this? \n \n **Claim your role right now by typing** `-moostery claim [role]` (obviously if you are murderer you have to fake lol)'],
+                title='Welcome to Murder Moostery...',
+                img='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
+                desc='Hopefully 10 seconds was enough time',
+                                       )
+        for eye in range(len(ppl[str(payload.message_id)])):
+            await arymsg[eye].edit(embed=emb)
+        await asyncio.sleep(1) #for ppl to get to their dms first
+    #while play:
+    #    await day()
+    #    await night()
 
 
-async def intro(payload, client, ppl):
-    emb = await main.embedMake(['Splat!', 'There\'s a killer in this town...'],
-                               title='It was a ordinary night in the city...',
-                               thumbnail='https://media.discordapp.net/attachments/696699604003061784/748557547501256775/pfp2.png',
-                               desc='until...',
-                               img='https://media.discordapp.net/attachments/696699604003061784/748568734578376814/business_man_colored2.png'
-                               )
+async def day():
+    pass
+
+
+async def night():
+    pass
+
+
+async def initClasses():
+    import character_class
+    pass
+
+
+async def intro(payload, client, ppl, ppltoroles):
     for i in range(len(ppl[str(payload.message_id)])):
-        await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
-    emb = await main.embedMake(['Remember...', 'He may be behind you'],
-                               title='It is up to you to save the town!',
-                               desc='and execute the murder...',
-                               img='https://media.discordapp.net/attachments/747186165378973796/748573847934075070/unknown.png'
-                               )
-    for i in range(len(ppl[str(payload.message_id)])):
+        if ppltoroles[i] != 0: #isnt murder
+            emb = await main.embedMake(['Remember...', 'He may be behind you'],
+                                       title='It is up to you to save the town!',
+                                       desc='and execute the murder...',
+                                       img='https://media.discordapp.net/attachments/747186165378973796/748573847934075070/unknown.png'
+                                       )
+        else:
+            emb = await main.embedMake(title='You have to kill them all!',
+                                       desc='and use blackmail to your advantage',
+                                       img='https://media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png'
+                                       )
         await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb)
 
 
@@ -118,23 +152,3 @@ if __name__ == '__main__':
     print(
         'wrong file dude'
     )
-
-'''
-    with open("games.json", 'r') as brr:
-        gameppl = json.load(brr)
-    pplingme = gameppl[str(payload.message_id)]
-    arraynewgame = []
-    if type(pplingme) != str:
-        for i in range(len(pplingme)):
-            arraynewgame.append(int(pplingme[i]))
-    else:
-        arraynewgame.append(pplingme)
-    channel = client.get_channel(payload.channel_id)
-    msg = await channel.fetch_message(payload.message_id)
-    emb = await main.embedMake(["Game Code (for ppl in other servers):", '\n `' + "`"], ["Users queued:", "==============="],
-                         arraytoembdt=arraynewgame,
-                         title='New Room Made!',
-                         desc='Game type: 🔓, Public',
-                         footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
-    await msg.edit(embed=emb)
-    '''

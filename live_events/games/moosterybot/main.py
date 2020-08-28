@@ -10,9 +10,7 @@ import os
 
 cmd = [
     ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
-    ['about', 'usage: about. shows info (version... credits... desc...)'],
-    ['meta', 'usage: meta [gun]. shows meta of weapons/items. use "meta list" for a list of weapons'],
-    ['prefix', 'usage: -moostery prefix [new prefix]. sets new prefix for your server (always -moostery as prefix for change)']
+    ['about', 'usage: about. shows info (version... credits... desc...)']
 ]
 gameCmd = [
     ['create', 'usage: create. creates new mooder moostery game'],
@@ -21,6 +19,15 @@ gameCmd = [
     ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)'],
     ['how to play', 'usage: how to play. shows all the tips to getting started']
 ]
+
+inGameCmd = [
+    ['leave', 'leaves the game (in the middle of it), if you are the murder, they will auto-win'],
+    ['claim', 'claim [role], claims that you are [role]\n must do before voting'],
+    ['msg', 'msg [player id], anonymously send a message to one player or `pmsg ALL` to send to all'],
+    ['vote', 'vote [player id], votes the player as the murder in the daily trial, your vote will be anonymous'],
+    ['go', 'go [player id] go to their house, this will replace one of your daily or nightly roles.']
+]
+#    ['kill', 'kill [playerid], kills the player (if you are murder)'], ['buy', 'buy [offerid], buys offer from market'],
 
 friendCmd = [
     ['friend list', 'usage: friend list. shows the lists of your friends'],
@@ -277,6 +284,13 @@ async def isGame(message):
             await emoji.add_reaction('🔓')
             jason_it(str(emoji.id), 'games.json', str(personid))
     elif message.content.startswith(prefix + gameCmd[4][0]):
+        emb = await embedMake(['Splat!', 'There\'s a killer in this town...'],
+                                   title='It was a ordinary night in the city...',
+                                   thumbnail='https://media.discordapp.net/attachments/696699604003061784/748557547501256775/pfp2.png',
+                                   desc='until...',
+                                   img='https://media.discordapp.net/attachments/696699604003061784/748568734578376814/business_man_colored2.png'
+                                   )
+        await message.channel.send(embed=emb)
         emb = await embedMake(
             title='How To Play',
             thumbnail='https://images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
@@ -456,28 +470,26 @@ async def isOther(message):  # help and other stuff
     if message.content.startswith(prefix + cmd[0][0]):
         msgcontent = getMsg(len(prefix) + len(cmd[0][0]) + 1, message.content, True)
         if msgcontent == 'game':
-            emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=gameCmd,
-                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                                  title="Help - Game",
-                                  thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                  desc="Ayy... Slidin into yo dms. Here is the list of commands about the game",
-                                  footer='the "blood" on sword is actually ketchup',
-                                  color=0x00D2FF)
+            typea = 'Game'
+            a = gameCmd
+            imag = 'https://images-ext-1.discordapp.net/external/c7hVi29ta2o9hiSe9b3cwIDVklFnbtsdbUXaCh2-Obc/https/media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png'
         elif msgcontent == 'friend':
-            emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=gameCmd,
-                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                                  title="Help - Friend",
-                                  desc="Ayy... Slidin into yo dms. Here is the list of commands about friends",
-                                  footer='the "blood" on sword is actually ketchup',
-                                  thumbnail='https://media.discordapp.net/attachments/747159474753503343/747595752141881393/unknown.png',
-                                  color=0x00D2FF)
+            typea = 'Friend'
+            a = friendCmd
+            imag = 'https://media.discordapp.net/attachments/747159474753503343/748735404810698792/unknown.png'
+        elif msgcontent == 'play':
+            typea = 'Play'
+            a = inGameCmd
+            imag = 'https://images-ext-1.discordapp.net/external/c7hVi29ta2o9hiSe9b3cwIDVklFnbtsdbUXaCh2-Obc/https/media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png'
         else:
-            emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=cmd,
-                                  img='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png',
-                                  title="Help - General",
-                                  desc="Ayy... Slidin into yo dms. Here is the list of commands in general",
-                                  footer='the "blood" on sword is actually ketchup',
-                                  color=0x00D2FF)
+            typea = 'General'
+            a = cmd
+            imag = 'https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png'
+        emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=a,
+                              img=str(imag),
+                              title="Help - "+str(typea),
+                              desc="Ayy... Slidin into yo dms. Here is the list of commands",
+                              color=0x00D2FF)
         await message.author.send(embed=emb)
         await message.channel.send("> Help sent to " + message.author.mention + "'s DM. Please Check. ")
     elif message.content.startswith(prefix + cmd[1][0]):
@@ -497,23 +509,47 @@ async def isOther(message):  # help and other stuff
                                  thumbnail='https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png'
                                  )
         await message.channel.send(embed=abtemb)
-    elif message.content.startswith(prefix + cmd[2][0]):
-        pass
-    elif message.content.startswith("-moostery " + cmd[3][0]):
-        newPFX = getMsg(len("-moostery ") + len(cmd[3][0]) + 1, message.content, True)
-        if newPFX != "default" and newPFX != '':
-            prefix = newPFX + " "
-            jason_it(str(message.guild.id), 'server_prefixes.json', str(prefix))
+
+
+async def isinGame(message):
+    if message.content.startswith(prefix + inGameCmd[0][0]):
+        a = getMsg(len(prefix) + len(inGameCmd[0][0]) + 1, message.content, True)
+        if a == '':
+            emb = await embedMake(
+                title='Leaving game',
+                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                desc='Confirm Leaving Game by typing -moostery leave [gamecode]',
+                footer='sad'
+            )
+            await message.author.send(embed=emb)
         else:
-            prefix = "-moostery "
-            jason_it(str(message.guild.id), 'server_prefixes.json', str(prefix))
-        emb = await embedMake(
-            title='Prefix Change',
-            desc="New prefix: `" + str(prefix) + "`",
-            color=0x00D2FF,
-            footer='the command to change prefix is always `-moostery prefix [new prefix]`'
-        )
-        await message.channel.send(embed=emb)
+            with open("games.json", 'r') as brr:
+                activegames = json.load(brr)
+            with open("roles.json", 'r') as brr:
+                role = json.load(brr)
+            if str(message.author.id) not in activegames[str(a)]:
+                return
+            if str(a) in activegames:
+                if str(message.author.id) in activegames[str(a)]:
+                    for i in range(len(activegames[str(a)])):
+                        if str(message.author.id) == activegames[str(a)][i]:
+                            activegames[str(a)].pop(i)
+                            role[str(a)].pop(i)
+                            break
+            out_file = open("games.json", "w")
+            json.dump(activegames, out_file, indent=4)
+            out_file.close()
+            out_file = open("roles.json", "w")
+            json.dump(role, out_file, indent=4)
+            out_file.close()
+            emb = await embedMake(
+                title='Left Game',
+                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                desc='You have left the table in the middle of a game. GG',
+                footer='what a bummer.'
+            )
+            await message.author.send(embed=emb)
+
 
 
 @client.event
@@ -528,6 +564,8 @@ async def on_message(message):
                                   desc='it seems like you have DM\'d the bot with a message!',
                                   footer="type '" + str(prefix) + "help' to get commands")
             await message.author.send(embed=emb)
+        else:
+            await isinGame(message)
     await isOther(message)  # help, meta...
     await isFriend(message)  # friend
     await isGame(message)  # game
