@@ -10,17 +10,7 @@ import random
 
 async def startGame(payload, client, ppl):
     # name   desc    day    night
-    roles = [
-        ["murder", "**KILL EVERYONE!**"],
-        ["detective", "Find out who the **murder** is!"],
-        ["hacker", "Spy that the market! Control it!"],
-        ["hunter", "Find the murder's weapons and avenge yourself!"],
-        ["millionaire", "Use your influence to manipulate the votes!"],
-        ["overprotective_mom", "Stall and distract!"],
-        ["scientist", "Find out who is lying and who is truthful!"],
-        ["witch", "Medicate and protect the city!"],
-        ["workhorse_dad", "Stall and distract v2!"]
-    ]
+    roles = character_classes.Characters.roleList
     play = True
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Starting game',

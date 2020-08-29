@@ -23,7 +23,8 @@ class Characters:
         for i in range(2):
             nameOfImg = "".join(str(self.name)+str(i))
             self.images.append(nameOfImg)
-
+            if self.number == 0:
+                break
 
     def goTo(self, target):
         pass

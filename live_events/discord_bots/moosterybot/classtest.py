@@ -13,9 +13,11 @@ roles = [
         ["workhorse_dad", "Stall and distract v2!"]
     ]
 
-actual_game.initClasses(str(143952058104828490))
+#actual_game.initClasses(str(143952058104828490))
 
 
-'''a = character_classes.Scientist(555555)
+
+
+a = character_classes.Murder(555555)
 print('role to index')
-print(a.getRole())'''
+print(a.getRole())
