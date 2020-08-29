@@ -2,33 +2,41 @@ import json
 
 
 class Characters:
+    roleList = [
+        ["murder", "**KILL EVERYONE!**"],
+        ["detective", "Find out who the **murder** is!"],
+        ["hacker", "Spy that the market! Control it!"],
+        ["hunter", "Find the murder's weapons and avenge yourself!"],
+        ["millionaire", "Use your influence to manipulate the votes!"],
+        ["overprotective_mom", "Stall and distract!"],
+        ["scientist", "Find out who is lying and who is truthful!"],
+        ["witch", "Medicate and protect the city!"],
+        ["workhorse_dad", "Stall and distract v2!"]
+    ]
+
     def __init__(self, playerid, number):
         self.isAlive = True
         self.number = number
+        self.name = self.roleList[number][0]
         self.id = playerid
-        # self.name = random.randint()
-        # self.
+        self.images = []
+        for i in range(2):
+            nameOfImg = "".join(str(self.name)+str(i))
+            self.images.append(nameOfImg)
+
 
     def goTo(self, target):
         pass
 
-    def getPlayers(self, uid, key):
+    def getPlayers(self, key):
         with open('games.json', 'r') as brr:
             target = json.load(brr)
         for i in range(len(target)):
-            if target[key] == str(uid):
+            if target[key] == str(self.id):
                 return True
         return False
 
-    def getRoleInList(self, uid, key):
-        with open('roles.json', 'r') as brr:
-            role = json.load(brr)
-        for i in range(len(role)):
-            if role[key] == str(uid):
-                return True
-        return False
-
-    def getRole(self):
+    def getRole(self):# hacky way without needing key to get player info and role
         uid = self.id
         with open('roles.json', 'r') as brr:
             role = json.load(brr)
@@ -58,7 +66,7 @@ class Killer(Characters):
         pass
 
     def Nightrole(self, blackmail, targetid):
-        if self.getRole(self.id)[2]:
+        if self.getRole()[2]:
             if blackmail:
                 print('blackmail')
             else:

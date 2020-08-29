@@ -440,6 +440,7 @@ async def on_raw_reaction_add(payload):
                 await client.http.delete_message(payload.channel_id, payload.message_id)
                 await client.get_user(int(payload.user_id)).send(embed=emb)
 
+
 @client.event
 async def on_raw_reaction_remove(payload):
     if payload.user_id == client.user.id:
