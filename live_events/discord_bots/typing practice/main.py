@@ -49,7 +49,7 @@ async def on_message(message):
         fail = 0
     else:
         if typing:
-            if message.content == str(word):
+            if str(message.content).lower() == str(word):
                 success += 1
             else:
                 fail += 1

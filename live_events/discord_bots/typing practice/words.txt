@@ -7,7 +7,7 @@ aviation
 ground
 care
 impossible
-ooh
+toorh
 shake
 breakfast
 happening
@@ -164,7 +164,7 @@ counting
 stirrer
 them's
 stellar
-oouple
+couple
 newbies
 restroom
 attendant's
@@ -217,11 +217,11 @@ degrees
 collector
 dash
 pinch
-oool
+cool
 picking
 bright
 daisies
-oopy
+copy
 visual
 reporting
 moving
@@ -234,7 +234,7 @@ lord
 oandybrain
 mama's
 position
-ooming
+coming
 missile
 knows
 match
@@ -295,7 +295,7 @@ grateful
 mama
 laugh
 cry
-ooffee
+coffee
 minutes
 impose
 trying
@@ -557,7 +557,7 @@ studio
 olassy
 hexagon
 hive
-oolumbus
+columbus
 gandhi
 bejesus
 stickball
@@ -978,7 +978,7 @@ sweater
 ralph
 lauren
 montgomery's
-oongratulations
+congratulations
 settlement
 camps
 ours
@@ -1089,7 +1089,7 @@ turn
 neither
 sports
 ask
-oould
+could
 slow
 total
 disaster
@@ -1294,7 +1294,10 @@ blacktop
 anything
 wait
 strong
-27millionyearold
+27
+million
+year
+old
 instinct
 bring
 tarmac
@@ -1336,10 +1339,9 @@ aim
 center
 now
 drop
-oome
 taught
 yes
-highfive
+high five
 did
 giant
 where

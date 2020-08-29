@@ -22,8 +22,10 @@ class Characters:
         self.isTrapped = False
         self.number = number
         self.name = self.roleList[number][0]
-        self.id = playerid
+        self.id = int(playerid)
         self.images = []
+        self.hasVoted = False
+        self.hasClaimed = False
         for i in range(2):
             nameOfImg = "".join(str(self.name) + str(i))
             self.images.append(nameOfImg)
@@ -68,13 +70,16 @@ class murder(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self, author):
-        emb = main.embedMake(
+    async def Dayrole(self):
+        print(self.id)
+        print(main.client)
+        print(main.client.get_user(369652997308809226))
+        emb = await main.embedMake(
             title='Offer From Market',
             desc='It may be a catfish...',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='This will boost your kill chances!')
-        await main.client.get_user(int(author)).send(embed=emb)
+        await main.client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, blackmail, targetid, author):
         await self.targetPlayer(targetid, True, author)
@@ -129,10 +134,10 @@ class detective(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -145,10 +150,10 @@ class hacker(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         pass
 
 
@@ -160,10 +165,10 @@ class scientist(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -176,10 +181,10 @@ class witch(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -192,10 +197,10 @@ class hunter(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -209,10 +214,10 @@ class workhorse_dad(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -227,10 +232,10 @@ class overprotective_mom(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass
 
@@ -243,9 +248,9 @@ class millionaire(Characters):
     def Passive(self):
         pass
 
-    def Dayrole(self):
+    async def Dayrole(self):
         pass
 
-    def Nightrole(self):
+    async def Nightrole(self):
         # return person
         pass

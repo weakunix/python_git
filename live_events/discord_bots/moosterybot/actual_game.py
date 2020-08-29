@@ -28,7 +28,7 @@ async def startGame(payload, client, ppl):
                 ppltoroles[i] = 1
                 break
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
-    initClasses(str(payload.message_id))
+    classes = initClasses(str(payload.message_id))
     for i in range(len(ppl[str(payload.message_id)])):
         emb = await main.embedMake(['You Are The', '**' + str(roles[int(ppltoroles[i])][0]) + '**' + '\n `' + str(
             roles[int(ppltoroles[i])][1]) + '`'],
@@ -61,29 +61,39 @@ async def startGame(payload, client, ppl):
         for eye in range(len(ppl[str(payload.message_id)])):
             await arymsg[eye].edit(embed=emb)
         await asyncio.sleep(1)  # for ppl to get to their dms first
-    while play:
-        await day(str(payload.message_id))
-        await night()
+    await recursion(classes)
 
 
-async def day(key):
+async def recursion(classes):
+    lockb = False
+    locka = await day(classes)
+    if locka:
+        lockb = await night(classes)
+    if lockb:
+        await recursion(classes)
+
+
+async def day(classes):
+    for i in range(len(classes)):
+        await classes[i].Dayrole()
+
+
+async def night(classes):
+    for i in range(len(classes)):
+        await classes[i].Nightrole()
+
+
+def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now
     with open("roles.json", 'r') as brr:
         rolestuff = json.load(brr)
-    for i in range(len(rolestuff[key])):
-        pass
-
-
-async def night():
-    pass
-
-
-def initClasses(key):  # limit to only making roles for one game i gtg eat now
-    with open("roles.json", 'r') as brr:
-        rolestuff = json.load(brr)
-    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) for i in range(9)}
+    with open("games.json", 'r') as brr:
+        charac = json.load(brr)
+    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) + '({})' for i in
+                range(9)}
     listOfClasses = []
     for x in range(len(rolestuff[key])):
-        listOfClasses.append(eval(charlist[rolestuff[key][x]]))
+        a = eval(str(charlist[rolestuff[key][x]]).format(charac[key][x]))
+        listOfClasses.append(a)
     return listOfClasses
 
 
