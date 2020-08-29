@@ -1,8 +1,6 @@
 import asyncio
-
 import main
 import character_classes
-
 import json
 import discord
 import random
@@ -63,37 +61,31 @@ async def startGame(payload, client, ppl):
         for eye in range(len(ppl[str(payload.message_id)])):
             await arymsg[eye].edit(embed=emb)
         await asyncio.sleep(1)  # for ppl to get to their dms first
-    # while play:
-    #    await day()
-    #    await night()
+    while play:
+        await day(str(payload.message_id))
+        await night()
 
 
-async def day():
-    pass
+async def day(key):
+    with open("roles.json", 'r') as brr:
+        rolestuff = json.load(brr)
+    for i in range(len(rolestuff[key])):
+        pass
 
 
 async def night():
     pass
 
 
-def initClasses(key): #limit to only making roles for one game i gtg eat now
+def initClasses(key):  # limit to only making roles for one game i gtg eat now
     with open("roles.json", 'r') as brr:
         rolestuff = json.load(brr)
-    charlist = {
-        0: character_classes.Killer,
-        1: character_classes.Detective,
-        2: character_classes.Hacker,
-        3: character_classes.Hunter,
-        4: character_classes.Millionaire,
-        5: character_classes.Overprotective,
-        6: character_classes.Scientist,
-        7: character_classes.Witch,
-        8: character_classes.Workhorse,
-    }
-    a = []
+    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) for i in range(9)}
+    listOfClasses = []
     for x in range(len(rolestuff[key])):
-        a.append(charlist[rolestuff[key][x]])
-    #print(a)
+        listOfClasses.append(eval(charlist[rolestuff[key][x]]))
+    return listOfClasses
+
 
 async def intro(payload, client, ppl, ppltoroles):
     for i in range(len(ppl[str(payload.message_id)])):

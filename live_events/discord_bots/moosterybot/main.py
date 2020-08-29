@@ -627,8 +627,8 @@ async def isinGame(message):
                 title='Roles to claim:',
                 thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
                 arraytoembdtt=roles,
-                valuett=['/moostery claim [role]' for i in range(len(roles))],
-                footer='sad'
+                valuett=['-moostery claim [role]' for i in range(len(roles))],
+                footer='bad role name!'
             )
             await message.author.send(embed=emb)
 
