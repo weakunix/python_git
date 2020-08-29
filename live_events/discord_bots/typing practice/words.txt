@@ -405,7 +405,6 @@ emotion:
 anger
 bothering
 pic
-'n'
 save
 circular
 10
