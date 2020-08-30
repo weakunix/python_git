@@ -7,7 +7,6 @@ import asyncio
 import math
 import os
 
-
 cmd = [
     ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
     ['about', 'usage: about. shows info (version... credits... desc...)']
@@ -35,17 +34,7 @@ friendCmd = [
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 
-roles = [
-    ["killer", ""],
-    ["detective", ""],
-    ["medic", ""],
-    ["dash the deer hunter", ""],
-    ["workhorse parents", "choose a person to stay up all night"],
-    ["cupid man the stupid man", ""],
-    ["", ""]
-]
-
-v = '0.0.3'
+v = '0.0.7'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
@@ -58,7 +47,7 @@ prefix = '-moostery '  # default prefix
 async def makeGame(pubpriv, payload, fromline):
     with open('games.json', 'r') as brr:
         prefixes = json.load(brr)
-    #gamecode = ''.join(random.choice(string.ascii_letters) for i in range(5))  # 5 number game code
+    # gamecode = ''.join(random.choice(string.ascii_letters) for i in range(5))  # 5 number game code
     emoji = ''
     if pubpriv:
         # public
@@ -90,9 +79,15 @@ async def makeGame(pubpriv, payload, fromline):
         await emoji.add_reaction('🚪')
         jason_it(str(emoji.id), 'games.json', str(author))
     else:
+        if fromline:
+            a = payload.id
+            b = payload.author.id
+        else:
+            a = payload.message_id
+            b = payload.user_id
         emb = await embedMake(
-            ["Game Code (for ppl in other servers): ", '\n `' + str(payload.message_id) + "`"],
-            ["Users queued:", client.get_user(int(payload.user_id))],
+            ["Game Code (for ppl in other servers): ", '\n `' + str(a) + "`"],
+            ["Users queued:", client.get_user(int(b))],
             title='New Room Made!',
             desc='Game type: 🔒, Private',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
@@ -106,11 +101,6 @@ async def makeGame(pubpriv, payload, fromline):
             author = payload.author.id
             ids = payload.id
         await target.send(embed=emb)
-        # jason_it(emoji)
-    '''game = json.load(open("games.json"))
-    new = [obj for obj in game if [str(id)] != str(author)]
-    with open('games.json', 'w') as brrr:
-        json.dump(new, brrr, indent=4)'''
 
 
 def jason_it(whatindex, filename, msg):
@@ -188,14 +178,11 @@ async def isFriend(message):
             if type(friendo) != str:
                 for i in range(len(friendo)):
                     arraynewfriend.append(friendo[i])
-                emb = await embedMake(arraytoembdt=arraynewfriend, title='Friends List',
-                                      desc='All your friends here \n========================',
-                                      footer='~~ still shipping until the end of time -Cowland ~~')
             else:
                 arraynewfriend.append(friendo)
-                emb = await embedMake(['.', arraynewfriend], title='Friends List',
-                                      desc='All your friends here \n========================',
-                                      footer='~~ still shipping until the end of time -Cowland ~~')
+            emb = await embedMake(arraytoembdt=arraynewfriend, title='Friends List',
+                                  desc='All your friends here \n========================',
+                                  footer='~~ still shipping until the end of time -Cowland ~~')
             await message.channel.send(embed=emb)
         else:
             emb = await embedMake(['You have no friends', 'LOL'], title='Friends List',
@@ -204,8 +191,11 @@ async def isFriend(message):
             await message.channel.send(embed=emb)
     elif message.content.startswith(prefix + friendCmd[1][0]) or message.content.startswith(prefix + friendCmd[2][0]):
         idofdmtarget = message.author.id
-        target = getMsg(len(prefix) + len(friendCmd[1][0]) + 1, message.content, True)
-        target = target.replace("<", "")
+        if message.content.startswith(prefix + friendCmd[1][0]):
+            target = getMsg(len(prefix) + len(friendCmd[1][0]) + 1, message.content, True)
+        else:
+            target = getMsg(len(prefix) + len(friendCmd[2][0]) + 1, message.content, True)
+        target = target.replace("<", "") #if you sent in mention
         target = target.replace(">", "")
         target = target.replace("@", "")
         target = target.replace("&", "")
@@ -248,9 +238,20 @@ async def isFriend(message):
                     desc='Error! User is already friends with you! (or you friended yourself)',
                     footer='and I ship still...')
                 await message.author.send(embed=emb)
-        else:
+        elif message.content.startswith(prefix + friendCmd[2][0]):
+            print(str(target.id))
+            print(friend[str(message.author.id)])
             if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(
-                    message.author.id):  # not self lol
+                    message.author.id):
+                for i in range(len(friend[str(message.author.id)])):
+                    if str(target.id) == friend[str(message.author.id)][i]:
+                        friend[str(message.author.id)].pop(i)
+                for i in range(len(friend[str(target.id)])):
+                    if str(message.author.id) == friend[str(target.id)][i]:
+                        friend[str(target.id)].pop(i)
+                out_file = open("friend.json", "w")
+                json.dump(friend, out_file, indent=4)
+                out_file.close()
                 embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],
                                           title='Friend Removed',
                                           desc='You have removed this person from your friends list',
@@ -259,7 +260,7 @@ async def isFriend(message):
             else:
                 emb = await embedMake(
                     title='Friend Request - ERROR',
-                    desc='Error! User is not friends with you! (or you unfriended yourself)',
+                    desc='Error! User is not friends with you! (or you tried to unfriend yourself)',
                     footer='sad...')
                 await message.author.send(embed=emb)
     # elif message.content.startswith(prefix + friendCmd[1][0]):
@@ -283,54 +284,6 @@ async def isGame(message):
             await emoji.add_reaction('🔒')
             await emoji.add_reaction('🔓')
             jason_it(str(emoji.id), 'games.json', str(personid))
-    elif message.content.startswith(prefix + gameCmd[4][0]):
-        emb = await embedMake(['Splat!', 'There\'s a killer in this town...'],
-                                   title='It was a ordinary night in the city...',
-                                   thumbnail='https://media.discordapp.net/attachments/696699604003061784/748557547501256775/pfp2.png',
-                                   desc='until...',
-                                   img='https://media.discordapp.net/attachments/696699604003061784/748568734578376814/business_man_colored2.png'
-                                   )
-        await message.channel.send(embed=emb)
-        emb = await embedMake(
-            title='How To Play',
-            thumbnail='https://images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
-            desc='This G-Doc shows everything you need to get started: https://bit.ly/2ExNTIr',
-            footer='i gave up on multipage and read from file'
-        )
-        await message.channel.send(embed=emb)
-    elif message.content.startswith(prefix + 'roles'):
-        pass
-        '''roles = []
-        messages = []
-        messagecountperln = []
-        message_send = []
-        with open('./files/roles.txt', 'r') as b:
-            for line in b:
-                roles.append(line[:-1])  # need to add a extra char#roles =
-                messagecountperln.append(len(b.readline()))
-        brek = False
-        for x in range(len(messagecountperln)):
-            for y in range(len(roles[x])):
-                message_send.append(roles[x][y])
-        message_send = "".join(message_send)
-        '# under is bugged
-        divisible = math.ceil(len(message_send) / 1990)
-        messagePart = []
-        countr = 1990
-        cc = 0
-        c = 0
-        for i in range(divisible):
-            while countr > 0:
-                if countr - int(messagecountperln[c]) >= 0 and c < len(messagecountperln) - 1:
-                    messagePart.append(roles[c])
-                    countr -= int(messagecountperln[c])
-                    c += 1
-                else:
-                    countr = 0
-            else:
-                countr = 1990
-                await message.channel.send(str(str("".join(messagePart)).replace('==', '\n')))
-                messagePart = []'''
 
 
 @client.event
@@ -371,12 +324,27 @@ async def on_raw_reaction_add(payload):
             target = client.get_user(int(target))
             selfperson = client.get_user(int(payload.user_id))
             emb = await embedMake(
-                ["You are now friends with:", '\n `' + str(client.get_user(int(payload.user_id))) + "`"],
+                ["You are now friends with:", '\n `' + str(selfperson) + "`"],
                 title='Friend Request Accepted!',
                 desc='Congratulations! ',
                 footer='I ship')
             await client.http.delete_message(payload.channel_id, payload.message_id)
             await target.send(embed=emb)
+            emb = await embedMake(
+                ["You are now friends with:", '\n `' + str(target) + "`"],
+                title='Friend Request Accepted!',
+                desc='Congratulations! ',
+                footer='I ship')
+            await selfperson.send(embed=emb)
+        else:
+            selfperson = client.get_user(int(payload.user_id))
+            emb = await embedMake(
+                ["This friend request has timed out.", "\n You can do '-moostery friend request @mention' to re-friend them`"],
+                title='Invalid Request',
+                desc='Sorry!',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                footer='Friend them back! You type the cmd rn in DM!')
+            await client.http.delete_message(payload.channel_id, payload.message_id)
             await selfperson.send(embed=emb)
     else:
         if payload.emoji.name == '🔒' or payload.emoji.name == '🔓':
@@ -392,15 +360,42 @@ async def on_raw_reaction_add(payload):
                         await makeGame(False, payload, False)
                     else:
                         await makeGame(True, payload, False)
+                else:
+                    emb = await embedMake(
+                        title='Invalid Request',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                        desc='Sorry! Only the host can access this!',
+                        footer='Host your own game and send invites to friends!')
+                    await client.get_user(int(payload.user_id)).send(embed=emb)
+            else:
+                emb = await embedMake(
+                    ["This game has timed out.",
+                     "\n You can do '-moostery create' to host your own games!`"],
+                    title='Invalid Request',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                    desc='Sorry!',
+                    footer='Host your own game and send invites to friends!')
+                await client.http.delete_message(payload.channel_id, payload.message_id)
+                await client.get_user(int(payload.user_id)).send(embed=emb)
         elif payload.emoji.name == '☑️' or payload.emoji.name == '❌' or payload.emoji.name == '🚪':
             with open("games.json", 'r') as brr:
                 activegames = json.load(brr)
             if str(payload.message_id) in activegames:
                 if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
                         activegames[str(payload.message_id)]:  # if is host
-                    if payload.emoji.name == '☑️' and type(activegames[str(payload.message_id)]) != str:
-                        if len(activegames[str(payload.message_id)]) > 1:
+                    if payload.emoji.name == '☑️':
+                        if len(activegames[str(payload.message_id)]) > 1 and type(activegames[str(payload.message_id)]) != str:
                             await actual_game.startGame(payload, client, activegames)
+                        else:
+                            emb = await embedMake(
+                                ["You do not have enough people to start this game",
+                                 "\n Invite your friends with this game code:`" + str(payload.message_id) + '`'],
+                                title='Invalid Request',
+                                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                                desc='Sorry!',
+                                footer='Host your own game and send invites to friends!')
+                            await client.get_user(int(payload.user_id)).send(embed=emb)
+                            return
                     elif payload.emoji.name == '❌':
                         await actual_game.noGame(payload, client, prefix, activegames)
                 elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
@@ -424,17 +419,26 @@ async def on_raw_reaction_add(payload):
                         ara.append(activegames[str(payload.message_id)])
                         values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
                     emb = await embedMake(['People sat at the table', 'Name and ID'],
-                        title='Joined Game',
-                        arraytoembdtt=ara,
-                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                        valuett=values,
-                        desc='You have joined the table \n Host: ' + str(client.get_user(int(ara[0]))) + '\n Game Code: `'+str(payload.message_id)+'`',
-                        footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
-                    )
-                    #out_file = open("games.json", "w")
-                    #json.dump(activegames, out_file, indent=4)
-                    #out_file.close()
+                                          title='Joined Game',
+                                          arraytoembdtt=ara,
+                                          thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                                          valuett=values,
+                                          desc='You have joined the table \n Host: ' + str(
+                                              client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
+                                              payload.message_id) + '`',
+                                          footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
+                                          )
                     await client.get_user(int(payload.user_id)).send(embed=emb)
+            else:
+                emb = await embedMake(
+                    ["This game has timed out.",
+                     "\n You can do '-moostery create' to host your own games!`"],
+                    title='Invalid Request',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                    desc='Sorry!',
+                    footer='Host your own game and send invites to friends!')
+                await client.http.delete_message(payload.channel_id, payload.message_id)
+                await client.get_user(int(payload.user_id)).send(embed=emb)
 
 
 @client.event
@@ -446,8 +450,9 @@ async def on_raw_reaction_remove(payload):
             activegames = json.load(brr)
         if str(payload.message_id) in activegames:
             if str(payload.user_id) in activegames[str(payload.message_id)]:
-                if activegames[str(payload.message_id)] != str(payload.user_id) and activegames[str(payload.message_id)][0] != str(payload.user_id): #checks for if u r room owner
-                    #pr#int(activegames)
+                if activegames[str(payload.message_id)] != str(payload.user_id) and \
+                        activegames[str(payload.message_id)][0] != str(payload.user_id):  # checks for if u r room owner
+                    # pr#int(activegames)
                     for i in range(len(activegames[str(payload.message_id)])):
                         if str(payload.user_id) == activegames[str(payload.message_id)][i]:
                             activegames[str(payload.message_id)].pop(i)
@@ -457,12 +462,22 @@ async def on_raw_reaction_remove(payload):
                     out_file.close()
                     await actual_game.joinGame(payload, client)
                     emb = await embedMake(
-                          title='Left Game',
-                          thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                          desc='You have left the table. GG',
-                          footer='sad. what a bummer.'
-                          )
+                        title='Left Game',
+                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                        desc='You have left the table. GG',
+                        footer='sad. what a bummer.'
+                    )
                     await client.get_user(int(payload.user_id)).send(embed=emb)
+        else:
+            emb = await embedMake(
+                ["This game has timed out.",
+                 "\n You can do '-moostery create' to host your own games!`"],
+                title='Invalid Request',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                desc='Sorry!',
+                footer='Host your own game and send invites to friends!')
+            await client.http.delete_message(payload.channel_id, payload.message_id)
+            await client.get_user(int(payload.user_id)).send(embed=emb)
 
 
 async def isOther(message):  # help and other stuff
@@ -481,13 +496,27 @@ async def isOther(message):  # help and other stuff
             typea = 'Play'
             a = inGameCmd
             imag = 'https://images-ext-1.discordapp.net/external/c7hVi29ta2o9hiSe9b3cwIDVklFnbtsdbUXaCh2-Obc/https/media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png'
+            emb = await embedMake(['Splat!', 'There\'s a killer in this town...'],
+                                  title='It was a ordinary night in the city...',
+                                  thumbnail='https://media.discordapp.net/attachments/696699604003061784/748557547501256775/pfp2.png',
+                                  desc='until...',
+                                  img='https://media.discordapp.net/attachments/696699604003061784/748568734578376814/business_man_colored2.png'
+                                  )
+            await message.author.send(embed=emb)
+            emb = await embedMake(
+                title='How To Play',
+                thumbnail='https://images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                desc='This G-Doc shows everything you need to get started: https://bit.ly/2ExNTIr',
+                footer='i gave up on multipage and read from file'
+            )
+            await message.author.send(embed=emb)
         else:
             typea = 'General'
             a = cmd
             imag = 'https://cdn.discordapp.com/attachments/663150753946402820/747235632765599834/Screen_Shot_2020-08-23_at_2.52.15_PM.png'
         emb = await embedMake(["Prefix", '\n `' + prefix + "`"], arraytoembd=a,
                               img=str(imag),
-                              title="Help - "+str(typea),
+                              title="Help - " + str(typea),
                               desc="Ayy... Slidin into yo dms. Here is the list of commands",
                               color=0x00D2FF)
         await message.author.send(embed=emb)
@@ -527,8 +556,6 @@ async def isinGame(message):
                 activegames = json.load(brr)
             with open("roles.json", 'r') as brr:
                 role = json.load(brr)
-            if str(message.author.id) not in activegames[str(a)]:
-                return
             if str(a) in activegames:
                 if str(message.author.id) in activegames[str(a)]:
                     for i in range(len(activegames[str(a)])):
@@ -536,6 +563,24 @@ async def isinGame(message):
                             activegames[str(a)].pop(i)
                             role[str(a)].pop(i)
                             break
+                else:
+                    emb = await embedMake(
+                        title='Check Your GameCode!',
+                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                        desc='Doesn\'t seem like you are in this game!',
+                        footer='use `-moostery create` to make a new game'
+                    )
+                    await message.author.send(embed=emb)
+                    return
+            else:
+                emb = await embedMake(
+                    title='Check Your Command!',
+                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                    desc='Doesn\'t seem like you are in a game!',
+                    footer='use `-moostery create` to make a new game'
+                )
+                await message.author.send(embed=emb)
+                return
             out_file = open("games.json", "w")
             json.dump(activegames, out_file, indent=4)
             out_file.close()
@@ -549,12 +594,48 @@ async def isinGame(message):
                 footer='what a bummer.'
             )
             await message.author.send(embed=emb)
-
+    elif message.content.startswith(prefix + inGameCmd[1][0]):
+        roles = ["murder", "detective", "hacker", "hunter", "millionaire", "overprotective_mom", "scientist", "witch",
+                 "workhorse_dad"]
+        msg_content = getMsg(len(prefix) + len(inGameCmd[0][0]) + 1, message.content, True)
+        with open('games.json', 'r') as brr:
+            persons = json.load(brr)
+        if str(msg_content) in roles:
+            for i in range(len(list(persons.values()))):
+                print(1)
+                if str(message.author.id) in list(persons.values())[i]:
+                    print(list(persons.values())[i])
+                    for ii in range(len(list(persons.values())[i])):
+                        emb = await embedMake(
+                            ['`' + str(client.get_user(int(message.author.id))) + '` Claims that they are the ',
+                             '**' + str(msg_content) + '**'],
+                            title='Role Claim!',
+                            thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                            desc='Hopefully they are truthful...',
+                            footer='interesting...')
+                        await client.get_user(int(list(persons.values())[i][ii])).send(embed=emb)
+                    return
+            emb = await embedMake(
+                title='Error: Invalid Action!',
+                desc='The game you were in no longer exists, or you typed a **in-game** command out of a game',
+                thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                footer='sad'
+            )
+            await message.author.send(embed=emb)
+        else:
+            emb = await embedMake(
+                title='Roles to claim:',
+                thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                arraytoembdtt=roles,
+                valuett=['-moostery claim [role]' for i in range(len(roles))],
+                footer='bad role name!'
+            )
+            await message.author.send(embed=emb)
 
 
 @client.event
 async def on_message(message):
-    #await actual_game.playGame(message)
+    # await actual_game.playGame(message)
     if message.author == client.user:
         return
     if message.guild is None:  # in dm
@@ -576,6 +657,7 @@ async def on_ready():
     print('\033[92m Logged as {0.user}'.format(client))
     await client.change_presence(
         activity=discord.Activity(name='for ' + str(prefix), type=discord.ActivityType.watching))
+
 
 def clearFiles():
     os.remove('pending_requests.json')
