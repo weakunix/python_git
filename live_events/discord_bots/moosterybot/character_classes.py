@@ -6,6 +6,29 @@ import discord
 import asyncio
 
 
+class Game:
+    def __init__(self, id, players):
+        self.id = id
+        self.players = players
+        self.badGuys = 1 if len(self.players) < 7 else 2
+        self.data = []
+
+    def checkIfStop(self):
+        return True if len(self.players) == self.badGuys or len(self.players) == 1 else False
+
+    def voting(self):
+        pass
+
+    def claiming(self):
+        pass
+
+    def day(self):
+        pass
+
+    def night(self):
+        pass
+
+
 class Characters:
     roleList = [
         ["murder", "**KILL EVERYONE!**"],
@@ -68,7 +91,7 @@ class Characters:
         def check(reaction, user):
             return str(reaction.emoji), user
         try:
-            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+            reaction, user = await client.wait_for('reaction_add', timeout=15.0, check=check)
         except asyncio.TimeoutError:
             return False
         else:
@@ -96,7 +119,7 @@ class murder(Characters):
             ["Philly Cheesesteak", False, 100]
 
         ]
-        weaponIndex = int(random.randint(1, len(weaponNames)))  # CAN NOT BE DEFAULT KNIFE
+        weaponIndex = int(random.randint(1, len(weaponNames) - 1))  # CAN NOT BE DEFAULT KNIFE
         emb = await main.embedMake(
             title='Offer From Market (expires in 30s)',
             desc='It may be a catfish... \n Weapon name\n`' + str(
@@ -107,7 +130,6 @@ class murder(Characters):
         await emoji.add_reaction("🛒")
         await emoji.add_reaction("❎")
         await asyncio.sleep(1)
-
         stuff = await self.buyFromShop(client)
         if type(stuff) != tuple:
             emb = await main.embedMake(
@@ -136,8 +158,7 @@ class murder(Characters):
                     await emoji.edit(embed=emb)
 
     async def Nightrole(self, blackmail, targetid, author):
-        await self.targetPlayer(targetid, True, author)
-        await self.targetPlayer(targetid, False, author)
+        await self.targetPlayer(targetid, blackmail, author)
         # kills the target
         # find target in the role list and get thir role if .getRole()[]
 
@@ -234,27 +255,23 @@ class scientist(Characters):
         await emoji.add_reaction("❎")
         await asyncio.sleep(1)
 
-        def check(reaction, user):
-            return str(reaction.emoji), user
-
-        try:
-            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
-        except asyncio.TimeoutError:
+        stuff = await self.buyFromShop(client)
+        if type(stuff) != tuple:
             emb = await main.embedMake(
                 title='Offer Timed Out',
                 desc='No extra info',
                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
             await emoji.edit(embed=emb)
         else:
-            if str(user) == str(client.get_user(int(self.id))):
-                if str(reaction) == "🛒":
+            if str(stuff[1]) == str(client.get_user(int(self.id))):
+                if str(stuff[0]) == "🛒":
                     emb = await main.embedMake(
                         title='Successfully Bought!',
                         desc='You have bought upgrade!' + '\n Now your tier:`' + str(self.tier) + '`',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
                     await emoji.edit(embed=emb)
-                elif str(reaction) == "❎":
+                elif str(stuff[0]) == "❎":
                     emb = await main.embedMake(
                         title='Deal Ignored!',
                         desc='Maybe it was a wise choice, or maybe not...',
@@ -270,13 +287,46 @@ class scientist(Characters):
 class witch(Characters):
     def __init__(self, playerid):
         super().__init__(playerid, 7)
-        # self.number = 7
+        self.materials = 2
 
     def Passive(self):
         pass
 
     async def Dayrole(self, client):
-        pass
+        emb = await main.embedMake(
+            title='Offer From Market (expires in 30s)',
+            desc='Buy Materials?`\n You will be at' + str(self.materials + 1) + '/2`',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='This will make you able to save more people! More info at https://bit.ly/2ExNTIr')
+        emoji = await client.get_user(int(self.id)).send(embed=emb)
+        await emoji.add_reaction("🛒")
+        await emoji.add_reaction("❎")
+        await asyncio.sleep(1)
+
+        stuff = await self.buyFromShop(client)
+        if type(stuff) != tuple:
+            emb = await main.embedMake(
+                title='Offer Timed Out',
+                desc='No extra info',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+            await emoji.edit(embed=emb)
+        else:
+            if str(stuff[1]) == str(client.get_user(int(self.id))):
+                if str(stuff[0]) == "🛒":
+                    self.materials += 1
+                    emb = await main.embedMake(
+                        title='Successfully Bought!',
+                        desc='You have bought upgrade!' + '\n Now your witch has:`' + str(self.materials) + '/2 materials for a save`',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='Nice!')
+                    await emoji.edit(embed=emb)
+                elif str(stuff[0]) == "❎":
+                    emb = await main.embedMake(
+                        title='Deal Ignored!',
+                        desc='Maybe it was a wise choice, or maybe not...',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='It\'s your call!')
+                    await emoji.edit(embed=emb)
 
     async def Nightrole(self, client):
         # return person
@@ -292,7 +342,12 @@ class hunter(Characters):
         pass
 
     async def Dayrole(self, client):
-        pass
+        emb = await main.embedMake(
+            title='Offer From Market',
+            desc='You have bought hunting materials (this is automatic)',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='You can go hunt tonight!')
+        await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client):
         # return person
@@ -309,7 +364,12 @@ class workhorse_dad(Characters):
         pass
 
     async def Dayrole(self, client):
-        pass
+        emb = await main.embedMake(
+            title='Offer From Market',
+            desc='You have bought hunting materials (this is automatic)',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='You can go hunt tonight!')
+        await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client):
         # return person
@@ -327,7 +387,12 @@ class overprotective_mom(Characters):
         pass
 
     async def Dayrole(self, client):
-        pass
+        emb = await main.embedMake(
+            title='Offer From Market',
+            desc='You have bought groceries (and sleeping medicine)',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='Time to get someone to sleep early!!!!!')
+        await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client):
         # return person
@@ -337,14 +402,21 @@ class overprotective_mom(Characters):
 class millionaire(Characters):
     def __init__(self, playerid):
         super().__init__(playerid, 4)
-        # self.number = 4
+        self.extra = 0
 
     def Passive(self):
         pass
 
     async def Dayrole(self, client):
-        pass
+        self.extra = random.randint(1, 3)
+        emb = await main.embedMake(
+            title='Investment',
+            desc='Your smart daily automatic investments have gave you a lot of power in Politics aswell! as a result, you get `'+str(self.extra)+'` votes today!',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='You can go hunt tonight!')
+        await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client):
         # return person
         pass
+

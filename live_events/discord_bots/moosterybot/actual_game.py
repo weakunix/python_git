@@ -17,14 +17,14 @@ async def startGame(payload, client, ppl):
                                footer='The game will be played through DM\'s')
     await channel.send(embed=emb)
     ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(payload.message_id)]))]
-    ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0
+    ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
     if ppltoroles[tempcheck] != 0:
-        ppltoroles[tempcheck] = 1
+        ppltoroles[tempcheck] = 7 #change this to test
     else:
         for i in range(len(ppltoroles)):  # assigns murder to first perosn availible
             if i != tempcheck:
-                ppltoroles[i] = 1
+                ppltoroles[i] = 7
                 break
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     classes = initClasses(str(payload.message_id))
@@ -60,8 +60,9 @@ async def startGame(payload, client, ppl):
                  'this lmao blackmail guarentee)``` \n if you react with something else than the provided above, you '
                  'are reacting as the Murder (just so you know LOL)'],
                 title='Welcome to Murder Moostery...',
-                img='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
                 desc='Hopefully 10 seconds was enough time',
+                footer='Note: if the reaction doesn\'t work the first time try again'
             )
         for eye in range(len(ppl[str(payload.message_id)])):
             await arymsg[eye].edit(embed=emb)
@@ -79,8 +80,10 @@ async def startGame(payload, client, ppl):
                 await asyncio.sleep(1)
         if i == 9:
             voted = 0
+
             def check(reaction, user):
                 return str(reaction.emoji), user
+
             for iii in range(len(ppl[str(payload.message_id)])):
                 try:
                     reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
@@ -88,7 +91,8 @@ async def startGame(payload, client, ppl):
                     emb = await main.embedMake(
                         title='Claim Timed Out',
                         desc='You were automatically claimed as Millionaire',
-                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+                        thumbnail='https://images-ext-1.discordapp.net/external/a73EwOYEEHydxTjLBJARbB4LBsi46-tKH_m0mbcOMtI/https/images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png?width=438&height=438')
+                    role = "Millionaire"
                     for eye in range(len(ppl[str(payload.message_id)])):
                         await arymsg[eye].edit(embed=emb)
                 else:
@@ -140,11 +144,13 @@ async def recursion(classes, client):
 async def day(classes, client):
     for i in range(len(classes)):
         await classes[i].Dayrole(client)
+    return True
 
 
 async def night(classes, client):
     for i in range(len(classes)):
         await classes[i].Nightrole(client)
+    return True
 
 
 def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now
