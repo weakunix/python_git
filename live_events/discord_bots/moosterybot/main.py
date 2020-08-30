@@ -195,7 +195,7 @@ async def isFriend(message):
             target = getMsg(len(prefix) + len(friendCmd[1][0]) + 1, message.content, True)
         else:
             target = getMsg(len(prefix) + len(friendCmd[2][0]) + 1, message.content, True)
-        target = target.replace("<", "") #if you sent in mention
+        target = target.replace("<", "")  # if you sent in mention
         target = target.replace(">", "")
         target = target.replace("@", "")
         target = target.replace("&", "")
@@ -339,7 +339,8 @@ async def on_raw_reaction_add(payload):
         else:
             selfperson = client.get_user(int(payload.user_id))
             emb = await embedMake(
-                ["This friend request has timed out.", "\n You can do '-moostery friend request @mention' to re-friend them`"],
+                ["This friend request has timed out.",
+                 "\n You can do '-moostery friend request @mention' to re-friend them`"],
                 title='Invalid Request',
                 desc='Sorry!',
                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
@@ -384,7 +385,8 @@ async def on_raw_reaction_add(payload):
                 if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
                         activegames[str(payload.message_id)]:  # if is host
                     if payload.emoji.name == '☑️':
-                        if len(activegames[str(payload.message_id)]) > 1 and type(activegames[str(payload.message_id)]) != str:
+                        if len(activegames[str(payload.message_id)]) > 1 and type(
+                                activegames[str(payload.message_id)]) != str:
                             await actual_game.startGame(payload, client, activegames)
                         else:
                             emb = await embedMake(

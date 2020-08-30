@@ -9,7 +9,6 @@ import random
 async def startGame(payload, client, ppl):
     # name   desc    day    night
     roles = character_classes.Characters.roleList
-    play = True
     channel = client.get_channel(payload.channel_id)
     emb = await main.embedMake(title='Starting game',
                                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
@@ -61,26 +60,26 @@ async def startGame(payload, client, ppl):
         for eye in range(len(ppl[str(payload.message_id)])):
             await arymsg[eye].edit(embed=emb)
         await asyncio.sleep(1)  # for ppl to get to their dms first
-    await recursion(classes)
+    await recursion(classes, client)
 
 
-async def recursion(classes):
+async def recursion(classes, client):
     lockb = False
-    locka = await day(classes)
+    locka = await day(classes, client)
     if locka:
-        lockb = await night(classes)
+        lockb = await night(classes, client)
     if lockb:
-        await recursion(classes)
+        await recursion(classes, client)
 
 
-async def day(classes):
+async def day(classes, client):
     for i in range(len(classes)):
-        await classes[i].Dayrole()
+        await classes[i].Dayrole(client)
 
 
-async def night(classes):
+async def night(classes, client):
     for i in range(len(classes)):
-        await classes[i].Nightrole()
+        await classes[i].Nightrole(client)
 
 
 def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now

@@ -2,6 +2,8 @@ import json
 import main
 import actual_game
 import random
+import discord
+import asyncio
 
 
 class Characters:
@@ -66,20 +68,65 @@ class murder(Characters):
     def __init__(self, playerid):
         super().__init__(playerid, 0)
         self.killrate = random.uniform(80, 85)  # gets a boost up to 5%
+        self.isGun = False
 
     def Passive(self):
         pass
 
-    async def Dayrole(self):
-        print(self.id)
-        print(main.client)
-        print(main.client.get_user(369652997308809226))
+    async def Dayrole(self, client):
+        weaponNames = [  # name, isGun, damageSetter
+            ["knife", False, 0],  # 80-85 (starting weapon)
+            ["sword", False, random.uniform(85, 87)],  # 85-87
+            ["pistol", True, random.uniform(87, 92)],  # 87
+            ["machine gun", True, random.uniform(92, 95)],  # 95%
+            ["Pineapple", False, random.uniform(91, 95)],  # does atleast 91% - 95 damage because it is spikey
+            ["Duster", False, random.uniform(0, 100)],  # does ???% damamge depending on if the person is ticklish
+            ["Burrito", False, 99],  # does 99% damage
+            ["Philly Cheesesteak", False, 100]
+
+        ]
+        weaponIndex = int(random.randint(1, len(weaponNames)))  # CAN NOT BE DEFAULT KNIFE
         emb = await main.embedMake(
-            title='Offer From Market',
-            desc='It may be a catfish...',
+            title='Offer From Market (expires in 30s)',
+            desc='It may be a catfish... \n Weapon name\n`' + str(
+                weaponNames[weaponIndex][0]) + '`\n Weapon DMG\n`' + str(weaponNames[weaponIndex][2]) + '`',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='This will boost your kill chances!')
-        await main.client.get_user(int(self.id)).send(embed=emb)
+        emoji = await client.get_user(int(self.id)).send(embed=emb)
+        await emoji.add_reaction("🛒")
+        await emoji.add_reaction("❎")
+        await asyncio.sleep(1)
+
+        def check(reaction, user):
+            return str(reaction.emoji), user
+
+        try:
+            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+        except asyncio.TimeoutError:
+            emb = await main.embedMake(
+                title='Offer Timed Out',
+                desc='No extra info',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+            await emoji.edit(embed=emb)
+        else:
+            if str(user) == str(client.get_user(int(self.id))):
+                if str(reaction) == "🛒":
+                    self.killrate = weaponNames[weaponIndex][2]
+                    self.isGun = weaponNames[weaponIndex][1]
+                    emb = await main.embedMake(
+                        title='Successfully Bought!',
+                        desc='You have bought:' + str(
+                            weaponNames[weaponIndex][0]) + '\n Now your assassin rate: `' + str(self.killrate) + '%`',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='Nice!')
+                    await emoji.edit(embed=emb)
+                elif str(reaction) == "❎":
+                    emb = await main.embedMake(
+                        title='Deal Ignored!',
+                        desc='Maybe it was a wise choice, or maybe not...',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='It\'s your call!')
+                    await emoji.edit(embed=emb)
 
     async def Nightrole(self, blackmail, targetid, author):
         await self.targetPlayer(targetid, True, author)
@@ -107,7 +154,7 @@ class murder(Characters):
                     title='Action Unsuccessful! But you weren\'t caught!',
                     desc='LMAO your weapon broke while you were using it. \n Luckily you fled before the victim woke up. '
                          '(buy an upgrade when prompted from the market to increase your kill chances. \n chances '
-                         ':' + str(self.killrate)+'% to kill',
+                         ':' + str(self.killrate) + '% to kill',
                     thumbnail='https://media.discordapp.net/attachments/747159474753503343/749366041175523328/costume14.png',
                     footer='Your night turn is finished. Wait until day to get a better weapon.')
                 main.client.get_user(int(author)).send(embed=emb)
@@ -134,10 +181,10 @@ class detective(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -150,10 +197,10 @@ class hacker(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         pass
 
 
@@ -165,10 +212,10 @@ class scientist(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -181,10 +228,10 @@ class witch(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -197,10 +244,10 @@ class hunter(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -214,10 +261,10 @@ class workhorse_dad(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -232,10 +279,10 @@ class overprotective_mom(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
 
@@ -248,9 +295,9 @@ class millionaire(Characters):
     def Passive(self):
         pass
 
-    async def Dayrole(self):
+    async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self):
+    async def Nightrole(self, client):
         # return person
         pass
