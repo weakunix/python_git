@@ -33,7 +33,7 @@ def is_perm(x, y):
 for i in range(1000, 10000):
    if is_prime(i):
        work.add(i)
-       
+
 #test for permutations
 for i in work:
     permutations = []

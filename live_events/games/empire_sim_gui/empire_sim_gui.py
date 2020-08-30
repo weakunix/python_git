@@ -11,7 +11,7 @@ land = 1 #land player has conquered
 happy = 100 #happy happiness
 research = [] #things that have been researched
 moves = 0 #number of moves made by the player during the day (max 3 (max 5 if researched time efficiency))
-levels = [0, 1, 20, 1] #levels and health of things in the format [wall support level, wall level, wall health, training camp level]
+levels = [0, 1, 20, 1, 1, 1, 1] #levels and health of things in the format [wall support level, wall level, wall health, training camp level, research lab level, district level, market level]
 #types of walls
 wall_types = {  1: ['./empire_sim_images/dirtwall.png', 'Level 1: Dirt Wall', 20],
                 2: ['./empire_sim_images/stonewall.png', 'Level 2: Stone Wall', 50],
@@ -29,10 +29,21 @@ support_types = {   1: ['./empire_sim_images/muscle.png', 'Level 1: Stone Throwe
                     8: ['./empire_sim_images/albreto.png', 'Level 8: Albreto Scientist'],
                     9: ['./empire_sim_images/merlin.png', 'Max Level: Wizard']  }
 #training camp types
-training_types = {  1: './empire_sim_images/stonecamp.png',
-                    2: './empire_sim_images/arrowcamp.png',
-                    3: './empire_sim_images/cannoncamp.png',
-                    4: './empire_sim_images/albretocamp.png'    }
+training_types = {  1: './empire_sim_images/stonecamp',
+                    2: './empire_sim_images/arrowcamp',
+                    3: './empire_sim_images/cannoncamp',
+                    4: './empire_sim_images/albretocamp'    }
+#research lab types
+lab_types = {   1: './empire_sim_images/stonelab.png',
+                2: './empire_sim_images/albretolab.png' }
+#district types
+district_types = {  1: './empire_sim_images/tents.png',
+                    2: './empire_sim_images/stonebuilding.png',
+                    3: './empire_sim_images/modernbuilding.png'  }
+#market types
+market_types = {    1: './empire_sim_images/stonemarket.png',
+                    2: './empire_sim_images/supermarket.png',
+                    3: './empire_sim_images/stalkmarket.png'    }
 
 #user def functions
 ##destroy widgets
@@ -59,13 +70,13 @@ def get_heal(event):
 def unhide_buttons(event):
     global widgets, binds
     #upgrade wall button
-    upgrade_wall_button = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: upgrade_wall(0))
+    upgrade_wall_button = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('charter', 10), fg = '#000000', command = lambda: upgrade_wall(1, 0))
     upgrade_wall_button.place(x = 760, y = 540, anchor = tk.CENTER)
     #repair wall button
-    repair = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
+    repair = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('charter', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
     repair.place(x = 680, y = 540, anchor = tk.CENTER)
     #upgrade support wall button
-    upgrade_support_button = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('character', 10), fg = '#000000')
+    upgrade_support_button = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('charter', 10), fg = '#000000', command = lambda: [upgrade(0, 0)])
     upgrade_support_button.place(x = 581, y = 540, anchor = tk.CENTER)
     #back to home button
     back_to_home = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', fg = '#000000', command = lambda: [vanish(0, widgets), unstick(0, binds), home_page(0)])
@@ -89,10 +100,10 @@ def how_much_repair_wall(event):
     #if not at full health
     else: 
         #how much you want to heal text
-        question = tk.Label(window, text = 'How much do you want to repair your wall by?', font = ('charter', 15), bg = '#00FFFF', fg = '#000000') 
+        question = tk.Label(window, text = 'How much do you want to repair your wall by?', font = ('charter', 15), bg = '#00FF00', fg = '#000000') 
         question.place(x = 645, y = 415, anchor = tk.CENTER)
         #making slider
-        heal_slider = tk.Scale(window, from_ = 1, to = wall_types[levels[1]][2] - levels[2], bg = '#00FFFF', fg = '#000000', orient = tk.HORIZONTAL)
+        heal_slider = tk.Scale(window, from_ = 1, to = wall_types[levels[1]][2] - levels[2], bg = '#00FF00', fg = '#000000', orient = tk.HORIZONTAL)
         heal_slider.place(x = 645, y = 450, anchor = tk.CENTER) #entry box location
         #making heal button
         confirm_heal = tk.Button(window, text = 'Heal', highlightbackground = '#00FF00', font = ('charter', 15), width = 5, height = 1, fg = '#000000', command = lambda: get_heal(0))
@@ -209,7 +220,7 @@ def wall_page(event):
     load = Image.open(wall_types[levels[1]][0])
     load = load.resize((400, 300)) 
     render = ImageTk.PhotoImage(load)
-    wall = tk.Label(window, image = render, width = 400, height = 300, bg = '#00FFFF')
+    wall = tk.Label(window, image = render, width = 400, height = 300, bg = '#00FF00')
     wall.image = render
     wall.place(x = 400, y = 300, anchor = tk.CENTER)
     #two wall support images
@@ -217,55 +228,93 @@ def wall_page(event):
         load = Image.open(support_types[levels[0]][0])
         load = load.resize((35, 50))
         render = ImageTk.PhotoImage(load)
-        support_1 = tk.Label(window, image = render, bg = '#00FFFF', width = 25, height = 40)
+        support_1 = tk.Label(window, image = render, bg = '#00FF00', width = 25, height = 40)
         support_1.image = render
         support_1.place(x = 265, y = 267, anchor = tk.SW)
-        support_2 = tk.Label(window, image = render, bg = '#00FFFF', width = 25, height = 40)
+        support_2 = tk.Label(window, image = render, bg = '#00FF00', width = 25, height = 40)
         support_2.image = render
         if levels[1] == 2 or levels[1] == 3:
             support_2.place(x = 515, y = 225, anchor = tk.SW)
         else:
             support_2.place(x = 510, y = 235, anchor = tk.SW)
-    else: #if player doesn't have wall support
-        #define wall support labels so we can destroy
-        support_1 = tk.Label(window, bg = '#00FFFF')
-        support_1.place(x = 0, y = 0, anchor = tk.NW)
-        support_2 = tk.Label(window, bg = '#00FFFF')
-        support_2.place(x = 0, y = 0, anchor = tk.NW)
     #upgrade wall button
-    upgrade_wall_button = tk.Button(window, text = 'Upgrade Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: [upgrade(0, 1)])
+    upgrade_wall_button = tk.Button(window, text = 'Upgrade Wall', height = 4, font = ('charter', 10), fg = '#000000', command = lambda: [upgrade(0, 1)])
     upgrade_wall_button.place(x = 760, y = 540, anchor = tk.CENTER)
     #repair wall button
-    repair = tk.Button(window, text = 'Repair Wall', width = 10, height = 4, font = ('character', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
+    repair = tk.Button(window, text = 'Repair Wall', height = 4, font = ('charter', 10), fg = '#000000', command = lambda: how_much_repair_wall(0))
     repair.place(x = 680, y = 540, anchor = tk.CENTER)
     #upgrade wall support button
-    upgrade_support_button = tk.Button(window, text = 'Upgrade Wall Support', width = 15, height = 4, font = ('character', 10), fg = '#000000', command = lambda: [upgrade(0, 0)])
+    upgrade_support_button = tk.Button(window, text = 'Upgrade Wall Support', height = 4, font = ('charter', 10), fg = '#000000', command = lambda: [upgrade(0, 0)])
     upgrade_support_button.place(x = 581, y = 540, anchor = tk.CENTER)
     #back to home button
     back_to_home = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', fg = '#000000', command = lambda: [vanish(0, widgets), unstick(0, binds), home_page(0)])
     back_to_home.place(x = 0, y = 0, anchor = tk.NW)
     #wall details label
-    wall_details = tk.Label(window, text = wall_types[levels[1]][1] + '\nWall Health: ' + str(levels[2]) + ' / ' + str(wall_types[levels[1]][2]), bg = '#00FFFF', font = ('charter', 30), fg = '#000000')
+    wall_details = tk.Label(window, text = wall_types[levels[1]][1] + '\nWall Health: ' + str(levels[2]) + ' / ' + str(wall_types[levels[1]][2]), bg = '#00FF00', font = ('charter', 30), fg = '#000000')
     wall_details.place(x = 200, y = 0, anchor = tk.NW)
     #stats text
     stats = '$: ' + str(materials[0])  + '\nFood: ' + str(materials[1]) + '\nStone:' + str(materials[2]) + '\nMetal: ' + str(materials[3]) 
     #stats label
-    stats = tk.Label(window, text = stats, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
+    stats = tk.Label(window, text = stats, font = ('charter', 20), bg = '#00FF00', fg = '#000000')
     stats.place(x = 800, y = 0, anchor = tk.NE)
-    #widgets to destroy after wall upgrade function
-    widgets = [wall, support_1, support_2, upgrade_wall_button, repair, upgrade_support_button, back_to_home, wall_details, stats]
-    #binds to unbind
-    binds = ['<x>', '<w>', '<r>', '<s>']
+    #widgets
+    widgets = [wall, upgrade_wall_button, repair, upgrade_support_button, back_to_home, wall_details, stats]
+    #if player has wall supports add those to widgets
+    if levels[0] != 0:
+        widgets.append(support_1)
+        widgets.append(support_2)
+    #binds
+    binds = ['<x>', '<w>', '<u>', '<r>', '<s>']
     window.bind('<x>', lambda event: [vanish(event, widgets), unstick(event, binds), home_page(event)]) #bind x key to back to home button
     window.bind('<w>', lambda event: [upgrade(event, 1)]) #bind w key upgrade wall button
+    window.bind('<u>', lambda event: [upgrade(event, 1)]) #bind u key upgrade wall button
     window.bind('<r>', lambda event: [how_much_repair_wall(event)]) #bind r key to repair wall button
     window.bind('<s>', lambda event: [upgrade(event, 0)]) #bind s key to upgrade wall support button
+
+##training camp page
+def training_page(event):
+    #global variables
+    global levels, materials, research
+    #training camp background
+    load = Image.open(training_types[levels[3]] + 'inside.png')
+    load = load.resize((800, 600))
+    render = ImageTk.PhotoImage(load)
+    training = tk.Label(window, image = render, width = 800, height = 600, bg = '#00FF00')
+    training.image = render
+    training.place(x = 400, y = 300, anchor = tk.CENTER)
+    #upgrade training camp button
+    upgrade_training_button = tk.Button(window, text = 'Upgrade Training Camp', height = 4, font = ('charter', 10), fg = '#000000')
+    upgrade_training_button.place(x = 725, y = 540, anchor = tk.CENTER)
+    #recruit army button
+    recruit_button = tk.Button(window, text = 'Recruit', height = 4, width = 10, font = ('charter', 10), fg = '#000000')
+    recruit_button.place(x = 625, y = 540, anchor = tk.CENTER)
+    #train army button
+    train_button = tk.Button(window, text = 'Train', height = 4, width = 10, font = ('charter', 10), fg = '#000000')
+    train_button.place(x = 550, y = 540, anchor = tk.CENTER)
+    #heal army button
+    heal_button = tk.Button(window, text = 'Heal', height = 4, width = 10, font = ('charter', 10), fg = '#000000')
+    heal_button.place(x = 475, y = 540, anchor = tk.CENTER)
+    #attack button
+    attack_button = tk.Button(window, text = 'Attack', height = 4, width = 10, font = ('charter', 10), fg = '#000000')
+    attack_button.place(x = 400, y = 540, anchor = tk.CENTER)
+    #defend button
+    defend_button = tk.Button(window, text = 'Defend', height = 4, width = 10, font = ('charter', 10), fg = '#000000')
+    defend_button.place(x = 325, y = 540, anchor = tk.CENTER)
+    #back to home button
+    back_to_home = tk.Button(window, text = 'Home', font = ('charter', 20), width = 7, height = 2, highlightbackground = '#FF0000', fg = '#000000', command = lambda: [vanish(0, widgets), unstick(0, binds), home_page(0)])
+    back_to_home.place(x = 0, y = 0, anchor = tk.NW)
+    #widgets
+    widgets = [training, upgrade_training_button, recruit_button, train_button, heal_button, attack_button, defend_button, back_to_home]
+    #binds
+    binds = ['<x>']
+    window.bind('<x>', lambda event: [vanish(event, widgets), unstick(event, binds), home_page(event)]) #bind x key to back to home button
 
 ##home page
 def home_page(event):
     #global variables
     global wall_types, research, materials, moves, land, happy, day, levels, support_types
     window.title('Home') #rename window title
+    window.config(bg = '#00FF00') #window color
     if 'time' not in research and moves == 3 or 'time' in research and moves == 5: #if player reaches maximum moves per day
         day += 1 #day advances
         moves = 0 #moves goes back to 0
@@ -277,37 +326,53 @@ def home_page(event):
             happy -= 5
     #wall image button
     load = Image.open(wall_types[levels[1]][0])
-    load = load.resize((211, 158)) 
+    load = load.resize((422, 316)) 
     render = ImageTk.PhotoImage(load)
-    wall = tk.Button(window, image = render, width = 201, height = 150, command = lambda: [vanish(0, widgets), unstick(0, binds), wall_page(0)])
+    wall = tk.Button(window, image = render, width = 402, height = 300, command = lambda: [vanish(0, widgets), unstick(0, binds), wall_page(0)])
     wall.image = render
     wall.place(x = 800, y = 600, anchor = tk.SE)
+    #training camp button
+    load = Image.open(training_types[levels[3]] + '.png')
+    load = load.resize((211, 158))
+    render = ImageTk.PhotoImage(load)
+    training = tk.Button(window, image = render, width = 201, height = 140, command = lambda: [vanish(0, widgets), unstick(0, binds), training_page(0)])
+    training.image = render
+    training.place(x = 625, y = 300, anchor = tk.CENTER)
+    #market button
+    load = Image.open(market_types[levels[6]])
+    load = load.resize((211, 158))
+    render = ImageTk.PhotoImage(load)
+    market = tk.Button(window, image = render, width = 186, height = 145)
+    market.image = render
+    market.place(x = 350, y = 350, anchor = tk.CENTER)
+    #research lab button
+    load = Image.open(lab_types[levels[4]])
+    load = load.resize((211, 158))
+    render = ImageTk.PhotoImage(load)
+    lab = tk.Button(window, image = render, width = 191, height = 120)
+    lab.image = render
+    lab.place(x = 450, y = 200, anchor = tk.CENTER)
+    #district button
+    load = Image.open(district_types[levels[5]])
+    load = load.resize((211, 158))
+    render = ImageTk.PhotoImage(load)
+    district = tk.Button(window, image = render, width = 191, height = 150)
+    district.image = render
+    district.place(x = 0, y = 600, anchor = tk.SW)
     #two wall support images
     if levels[0] != 0: #if wall support not 0
         load = Image.open(support_types[levels[0]][0])
         load = load.resize((20, 29))
         render = ImageTk.PhotoImage(load)
-        support_1 = tk.Label(window, image = render, bg = '#00FFFF', width = 10, height = 19)
+        support_1 = tk.Label(window, image = render, bg = '#00FF00', width = 10, height = 19)
         support_1.image = render
         support_1.place(x = 627, y = 505, anchor = tk.SW)
-        support_2 = tk.Label(window, image = render, bg = '#00FFFF', width = 10, height = 19)
+        support_2 = tk.Label(window, image = render, bg = '#00FF00', width = 10, height = 19)
         support_2.image = render
         if levels[1] == 2 or levels[1] == 3:
             support_2.place(x = 760, y = 485, anchor = tk.SW)
         else:
             support_2.place(x = 757, y = 490, anchor = tk.SW)
-    else: #if player doesn't have wall suppor
-        #define wall support labels so we can destroy
-        support_1 = tk.Label(window, bg = '#00FFFF')
-        support_1.place(x = 0, y = 0, anchor = tk.NW)
-        support_2 = tk.Label(window, bg = '#00FFFF')
-        support_2.place(x = 0, y = 0, anchor = tk.NW)
-    load = Image.open(training_types[levels[3]])
-    load = load.resize((211, 158))
-    render = ImageTk.PhotoImage(load)
-    training = tk.Button(window, image = render, width = 201, height = 150)
-    training.image = render
-    training.place(x = 600, y = 400, anchor = tk.CENTER)
     #player stats text
     stats = '$: ' + str(materials[0]) + '  Food: ' + str(materials[1]) + '  Stone: ' + str(materials[2]) + '  Metal: ' + str(materials[3]) + '  Wood: ' + str(materials[4]) + '\nLand: ' + str(land) + '  City Happiness: ' + str(happy) + ' / 100  Day: ' + str(day) + '  Moves played: ' + str(moves) + ' / '
     #moves depending on if time efficiency has been researched
@@ -316,15 +381,21 @@ def home_page(event):
     else:
         stats += '3'
     #player resources label
-    stats = tk.Label(window, text = stats, font = ('charter', 20), bg = '#00FFFF', fg = '#000000')
+    stats = tk.Label(window, text = stats, font = ('charter', 20), bg = '#00FF00', fg = '#000000')
     stats.place(x = 400, y = 0, anchor = tk.N)
-    widgets = [wall, support_1, support_2, stats, training]
-    binds = ['<w>']
+    widgets = [wall, stats, training, district, lab, market]
+    #if player has wall supports add those to widgets
+    if levels[0] != 0:
+        widgets.append(support_1)
+        widgets.append(support_2)
+    binds = ['<w>', '<t>']
     window.bind('<w>', lambda event: [vanish(event, widgets), unstick(event, binds), wall_page(event)]) #bind w key to wall image button
+    window.bind('<t>', lambda event: [vanish(event, widgets), unstick(event, binds), training_page(event)]) #bind w key to training camp image button
 
 ##create start page
 def start_page():
     window.title('Empire Simulator') #name window title 
+    window.config(bg = '#00FFFF') #window color
     #Empire Simulator title
     start_title = tk.Label(window, text = 'Empire Simulator', font = ('charter', 60, 'italic'), bg = '#00FFFF', fg = '#000000')
     start_title.place(x = 400, y = 180, anchor = tk.CENTER) #place text
@@ -340,7 +411,6 @@ if __name__ == '__main__': #if main
     #making window
     window = tk.Tk()
     window.geometry('800x600') #window size
-    window.config(bg = '#00FFFF') #window color
     #defining all widgets
     start_page() #create start page
     window.mainloop() #mainloop
