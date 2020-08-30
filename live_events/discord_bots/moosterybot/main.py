@@ -596,43 +596,6 @@ async def isinGame(message):
                 footer='what a bummer.'
             )
             await message.author.send(embed=emb)
-    elif message.content.startswith(prefix + inGameCmd[1][0]):
-        roles = ["murder", "detective", "hacker", "hunter", "millionaire", "overprotective_mom", "scientist", "witch",
-                 "workhorse_dad"]
-        msg_content = getMsg(len(prefix) + len(inGameCmd[0][0]) + 1, message.content, True)
-        with open('games.json', 'r') as brr:
-            persons = json.load(brr)
-        if str(msg_content) in roles:
-            for i in range(len(list(persons.values()))):
-                print(1)
-                if str(message.author.id) in list(persons.values())[i]:
-                    print(list(persons.values())[i])
-                    for ii in range(len(list(persons.values())[i])):
-                        emb = await embedMake(
-                            ['`' + str(client.get_user(int(message.author.id))) + '` Claims that they are the ',
-                             '**' + str(msg_content) + '**'],
-                            title='Role Claim!',
-                            thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
-                            desc='Hopefully they are truthful...',
-                            footer='interesting...')
-                        await client.get_user(int(list(persons.values())[i][ii])).send(embed=emb)
-                    return
-            emb = await embedMake(
-                title='Error: Invalid Action!',
-                desc='The game you were in no longer exists, or you typed a **in-game** command out of a game',
-                thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
-                footer='sad'
-            )
-            await message.author.send(embed=emb)
-        else:
-            emb = await embedMake(
-                title='Roles to claim:',
-                thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
-                arraytoembdtt=roles,
-                valuett=['-moostery claim [role]' for i in range(len(roles))],
-                footer='bad role name!'
-            )
-            await message.author.send(embed=emb)
 
 
 @client.event
