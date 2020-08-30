@@ -63,6 +63,17 @@ class Characters:
                 return a, place, nmb
         return False
 
+    @staticmethod
+    async def buyFromShop(client):
+        def check(reaction, user):
+            return str(reaction.emoji), user
+        try:
+            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+        except asyncio.TimeoutError:
+            return False
+        else:
+            return reaction, user
+
 
 class murder(Characters):
     def __init__(self, playerid):
@@ -97,20 +108,16 @@ class murder(Characters):
         await emoji.add_reaction("❎")
         await asyncio.sleep(1)
 
-        def check(reaction, user):
-            return str(reaction.emoji), user
-
-        try:
-            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
-        except asyncio.TimeoutError:
+        stuff = await self.buyFromShop(client)
+        if type(stuff) != tuple:
             emb = await main.embedMake(
                 title='Offer Timed Out',
                 desc='No extra info',
                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
             await emoji.edit(embed=emb)
         else:
-            if str(user) == str(client.get_user(int(self.id))):
-                if str(reaction) == "🛒":
+            if str(stuff[1]) == str(client.get_user(int(self.id))):
+                if str(stuff[0]) == "🛒":
                     self.killrate = weaponNames[weaponIndex][2]
                     self.isGun = weaponNames[weaponIndex][1]
                     emb = await main.embedMake(
@@ -120,7 +127,7 @@ class murder(Characters):
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
                     await emoji.edit(embed=emb)
-                elif str(reaction) == "❎":
+                elif str(stuff[0]) == "❎":
                     emb = await main.embedMake(
                         title='Deal Ignored!',
                         desc='Maybe it was a wise choice, or maybe not...',
@@ -207,13 +214,53 @@ class hacker(Characters):
 class scientist(Characters):
     def __init__(self, playerid):
         super().__init__(playerid, 6)
-        # self.number = 6
+        self.tier = 1
 
     def Passive(self):
         pass
 
     async def Dayrole(self, client):
-        pass
+        emb = await main.embedMake(
+            ["Tier/Actions", "Passive: \n 1: get 2 people that are neighbors of a **suspect** \n 2: gets 3 suspects "
+                             "in which one is the murder \n 3: spots the MURDER (this will alert them) \n Night Role: "
+                             "\n Tier 1: see *activity* in the trapped house \n Tier 2: see the **role** of the "
+                             "person who was there \n Tier 3: see their name and role"],
+            title='Offer From Market (expires in 30s)',
+            desc='Upgrade to tier:`'+str(self.tier+1)+'`',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+            footer='This will boost your passive and night! More info at https://bit.ly/2ExNTIr')
+        emoji = await client.get_user(int(self.id)).send(embed=emb)
+        await emoji.add_reaction("🛒")
+        await emoji.add_reaction("❎")
+        await asyncio.sleep(1)
+
+        def check(reaction, user):
+            return str(reaction.emoji), user
+
+        try:
+            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+        except asyncio.TimeoutError:
+            emb = await main.embedMake(
+                title='Offer Timed Out',
+                desc='No extra info',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+            await emoji.edit(embed=emb)
+        else:
+            if str(user) == str(client.get_user(int(self.id))):
+                if str(reaction) == "🛒":
+                    emb = await main.embedMake(
+                        title='Successfully Bought!',
+                        desc='You have bought upgrade!' + '\n Now your tier:`' + str(self.tier) + '`',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='Nice!')
+                    await emoji.edit(embed=emb)
+                elif str(reaction) == "❎":
+                    emb = await main.embedMake(
+                        title='Deal Ignored!',
+                        desc='Maybe it was a wise choice, or maybe not...',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='It\'s your call!')
+                    await emoji.edit(embed=emb)
 
     async def Nightrole(self, client):
         # return person
