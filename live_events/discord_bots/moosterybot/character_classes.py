@@ -7,26 +7,137 @@ import asyncio
 
 
 class Game:
-    def __init__(self, id, players):
-        self.id = id
-        self.players = players
+    def __init__(self, id, containerFilledWithKids):
+        self.id = str(id)
+        self.date = 1
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        self.players = ppl[str(self.id)]
         self.badGuys = 1 if len(self.players) < 7 else 2
-        self.data = []
+        self.kids = containerFilledWithKids  # all the character classes of the game (sorry FBI)
+        self.log = []
+        '''
+        [<character_classes.detective object at 0x7f95667b7b80>, <character_classes.murder object at 0x7f956675db50>]
+        ['369652997308809226', '713106996055769110']
+        1
+        1
+        749759828250984508
+        '''
+
+    async def startLoop(self, client):
+        while not self.checkIfStop():
+            if self.date == 1:
+                await self.claiming(client)
+            await self.voting(client)
+            await self.day(client)
+            await self.night(client)
 
     def checkIfStop(self):
         return True if len(self.players) == self.badGuys or len(self.players) == 1 else False
 
-    def voting(self):
-        pass
+    async def claiming(self, client):
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        arymsg = []
+        a = 'Hopefully 10 seconds was enough time' if self.date == 1 else 'goodluck!'
+        emb = await main.embedMake(
+            ['Day ' + str(self.date) + ':',
+             '**Claim your role right now by reacting**\n``` 🗡️: Murder (lmao '
+             'why would you claim this) \n 🔎: Detective\n 💻: Hacker \n 🏹: Hunter \n 📚: Workhorse Dad \n 🍳: '
+             'Overprotective Mom \n ❤️: The Simp \n 🧪: Scientist \n 🧹: Witch \n 💰: Millionaire (don\'t claim '
+             'this lmao blackmail guarentee)``` \n if you react with something else than the provided above, you '
+             'are reacting as the Murder (just so you know LOL)'],
+            title='Welcome to Murder Moostery...',
+            thumbnail='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
+            desc=a,
+            footer='Note: if the reaction doesn\'t work the first time try again'
+        )
+        for i in range(len(ppl[str(self.id)])):
+            arymsg.append(await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb))
+        for eye in range(len(ppl[str(self.id)])):
+            await arymsg[eye].add_reaction("🗡️")
+            await arymsg[eye].add_reaction("🔎")
+            await arymsg[eye].add_reaction("💻")
+            await arymsg[eye].add_reaction("🏹")
+            await arymsg[eye].add_reaction("📚")
+            await arymsg[eye].add_reaction("🍳")
+            await arymsg[eye].add_reaction("❤")
+            await arymsg[eye].add_reaction("🧪")
+            await arymsg[eye].add_reaction("🧹")
+            await arymsg[eye].add_reaction("💰")
+            await asyncio.sleep(1)
+        claimed = []
 
-    def claiming(self):
-        pass
+        def check(reaction, user):
+            nonlocal claimed
+            if str(user) not in claimed:
+                claimed.append(str(user))
+                return str(reaction.emoji), user
 
-    def day(self):
-        pass
+        while len(ppl[str(self.id)]) != len(claimed): #make sure everyone has claimed
+            try:
+                reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+            except asyncio.TimeoutError:
+                emb = await main.embedMake(
+                    title='Claim Timed Out',
+                    desc='You were automatically claimed as Millionaire',
+                    thumbnail='https://images-ext-1.discordapp.net/external/a73EwOYEEHydxTjLBJARbB4LBsi46-tKH_m0mbcOMtI/https/images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png?width=438&height=438')
+                for eye in range(len(ppl[str(self.id)])):
+                    await arymsg[eye].edit(embed=emb)
+                    await client.get_user(int(ppl[str(self.id)][eye])).send(embed=emb)
+            else:
+                if str(reaction) == "🗡️":
+                    role = "Murder"
+                elif str(reaction) == "🔎":
+                    role = "Detective"
+                elif str(reaction) == "💻":
+                    role = "Hacker"
+                elif str(reaction) == "🏹":
+                    role = "Hunter"
+                elif str(reaction) == "📚":
+                    role = "Workhorse Dad"
+                elif str(reaction) == "🍳":
+                    role = "Overprotective Mom"
+                elif str(reaction) == "❤":
+                    role = "MVP Simp"
+                elif str(reaction) == "🧪":
+                    role = "Scientist"
+                elif str(reaction) == "🧹":
+                    role = "Witch"
+                elif str(reaction) == "💰":
+                    role = "Millionaire"
+                else:
+                    role = "Millionaire"
+                emb = await main.embedMake(
+                    ['`' + str(user) + '` Claims that they are the ',
+                     '**' + str(role) + '**'],
+                    title='Role Claim!',
+                    thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                    desc='Hopefully they are truthful...',
+                    footer='interesting...')
+                for b in range(len(ppl[str(self.id)])):
+                    await client.get_user(int(ppl[str(self.id)][b])).send(embed=emb)
 
-    def night(self):
-        pass
+    async def voting(self, client):
+        if self.date != 1:
+            with open("games.json", 'r') as brr:
+                ppl = json.load(brr)
+            for b in range(len(ppl[str(self.id)])):
+                await client.get_user(int(ppl[str(self.id)][b])).send("Voting right now owo wow")
+        return
+
+    async def day(self, client):
+        for i in range(len(self.kids)):
+            await self.kids[i].Dayrole(client)
+
+    async def night(self, client):
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        # for i in range(len(self.kids)):
+        for b in range(len(ppl[str(self.id)])):
+            await client.get_user(int(ppl[str(self.id)][b])).send("Night stuff right now owo wow")
+            # await self.kids[i].Nightrole(client)
+        self.date += 1
 
 
 class Characters:
@@ -90,6 +201,7 @@ class Characters:
     async def buyFromShop(client):
         def check(reaction, user):
             return str(reaction.emoji), user
+
         try:
             reaction, user = await client.wait_for('reaction_add', timeout=15.0, check=check)
         except asyncio.TimeoutError:
@@ -247,7 +359,7 @@ class scientist(Characters):
                              "\n Tier 1: see *activity* in the trapped house \n Tier 2: see the **role** of the "
                              "person who was there \n Tier 3: see their name and role"],
             title='Offer From Market (expires in 30s)',
-            desc='Upgrade to tier:`'+str(self.tier+1)+'`',
+            desc='Upgrade to tier:`' + str(self.tier + 1) + '`',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='This will boost your passive and night! More info at https://bit.ly/2ExNTIr')
         emoji = await client.get_user(int(self.id)).send(embed=emb)
@@ -316,7 +428,8 @@ class witch(Characters):
                     self.materials += 1
                     emb = await main.embedMake(
                         title='Successfully Bought!',
-                        desc='You have bought upgrade!' + '\n Now your witch has:`' + str(self.materials) + '/2 materials for a save`',
+                        desc='You have bought upgrade!' + '\n Now your witch has:`' + str(
+                            self.materials) + '/2 materials for a save`',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
                     await emoji.edit(embed=emb)
@@ -411,7 +524,8 @@ class millionaire(Characters):
         self.extra = random.randint(1, 3)
         emb = await main.embedMake(
             title='Investment',
-            desc='Your smart daily automatic investments have gave you a lot of power in Politics aswell! as a result, you get `'+str(self.extra)+'` votes today!',
+            desc='Your smart daily automatic investments have gave you a lot of power in Politics aswell! as a result, you get `' + str(
+                self.extra) + '` votes today!',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='You can go hunt tonight!')
         await client.get_user(int(self.id)).send(embed=emb)
@@ -420,3 +534,16 @@ class millionaire(Characters):
         # return person
         pass
 
+
+class simp(Characters):
+    def __init__(self, playerid):
+        super().__init__(playerid, 9)
+
+    def Passive(self):
+        pass
+
+    async def Dayrole(self, client):
+        pass
+
+    async def Nightrole(self, client):
+        pass

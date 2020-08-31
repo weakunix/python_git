@@ -8,23 +8,22 @@ import math
 import os
 
 cmd = [
-    ['help', 'usage: help [category] shows help  (this message). categories: game, friend'],
-    ['about', 'usage: about. shows info (version... credits... desc...)']
+    ['help', 'usage: help [category] shows help  (this message). categories: game (commands for game creation), friend (friend requests and remove), play (how to play the actual game)'],
+    ['about', 'usage: about. shows info (version... credits... desc...)'],
+    ['how to play', 'usage: how to play. shows all the tips to getting started']
 ]
 gameCmd = [
-    ['create', 'usage: create. creates new mooder moostery game'],
-    ['join', 'usage: join. joins game with code (use at dm)'],
+    ['create', 'usage: create [server/global (Scope)]. creates new mooder moostery game (shorthand: -mc[pu/pr])'],
+    ['join', 'usage: join [true/false (Queue)]. joins game with code (use at dm), [Queue: True/False (Queues you into '
+             'random '
+             'available games)]'],
     ['invite', 'usage: invite [player id/mention] invites the player to a game'],
-    ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)'],
-    ['how to play', 'usage: how to play. shows all the tips to getting started']
+    ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)']
 ]
 
 inGameCmd = [
     ['leave', 'leaves the game (in the middle of it), if you are the murder, they will auto-win'],
-    ['claim', 'claim [role], claims that you are [role]\n must do before voting'],
-    ['msg', 'msg [player id], anonymously send a message to one player or `pmsg ALL` to send to all'],
-    ['vote', 'vote [player id], votes the player as the murder in the daily trial, your vote will be anonymous'],
-    ['go', 'go [player id] go to their house, this will replace one of your daily or nightly roles.']
+    ['pm', 'pm [player id], anonymously send a message to one player or `pm ALL` to send to all']
 ]
 #    ['kill', 'kill [playerid], kills the player (if you are murder)'], ['buy', 'buy [offerid], buys offer from market'],
 
@@ -172,7 +171,7 @@ async def isFriend(message):
     if message.content.startswith(prefix + friendCmd[0][0]):  # firend list
         with open("friend.json", 'r') as brr:
             friend = json.load(brr)
-        if str(message.author.id) in friend:
+        if str(message.author.id) in friend and len(friend[str(message.author.id)]) != 0:
             friendo = friend[str(message.author.id)]
             arraynewfriend = []
             if type(friendo) != str:
@@ -181,12 +180,12 @@ async def isFriend(message):
             else:
                 arraynewfriend.append(friendo)
             emb = await embedMake(arraytoembdt=arraynewfriend, title='Friends List',
-                                  desc='All your friends here \n========================',
+                                  desc='All your friends here',
                                   footer='~~ still shipping until the end of time -Cowland ~~')
             await message.channel.send(embed=emb)
         else:
             emb = await embedMake(['You have no friends', 'LOL'], title='Friends List',
-                                  desc='All your friend- oh wait... \n========================',
+                                  desc='All your friend- oh wait...',
                                   footer='get rekt')
             await message.channel.send(embed=emb)
     elif message.content.startswith(prefix + friendCmd[1][0]) or message.content.startswith(prefix + friendCmd[2][0]):
@@ -246,10 +245,16 @@ async def isFriend(message):
                 for i in range(len(friend[str(message.author.id)])):
                     if str(target.id) == friend[str(message.author.id)][i]:
                         friend[str(message.author.id)].pop(i)
+                        break
                 for i in range(len(friend[str(target.id)])):
                     if str(message.author.id) == friend[str(target.id)][i]:
                         friend[str(target.id)].pop(i)
+                        break
                 out_file = open("friend.json", "w")
+                '''                if len(friend[str(target.id)]) == 0:
+                    friend.pop(str(target.id))
+                if len(friend[str(target.id)]) == 0:
+                    friend.pop(str(target.id))'''
                 json.dump(friend, out_file, indent=4)
                 out_file.close()
                 embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],
@@ -267,9 +272,19 @@ async def isFriend(message):
 
 
 async def isGame(message):
-    if message.content.startswith(prefix + gameCmd[0][0]):
-        type = getMsg(len(prefix) + len(gameCmd[0][0]) + 1, message.content, True)
-        if type == 'private':
+    if message.content.startswith(prefix + gameCmd[0][0]) or message.content.startswith("-mc"):
+        if message.content.startswith(prefix):
+            type = getMsg(len(prefix) + len(gameCmd[0][0]) + 1, message.content, True)
+        else:
+            type = getMsg(len('-mc'), message.content, True)
+            type = 'public' if type == 'pu' else 'private' if type == 'pr' else 'none'
+        if type == 'private' or message.guild is None:
+            if message.guild is None and type == 'public':
+                emb = await embedMake(title='No Public!!!!',
+                                      thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                                      desc='No public games in DM. Make one in a server',
+                                      footer='sorry! but... who can even join you in a dm?')
+                await message.channel.send(embed=emb)
             await makeGame(False, message, True)
         elif type == 'public':
             await makeGame(True, message, True)
