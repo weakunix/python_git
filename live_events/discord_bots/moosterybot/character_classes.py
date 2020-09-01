@@ -24,16 +24,26 @@ class Game:
         749759828250984508
         '''
 
-    async def startLoop(self, client):
-        while not self.checkIfStop():
+    async def startLoop(self, client, classtobind):
+        for i in range(len(self.kids)):
+            self.kids[i].binding(classtobind)
+        while True:
             if self.date == 1:
                 await self.claiming(client)
             await self.voting(client)
             await self.day(client)
             await self.night(client)
+            if self.checkIfStop():
+                with open("games.json", 'r') as brr:
+                    ppl = json.load(brr)
+                await client.get_user(int(ppl[self.id][0])).send("You Win!!")
+                return
+            self.date += 1
 
     def checkIfStop(self):
-        return True if len(self.players) == self.badGuys or len(self.players) == 1 else False
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        return True if len(ppl[self.id]) == 1 else False
 
     async def claiming(self, client):
         with open("games.json", 'r') as brr:
@@ -50,7 +60,7 @@ class Game:
             title='Welcome to Murder Moostery...',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
             desc=a,
-            footer='Note: if the reaction doesn\'t work the first time try again'
+            footer='Note: wait until the second message to start reacting!'
         )
         for i in range(len(ppl[str(self.id)])):
             arymsg.append(await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb))
@@ -68,13 +78,22 @@ class Game:
             await asyncio.sleep(1)
         claimed = []
 
+        emb = await main.embedMake(
+            title='Ready to claim!',
+            thumbnail='',
+            desc='Claim by reacting to one of the emojis above ^',
+            footer='Yes this is the second message, react now!'
+        )
+        for i in range(len(ppl[str(self.id)])):
+            await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb)
+
         def check(reaction, user):
             nonlocal claimed
             if str(user) not in claimed:
                 claimed.append(str(user))
                 return str(reaction.emoji), user
 
-        while len(ppl[str(self.id)]) != len(claimed): #make sure everyone has claimed
+        while len(ppl[str(self.id)]) != len(claimed):  # make sure everyone has claimed
             try:
                 reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
             except asyncio.TimeoutError:
@@ -83,7 +102,6 @@ class Game:
                     desc='You were automatically claimed as Millionaire',
                     thumbnail='https://images-ext-1.discordapp.net/external/a73EwOYEEHydxTjLBJARbB4LBsi46-tKH_m0mbcOMtI/https/images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png?width=438&height=438')
                 for eye in range(len(ppl[str(self.id)])):
-                    await arymsg[eye].edit(embed=emb)
                     await client.get_user(int(ppl[str(self.id)][eye])).send(embed=emb)
             else:
                 if str(reaction) == "🗡️":
@@ -127,13 +145,19 @@ class Game:
         return
 
     async def day(self, client):
-        for i in range(len(self.kids)):
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        for i in range(len(ppl[str(self.id)])):
             await self.kids[i].Dayrole(client)
 
     async def night(self, client):
-        for i in range(len(self.kids)):
-            await self.kids[i].Nightrole(client, self.players)
-        self.date += 1
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        try:
+            for i in range(len(ppl[str(self.id)])):
+                await self.kids[i].Nightrole(client, ppl[str(self.id)])
+        except:
+            pass  # someone died and now the list is shorter. boo hoo, too bad so sad
 
 
 class Characters:
@@ -149,13 +173,15 @@ class Characters:
         ["workhorse_dad", "Stall and distract v2!"]
     ]
 
-    def __init__(self, playerid, number):
+    def __init__(self, playerid, gameid, number):
         self.isAlive = True
         self.isTrapped = False
         self.number = number
         self.name = self.roleList[number][0]
         self.id = int(playerid)
         self.images = []
+        self.gameId = gameid
+        self.father = None
         self.hasVoted = False
         self.hasClaimed = False
         for i in range(2):
@@ -205,12 +231,44 @@ class Characters:
         else:
             return reaction, user
 
+    def binding(self, a):
+        self.father = a
+
+    async def die(self, client, target):
+        with open("games.json", 'r') as brr:
+            games = json.load(brr)
+        with open("roles.json", 'r') as brr:
+            role = json.load(brr)
+        for i in range(len(games[str(self.gameId)])):
+            if str(target) == games[str(self.gameId)][i]:
+                emb = await main.embedMake(
+                    title='You have been killed!',
+                    desc='Oof, you are now out of the game and will stop receiving notifications.',
+                    thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106585451200542/business_man.png',
+                    footer='')
+                await client.get_user(int(target)).send(embed=emb)
+                emb = await main.embedMake(
+                    title='You have killed ' + str(client.get_user(int(target))),
+                    desc='Muahahahhahaha',
+                    thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106874187219064/pfp2.png',
+                    footer='')
+                await client.get_user(int(self.id)).send(embed=emb)
+                games[str(self.gameId)].pop(i)
+                role[str(self.gameId)].pop(i)
+                self.father.kids.pop(i)
+                self.father.players.pop(i)
+                out_file = open("games.json", "w")
+                json.dump(games, out_file, indent=4)
+                out_file.close()
+                break
+
 
 class murder(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 0)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 0)
         self.killrate = random.uniform(80, 85)  # gets a boost up to 5%
         self.isGun = False
+        self.target = None
 
     def Passive(self):
         pass
@@ -296,7 +354,7 @@ class murder(Characters):
             else:
                 emb = await main.embedMake(
                     title='No Naughty Things Tonight!',
-                    desc='I\'m innocent... right?',
+                    desc='"I\'m innocent... right?"',
                     thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png')
                 await a.edit(embed=emb)
                 return
@@ -305,7 +363,7 @@ class murder(Characters):
             fieldarrytt=ppl,
             desc='React numbers 1-10 (and A-Z if applicable) that correspond to the user and their id.',
             thumbnail='https://media.discordapp.net/attachments/663150753946402820/749998056048558123/costume11_1.png',
-            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is you)')
+            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))')
         a = await client.get_user(int(self.id)).send(embed=emb)
         reactions = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🅰️', '🅱️', '🇨']
         for i in range(len(ppl)):
@@ -328,17 +386,42 @@ class murder(Characters):
                     playerid = str(ppl[i])
                     if kill:
                         if random.uniform(0, 100) <= self.killrate:
-                            emb = await main.embedMake(
-                                title='You have been targeted by the **Murder**.',
-                                desc='If you do nothing, you **will die**',
-                                thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
-                                footer='If you have a retaliation role, use it right now!')
-                            await client.get_user(int(playerid)).send(embed=emb)
+                            with open("roles.json", 'r') as brr:
+                                roles = json.load(brr)
+                            if roles[str(self.gameId)][i] == 3 or \
+                                    roles[str(self.gameId)][i] == 4 or roles[str(self.gameId)][i] == 5:
+                                emb = await main.embedMake(
+                                    title='You have been targeted by the **Murder**.',
+                                    desc='If you do nothing, you **will die**',
+                                    thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
+                                    footer='If you have a retaliation role, use it right now and react below! (if you are helpless then o well sorry ;( )')
+                                retaliation = await client.get_user(int(playerid)).send(embed=emb)
+                                await retaliation.add_reaction("⚔️")
+                                await asyncio.sleep(1)
+                                reactionstuff = await self.buyFromShop(client)
+                                if type(reactionstuff) != tuple:
+                                    emb = await main.embedMake(
+                                        title='Offer Timed Out',
+                                        desc='This was your last chance ;(',
+                                        # thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png'
+                                    )
+                                    await a.edit(embed=emb)
+                                    return
+                                else:
+                                    if str(reactionstuff[0]) == "⚔️":
+                                        if roles[str(self.gameId)][i] == 4:
+                                            self.father.log.append("Attempted Murder! At " + str(client.get_user(int(playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO BRIBE HIS WAY OUT!**")
+                                        elif roles[str(self.gameId)][i] == 5 and self.isGun:
+                                            self.father.log.append("Attempted Murder! At " + str(client.get_user(int(playerid))) + "'s house!\n")
+                                        elif roles[str(self.gameId)][i] == 3:
+                                            pass
+                                        return
                             emb = await main.embedMake(
                                 title='Action Successful. Waiting For response',
                                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749360612169089176/costume11.png',
                                 footer='Your night turn is finished. Wait until day to see the results.')
                             await client.get_user(int(self.id)).send(embed=emb)
+                            await self.die(client, playerid)
                         else:
                             emb = await main.embedMake(
                                 title='Action Unsuccessful! But you weren\'t caught!',
@@ -367,8 +450,8 @@ class murder(Characters):
 
 
 class detective(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 1)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 1)
         # self.number = 1
 
     def Passive(self):
@@ -383,8 +466,8 @@ class detective(Characters):
 
 
 class hacker(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 2)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 2)
         # self.number = 2
 
     def Passive(self):
@@ -398,8 +481,8 @@ class hacker(Characters):
 
 
 class scientist(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 6)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 6)
         self.tier = 1
 
     def Passive(self):
@@ -452,8 +535,8 @@ class scientist(Characters):
 
 
 class witch(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 7)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 7)
         self.materials = 2
 
     def Passive(self):
@@ -504,8 +587,8 @@ class witch(Characters):
 
 
 class hunter(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 3)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 3)
         # self.number = 3
 
     def Passive(self):
@@ -525,8 +608,8 @@ class hunter(Characters):
 
 
 class workhorse_dad(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 8)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 8)
         self.distractsLeft = 5
         self.exposeRole = False
 
@@ -534,12 +617,13 @@ class workhorse_dad(Characters):
         pass
 
     async def Dayrole(self, client):
-        emb = await main.embedMake(
+        '''emb = await main.embedMake(
             title='Offer From Market',
             desc='You have bought hunting materials (this is automatic)',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='You can go hunt tonight!')
-        await client.get_user(int(self.id)).send(embed=emb)
+        await client.get_user(int(self.id)).send(embed=emb)'''
+        pass
 
     async def Nightrole(self, client, ppl):
         # return person
@@ -547,8 +631,8 @@ class workhorse_dad(Characters):
 
 
 class overprotective_mom(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 5)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 5)
         # self.number = 5
         self.deflect = 3
         self.cooldownOP = 3
@@ -570,8 +654,8 @@ class overprotective_mom(Characters):
 
 
 class millionaire(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 4)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 4)
         self.extra = 0
 
     def Passive(self):
@@ -593,8 +677,8 @@ class millionaire(Characters):
 
 
 class simp(Characters):
-    def __init__(self, playerid):
-        super().__init__(playerid, 9)
+    def __init__(self, playerid, gameid):
+        super().__init__(playerid, gameid, 9)
 
     def Passive(self):
         pass

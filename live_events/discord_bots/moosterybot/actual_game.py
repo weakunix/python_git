@@ -20,11 +20,11 @@ async def startGame(payload, client, ppl):
     ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
     if ppltoroles[tempcheck] != 0:
-        ppltoroles[tempcheck] = 1 #change this to test
+        ppltoroles[tempcheck] = 3 #change this to test
     else:
         for i in range(len(ppltoroles)):  # assigns murder to first perosn availible
             if i != tempcheck:
-                ppltoroles[i] = 1
+                ppltoroles[i] = 3
                 break
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     classes = initClasses(str(payload.message_id))
@@ -56,19 +56,7 @@ async def startGame(payload, client, ppl):
 
 
 async def recursion(gamething, client):
-    await gamething.startLoop(client)
-
-
-async def day(classes, client):
-    for i in range(len(classes)):
-        await classes[i].Dayrole(client)
-    return True
-
-
-async def night(classes, client):
-    for i in range(len(classes)):
-        await classes[i].Nightrole(client)
-    return True
+    await gamething.startLoop(client, gamething)
 
 
 def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now
@@ -76,11 +64,11 @@ def initClasses(key):  # TODO limit to only making roles for one game i gtg eat 
         rolestuff = json.load(brr)
     with open("games.json", 'r') as brr:
         charac = json.load(brr)
-    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) + '({})' for i in
+    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) + '({}, {})' for i in
                 range(9)}
     listOfClasses = []
     for x in range(len(rolestuff[key])):
-        a = eval(str(charlist[rolestuff[key][x]]).format(charac[key][x]))
+        a = eval(str(charlist[rolestuff[key][x]]).format(charac[key][x], str(key)))
         listOfClasses.append(a)
     return listOfClasses
 
