@@ -42,9 +42,9 @@ async def startGame(payload, client, ppl):
     arymsg = []
     for i in range(len(ppl[str(payload.message_id)])):
         arymsg.append(await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb))
-    for i in range(9):
+    for i in range(3):
         emb = await main.embedMake(title='Game starting in:',
-                                   desc=str(10 - (i + 1)),
+                                   desc=str(4 - (i + 1)),
                                    img='https://images-ext-2.discordapp.net/external/Wls1jDtGcUz3SaDbBd5_KHKTJ82Nem77ECA4Tx2Rz5g/https/media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                    footer='Tip: tip here')

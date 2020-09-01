@@ -30,6 +30,7 @@ class Game:
         while True:
             if self.date == 1:
                 await self.claiming(client)
+            # await self.events(client)
             await self.voting(client)
             await self.day(client)
             await self.night(client)
@@ -37,6 +38,7 @@ class Game:
                 with open("games.json", 'r') as brr:
                     ppl = json.load(brr)
                 await client.get_user(int(ppl[self.id][0])).send("You Win!!")
+                ppl.pop(str(self.id))
                 return
             self.date += 1
 
@@ -328,7 +330,7 @@ class murder(Characters):
     async def Nightrole(self, client, ppl):
         emb = await main.embedMake(
             title='Nighty night, who u gon kill tonight? (Blackmail/kill 15s)',
-            desc='You can kill or blackmail someone. Choose the ✉️ to *blackmail* or 🗡️ to **KILL** or ⏩ to skip\n Your kill '
+            desc='You can kill or blackmail someone. \n Choose the ✉️ to *blackmail* or 🗡️ to **KILL** or ⏩ to skip\n Your kill '
                  'chances `' + str(self.killrate) + '%`',
             thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
             footer='If you react anything besides knife it is default to skip (just so you know)')
@@ -358,14 +360,15 @@ class murder(Characters):
                     thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png')
                 await a.edit(embed=emb)
                 return
+        reactions = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🅰️', '🅱️', '🇨']
         emb = await main.embedMake(
             title='Choose your target!',
-            fieldarrytt=ppl,
             desc='React numbers 1-10 (and A-Z if applicable) that correspond to the user and their id.',
             thumbnail='https://media.discordapp.net/attachments/663150753946402820/749998056048558123/costume11_1.png',
             footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))')
+        for i in range(len(ppl)):
+            emb.add_field(name=reactions[i], value=client.get_user(int(ppl[i])), inline=False)
         a = await client.get_user(int(self.id)).send(embed=emb)
-        reactions = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🅰️', '🅱️', '🇨']
         for i in range(len(ppl)):
             if str(ppl[i]) != str(self.id):
                 await a.add_reaction(reactions[i])
@@ -403,19 +406,34 @@ class murder(Characters):
                                     emb = await main.embedMake(
                                         title='Offer Timed Out',
                                         desc='This was your last chance ;(',
-                                        # thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png'
                                     )
                                     await a.edit(embed=emb)
                                     return
                                 else:
                                     if str(reactionstuff[0]) == "⚔️":
                                         if roles[str(self.gameId)][i] == 4:
-                                            self.father.log.append("Attempted Murder! At " + str(client.get_user(int(playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO BRIBE HIS WAY OUT!**")
+                                            self.father.log.append("Attempted Murder! At " + str(client.get_user(int(
+                                                playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO BRIBE HIS WAY OUT!**")
                                         elif roles[str(self.gameId)][i] == 5 and self.isGun:
-                                            self.father.log.append("Attempted Murder! At " + str(client.get_user(int(playerid))) + "'s house!\n")
+                                            self.father.log.append("Attempted Murder! At " + str(
+                                                client.get_user(int(playerid))) + "'s house!\n")
                                         elif roles[str(self.gameId)][i] == 3:
                                             pass
-                                        return
+                                        for ii in range(len(ppl)):
+                                            self.father.log.append("Attempted Murder! At " + str(
+                                                client.get_user(int(playerid))) + "'s house!\n")
+                                            emb = await main.embedMake(
+                                                title='Attention!',
+                                                desc=str(self.father.log[len(self.father.log) - 1]),
+                                                # thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png'
+                                            )
+                                            if ppl[ii] != str(self.id): await client.get_user(int(ppl[ii])).send(embed=emb)  # dont send to murder
+                                        emb = await main.embedMake(
+                                            title='Mission Failed! We\'ll get \'em next time...',
+                                            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749366041175523328/costume14.png',
+                                            footer='Your night turn is finished. Wait until day')
+                                        await client.get_user(int(self.id)).send(embed=emb)  # sends to murder
+                                    return
                             emb = await main.embedMake(
                                 title='Action Successful. Waiting For response',
                                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749360612169089176/costume11.png',
