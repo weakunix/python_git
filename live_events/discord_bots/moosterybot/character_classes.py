@@ -397,9 +397,10 @@ class murder(Characters):
                                     title='You have been targeted by the **Murder**.',
                                     desc='If you do nothing, you **will die**',
                                     thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
-                                    footer='If you have a retaliation role, use it right now and react below! (if you are helpless then o well sorry ;( )')
+                                    footer='Use your realiation role right now and react below! ```\n ⚔️: Fight Back \n 💀️:Accept death ```(if you are helpless then o well sorry ;( )')
                                 retaliation = await client.get_user(int(playerid)).send(embed=emb)
                                 await retaliation.add_reaction("⚔️")
+                                await retaliation.add_reaction("💀️")
                                 await asyncio.sleep(1)
                                 reactionstuff = await self.buyFromShop(client)
                                 if type(reactionstuff) != tuple:
