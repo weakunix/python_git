@@ -238,8 +238,6 @@ async def isFriend(message):
                     footer='and I ship still...')
                 await message.author.send(embed=emb)
         elif message.content.startswith(prefix + friendCmd[2][0]):
-            print(str(target.id))
-            print(friend[str(message.author.id)])
             if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(
                     message.author.id):
                 for i in range(len(friend[str(message.author.id)])):
@@ -251,10 +249,6 @@ async def isFriend(message):
                         friend[str(target.id)].pop(i)
                         break
                 out_file = open("friend.json", "w")
-                '''                if len(friend[str(target.id)]) == 0:
-                    friend.pop(str(target.id))
-                if len(friend[str(target.id)]) == 0:
-                    friend.pop(str(target.id))'''
                 json.dump(friend, out_file, indent=4)
                 out_file.close()
                 embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],

@@ -20,11 +20,11 @@ async def startGame(payload, client, ppl):
     ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
     if ppltoroles[tempcheck] != 0:
-        ppltoroles[tempcheck] = 1 #change this to test
+        ppltoroles[tempcheck] = 3 #change this to test
     else:
         for i in range(len(ppltoroles)):  # assigns murder to first perosn availible
             if i != tempcheck:
-                ppltoroles[i] = 1
+                ppltoroles[i] = 3
                 break
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     classes = initClasses(str(payload.message_id))
@@ -42,9 +42,9 @@ async def startGame(payload, client, ppl):
     arymsg = []
     for i in range(len(ppl[str(payload.message_id)])):
         arymsg.append(await client.get_user(int(ppl[str(payload.message_id)][i])).send(embed=emb))
-    for i in range(9):
+    for i in range(3):
         emb = await main.embedMake(title='Game starting in:',
-                                   desc=str(10 - (i + 1)),
+                                   desc=str(4 - (i + 1)),
                                    img='https://images-ext-2.discordapp.net/external/Wls1jDtGcUz3SaDbBd5_KHKTJ82Nem77ECA4Tx2Rz5g/https/media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                    footer='Tip: tip here')
@@ -56,19 +56,7 @@ async def startGame(payload, client, ppl):
 
 
 async def recursion(gamething, client):
-    await gamething.startLoop(client)
-
-
-async def day(classes, client):
-    for i in range(len(classes)):
-        await classes[i].Dayrole(client)
-    return True
-
-
-async def night(classes, client):
-    for i in range(len(classes)):
-        await classes[i].Nightrole(client)
-    return True
+    await gamething.startLoop(client, gamething)
 
 
 def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now
@@ -76,11 +64,11 @@ def initClasses(key):  # TODO limit to only making roles for one game i gtg eat 
         rolestuff = json.load(brr)
     with open("games.json", 'r') as brr:
         charac = json.load(brr)
-    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) + '({})' for i in
+    charlist = {i: "".join('character_classes.' + str(character_classes.Characters.roleList[i][0])) + '({}, {})' for i in
                 range(9)}
     listOfClasses = []
     for x in range(len(rolestuff[key])):
-        a = eval(str(charlist[rolestuff[key][x]]).format(charac[key][x]))
+        a = eval(str(charlist[rolestuff[key][x]]).format(charac[key][x], str(key)))
         listOfClasses.append(a)
     return listOfClasses
 
