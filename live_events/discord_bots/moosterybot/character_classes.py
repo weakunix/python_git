@@ -149,16 +149,38 @@ class Game:
         return
 
     async def day(self, client):
+        with open("roles.json", 'r') as brr:
+            role = json.load(brr)
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         for i in range(len(ppl[str(self.id)])):
+            emb = await main.embedMake(
+                title='Turns:',
+                desc='The ' + str(Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **day** turn!',
+                footer='it won\'t take that long... right?',
+                color=0x9900FF
+            )
+            for ier in range(len(ppl[str(self.id)])):
+                if ier != i:
+                    await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb)
             await self.kids[i].Dayrole(client)
 
     async def night(self, client):
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
+        with open("roles.json", 'r') as brr:
+            role = json.load(brr)
         try:
             for i in range(len(ppl[str(self.id)])):
+                emb = await main.embedMake(
+                    title='Turns:',
+                    desc='The ' + str(Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **night** turn!',
+                    footer='hurry up!!!!!',
+                    color=0x0000FF
+                )
+                for ier in range(len(ppl[str(self.id)])):
+                    if ier != i:
+                        await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb)
                 await self.kids[i].Nightrole(client, ppl[str(self.id)])
         except IndexError:
             return  # someone died and now the list is shorter. boo hoo, too bad so sad
@@ -255,21 +277,14 @@ class Characters:
         for i in range(len(games[str(self.gameId)])):
             if str(target) == games[str(self.gameId)][i]:
                 emb = await main.embedMake(
-                    title='You have been killed!',
-                    desc='Oof, you are now out of the game and will stop receiving notifications.',
+                    title=str(client.get_user(int(target)))+' has been killed!',
+                    desc='They are now out of the game and will stop recieving notifications!',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106585451200542/business_man.png',
-                    footer='',
+                    footer='gg',
                     color=0xFF0000
                 )
-                await client.get_user(int(target)).send(embed=emb)
-                emb = await main.embedMake(
-                    title='You have killed ' + str(client.get_user(int(target))),
-                    desc='Muahahahhahaha',
-                    thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106874187219064/pfp2.png',
-                    footer='Another one bites the rust',
-                    color=0xFF0000
-                )
-                await client.get_user(int(self.id)).send(embed=emb)
+                for b in range(len(games[str(self.gameId)])):
+                    await client.get_user(int(games[str(self.gameId)][b])).send(embed=emb)
                 games[str(self.gameId)].pop(i)
                 role[str(self.gameId)].pop(i)
                 self.father.kids.pop(i)
@@ -543,7 +558,7 @@ class hacker(Characters):
         # self.number = 2
 
     def Passive(self):
-        pass
+        pass #already defined
 
     async def Dayrole(self, client):
         pass
