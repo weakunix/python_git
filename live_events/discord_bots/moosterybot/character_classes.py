@@ -417,7 +417,10 @@ class murder(Characters):
             color=0x0000FF
         )
         for i in range(len(ppl)):
-            emb.add_field(name=reactions[i], value=client.get_user(int(ppl[i])), inline=False)
+            if str(ppl[i]) != str(self.id):
+                emb.add_field(name=reactions[i], value=client.get_user(int(ppl[i])), inline=False)
+            else:
+                emb.add_field(name='💠', value="Yourself", inline=False)
         a = await client.get_user(int(self.id)).send(embed=emb)
         for i in range(len(ppl)):
             if str(ppl[i]) != str(self.id):
@@ -479,6 +482,7 @@ class murder(Characters):
                                             self.father.log.append("Attempted Murder! At " + str(
                                                 client.get_user(int(playerid))) + "'s house!\n The hunter must strike "
                                                                                   "back!")
+                                            await self.father.kids[i].revenge(client, ppl)
                                         for ii in range(len(ppl)):
                                             emb = await main.embedMake(
                                                 title='Attention!',
@@ -699,6 +703,51 @@ class hunter(Characters):
     async def Nightrole(self, client, ppl):
         # return person
         pass
+
+    async def revenge(self, client, ppl):
+        reactions = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🅰️', '🅱️', '🇨']
+        emb = await main.embedMake(
+            title='Choose your person to avenge to!',
+            desc='React numbers 1-10 (and A-Z if applicable) that correspond to the user and their id.',
+            thumbnail='https://media.discordapp.net/attachments/663150753946402820/749998056048558123/costume11_1.png',
+            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))',
+            color=0x0000FF
+        )
+        for i in range(len(ppl)):
+            if str(ppl[i]) != str(self.id):
+                emb.add_field(name=reactions[i], value=client.get_user(int(ppl[i])), inline=False)
+            else:
+                emb.add_field(name='💠', value="Yourself", inline=False)
+        a = await client.get_user(int(self.id)).send(embed=emb)
+        for i in range(len(ppl)):
+            if str(ppl[i]) != str(self.id):
+                await a.add_reaction(reactions[i])
+            else:
+                await a.add_reaction('💠')
+        await asyncio.sleep(1)
+        stufff = await self.buyFromShop(client)
+        if type(stufff) != tuple:
+            emb = await main.embedMake(
+                title='Offer Timed Out',
+                desc='Your last chance down the drain!!!',
+                thumbnail='',
+                color=0xFFFFFF
+            )
+            await a.edit(embed=emb)
+            await self.die(client, self.id)
+        else:
+            for i in range(len(ppl)):
+                if str(stufff[0]) == str(reactions[i]):
+                    playerid = str(ppl[i])
+                    emb = await main.embedMake(
+                        title='You have been targeted by the **Hunter** to avenge!',
+                        desc='Sorry if you were innocent',
+                        thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
+                        color=0xFF0000
+                    )
+                    await client.get_user(int(playerid)).send(embed=emb)
+                    await self.die(client, playerid)
+                    await self.die(client, self.id)
 
 
 class workhorse_dad(Characters):
