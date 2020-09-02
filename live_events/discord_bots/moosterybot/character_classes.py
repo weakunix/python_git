@@ -176,7 +176,16 @@ class Characters:
         ["witch", "Medicate and protect the city!"],
         ["workhorse_dad", "Stall and distract v2!"]
     ]
-
+    excuses = [
+        "food",
+        "milk",
+        "idoine",
+        "cheesesteak",
+        "bing",
+        "lab",
+        "witchcraft",
+        "ancient chinese medicine"
+    ]
     def __init__(self, playerid, gameid, number):
         self.isAlive = True
         self.isTrapped = False
@@ -257,7 +266,7 @@ class Characters:
                     title='You have killed ' + str(client.get_user(int(target))),
                     desc='Muahahahhahaha',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106874187219064/pfp2.png',
-                    footer='',
+                    footer='Another one bites the rust',
                     color=0xFF0000
                 )
                 await client.get_user(int(self.id)).send(embed=emb)
@@ -269,6 +278,19 @@ class Characters:
                 json.dump(games, out_file, indent=4)
                 out_file.close()
                 break
+
+    async def hackerPassive(self, client, text, personid):
+        with open("roles.json", 'r') as brr:
+            roles = json.load(brr)
+        for i in range(len(roles[str(self.gameId)])):
+            if 2 == roles[str(self.gameId)][i]:
+                if random.randint(0, 20) < 20:
+                    emb = await main.embedMake(
+                        title='Activity at the market! (Your passive)',
+                        desc='`' + str(client.get_user(personid)) + ' Has bought ' + str(text) + '`',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
+                        footer='Nice code! You\'ve hacked them!')
+                    await client.get_user(int(self.father.players[i])).send(embed=emb)
 
 
 class murder(Characters):
@@ -324,6 +346,7 @@ class murder(Characters):
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
                     await emoji.edit(embed=emb)
+                    await self.hackerPassive(client, str(weaponNames[weaponIndex][0]), self.id)
                 else:
                     emb = await main.embedMake(
                         title='Deal Ignored!',
@@ -568,6 +591,7 @@ class scientist(Characters):
                         desc='You have bought upgrade!' + '\n Now your tier:`' + str(self.tier) + '`',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
+                    await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)], self.id)
                     await emoji.edit(embed=emb)
                 else:
                     emb = await main.embedMake(
@@ -622,6 +646,8 @@ class witch(Characters):
                         footer='Nice!',
                         color=0xCBFB3A
                     )
+                    await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)],
+                                             self.id)
                     await emoji.edit(embed=emb)
                 else:
                     emb = await main.embedMake(
@@ -652,6 +678,7 @@ class hunter(Characters):
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='You can go hunt tonight!'
         )
+        await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)], self.id)
         await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client, ppl):
@@ -700,6 +727,7 @@ class overprotective_mom(Characters):
             footer='Time to get someone to sleep early!!!!!',
             color=0x0000FF
         )
+        await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)], self.id)
         await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client, ppl):

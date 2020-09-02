@@ -20,11 +20,11 @@ async def startGame(payload, client, ppl):
     ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
     if ppltoroles[tempcheck] != 0:
-        ppltoroles[tempcheck] = 3 #change this to test
+        ppltoroles[tempcheck] = 1 #change this to test
     else:
         for i in range(len(ppltoroles)):  # assigns murder to first perosn availible
             if i != tempcheck:
-                ppltoroles[i] = 3
+                ppltoroles[i] = 1
                 break
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     classes = initClasses(str(payload.message_id))
