@@ -134,7 +134,9 @@ class Game:
                     title='Role Claim!',
                     thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
                     desc='Hopefully they are truthful...',
-                    footer='interesting...')
+                    footer='interesting...',
+                    color=0xFFFF00
+                )
                 for b in range(len(ppl[str(self.id)])):
                     await client.get_user(int(ppl[str(self.id)][b])).send(embed=emb)
 
@@ -158,8 +160,8 @@ class Game:
         try:
             for i in range(len(ppl[str(self.id)])):
                 await self.kids[i].Nightrole(client, ppl[str(self.id)])
-        except:
-            pass  # someone died and now the list is shorter. boo hoo, too bad so sad
+        except IndexError:
+            return  # someone died and now the list is shorter. boo hoo, too bad so sad
 
 
 class Characters:
@@ -247,13 +249,17 @@ class Characters:
                     title='You have been killed!',
                     desc='Oof, you are now out of the game and will stop receiving notifications.',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106585451200542/business_man.png',
-                    footer='')
+                    footer='',
+                    color=0xFF0000
+                )
                 await client.get_user(int(target)).send(embed=emb)
                 emb = await main.embedMake(
                     title='You have killed ' + str(client.get_user(int(target))),
                     desc='Muahahahhahaha',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106874187219064/pfp2.png',
-                    footer='')
+                    footer='',
+                    color=0xFF0000
+                )
                 await client.get_user(int(self.id)).send(embed=emb)
                 games[str(self.gameId)].pop(i)
                 role[str(self.gameId)].pop(i)
@@ -268,7 +274,7 @@ class Characters:
 class murder(Characters):
     def __init__(self, playerid, gameid):
         super().__init__(playerid, gameid, 0)
-        self.killrate = random.uniform(80, 85)  # gets a boost up to 5%
+        self.killrate = random.randint(80, 85)  # gets a boost up to 5%
         self.isGun = False
         self.target = None
 
@@ -278,11 +284,11 @@ class murder(Characters):
     async def Dayrole(self, client):
         weaponNames = [  # name, isGun, damageSetter
             ["knife", False, 0],  # 80-85 (starting weapon)
-            ["sword", False, random.uniform(85, 87)],  # 85-87
-            ["pistol", True, random.uniform(87, 92)],  # 87
-            ["machine gun", True, random.uniform(92, 95)],  # 95%
-            ["Pineapple", False, random.uniform(91, 95)],  # does atleast 91% - 95 damage because it is spikey
-            ["Duster", False, random.uniform(0, 100)],  # does ???% damamge depending on if the person is ticklish
+            ["sword", False, random.randint(85, 87)],  # 85-87
+            ["pistol", True, random.randint(87, 92)],  # 87
+            ["machine gun", True, random.randint(92, 95)],  # 95%
+            ["Pineapple", False, random.randint(91, 95)],  # does atleast 91% - 95 damage because it is spikey
+            ["Duster", False, random.randint(0, 100)],  # does ???% damamge depending on if the person is ticklish
             ["Burrito", False, 99],  # does 99% damage
             ["Philly Cheesesteak", False, 100]
 
@@ -291,7 +297,7 @@ class murder(Characters):
         emb = await main.embedMake(
             title='Offer From Market (expires in 30s)',
             desc='It may be a catfish... \n Weapon name\n`' + str(
-                weaponNames[weaponIndex][0]) + '`\n Weapon DMG\n`' + str(weaponNames[weaponIndex][2]) + '`',
+                weaponNames[weaponIndex][0]) + '`\n Weapon Successrate\n`' + str(weaponNames[weaponIndex][2]) + '%`',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
             footer='This will boost your kill chances! If you react anything other than shop or x, itll be defaulted to x')
         emoji = await client.get_user(int(self.id)).send(embed=emb)
@@ -333,7 +339,9 @@ class murder(Characters):
             desc='You can kill or blackmail someone. \n Choose the ✉️ to *blackmail* or 🗡️ to **KILL** or ⏩ to skip\n Your kill '
                  'chances `' + str(self.killrate) + '%`',
             thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
-            footer='If you react anything besides knife it is default to skip (just so you know)')
+            footer='If you react anything besides knife it is default to skip (just so you know)',
+            color=0x0000FF
+        )
         a = await client.get_user(self.id).send(embed=emb)
         await a.add_reaction('✉️')
         await a.add_reaction('🗡️')
@@ -357,7 +365,9 @@ class murder(Characters):
                 emb = await main.embedMake(
                     title='No Naughty Things Tonight!',
                     desc='"I\'m innocent... right?"',
-                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png')
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png',
+                    color=0x0000FF
+                )
                 await a.edit(embed=emb)
                 return
         reactions = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '🅰️', '🅱️', '🇨']
@@ -365,7 +375,9 @@ class murder(Characters):
             title='Choose your target!',
             desc='React numbers 1-10 (and A-Z if applicable) that correspond to the user and their id.',
             thumbnail='https://media.discordapp.net/attachments/663150753946402820/749998056048558123/costume11_1.png',
-            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))')
+            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))',
+            color=0x0000FF
+        )
         for i in range(len(ppl)):
             emb.add_field(name=reactions[i], value=client.get_user(int(ppl[i])), inline=False)
         a = await client.get_user(int(self.id)).send(embed=emb)
@@ -380,7 +392,9 @@ class murder(Characters):
             emb = await main.embedMake(
                 title='Offer Timed Out',
                 desc='No extra info',
-                thumbnail='')
+                thumbnail='',
+                color=0xFFFFFF
+            )
             await a.edit(embed=emb)
             return
         else:
@@ -388,7 +402,7 @@ class murder(Characters):
                 if str(stufff[0]) == str(reactions[i]):
                     playerid = str(ppl[i])
                     if kill:
-                        if random.uniform(0, 100) <= self.killrate:
+                        if random.randint(0, 100) <= int(self.killrate):
                             with open("roles.json", 'r') as brr:
                                 roles = json.load(brr)
                             if roles[str(self.gameId)][i] == 3 or \
@@ -397,48 +411,58 @@ class murder(Characters):
                                     title='You have been targeted by the **Murder**.',
                                     desc='If you do nothing, you **will die**',
                                     thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
-                                    footer='Use your realiation role right now and react below! ```\n ⚔️: Fight Back \n 💀️:Accept death ```(if you are helpless then o well sorry ;( )')
+                                    footer='Use your realiation role right now and react below! ```\n ⚔️: Fight Back \n 💀️:Accept death ```(if you are helpless then o well sorry ;( )',
+                                    color=0xFF0000
+                                )
                                 retaliation = await client.get_user(int(playerid)).send(embed=emb)
                                 await retaliation.add_reaction("⚔️")
-                                await retaliation.add_reaction("💀️")
+                                await retaliation.add_reaction("💀")
                                 await asyncio.sleep(1)
                                 reactionstuff = await self.buyFromShop(client)
                                 if type(reactionstuff) != tuple:
                                     emb = await main.embedMake(
                                         title='Offer Timed Out',
                                         desc='This was your last chance ;(',
+                                        color=0xFF0000
                                     )
-                                    await a.edit(embed=emb)
+                                    await retaliation.edit(embed=emb)
                                     return
                                 else:
                                     if str(reactionstuff[0]) == "⚔️":
                                         if roles[str(self.gameId)][i] == 4:
                                             self.father.log.append("Attempted Murder! At " + str(client.get_user(int(
-                                                playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO BRIBE HIS WAY OUT!**")
+                                                playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO "
+                                                              "BRIBE HIS WAY OUT!**")
                                         elif roles[str(self.gameId)][i] == 5 and self.isGun:
                                             self.father.log.append("Attempted Murder! At " + str(
-                                                client.get_user(int(playerid))) + "'s house!\n")
+                                                client.get_user(int(playerid))) + "'s house!\n She was overprotective "
+                                                                                  "and used her pan!")
                                         elif roles[str(self.gameId)][i] == 3:
-                                            pass
-                                        for ii in range(len(ppl)):
                                             self.father.log.append("Attempted Murder! At " + str(
-                                                client.get_user(int(playerid))) + "'s house!\n")
+                                                client.get_user(int(playerid))) + "'s house!\n The hunter must strike "
+                                                                                  "back!")
+                                        for ii in range(len(ppl)):
                                             emb = await main.embedMake(
                                                 title='Attention!',
                                                 desc=str(self.father.log[len(self.father.log) - 1]),
+                                                color=0x990000,
                                                 # thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png'
                                             )
                                             if ppl[ii] != str(self.id): await client.get_user(int(ppl[ii])).send(embed=emb)  # dont send to murder
                                         emb = await main.embedMake(
                                             title='Mission Failed! We\'ll get \'em next time...',
                                             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749366041175523328/costume14.png',
-                                            footer='Your night turn is finished. Wait until day')
+                                            footer='Your night turn is finished. Wait until day',
+                                            color=0xFF0000
+                                        )
                                         await client.get_user(int(self.id)).send(embed=emb)  # sends to murder
-                                    return
+                                        return
                             emb = await main.embedMake(
                                 title='Action Successful. Waiting For response',
                                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749360612169089176/costume11.png',
-                                footer='Your night turn is finished. Wait until day to see the results.')
+                                footer='Your night turn is finished. Wait until day to see the results.',
+                                color=0xCBFB3A
+                            )
                             await client.get_user(int(self.id)).send(embed=emb)
                             await self.die(client, playerid)
                         else:
@@ -448,20 +472,26 @@ class murder(Characters):
                                      '(buy an upgrade when prompted from the market to increase your kill chances. \n chances '
                                      ':' + str(self.killrate) + '% to kill',
                                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749366041175523328/costume14.png',
-                                footer='Your night turn is finished. Wait until day to get a better weapon.')
+                                footer='Your night turn is finished. Wait until day to get a better weapon.',
+                                color=0xFF0000
+                            )
                             await client.get_user(int(self.id)).send(embed=emb)
                     else:
                         emb = await main.embedMake(
                             title='You have been *blackmained* by the **Murder**.',
                             desc='If you do nothing, you **will be forced to do what he messages!**',
                             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749358743191421019/costume10.png',
-                            footer='If you have a retaliation role, use it right now!')
+                            footer='If you have a retaliation role, use it right now!',
+                            color=0xFF0000
+                        )
                         await client.get_user(int(playerid)).send(embed=emb)
                         emb = await main.embedMake(
                             title='Action Successful. Waiting For Response',
                             desc='Hopefully it ain\'t the hacker :yikes:',
                             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749358743191421019/costume10.png',
-                            footer='Your night turn is finished. Wait until day to see the results.')
+                            footer='Your night turn is finished. Wait until day to see the results.',
+                            color=0xCBFB3A
+                        )
                         await client.get_user(int(self.id)).send(embed=emb)
                     break
         # kills the target
@@ -589,7 +619,9 @@ class witch(Characters):
                         desc='You have bought upgrade!' + '\n Now your witch has:`' + str(
                             self.materials) + '/2 materials for a save`',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
-                        footer='Nice!')
+                        footer='Nice!',
+                        color=0xCBFB3A
+                    )
                     await emoji.edit(embed=emb)
                 else:
                     emb = await main.embedMake(
@@ -618,7 +650,8 @@ class hunter(Characters):
             title='Offer From Market',
             desc='You have bought hunting materials (this is automatic)',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
-            footer='You can go hunt tonight!')
+            footer='You can go hunt tonight!'
+        )
         await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client, ppl):
@@ -664,7 +697,9 @@ class overprotective_mom(Characters):
             title='Offer From Market',
             desc='You have bought groceries (and sleeping medicine)',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
-            footer='Time to get someone to sleep early!!!!!')
+            footer='Time to get someone to sleep early!!!!!',
+            color=0x0000FF
+        )
         await client.get_user(int(self.id)).send(embed=emb)
 
     async def Nightrole(self, client, ppl):

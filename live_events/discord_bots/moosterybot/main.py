@@ -541,6 +541,8 @@ async def isOther(message):  # help and other stuff
                                      client.get_user(605125493120827413)) + '`'],
                                  ["Special Thanks To", '`' + str(client.get_user(333398956958810114)) + "` and `" + str(
                                      client.get_user(149491899240153088)) + '` for letting me "borrow" ideas'],
+                                 ["Discord Invite Link:", "https://discord.gg/k2nE2u4"],
+                                 ["Repo (live_events/discord_bots/moosterybot):", "https://github.com/weakunix/python_git"],
                                  title="About Murder Moostery",
                                  img='https://media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
                                  desc="The game inspired by Town of Salem",
@@ -605,6 +607,44 @@ async def isinGame(message):
                 footer='what a bummer.'
             )
             await message.author.send(embed=emb)
+    elif message.content.startswith(prefix + inGameCmd[1][0]):
+        idAndMsg = getMsg(len(prefix) + len(inGameCmd[1][0]) + 1, message.content, True).split()
+        if len(idAndMsg) == 1:
+            emb = await embedMake(
+                title="Invalid Command!",
+                desc="Format: `-moostery pm [player ID] [message]`"
+            )
+            await message.author.send(embed=emb)
+            return
+        else:
+            with open("games.json", 'r') as brr:
+                activegames = json.load(brr)
+            for i in range(len(list(activegames.values()))):
+                if str(idAndMsg[0]) in list(activegames.values())[i]:
+                    if str(message.author.id) in list(activegames.values())[i]:
+                        a = []
+                        for ii in range(1, len(idAndMsg)):
+                            a.append(idAndMsg[ii])
+                        a = " ".join(a)
+                        emb = await embedMake(
+                            title="Ahem! You've Got Mail! From Anonymous Person!",
+                            desc='`'+str(a)+'`',
+                            footer="blackmail happens sometimes.",
+                            thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
+                        )
+                        await client.get_user(int(idAndMsg[0])).send(embed=emb)
+                    else:
+                        emb = await embedMake(
+                            title="Invalid Command!",
+                            desc="Target not in **your** game!"
+                        )
+                        await message.author.send(embed=emb)
+                else:
+                    emb = await embedMake(
+                        title="Invalid Command!",
+                        desc="Target not in game!"
+                    )
+                    await message.author.send(embed=emb)
 
 
 @client.event
