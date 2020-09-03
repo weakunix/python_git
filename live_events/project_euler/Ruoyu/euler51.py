@@ -10,6 +10,8 @@ is_prime = True
 family = False #which family is it in
 orders = [] #possible family orders
 counted = [] #families that have been recorded
+import datetime as dt
+start = dt.datetime.now()
 
 ##check if number is in family
 def in_family(x, y):
@@ -36,14 +38,13 @@ def in_family(x, y):
             return False
     return int(('0b' + order), 2)
 
-
 #testing every prime number to see if there are 8 in one family
 while True:
     digits += 1
     test_primes = []
     #adding primes
     for i in range(10 ** (digits - 1), 10 ** digits):
-        print(i)
+        print(f'\033[0;36;1m{i}')
         is_prime = True
         for k in primes:
             if k > int(np.sqrt(i)):
@@ -55,12 +56,12 @@ while True:
             primes.append(i)
             test_primes.append(i)
     for i in test_primes:
-        print(i)
+        print(f'\033[0;33;1m{i}')
         orders = [1 for _ in range(2 ** digits)]
         for j in test_primes:
             if i != j: 
-                family = in_family(i, j) #TODO ADD COUNTED LIST SO WHEN X IS IN THE SAME FAMILY AS Y THEY GET ADDED TO A LIST (ACCORDING TO BINARY) IN THE FORMAT FOR EXAMPLE [[], [[X, Y][ASDFJAS, ASDFADSF]], [[ASDFAFS, ASDFAF]], ETC.]
+                family = in_family(i, j) 
                 if family:
                     orders[family] += 1
             if 8 in orders:
-                raise SystemExit(f'{i} is the smallest prime that is part of an 8 prime value family by replacing part of the number')
+                raise SystemExit(f'{i} is the smallest prime that is part of an 8 prime value family by replacing part of the number\n{(dt.datetime.now() - start).total_seconds()}')
