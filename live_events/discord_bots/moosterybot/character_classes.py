@@ -25,11 +25,15 @@ class Game:
         '''
 
     async def startLoop(self, client, classtobind):
+        with open("roles.json", "r") as brr:
+            roles = json.load(brr)
         for i in range(len(self.kids)):
             self.kids[i].binding(classtobind)
+        await self.claiming(client)
+        for i in range(len(roles[str(self.id)])):
+            if roles[str(self.id)][i] == 1:
+                await self.kids[i].Passive(client)  # detective
         while True:
-            if self.date == 1:
-                await self.claiming(client)
             # await self.events(client)
             await self.voting(client)
             await self.day(client)
@@ -37,7 +41,9 @@ class Game:
             if self.checkIfStop():
                 with open("games.json", 'r') as brr:
                     ppl = json.load(brr)
-                await client.get_user(int(ppl[self.id][0])).send("You Win!!")
+                for i in range(len(ppl[str(self.id)])):
+                    await client.get_user(int(ppl[self.id][i])).send(
+                        "You Win!!! (if the murder kills everyone or you killed the murder!)")
                 ppl.pop(str(self.id))
                 return
             self.date += 1
@@ -45,7 +51,9 @@ class Game:
     def checkIfStop(self):
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
-        return True if len(ppl[self.id]) == 1 else False
+        with open("roles.json", "r") as brr:
+            roles = json.load(brr)
+        return True if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id] else False
 
     async def claiming(self, client):
         with open("games.json", 'r') as brr:
@@ -156,7 +164,8 @@ class Game:
         for i in range(len(ppl[str(self.id)])):
             emb = await main.embedMake(
                 title='Turns:',
-                desc='The ' + str(Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **day** turn!',
+                desc='The ' + str(
+                    Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **day** turn!',
                 footer='it won\'t take that long... right?',
                 color=0x9900FF
             )
@@ -174,7 +183,8 @@ class Game:
             for i in range(len(ppl[str(self.id)])):
                 emb = await main.embedMake(
                     title='Turns:',
-                    desc='The ' + str(Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **night** turn!',
+                    desc='The ' + str(
+                        Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **night** turn!',
                     footer='hurry up!!!!!',
                     color=0x0000FF
                 )
@@ -208,6 +218,7 @@ class Characters:
         "witchcraft",
         "ancient chinese medicine"
     ]
+
     def __init__(self, playerid, gameid, number):
         self.isAlive = True
         self.isTrapped = False
@@ -277,7 +288,7 @@ class Characters:
         for i in range(len(games[str(self.gameId)])):
             if str(target) == games[str(self.gameId)][i]:
                 emb = await main.embedMake(
-                    title=str(client.get_user(int(target)))+' has been killed!',
+                    title=str(client.get_user(int(target))) + ' has been killed!',
                     desc='They are now out of the game and will stop recieving notifications!',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106585451200542/business_man.png',
                     footer='gg',
@@ -490,7 +501,8 @@ class murder(Characters):
                                                 color=0x990000,
                                                 # thumbnail='https://media.discordapp.net/attachments/747159474753503343/750048572707176509/costume15.png'
                                             )
-                                            if ppl[ii] != str(self.id): await client.get_user(int(ppl[ii])).send(embed=emb)  # dont send to murder
+                                            if ppl[ii] != str(self.id): await client.get_user(int(ppl[ii])).send(
+                                                embed=emb)  # dont send to murder
                                         emb = await main.embedMake(
                                             title='Mission Failed! We\'ll get \'em next time...',
                                             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749366041175523328/costume14.png',
@@ -545,8 +557,33 @@ class detective(Characters):
         super().__init__(playerid, gameid, 1)
         # self.number = 1
 
-    def Passive(self):
-        pass
+    async def Passive(self, client):
+        with open("roles.json", 'r') as brr:
+            roles = json.load(brr)
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        murderNeighbors = []
+        a = random.randint(0, 2)
+        for i in range(3):
+            if i == a:
+                for ii in range(len(roles[str(self.gameId)])):
+                    if roles[str(self.gameId)][ii] == 0:
+                        try:
+                            murderNeighbors.append(str(client.get_user(int(ppl[str(self.gameId)][ii + 1]))))
+                        except IndexError:
+                            murderNeighbors.append(str(client.get_user(int(ppl[str(self.gameId)][ii - 1]))))
+                        break
+            else:
+                murderNeighbors.append(str(client.get_user(int(ppl[str(self.gameId)][random.randint(0, len(ppl[str(self.gameId)]) - 1)]))))
+        murderNeighbors = "\n".join(murderNeighbors)
+        emb = await main.embedMake(
+            title='The Suspects!',
+            desc=murderNeighbors,
+            thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+            footer='Hmm, Eeny, meeny, miny, moe...',
+            color=0xCBFB3A
+        )
+        await client.get_user(int(self.id)).send(embed=emb)
 
     async def Dayrole(self, client):
         pass
@@ -561,8 +598,7 @@ class hacker(Characters):
         super().__init__(playerid, gameid, 2)
         # self.number = 2
 
-    def Passive(self):
-        pass #already defined
+    #passive already defined
 
     async def Dayrole(self, client):
         pass
@@ -610,7 +646,8 @@ class scientist(Characters):
                         desc='You have bought upgrade!' + '\n Now your tier:`' + str(self.tier) + '`',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png',
                         footer='Nice!')
-                    await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)], self.id)
+                    await self.hackerPassive(client, Characters.excuses[random.randint(0, len(Characters.excuses) - 1)],
+                                             self.id)
                     await emoji.edit(embed=emb)
                 else:
                     emb = await main.embedMake(
@@ -710,7 +747,7 @@ class hunter(Characters):
             title='Choose your person to avenge to!',
             desc='React numbers 1-10 (and A-Z if applicable) that correspond to the user and their id.',
             thumbnail='https://media.discordapp.net/attachments/663150753946402820/749998056048558123/costume11_1.png',
-            footer='Hmm i think that number -static- looks very like the detective... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))',
+            footer='Hmm i think that number -static- looks very like the murder... (note: 💠 is your place in the alpha-numeric code, and you can click on it to cancel your action (but will cost a turn))',
             color=0x0000FF
         )
         for i in range(len(ppl)):
@@ -737,7 +774,7 @@ class hunter(Characters):
             await self.die(client, self.id)
         else:
             for i in range(len(ppl)):
-                if str(stufff[0]) == str(reactions[i]):
+                if str(stufff[0]) == str(reactions[i]) and str(reactions[i]) != "💠":
                     playerid = str(ppl[i])
                     emb = await main.embedMake(
                         title='You have been targeted by the **Hunter** to avenge!',
@@ -747,6 +784,8 @@ class hunter(Characters):
                     )
                     await client.get_user(int(playerid)).send(embed=emb)
                     await self.die(client, playerid)
+                    await self.die(client, self.id)
+                else:
                     await self.die(client, self.id)
 
 

@@ -620,19 +620,42 @@ async def isinGame(message):
             with open("games.json", 'r') as brr:
                 activegames = json.load(brr)
             for i in range(len(list(activegames.values()))):
-                if str(idAndMsg[0]) in list(activegames.values())[i]:
+                if str(idAndMsg[0]) in list(activegames.values())[i] or str(idAndMsg[0]) == "all":
                     if str(message.author.id) in list(activegames.values())[i]:
                         a = []
                         for ii in range(1, len(idAndMsg)):
                             a.append(idAndMsg[ii])
                         a = " ".join(a)
                         emb = await embedMake(
-                            title="Ahem! You've Got Mail! From Anonymous Person!",
-                            desc='`'+str(a)+'`',
+                            title="Ahem! You've Got Mail! From Anonymous Person in your game!",
+                            desc='`' + str(a) + '`',
                             footer="blackmail happens sometimes.",
                             thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
                         )
-                        await client.get_user(int(idAndMsg[0])).send(embed=emb)
+                        if str(idAndMsg[0]) != "all":
+                            emb2 = await embedMake(
+                                title="Message Sent!",
+                                desc='Sent `'+str(a)+'`\nTo: `'+str(client.get_user(int(idAndMsg[0])))+'`',
+                                thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
+                            )
+                        else:
+                            emb2 = await embedMake(
+                                title="Message Sent!",
+                                desc='Sent `'+str(a)+'`\nTo: `@everyone`',
+                                thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
+                            )
+                        if str(idAndMsg[0]) != "all":
+                            await client.get_user(int(idAndMsg[0])).send(embed=emb)
+                            await client.get_user(int(message.author.id)).send(embed=emb2)
+                        else:
+                            print(list(activegames.values()))
+                            print(list(activegames.values())[i])
+                            for eye in list(activegames.values())[i]:
+                                if str(eye) != str(message.author.id):
+                                    await client.get_user(int(eye)).send(embed=emb)
+                                else:
+                                    await client.get_user(int(eye)).send(embed=emb2)
+                        break
                     else:
                         emb = await embedMake(
                             title="Invalid Command!",
