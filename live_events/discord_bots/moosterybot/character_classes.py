@@ -34,18 +34,20 @@ class Game:
             if roles[str(self.id)][i] == 1:
                 await self.kids[i].Passive(client)  # detective
         while True:
-            # await self.events(client)
-            await self.voting(client)
-            await self.day(client)
-            await self.night(client)
             if self.checkIfStop():
                 with open("games.json", 'r') as brr:
                     ppl = json.load(brr)
                 for i in range(len(ppl[str(self.id)])):
                     await client.get_user(int(ppl[self.id][i])).send(
                         "You Win!!! (if the murder kills everyone or you killed the murder!)")
+                    await client.get_user(int(ppl[self.id][i])).send("game log"+str(''.join(self.log)))
                 ppl.pop(str(self.id))
+                out_file = open("games.json", "w")
+                json.dump(ppl, out_file, indent=4)
                 return
+            await self.voting(client)
+            await self.day(client)
+            await self.night(client)
             self.date += 1
 
     def checkIfStop(self):
@@ -100,7 +102,7 @@ class Game:
         def check(reaction, user):
             nonlocal claimed
             if str(user) not in claimed:
-                claimed.append(str(user))
+                #claimed.append(str(user))
                 return str(reaction.emoji), user
 
         while len(ppl[str(self.id)]) != len(claimed):  # make sure everyone has claimed
@@ -111,8 +113,22 @@ class Game:
                     title='Claim Timed Out',
                     desc='You were automatically claimed as Millionaire',
                     thumbnail='https://images-ext-1.discordapp.net/external/a73EwOYEEHydxTjLBJARbB4LBsi46-tKH_m0mbcOMtI/https/images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png?width=438&height=438')
-                for eye in range(len(ppl[str(self.id)])):
-                    await client.get_user(int(ppl[str(self.id)][eye])).send(embed=emb)
+                for eye in ppl[str(self.id)]:
+                    if eye not in claimed:
+                        user = client.get_user(int(eye))
+                        await client.get_user(int(eye)).send(embed=emb)
+                        emb = await main.embedMake(
+                            ['`' + str(user) + '` Claims that they are the ',
+                             '**Millionaire**'],
+                            title='Role Claim!',
+                            thumbnail='https://images-ext-1.discordapp.net/external/p3Ujz5sOddyXFf6T_F_59ae7c779w8ax47Epd9v2Wy0/https/images-ext-2.discordapp.net/external/BAeOdPzafgkr43ervKSOByd063AO0MeENKlda4_FHW0/https/media.discordapp.net/attachments/724362941792649287/747969861061312632/mat6.png',
+                            desc='Hopefully they are truthful...',
+                            footer='interesting...',
+                            color=0xFFFF00
+                        )
+                        claimed.append(str(user))
+                        for b in range(len(ppl[str(self.id)])):
+                            await client.get_user(int(ppl[str(self.id)][b])).send(embed=emb)
             else:
                 if str(reaction) == "🗡️":
                     role = "Murder"
@@ -145,6 +161,7 @@ class Game:
                     footer='interesting...',
                     color=0xFFFF00
                 )
+                claimed.append(str(user))
                 for b in range(len(ppl[str(self.id)])):
                     await client.get_user(int(ppl[str(self.id)][b])).send(embed=emb)
 

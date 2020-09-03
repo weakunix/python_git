@@ -648,8 +648,6 @@ async def isinGame(message):
                             await client.get_user(int(idAndMsg[0])).send(embed=emb)
                             await client.get_user(int(message.author.id)).send(embed=emb2)
                         else:
-                            print(list(activegames.values()))
-                            print(list(activegames.values())[i])
                             for eye in list(activegames.values())[i]:
                                 if str(eye) != str(message.author.id):
                                     await client.get_user(int(eye)).send(embed=emb)
