@@ -18,9 +18,10 @@ def is_prime(x):
 def is_perm(x, y):
     #import pdb;pdb.set_trace()
     nums = []
+    y = str(y)
     for i in str(x):
         nums.append(i)
-    for i in digits:
+    for i in y:
         if i not in nums:
             return False
         for k in range(len(nums)):
@@ -29,22 +30,23 @@ def is_perm(x, y):
                 break
     return True
 
-#testing all 4 digit numbers to see if they are maybe prime
-for i in range(1000, 10000):
-   if is_prime(i):
-       work.add(i)
+if __name__ == '__main__':
+    #testing all 4 digit numbers to see if they are maybe prime
+    for i in range(1000, 10000):
+       if is_prime(i):
+           work.add(i)
 
-#test for permutations
-for i in work:
-    permutations = []
-    digits = str(i)
-    for k in work:
-        if is_perm(k, digits):
-            permutations.append(k)
-    if len(permutations) >= 3 and 1487 not in permutations:
-        for a in permutations:
-            for b in permutations:
-                if b > a:
-                    if 2 * b - a in permutations:
-                        digits = str(a) + str(b) + str(2 * b - a)
-                        raise SystemExit(f'{digits}')
+    #test for permutations
+    for i in work:
+        permutations = []
+        digits = str(i)
+        for k in work:
+            if is_perm(k, digits):
+                permutations.append(k)
+        if len(permutations) >= 3 and 1487 not in permutations:
+            for a in permutations:
+                for b in permutations:
+                    if b > a:
+                        if 2 * b - a in permutations:
+                            digits = str(a) + str(b) + str(2 * b - a)
+                            raise SystemExit(f'{digits}')
