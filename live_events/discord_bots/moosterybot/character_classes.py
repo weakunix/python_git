@@ -55,7 +55,7 @@ class Game:
             ppl = json.load(brr)
         with open("roles.json", "r") as brr:
             roles = json.load(brr)
-        return True if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id] else False
+        return False # True if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id] else False
 
     async def claiming(self, client):
         with open("games.json", 'r') as brr:
@@ -306,9 +306,9 @@ class Characters:
             if str(target) == games[str(self.gameId)][i]:
                 emb = await main.embedMake(
                     title=str(client.get_user(int(target))) + ' has been killed!',
-                    desc='They are now out of the game and will stop recieving notifications!',
+                    desc='They were the **'+str(Characters.roleList[int(role[str(self.gameId)][i])][0])+'**',
                     thumbnail='https://media.discordapp.net/attachments/663150753946402820/750106585451200542/business_man.png',
-                    footer='gg',
+                    footer='another one bites the fuss',
                     color=0xFF0000
                 )
                 for b in range(len(games[str(self.gameId)])):
@@ -402,7 +402,7 @@ class murder(Characters):
     async def Nightrole(self, client, ppl):
         emb = await main.embedMake(
             title='Nighty night, who u gon kill tonight? (Blackmail/kill 15s)',
-            desc='You can kill or blackmail someone. \n Choose the ✉️ to *blackmail* or 🗡️ to **KILL** or ⏩ to skip\n Your kill '
+            desc='You can kill or blackmail someone. \n Choose the ✉️ to *blackmail* or 🗡️ to **KILL** or ❌ to skip\n Your kill '
                  'chances `' + str(self.killrate) + '%`',
             thumbnail='https://images-ext-2.discordapp.net/external/Gomb7LxVtut-EumV3HMa4s2S6lUVHLkEs6oSSW3aNyI/https/media.discordapp.net/attachments/747159474753503343/748632260680613919/murder_wins_1_1.png',
             footer='If you react anything besides knife it is default to skip (just so you know)',
@@ -411,7 +411,7 @@ class murder(Characters):
         a = await client.get_user(self.id).send(embed=emb)
         await a.add_reaction('✉️')
         await a.add_reaction('🗡️')
-        await a.add_reaction('⏩')
+        await a.add_reaction('❌')
         await asyncio.sleep(1)
         stuff = await self.buyFromShop(client)
         if type(stuff) != tuple:
@@ -500,7 +500,7 @@ class murder(Characters):
                                     if str(reactionstuff[0]) == "⚔️":
                                         if roles[str(self.gameId)][i] == 4:
                                             self.father.log.append("Attempted Murder! At " + str(client.get_user(int(
-                                                playerid))) + "'s house!\n **HE IS A MILLIONAIRE AND WAS ABLE TO "
+                                                playerid))) + "'s house!\n **THEY ARE A MILLIONAIRE AND WAS ABLE TO "
                                                               "BRIBE HIS WAY OUT!**")
                                         elif roles[str(self.gameId)][i] == 5 and self.isGun:
                                             self.father.log.append("Attempted Murder! At " + str(
@@ -550,7 +550,7 @@ class murder(Characters):
                     else:
                         emb = await main.embedMake(
                             title='You have been *blackmained* by the **Murder**.',
-                            desc='If you do nothing, you **will be forced to do what he messages!**',
+                            desc='If you do nothing, you **will be forced to do what they want!**',
                             thumbnail='https://media.discordapp.net/attachments/747159474753503343/749358743191421019/costume10.png',
                             footer='If you have a retaliation role, use it right now!',
                             color=0xFF0000
@@ -605,9 +605,79 @@ class detective(Characters):
     async def Dayrole(self, client):
         pass
 
-    async def Nightrole(self, client, ppl):
-        # return person
-        pass
+    async def Nightrole(self, client, unused):
+        with open("roles.json", 'r') as brr:
+            roles = json.load(brr)
+        with open("games.json", 'r') as brr:
+            ppl = json.load(brr)
+        if 6 in roles[str(self.gameId)]:
+            emb = await main.embedMake(
+                title='Do Something!',
+                desc='React with ✅ to work with scientist or ❌ to skip',
+                thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                footer='',
+                color=0xCBFB3A
+            )
+            emojis = await client.get_user(int(self.id)).send(embed=emb)
+            await emojis.add_reaction("✅")
+            await emojis.add_reaction("❌")
+            await asyncio.sleep(1)
+            reaction = await self.buyFromShop(client)
+            if type(reaction) != tuple:
+                emb = await main.embedMake(
+                    title='Do Nothing!',
+                    desc='You\'ve deserved a night off!',
+                    thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                    footer='',
+                    color=0xCBFB3A
+                )
+                await emojis.edit(embed=emb)
+                return
+            else:
+                if str(reaction[0]) == '✅':
+                    emb = await main.embedMake(
+                        title='Do Something!',
+                        desc='You doing investigations stuff',
+                        thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                        footer='',
+                        color=0xCBFB3A
+                    )
+                    await emojis.edit(embed=emb)
+                    emb = await main.embedMake(
+                        title='Collaberation',
+                        desc='The detective is asking to collaborate. Send your documents?',
+                        thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                        footer='',
+                        color=0xCBFB3A
+                    )
+                    for i in range(len(ppl[str(self.gameId)])):
+                        if roles[str(self.gameId)][i] == 6:
+                            sciemoji = await client.get_user(int(ppl[str(self.gameId)][i])).send(embed=emb)
+                            await sciemoji.add_reaction("✅")
+                            await sciemoji.add_reaction("❌")
+                            await asyncio.sleep(1)
+                            await self.father.kids[i].offerFromDetective(client, self.id, sciemoji)
+                            break
+                else:
+                    emb = await main.embedMake(
+                        title='Do Nothing!',
+                        desc='You\'ve deserved a night off!',
+                        thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                        footer='',
+                        color=0xCBFB3A
+                    )
+                    await emojis.edit(embed=emb)
+                    return
+        else:
+            emb = await main.embedMake(
+                title='There is no scientist!',
+                desc='There is no scientist in this game. So your night role is useless',
+                thumbnail='https://media.discordapp.net/attachments/747186165378973796/750904506149109861/costume17.png',
+                footer='Sorry ;(',
+                color=0xCBFB3A
+            )
+            await client.get_user(int(self.id)).send(embed=emb)
+            return
 
 
 class hacker(Characters):
@@ -628,6 +698,39 @@ class scientist(Characters):
     def __init__(self, playerid, gameid):
         super().__init__(playerid, gameid, 6)
         self.tier = 1
+
+    async def offerFromDetective(self, client, id, emoji):
+        reaction = await self.buyFromShop(client)
+        if type(reaction) != tuple:
+            emb = await main.embedMake(
+                title='Offer Timed Out',
+                desc='No extra info',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+            await emoji.edit(embed=emb)
+            emb = await main.embedMake(
+                title='Sorry',
+                desc='They refused to give evidence',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+            await client.get_user(int(id)).send(embed=emb)
+        else:
+            if str(reaction[0]) == '✅':
+                emb = await main.embedMake(
+                    title='Successfully sent!',
+                    desc='Evidence given',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+                await emoji.edit(embed=emb)
+                #send evidnece
+            else:
+                emb = await main.embedMake(
+                    title='Nothing given!',
+                    desc='They may be a fake. Never too paranoid!',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+                await emoji.edit(embed=emb)
+                emb = await main.embedMake(
+                    title='Sorry',
+                    desc='They refused to give evidence',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749363552225329152/costume13.png')
+                await client.get_user(int(id)).send(embed=emb)
 
     def Passive(self):
         pass
@@ -658,6 +761,7 @@ class scientist(Characters):
         else:
             if str(stuff[1]) == str(client.get_user(int(self.id))):
                 if str(stuff[0]) == "🛒":
+                    self.tier += 1
                     emb = await main.embedMake(
                         title='Successfully Bought!',
                         desc='You have bought upgrade!' + '\n Now your tier:`' + str(self.tier) + '`',

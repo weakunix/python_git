@@ -17,7 +17,7 @@ async def startGame(payload, client, ppl):
                                footer='The game will be played through DM\'s')
     await channel.send(embed=emb)
     ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(payload.message_id)]))]
-    ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
+    '''ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
     if ppltoroles[tempcheck] != 0:
         ppltoroles[tempcheck] = 1 #change this to test
@@ -25,7 +25,8 @@ async def startGame(payload, client, ppl):
         for i in range(len(ppltoroles)):  # assigns murder to first perosn availible
             if i != tempcheck:
                 ppltoroles[i] = 1
-                break
+                break'''
+    ppltoroles[0] = 1; ppltoroles[1] = 6 #debug line
     main.jason_it(str(payload.message_id), 'roles.json', ppltoroles)
     classes = initClasses(str(payload.message_id))
     for i in range(len(ppl[str(payload.message_id)])):

@@ -200,8 +200,8 @@ async def isFriend(message):
         target = target.replace("&", "")
         target = target.replace("!", "")
         try:
-            target = client.get_user(int(target))
-            if target is None:
+            a = client.get_user(int(target))
+            if a is None:
                 embedurbad = await embedMake(title='Friend Request - ERROR',
                                              desc='`Error! No person found by that alias! Check the ID again!`',
                                              footer='Bad ID!')
@@ -216,9 +216,9 @@ async def isFriend(message):
         with open("friend.json", 'r') as brr:
             friend = json.load(brr)
         if message.content.startswith(prefix + friendCmd[1][0]):
-            if str(target.id) not in friend[str(message.author.id)] and str(target.id) != str(
+            if str(a.id) not in friend[str(message.author.id)] and str(a.id) != str(
                     message.author.id):  # not self lol
-                embsent = await embedMake(["To:", '\n `' + str(target) + "`"], title='Friend Request',
+                embsent = await embedMake(["To:", '\n `' + str(a) + "`"], title='Friend Request',
                                           desc='Sent Friend Request ('
                                                'You will get dm if '
                                                'they accept)',
@@ -226,11 +226,68 @@ async def isFriend(message):
                 await message.author.send(embed=embsent)
                 emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request',
                                       desc='Pending Friend '
-                                           'Request (click "✅" to accept, ignore to ignore)',
+                                           'Request (click "✅" to accept, it will expire in 5 minutes)',
                                       footer='beware of strangers online!')
-                emoji = await target.send(embed=emb)
-                jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
+                emoji = await a.send(embed=emb)
+                #jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
                 await emoji.add_reaction("✅")
+                await asyncio.sleep(1)
+                def check(reaction, user):
+                    return str(reaction.emoji) and user
+                try:
+                    reaction, user = await client.wait_for('reaction_add', timeout=300.0, check=check)
+                except asyncio.TimeoutError:
+                    emb = await embedMake(
+                        ["This friend request has timed out.",
+                         "\n You can do '-moostery friend request @mention' to re-friend them`"],
+                        title='Request from '+str(client.get_user(int(idofdmtarget))),
+                        desc='Sorry!',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                        footer='Friend them back! You type the cmd rn in DM!'
+                    )
+                    await client.get_user(int(target)).send(embed=emb) #may bug
+                else:
+                    if str(reaction) == '✅':
+                        with open("friend.json", 'r') as brr:
+                            friend = json.load(brr)
+                        if str(idofdmtarget) in friend:
+                            friendo = friend[str(idofdmtarget)]
+                            arraynewfriend = []
+                            if type(friendo) != str:
+                                for i in range(len(friendo)):
+                                    arraynewfriend.append(friendo[i])
+                            else:
+                                arraynewfriend.append(friendo)
+                            arraynewfriend.append(str(target))
+                            jason_it(str(idofdmtarget), 'friend.json', arraynewfriend)
+                        else:
+                            jason_it(str(idofdmtarget), 'friend.json', str(target))
+                        if str(target) in friend:
+                            friendt = friend[str(target)]
+                            arraynewfriend = []
+                            if type(friendt) != str:
+                                for i in range(len(friendt)):
+                                    arraynewfriend.append(friendt[i])
+                            else:
+                                arraynewfriend.append(friendt)
+                            arraynewfriend.append(str(idofdmtarget))
+                            jason_it(str(target), 'friend.json', arraynewfriend)
+                        else:
+                            jason_it(str(target), 'friend.json', str(idofdmtarget))
+                        selfperson = client.get_user(int(target))
+                        tgt = client.get_user(int(idofdmtarget))
+                        emb = await embedMake(
+                            ["You are now friends with:", '\n `' + str(selfperson) + "`"],
+                            title='Friend Request Accepted!',
+                            desc='Congratulations! ',
+                            footer='I ship')
+                        await tgt.send(embed=emb)
+                        emb = await embedMake(
+                            ["You are now friends with:", '\n `' + str(tgt) + "`"],
+                            title='Friend Request Accepted!',
+                            desc='Congratulations! ',
+                            footer='I ship')
+                        await selfperson.send(embed=emb)
             else:
                 emb = await embedMake(
                     title='Friend Request - ERROR',
@@ -238,23 +295,24 @@ async def isFriend(message):
                     footer='and I ship still...')
                 await message.author.send(embed=emb)
         elif message.content.startswith(prefix + friendCmd[2][0]):
-            if str(target.id) in friend[str(message.author.id)] and str(target.id) != str(
+            if str(a.id) in friend[str(message.author.id)] and str(a.id) != str(
                     message.author.id):
                 for i in range(len(friend[str(message.author.id)])):
-                    if str(target.id) == friend[str(message.author.id)][i]:
+                    if str(a.id) == friend[str(message.author.id)][i]:
                         friend[str(message.author.id)].pop(i)
                         break
-                for i in range(len(friend[str(target.id)])):
-                    if str(message.author.id) == friend[str(target.id)][i]:
-                        friend[str(target.id)].pop(i)
+                for i in range(len(friend[str(a.id)])):
+                    if str(message.author.id) == friend[str(a.id)][i]:
+                        friend[str(a.id)].pop(i)
                         break
                 out_file = open("friend.json", "w")
                 json.dump(friend, out_file, indent=4)
                 out_file.close()
-                embsent = await embedMake(["Removed:", '\n `' + str(target) + "`"],
-                                          title='Friend Removed',
-                                          desc='You have removed this person from your friends list',
-                                          footer='dang, my ship for you two sank')
+                embsent = await embedMake(
+                    ["Removed:", '\n `' + str(a) + "`"],
+                    title='Friend Removed',
+                    desc='You have removed this person from your friends list',
+                    footer='dang, my ship for you two sank')
                 await message.author.send(embed=embsent)
             else:
                 emb = await embedMake(
@@ -299,157 +357,100 @@ async def isGame(message):
 async def on_raw_reaction_add(payload):
     if payload.user_id == client.user.id:
         return
-    if payload.guild_id is None and payload.emoji.name == "✅":  # in dm
-        with open("pending_requests.json", 'r') as brr:
-            acceptreq = json.load(brr)
-        if str(payload.message_id) in acceptreq:
-            target = acceptreq[str(payload.message_id)]
-            with open("friend.json", 'r') as brr:
-                friend = json.load(brr)
-            if str(target) in friend:
-                friendo = friend[str(target)]
-                arraynewfriend = []
-                if type(friendo) != str:
-                    for i in range(len(friendo)):
-                        arraynewfriend.append(friendo[i])
+
+    if payload.emoji.name == '🔒' or payload.emoji.name == '🔓':
+        with open("games.json", 'r') as brr:
+            activegames = json.load(brr)
+        if str(payload.message_id) in activegames:
+            if str(payload.user_id) == activegames[str(payload.message_id)]:
+                activegames.pop(str(payload.message_id))
+                out_file = open("games.json", "w")
+                json.dump(activegames, out_file, indent=4)
+                out_file.close()
+                if payload.emoji.name == '🔒':
+                    await makeGame(False, payload, False)
                 else:
-                    arraynewfriend.append(friendo)
-                arraynewfriend.append(str(payload.user_id))
-                jason_it(str(target), 'friend.json', arraynewfriend)
+                    await makeGame(True, payload, False)
             else:
-                jason_it(str(target), 'friend.json', str(payload.user_id))
-            if str(payload.user_id) in friend:
-                friendt = friend[str(payload.user_id)]
-                arraynewfriend = []
-                if type(friendt) != str:
-                    for i in range(len(friendt)):
-                        arraynewfriend.append(friendt[i])
-                else:
-                    arraynewfriend.append(friendt)
-                arraynewfriend.append(str(target))
-                jason_it(str(payload.user_id), 'friend.json', arraynewfriend)
-            else:
-                jason_it(str(payload.user_id), 'friend.json', str(target))
-            target = client.get_user(int(target))
-            selfperson = client.get_user(int(payload.user_id))
-            emb = await embedMake(
-                ["You are now friends with:", '\n `' + str(selfperson) + "`"],
-                title='Friend Request Accepted!',
-                desc='Congratulations! ',
-                footer='I ship')
-            await client.http.delete_message(payload.channel_id, payload.message_id)
-            await target.send(embed=emb)
-            emb = await embedMake(
-                ["You are now friends with:", '\n `' + str(target) + "`"],
-                title='Friend Request Accepted!',
-                desc='Congratulations! ',
-                footer='I ship')
-            await selfperson.send(embed=emb)
+                emb = await embedMake(
+                    title='Invalid Request',
+                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                    desc='Sorry! Only the host can access this!',
+                    footer='Host your own game and send invites to friends!')
+                await client.get_user(int(payload.user_id)).send(embed=emb)
         else:
-            selfperson = client.get_user(int(payload.user_id))
             emb = await embedMake(
-                ["This friend request has timed out.",
-                 "\n You can do '-moostery friend request @mention' to re-friend them`"],
+                ["This game has timed out.",
+                 "\n You can do '-moostery create' to host your own games!`"],
                 title='Invalid Request',
-                desc='Sorry!',
                 thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                footer='Friend them back! You type the cmd rn in DM!')
+                desc='Sorry!',
+                footer='Host your own game and send invites to friends!')
             await client.http.delete_message(payload.channel_id, payload.message_id)
-            await selfperson.send(embed=emb)
-    else:
-        if payload.emoji.name == '🔒' or payload.emoji.name == '🔓':
-            with open("games.json", 'r') as brr:
-                activegames = json.load(brr)
-            if str(payload.message_id) in activegames:
-                if str(payload.user_id) == activegames[str(payload.message_id)]:
-                    activegames.pop(str(payload.message_id))
-                    out_file = open("games.json", "w")
-                    json.dump(activegames, out_file, indent=4)
-                    out_file.close()
-                    if payload.emoji.name == '🔒':
-                        await makeGame(False, payload, False)
+            await client.get_user(int(payload.user_id)).send(embed=emb)
+    elif payload.emoji.name == '☑️' or payload.emoji.name == '❌' or payload.emoji.name == '🚪':
+        with open("games.json", 'r') as brr:
+            activegames = json.load(brr)
+        if str(payload.message_id) in activegames:
+            if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
+                    activegames[str(payload.message_id)]:  # if is host
+                if payload.emoji.name == '☑️':
+                    if len(activegames[str(payload.message_id)]) > 1 and type(
+                            activegames[str(payload.message_id)]) != str:
+                        await actual_game.startGame(payload, client, activegames)
                     else:
-                        await makeGame(True, payload, False)
+                        emb = await embedMake(
+                            ["You do not have enough people to start this game",
+                             "\n Invite your friends with this game code:`" + str(payload.message_id) + '`'],
+                            title='Invalid Request',
+                            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                            desc='Sorry!',
+                            footer='Host your own game and send invites to friends!')
+                        await client.get_user(int(payload.user_id)).send(embed=emb)
+                        return
+                elif payload.emoji.name == '❌':
+                    await actual_game.noGame(payload, client, prefix, activegames)
+            elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
+                gamestuff = activegames[str(payload.message_id)]
+                arraynewgames = []
+                if type(gamestuff) != str:
+                    for i in range(len(gamestuff)):
+                        arraynewgames.append(gamestuff[i])
                 else:
-                    emb = await embedMake(
-                        title='Invalid Request',
-                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                        desc='Sorry! Only the host can access this!',
-                        footer='Host your own game and send invites to friends!')
-                    await client.get_user(int(payload.user_id)).send(embed=emb)
-            else:
-                emb = await embedMake(
-                    ["This game has timed out.",
-                     "\n You can do '-moostery create' to host your own games!`"],
-                    title='Invalid Request',
-                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                    desc='Sorry!',
-                    footer='Host your own game and send invites to friends!')
-                await client.http.delete_message(payload.channel_id, payload.message_id)
+                    arraynewgames.append(gamestuff)
+                arraynewgames.append(str(payload.user_id))
+                jason_it(str(payload.message_id), 'games.json', arraynewgames)
+                await actual_game.joinGame(payload, client)
+                values = []
+                ara = []
+                if type(activegames[str(payload.message_id)]) != str:
+                    for i in range(len(activegames[str(payload.message_id)])):
+                        ara.append(activegames[str(payload.message_id)][i])
+                        values.append(str(client.get_user(int(activegames[str(payload.message_id)][i]))))
+                else:
+                    ara.append(activegames[str(payload.message_id)])
+                    values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
+                emb = await embedMake(['People sat at the table', 'Name and ID'],
+                                      title='Joined Game',
+                                      arraytoembdtt=ara,
+                                      thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                                      valuett=values,
+                                      desc='You have joined the table \n Host: ' + str(
+                                          client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
+                                          payload.message_id) + '`',
+                                      footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
+                                      )
                 await client.get_user(int(payload.user_id)).send(embed=emb)
-        elif payload.emoji.name == '☑️' or payload.emoji.name == '❌' or payload.emoji.name == '🚪':
-            with open("games.json", 'r') as brr:
-                activegames = json.load(brr)
-            if str(payload.message_id) in activegames:
-                if str(payload.user_id) == activegames[str(payload.message_id)][0] or str(payload.user_id) == \
-                        activegames[str(payload.message_id)]:  # if is host
-                    if payload.emoji.name == '☑️':
-                        if len(activegames[str(payload.message_id)]) > 1 and type(
-                                activegames[str(payload.message_id)]) != str:
-                            await actual_game.startGame(payload, client, activegames)
-                        else:
-                            emb = await embedMake(
-                                ["You do not have enough people to start this game",
-                                 "\n Invite your friends with this game code:`" + str(payload.message_id) + '`'],
-                                title='Invalid Request',
-                                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                                desc='Sorry!',
-                                footer='Host your own game and send invites to friends!')
-                            await client.get_user(int(payload.user_id)).send(embed=emb)
-                            return
-                    elif payload.emoji.name == '❌':
-                        await actual_game.noGame(payload, client, prefix, activegames)
-                elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
-                    gamestuff = activegames[str(payload.message_id)]
-                    arraynewgames = []
-                    if type(gamestuff) != str:
-                        for i in range(len(gamestuff)):
-                            arraynewgames.append(gamestuff[i])
-                    else:
-                        arraynewgames.append(gamestuff)
-                    arraynewgames.append(str(payload.user_id))
-                    jason_it(str(payload.message_id), 'games.json', arraynewgames)
-                    await actual_game.joinGame(payload, client)
-                    values = []
-                    ara = []
-                    if type(activegames[str(payload.message_id)]) != str:
-                        for i in range(len(activegames[str(payload.message_id)])):
-                            ara.append(activegames[str(payload.message_id)][i])
-                            values.append(str(client.get_user(int(activegames[str(payload.message_id)][i]))))
-                    else:
-                        ara.append(activegames[str(payload.message_id)])
-                        values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
-                    emb = await embedMake(['People sat at the table', 'Name and ID'],
-                                          title='Joined Game',
-                                          arraytoembdtt=ara,
-                                          thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                          valuett=values,
-                                          desc='You have joined the table \n Host: ' + str(
-                                              client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
-                                              payload.message_id) + '`',
-                                          footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
-                                          )
-                    await client.get_user(int(payload.user_id)).send(embed=emb)
-            else:
-                emb = await embedMake(
-                    ["This game has timed out.",
-                     "\n You can do '-moostery create' to host your own games!`"],
-                    title='Invalid Request',
-                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                    desc='Sorry!',
-                    footer='Host your own game and send invites to friends!')
-                await client.http.delete_message(payload.channel_id, payload.message_id)
-                await client.get_user(int(payload.user_id)).send(embed=emb)
+        else:
+            emb = await embedMake(
+                ["This game has timed out.",
+                 "\n You can do '-moostery create' to host your own games!`"],
+                title='Invalid Request',
+                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                desc='Sorry!',
+                footer='Host your own game and send invites to friends!')
+            await client.http.delete_message(payload.channel_id, payload.message_id)
+            await client.get_user(int(payload.user_id)).send(embed=emb)
 
 
 @client.event
