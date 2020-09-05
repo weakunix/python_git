@@ -346,7 +346,7 @@ async def isGame(message):
             await makeGame(True, message, True)
         else:
             personid = message.author.id
-            emb = await embedMake(["Game Creation:", "Click on the reaction to make a game"],
+            emb = await embedMake(["Game Creation:", "Click on the reaction to make a game (times out in 30 seconds)"],
                                   title='New Moorder Moostery Game!',
                                   thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                   desc='Find out who\'s the killer and stop them before its too late!',
@@ -354,7 +354,41 @@ async def isGame(message):
             emoji = await message.channel.send(embed=emb)
             await emoji.add_reaction('🔒')
             await emoji.add_reaction('🔓')
-            jason_it(str(emoji.id), 'games.json', str(personid))
+            await emoji.add_reaction('❌')
+            await asyncio.sleep(1)
+
+            def check(reaction, user):
+                return str(reaction.emoji) and user
+
+            while True:
+                try:
+                    reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+                except asyncio.TimeoutError:
+                    emb = await embedMake(
+                        title='The Game Has Timed Out',
+                        desc='This game has timed out!',
+                        thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                        footer='use `-moostery create` to make a new game'
+                    )
+                    await emoji.edit(embed=emb)
+                else:
+                    if str(user) == str(client.get_user(int(personid))):
+                        print(True)
+                        if str(reaction) == '🔒':
+                            await client.http.delete_message(emoji.channel.id, emoji.id)
+                            await makeGame(False, message, True)
+                        elif str(reaction) == '🔓':
+                            await client.http.delete_message(emoji.channel.id, emoji.id)
+                            await makeGame(True, message, True)
+                        else:
+                            emb = await embedMake(
+                                title='Cancelled!',
+                                desc='Game creation cancelled!',
+                                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                                footer='use `-moostery create` to make a new game'
+                            )
+                            await emoji.edit(embed=emb)
+                        break
 
 
 @client.event
@@ -362,37 +396,7 @@ async def on_raw_reaction_add(payload):
     if payload.user_id == client.user.id:
         return
 
-    if payload.emoji.name == '🔒' or payload.emoji.name == '🔓':
-        with open("games.json", 'r') as brr:
-            activegames = json.load(brr)
-        if str(payload.message_id) in activegames:
-            if str(payload.user_id) == activegames[str(payload.message_id)]:
-                activegames.pop(str(payload.message_id))
-                out_file = open("games.json", "w")
-                json.dump(activegames, out_file, indent=4)
-                out_file.close()
-                if payload.emoji.name == '🔒':
-                    await makeGame(False, payload, False)
-                else:
-                    await makeGame(True, payload, False)
-            else:
-                emb = await embedMake(
-                    title='Invalid Request',
-                    thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                    desc='Sorry! Only the host can access this!',
-                    footer='Host your own game and send invites to friends!')
-                await client.get_user(int(payload.user_id)).send(embed=emb)
-        else:
-            emb = await embedMake(
-                ["This game has timed out.",
-                 "\n You can do '-moostery create' to host your own games!`"],
-                title='Invalid Request',
-                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                desc='Sorry!',
-                footer='Host your own game and send invites to friends!')
-            await client.http.delete_message(payload.channel_id, payload.message_id)
-            await client.get_user(int(payload.user_id)).send(embed=emb)
-    elif payload.emoji.name == '☑️' or payload.emoji.name == '❌' or payload.emoji.name == '🚪':
+    if payload.emoji.name == '☑️' or payload.emoji.name == '❌' or payload.emoji.name == '🚪':
         with open("games.json", 'r') as brr:
             activegames = json.load(brr)
         if str(payload.message_id) in activegames:
