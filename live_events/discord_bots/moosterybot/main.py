@@ -35,7 +35,7 @@ friendCmd = [
 ]
 
 # print(os.listdir(os.getcwd()))
-v = '0.0.7'
+v = '0.1.2'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
@@ -45,11 +45,7 @@ client = discord.Client()
 prefix = '-moostery '  # default prefix
 
 
-async def makeGame(pubpriv, payload, fromline):
-    with open('games.json', 'r') as brr:
-        prefixes = json.load(brr)
-    # gamecode = ''.join(random.choice(string.ascii_letters) for i in range(5))  # 5 number game code
-    emoji = ''
+async def makeGame(pubpriv, payload):
     a = payload.id
     b = payload.author.id
     target = payload.author
@@ -115,37 +111,6 @@ async def makeGame(pubpriv, payload, fromline):
                     elif str(reaction) == '❌':
                         await actual_game.noGame(payload, client, prefix, activegames, emoji.id, pubpriv)
                         return
-                    '''elif payload.emoji.name == '🚪' and str(payload.user_id) not in activegames[str(payload.message_id)]:
-                        gamestuff = activegames[str(payload.message_id)]
-                        arraynewgames = []
-                        if type(gamestuff) != str:
-                            for i in range(len(gamestuff)):
-                                arraynewgames.append(gamestuff[i])
-                        else:
-                            arraynewgames.append(gamestuff)
-                        arraynewgames.append(str(payload.user_id))
-                        jason_it(str(payload.message_id), 'games.json', arraynewgames)
-                        await actual_game.joinGame(payload, client)
-                        values = []
-                        ara = []
-                        if type(activegames[str(payload.message_id)]) != str:
-                            for i in range(len(activegames[str(payload.message_id)])):
-                                ara.append(activegames[str(payload.message_id)][i])
-                                values.append(str(client.get_user(int(activegames[str(payload.message_id)][i]))))
-                        else:
-                            ara.append(activegames[str(payload.message_id)])
-                            values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
-                        emb = await embedMake(['People sat at the table', 'Name and ID'],
-                                              title='Joined Game',
-                                              arraytoembdtt=ara,
-                                              thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                              valuett=values,
-                                              desc='You have joined the table \n Host: ' + str(
-                                                  client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
-                                                  payload.message_id) + '`',
-                                              footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
-                                              )
-                        await client.get_user(int(payload.user_id)).send(embed=emb)'''
 
 
 def jason_it(whatindex, filename, msg):
@@ -385,9 +350,9 @@ async def isGame(message):
                                       desc='No public games in DM. Make one in a server',
                                       footer='sorry! but... who can even join you in a dm?')
                 await message.channel.send(embed=emb)
-            await makeGame(False, message, True)
+            await makeGame(False, message)
         elif type == 'public':
-            await makeGame(True, message, True)
+            await makeGame(True, message)
         else:
             personid = message.author.id
             emb = await embedMake(["Game Creation:", "Click on the reaction to make a game (times out in 30 seconds)"],
@@ -419,10 +384,10 @@ async def isGame(message):
                     if str(user) == str(client.get_user(int(personid))):
                         if str(reaction) == '🔒':
                             await client.http.delete_message(emoji.channel.id, emoji.id)
-                            await makeGame(False, message, True)
+                            await makeGame(False, message)
                         elif str(reaction) == '🔓':
                             await client.http.delete_message(emoji.channel.id, emoji.id)
-                            await makeGame(True, message, True)
+                            await makeGame(True, message)
                         else:
                             emb = await embedMake(
                                 title='Cancelled!',
