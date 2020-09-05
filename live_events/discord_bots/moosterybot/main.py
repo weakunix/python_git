@@ -8,7 +8,8 @@ import math
 import os
 
 cmd = [
-    ['help', 'usage: help [category] shows help  (this message). categories: game (commands for game creation), friend (friend requests and remove), play (how to play the actual game)'],
+    ['help',
+     'usage: help [category] shows help  (this message). categories: game (commands for game creation), friend (friend requests and remove), play (how to play the actual game)'],
     ['about', 'usage: about. shows info (version... credits... desc...)'],
     ['how to play', 'usage: how to play. shows all the tips to getting started']
 ]
@@ -33,6 +34,7 @@ friendCmd = [
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 
+# print(os.listdir(os.getcwd()))
 v = '0.0.7'
 key = []
 with open('key.txt', 'r') as b:
@@ -226,26 +228,28 @@ async def isFriend(message):
                 await message.author.send(embed=embsent)
                 emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request',
                                       desc='Pending Friend '
-                                           'Request (click "✅" to accept, it will expire in 5 minutes)',
+                                           'Request (click "✅" to accept, it will expire in 3 minutes)',
                                       footer='beware of strangers online!')
                 emoji = await a.send(embed=emb)
-                #jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
+                # jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
                 await emoji.add_reaction("✅")
                 await asyncio.sleep(1)
+
                 def check(reaction, user):
                     return str(reaction.emoji) and user
+
                 try:
-                    reaction, user = await client.wait_for('reaction_add', timeout=300.0, check=check)
+                    reaction, user = await client.wait_for('reaction_add', timeout=180.0, check=check)
                 except asyncio.TimeoutError:
                     emb = await embedMake(
-                        ["This friend request has timed out.",
+                        ["This friend request from " + str(message.author) + " has timed out.",
                          "\n You can do '-moostery friend request @mention' to re-friend them`"],
-                        title='Request from '+str(client.get_user(int(idofdmtarget))),
+                        title='Request from ' + str(client.get_user(int(idofdmtarget))),
                         desc='Sorry!',
                         thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
                         footer='Friend them back! You type the cmd rn in DM!'
                     )
-                    await client.get_user(int(target)).send(embed=emb) #may bug
+                    await emoji.edit(embed=emb)
                 else:
                     if str(reaction) == '✅':
                         with open("friend.json", 'r') as brr:
@@ -543,7 +547,8 @@ async def isOther(message):  # help and other stuff
                                  ["Special Thanks To", '`' + str(client.get_user(333398956958810114)) + "` and `" + str(
                                      client.get_user(149491899240153088)) + '` for letting me "borrow" ideas'],
                                  ["Discord Invite Link:", "https://discord.gg/k2nE2u4"],
-                                 ["Repo (live_events/discord_bots/moosterybot):", "https://github.com/weakunix/python_git"],
+                                 ["Repo (live_events/discord_bots/moosterybot):",
+                                  "https://github.com/weakunix/python_git"],
                                  title="About Murder Moostery",
                                  img='https://media.discordapp.net/attachments/696699604003061784/747566312104001647/Screen_Shot_2020-08-24_at_5.20.21_PM.png',
                                  desc="The game inspired by Town of Salem",
@@ -636,13 +641,13 @@ async def isinGame(message):
                         if str(idAndMsg[0]) != "all":
                             emb2 = await embedMake(
                                 title="Message Sent!",
-                                desc='Sent `'+str(a)+'`\nTo: `'+str(client.get_user(int(idAndMsg[0])))+'`',
+                                desc='Sent `' + str(a) + '`\nTo: `' + str(client.get_user(int(idAndMsg[0]))) + '`',
                                 thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
                             )
                         else:
                             emb2 = await embedMake(
                                 title="Message Sent!",
-                                desc='Sent `'+str(a)+'`\nTo: `@everyone`',
+                                desc='Sent `' + str(a) + '`\nTo: `@everyone`',
                                 thumbnail="https://media.discordapp.net/attachments/713115546786463784/750528205806502029/costume16.png"
                             )
                         if str(idAndMsg[0]) != "all":
