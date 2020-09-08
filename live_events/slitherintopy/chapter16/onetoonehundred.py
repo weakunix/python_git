@@ -1,3 +1,8 @@
+'''
+Problem:
+Write a recursive function that adds up all the numbers from 1 to 100.
+'''
+
 listOtoOneHunnit = [x for x in range(1,101)]
 
 def recursive(a = None, n = None) -> None:

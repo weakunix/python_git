@@ -1,3 +1,8 @@
+'''
+problem:
+Write a recursive function that takes a list of integers as an argument and returns the maximum of that list.
+'''
+
 def largestoflist(lists, counter = 0, highest = 0) -> int:
     if counter == len(lists):
         print(highest)

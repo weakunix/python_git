@@ -1,7 +1,9 @@
+#just use in for god's sake
 '''
 problem:
-Write a recursive function that takes a string as an argument and returns whether or not that string is a palindrome. Your function should return True or False.
+Again, using what you've learned, write a function called contains() that takes two arguments, a list and an element and returns whether or not that element is contained within that list.
 '''
+
 
 import math
 import random
@@ -22,7 +24,7 @@ def sortthedamnthing(arraytosort):
                 arraytosort[i + 1] = a
     return arraytosort
 
-def insert(lists, number):
+def ifin(lists, number):
     lenOfSearch = len(lists) // 2
     if number < lists[lenOfSearch]:
         newlist = [lists[i] for i in range(lenOfSearch)]
@@ -32,11 +34,13 @@ def insert(lists, number):
         newlist = []
         newlist.append(lists[lenOfSearch])
     if len(newlist) != 1:
-        insert(newlist, number)
+        ifin(newlist, number)
     else:
-        print("where to put the number")
-        print(newlist)
-        return lenOfSearch
+        if lists[lenOfSearch] == number:
+            print("True!")
+            return True
+        print("No")
+        return False
 
 arrayofints = [random.randint(0, 100) for x in range(100)]
 print("first list")
@@ -45,4 +49,5 @@ print("\n")
 arrayofints = sortthedamnthing(arrayofints)
 print("sorted list")
 print(arrayofints)
-insert(arrayofints, 42)
+
+ifin(arrayofints, 80)

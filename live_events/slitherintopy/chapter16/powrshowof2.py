@@ -1,3 +1,8 @@
+'''
+Problem:
+Write a recursive function that takes an integer as an argument and returns whether or not that integer is a power of 2. Your function should return True or False
+'''
+
 def checkifpowerof2(check, num = None) -> bool:
     if num == None:
         num = 1
