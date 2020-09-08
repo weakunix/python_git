@@ -202,18 +202,23 @@ class Game:
             if a not in Randomorder: 
                 Randomorder.append(a)
         try:
-            for i in range(len(Randomorder)):
-                emb = await main.embedMake(
-                    title='Turns:',
-                    desc='The ' + str(
-                        Characters.roleList[[role[self.id][Randomorder[i]]]][0]) + ' is taking their **night** turn!',
-                    footer='hurry up!!!!!',
-                    color=0x0000FF
-                )
-                for ier in range(len(Randomorder)): #fucking buggeed to hell af 
-                    if ier != i:
-                        await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb) #just sending the message no need for Randomorder
-                await self.kids[Randomorder[i]].Nightrole(client, ppl[str(self.id)][Randomorder[ier]])
+            counter = 0
+            while counter < len(ppl[str(self.id)]):
+                for i in range(len(Randomorder)):
+                    if Randomorder[i] == counter:
+                        emb = await main.embedMake(
+                            title='Turns:',
+                            desc='The ' + str(
+                                Characters.roleList[role[str(self.id)][i]][0]) + ' is taking their **night** turn!',
+                            footer='hurry up!!!!!',
+                            color=0x0000FF
+                        )
+                        for ier in range(len(Randomorder)): 
+                            if ier != i:
+                                await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb) #just sending the message no need for Randomorder
+                        await self.kids[i].Nightrole(client, ppl[str(self.id)])
+                        counter += 1
+                        break
         except IndexError:
             return  # someone died and now the list is shorter. boo hoo, too bad so sad
 
