@@ -1,0 +1,1 @@
+print("Is it: "+input("What is ur number? I'll guess it!\n"))

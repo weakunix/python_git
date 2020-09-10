@@ -240,7 +240,6 @@ async def isFriend(message):
                                            'Request (click "✅" to accept, it will expire in 3 minutes)',
                                       footer='beware of strangers online!')
                 emoji = await a.send(embed=emb)
-                # jason_it(str(emoji.id), 'pending_requests.json', str(idofdmtarget))
                 await emoji.add_reaction("✅")
                 await asyncio.sleep(1)
 
@@ -670,16 +669,14 @@ async def on_message(message):
 
 @client.event
 async def on_ready():
+    print('\033[0m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     print('\033[92m Logged as {0.user}'.format(client))
+    print('\033[0m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     await client.change_presence(
         activity=discord.Activity(name='for ' + str(prefix), type=discord.ActivityType.watching))
 
 
 def clearFiles():
-    os.remove('pending_requests.json')
-    w = open('pending_requests.json', 'w+')
-    w.write('{}')
-    w.close()
     os.remove('games.json')
     w = open('games.json', 'w+')
     w.write('{}')

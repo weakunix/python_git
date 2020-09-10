@@ -64,7 +64,7 @@ class Game:
         a = 'Hopefully 10 seconds was enough time' if self.date == 1 else 'goodluck!'
         emb = await main.embedMake(
             ['Day ' + str(self.date) + ':',
-             '**Claim your role right now by reacting**\n``` 🗡️: Murder (lmao '
+             '**Claim your role by reacting**\n``` 🗡️: Murder (lmao '
              'why would you claim this) \n 🔎: Detective\n 💻: Hacker \n 🏹: Hunter \n 📚: Workhorse Dad \n 🍳: '
              'Overprotective Mom \n ❤️: The Simp \n 🧪: Scientist \n 🧹: Witch \n 💰: Millionaire (don\'t claim '
              'this lmao blackmail guarentee)``` \n if you react with something else than the provided above, you '
@@ -72,7 +72,7 @@ class Game:
             title='Welcome to Murder Moostery...',
             thumbnail='https://media.discordapp.net/attachments/747159474753503343/748641985241415721/costume8_2_1.png',
             desc=a,
-            footer='Note: wait until the second message to start reacting!'
+            footer='Note: wait until the second message to start reacting! The bot has to react to all the players\' messages and Discord has a cooldown!'
         )
         for i in range(len(ppl[str(self.id)])):
             arymsg.append(await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb))
@@ -196,19 +196,29 @@ class Game:
             ppl = json.load(brr)
         with open("roles.json", 'r') as brr:
             role = json.load(brr)
+        Randomorder = []
+        while len(Randomorder) < len(ppl[str(self.id)]):
+            a = random.randint(0, len(ppl[str(self.id)]) - 1)
+            if a not in Randomorder: 
+                Randomorder.append(a)
         try:
-            for i in range(len(ppl[str(self.id)])):
-                emb = await main.embedMake(
-                    title='Turns:',
-                    desc='The ' + str(
-                        Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **night** turn!',
-                    footer='hurry up!!!!!',
-                    color=0x0000FF
-                )
-                for ier in range(len(ppl[str(self.id)])):
-                    if ier != i:
-                        await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb)
-                await self.kids[i].Nightrole(client, ppl[str(self.id)])
+            counter = 0
+            while counter < len(ppl[str(self.id)]):
+                for i in range(len(Randomorder)):
+                    if Randomorder[i] == counter:
+                        emb = await main.embedMake(
+                            title='Turns:',
+                            desc='The ' + str(
+                                Characters.roleList[role[str(self.id)][i]][0]) + ' is taking their **night** turn!',
+                            footer='hurry up!!!!!',
+                            color=0x0000FF
+                        )
+                        for ier in range(len(Randomorder)): 
+                            if ier != i:
+                                await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb) #just sending the message no need for Randomorder
+                        await self.kids[i].Nightrole(client, ppl[str(self.id)])
+                        counter += 1
+                        break
         except IndexError:
             return  # someone died and now the list is shorter. boo hoo, too bad so sad
 
@@ -259,9 +269,8 @@ class Characters:
     def getPlayers(self, key):
         with open('games.json', 'r') as brr:
             target = json.load(brr)
-        for i in range(len(target)):
-            if target[key] == str(self.id):
-                return True
+        if target[key] == str(self.id):
+            return True
         return False
 
     def getRole(self, **kwargs):  # hacky way without needing key to get player info and role

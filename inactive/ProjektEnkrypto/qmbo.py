@@ -8,7 +8,7 @@ import qmbop
 inpt = ''
 p = ''
 #lists
-allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
+allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|:\'",<.>/?'
 
 #dictonaries
 convert = { ' ': 0,
@@ -96,7 +96,7 @@ convert = { ' ': 0,
             '}': 82,
             '\\': 83,
             '|': 84,
-            ';': 85,
+            '': 85,
             ':': 86,
             '\'': 87,
             '"': 88,
@@ -110,67 +110,67 @@ convert = { ' ': 0,
 #user def functions
 #encryption and decryption and more actions
 def init():
-        skipInp = 0;
-        last = '';
-        exit = 0;
+        skipInp = 0
+        last = ''
+        exit = 0
         while(exit != 1):
                 if(skipInp == 0):
-                        inpt = input(">action?\n");
-                print("\n"*100+">>>"+inpt+"<<<"+"\n"*10);
+                        inpt = input(">action?\n")
+                print("\n"*100+">>>"+inpt+"<<<"+"\n"*10)
                 if(inpt == "<admint.del(log)>"):
-                        last = "<admint.del(log)>";
-                        delLog();
-                        skipInp = 0;
+                        last = "<admint.del(log)>"
+                        delLog()
+                        skipInp = 0
                 elif(inpt == "<admint.del(burgler-alarm)>"):
-                        last = "<admint.del(burgler-alarm)>";
-                        delBurg();
-                        skipInp = 0;
+                        last = "<admint.del(burgler-alarm)>"
+                        delBurg()
+                        skipInp = 0
                 elif(inpt == "thank you"):
-                        logCD = open("cowDump.txt","w");
-                        logCD.write("");
-                        logCD.close();
-                        logCF = open("cowFood.txt","w");
-                        logCF.write("");
-                        logCF.close();
-                        exit = 1;
+                        logCD = open("cowDump.txt","w")
+                        logCD.write("")
+                        logCD.close()
+                        logCF = open("cowFood.txt","w")
+                        logCF.write("")
+                        logCF.close()
+                        exit = 1
                 elif inpt == '<admint.message(encrypt)>':
-                        last = "<admint.message(encrypt)>";
+                        last = "<admint.message(encrypt)>"
                         encrypt()
-                        skipInp = 0;
+                        skipInp = 0
                 elif inpt == '<admint.message(decrypt)>':
-                        last = "<admint.message(decrypt)>";
+                        last = "<admint.message(decrypt)>"
                         decrypt()
-                        skipInp = 0;
+                        skipInp = 0
                 elif inpt == "hist":
-                        inpt = str(last);
-                        skipInp = 1;
+                        inpt = str(last)
+                        skipInp = 1
                 else:
-                        print("Unexpected Input!");                                                                                                                                                                                                             
-        return "Success: Exit code 1"; #u exited the loop
+                        print("Unexpected Input!")                                                                                                                                                                                                             
+        return "Success: Exit code 1" #u exited the loop
 #del log
 def delLog():
         conf = input("Delete 'logue'? It will be gone for a very long time!") #Minecraft refrence here
         if(conf == "true"):
-                os.remove("log.txt");
-                logF = open("log.txt","a");
-                logF.write(tt+"\n");
-                logF.close();
-                print("\n"*100);
+                os.remove("log.txt")
+                logF = open("log.txt","a")
+                logF.write(tt+"\n")
+                logF.close()
+                print("\n"*100)
                 print("File has been deleted!")
         else:
-                print("Error: Code leaf");
+                print("Error: Code leaf")
 #del burg alarm
 def delBurg():
         conf = input("Delete 'sD.txt'?")
         if(conf == "true"):
-                os.remove("sD.txt");
-                logL = open("sD.txt","w");
-                logL.write("");
-                logL.close();
-                print("\n"*100);
+                os.remove("sD.txt")
+                logL = open("sD.txt","w")
+                logL.write("")
+                logL.close()
+                print("\n"*100)
                 print("File has been deleted!")
         else:
-                print("Error: Code leaf");
+                print("Error: Code leaf")
 #encrypt 
 def encrypt():
     global convert
@@ -191,12 +191,12 @@ def encrypt():
         num = allchar[num]
         code += c
         key += num
-    wf = open("cowFood.txt","w");
-    wf.write(str(datetime.datetime.now()));
-    wf.write(":\n");
-    wf.write(code);
-    wf.write(key);
-    wf.close();
+    wf = open("cowFood.txt","w")
+    wf.write(str(datetime.datetime.now()))
+    wf.write(":\n")
+    wf.write(code)
+    wf.write(key)
+    wf.close()
     m = input('Cow Milk: {}{}\n\nEnter to continue\n'.format(code, key))
 
 #decrypt
@@ -207,12 +207,12 @@ def decrypt():
     m = ''
     code = input('Feed the cow!:\n')
     if(len(code) <= 1 or len(code)%2!=0):
-        print("Error: Expected even amount of letters, got '",code,"'");
-        print(len(code)/2);
-        print(type(len(code)/2)==int);
+        print("Error: Expected even amount of letters, got '",code,"'")
+        print(len(code)/2)
+        print(type(len(code)/2)==int)
     else:
-        l = int(len(code) / 2);
-        lo= int((len(code) / 2)*-1);
+        l = int(len(code) / 2)
+        lo= int((len(code) / 2)*-1)
         key = code[lo:]
         code = code[:l]
         for c in code:
@@ -223,11 +223,11 @@ def decrypt():
             c %= 95
             c = allchar[c]
             m += c
-        wf = open("cowDump.txt","w");
-        wf.write(str(datetime.datetime.now()));
-        wf.write(":\n");
-        wf.write(m);
-        wf.close();
+        wf = open("cowDump.txt","w")
+        wf.write(str(datetime.datetime.now()))
+        wf.write(":\n")
+        wf.write(m)
+        wf.close()
         code = input("Cow's dump: {}\n\nEnter to continue\n".format(m))
 
 #not in function
@@ -239,33 +239,33 @@ for i in range(1, 4):
         else:
                 p = qmbop.qmbothree()
         if (p == False):
-                print("\n"*10);
+                print("\n"*10)
                 qmbotump = (str(datetime.datetime.now()),", failed at level: ",str(i),"\n")
-                qmbotump = "".join(qmbotump);
-                logL = open("sD.txt","a");
-                logL.write(qmbotump); #yessir!
-                logL.close();
-                logA = open("Atpwd.txt","a");
-                logA.write(qmbotump);
-                logA.close();
-                raise SystemExit('Access denied');
-print("\n"*100);
-tt = str(datetime.datetime.now());
-print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n");
-logF = open("log.txt","a");
-logF.write(tt+":full login successful\n"); #kk ruoyu finished
-logF.close();
-logA = open("Atpwd.txt","r");
-print("someone tried to log in at: \n");
-print(logA.read());
-logA.close();
-logA = open("Atpwd.txt","w");
-logA.write("");
-logA.close();
+                qmbotump = "".join(qmbotump)
+                logL = open("sD.txt","a")
+                logL.write(qmbotump) #yessir!
+                logL.close()
+                logA = open("Atpwd.txt","a")
+                logA.write(qmbotump)
+                logA.close()
+                raise SystemExit('Access denied')
+print("\n"*100)
+tt = str(datetime.datetime.now())
+print(">>===Welcome back, Cowlander===<<\n>>=logged in at "+tt+"=<<\n")
+logF = open("log.txt","a")
+logF.write(tt+":full login successful\n") #kk ruoyu finished
+logF.close()
+logA = open("Atpwd.txt","r")
+print("someone tried to log in at: \n")
+print(logA.read())
+logA.close()
+logA = open("Atpwd.txt","w")
+logA.write("")
+logA.close()
 #accidentily removed ATPWD but fixed
-Pw = open("albreto.txt","w");
-Pw.write("");
-Pw.close();
-print(init());  
+Pw = open("albreto.txt","w")
+Pw.write("")
+Pw.close()
+print(init())  
 
 
