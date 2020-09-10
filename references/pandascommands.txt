@@ -1,0 +1,13 @@
+Commands in pandasL:
+
+#data frame
+df = pd.DataFrame({'Category': ['things', 'in', 'categories']})
+
+#to file
+df.to_csv('file name', index = False) #index is optional if you. write if you don't want to have 0, 1, 2, etc. in your file
+
+#read file
+df = pd.read_csv('file name', index_col = 'column name') #index col is optional. this sets the index column to the name you specified
+
+#get and change an element
+df.loc[row, column] = [new value] #new value is optional. this is for changing the element. also the row may be different if you used index_col to read so keep that in mind. default is always 0, 1, 2, etc.

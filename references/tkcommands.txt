@@ -59,7 +59,7 @@ word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color'
 widget.destroy()
 
 #bind a key to a function
-window.bind('<key>', lambda event:function(event)) #when using a letter key use lowercase. when using other keys use capital letters
+window.bind('<key>', lambda event: function()) #when using a letter key use lowercase. when using other keys use capital letters
 
 #unbind a key
 window.unbind('<key>')
@@ -89,6 +89,9 @@ var = entry.get()
 
 #clear entry box
 entry.delete(0, tk.END)
+
+#highlight entry box
+entry.selection_range(0, tk.END)
 
 #hide button
 widget.place_forget()
