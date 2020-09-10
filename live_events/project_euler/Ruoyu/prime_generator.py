@@ -17,6 +17,6 @@ for i in range(2, 10 ** 6 + 1):
     if is_prime:
         primes.append(i)
 
-f = open('million_primes.txt', 'w')
-for i in primes:
-    f.write(f'{str(i)}\n')
+with open('million_primes.txt', 'w') as prime_file:
+    for i in primes:
+        prime_file.write(f'{str(i)}\n')
