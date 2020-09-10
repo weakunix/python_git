@@ -1,3 +1,7 @@
+'''
+Write a class that models a students grades for particular modules. The class will have four methods. The first should initialise the student. The student should have a name and age. The grades should be modelled as a dictionary in which the key is the name of the module and the value is the grade. This should initially be empty. The second method is called add_module() and should add a module to the student object. The third is called update_module_grade() and should update the grade for a particular module. The final method is called show_grades() and should print out the students modules and the grade associated with each module.
+'''
+
 class student:
     def init(self, name, age):
         self.name = name
