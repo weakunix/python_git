@@ -28,14 +28,10 @@ class BackButton:
     #init
     def __init__(self, clear, create):
         #create back button
-        self.button = tk.Button(window, text = 'Back(X)', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [clear.clear(), create()])
+        self.button = tk.Button(window, text = 'Back', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [clear.clear(), create()])
         self.button.place(x = 0, y = 0, anchor = tk.NW)
-        #bind to back button
-        window.bind('<x>', lambda event: [clear.clear(), create()])
         #append into its page's widgets
         clear.widgets.append(self.button)
-        #append into its page's binds
-        clear.binds.append('<x>')
 
 #class title
 class Title:
@@ -53,19 +49,15 @@ def login_or_signup():
     #Page class instance login or signup page
     loginorsignup = Page()
     #window title
-    window.title('Login / Sign Up')
+    window.title('Login / Signup')
     #making widgets
     start_title = Title('Type Training', loginorsignup)
-    login = tk.Button(window, text = 'Login(L)', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginorsignup.clear(), login_signup_page('Login')])
+    login = tk.Button(window, text = 'Login', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginorsignup.clear(), login_signup_page('Login')])
     login.place(x = 350, y = 400, anchor = tk.CENTER)
-    signup = tk.Button(window, text = 'Sign Up(S)', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginorsignup.clear(), login_signup_page('Sign Up')])
+    signup = tk.Button(window, text = 'Signup', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginorsignup.clear(), login_signup_page('Signup')])
     signup.place(x = 450, y = 400, anchor = tk.CENTER)
-    #binding keys
-    window.bind('<l>', lambda event: [loginorsignup.clear(), login_signup_page('Login')])
-    window.bind('<s>', lambda event: [loginorsignup.clear(), login_signup_page('Sign Up')])
-    #loginorsignup widgets and binds defined
+    #loginorsignup widgets defined
     loginorsignup.widgets += [login, signup]
-    loginorsignup.binds += ['<l>', '<s>']
 
 ##login page / signup page (they are the same format)
 def login_signup_page(logorsign):
@@ -82,7 +74,8 @@ def login_signup_page(logorsign):
     name.place(x = 260, y = 375, anchor = tk.CENTER)
     name_input = tk.Entry(window, font = ('charter', 15))
     name_input.place(x = 400, y = 375, anchor = tk.CENTER)
-    loginsignup_button = tk.Button(window, text = f'{logorsign}(Enter)', height = 3, width = 15, fg = '#000000', font = ('charter', 15), command = lambda: get_account(logorsign))
+    name_input.focus()
+    loginsignup_button = tk.Button(window, text = logorsign, height = 3, width = 10, fg = '#000000', font = ('charter', 15), command = lambda: get_account(logorsign))
     loginsignup_button.place(x = 400, y = 450, anchor = tk.CENTER)
     #binding keys
     window.bind('<Return>', lambda event: get_account(logorsign))
@@ -95,8 +88,8 @@ def get_account(logorsign):
     #globals
     global loginsignup, name, words, wpm, accuracy
     #getting account 
-    name = loginsignup.widgets[3].get()
-    is_account = False #sign up is if the account is taken, log in is if the account is stored
+    name = loginsignup.widgets[3].get().strip(' ')
+    is_account = False #signup is if the account is taken, log in is if the account is stored
     #try to read
     try:
         accounts = pd.read_csv('accounts.txt', index_col = 'name')
@@ -145,8 +138,23 @@ def get_account(logorsign):
 
 #login / sign up successful
 def login_success(logorsign):
-    pass
-                
+    #page class instance login success page
+    loginsuccess = Page()
+    #window title
+    window.title(f'{logorsign} Success')
+    #making widgets
+    all_set = Title('You\'re all set!', loginsuccess)
+    if logorsign == 'Login':
+        text = 'Login success! Hopefully you got all of your stats recovered correctly...'
+    else:
+        text = 'Signup success! Don\'t forget your account. There isn\'t any account recovery...'
+    details = tk.Label(window, text = text, bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+    details.place(x = 400, y = 300, anchor = tk.CENTER)
+    start_type = tk.Button(window, text = 'Continue', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginsuccess.clear(), home_page()])
+    start_type.place(x = 400, y = 450, anchor = tk.CENTER)
+    #loginsuccess widgets defined
+    loginsuccess.widgets += [details, start_type]
+     
 #TODO FINISH PARTS PAST THESE LATER!!!!!! DO NOT WORK ON THEM NOW OR YOUR EFFECIENCY WILL GO DOWN!!!!
 ##home page
 def home_page():
