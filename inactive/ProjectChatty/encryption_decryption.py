@@ -6,7 +6,7 @@ import datetime
 inpt = ''
 p = ''
 #lists
-allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
+allchar = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[{]}\\|:\'",<.>/?'
 
 #dictonaries
 convert = {
@@ -95,7 +95,7 @@ convert = {
             '}': 82,
             '\\': 83,
             '|': 84,
-            ';': 85,
+            '': 85,
             ':': 86,
             '\'': 87,
             '"': 88,
@@ -124,7 +124,7 @@ def encrypt(m):
     code += c
     key += num
   tuple1 = (code,key)
-  tuple1 = "".join(tuple1);
+  tuple1 = "".join(tuple1)
   return (tuple1)
 
 #decrypt
@@ -134,12 +134,12 @@ def decrypt(code):
   count = -1
   m = ''
   if(len(code) <= 1 or len(code)%2!=0):
-    print("safemessage input error");
-    print(len(code)/2);
-    print(type(len(code)/2)==int);
+    print("safemessage input error")
+    print(len(code)/2)
+    print(type(len(code)/2)==int)
   else:
-    l = int(len(code) / 2);
-    lo= int((len(code) / 2)*-1);
+    l = int(len(code) / 2)
+    lo= int((len(code) / 2)*-1)
     key = code[lo:]
     code = code[:l]
     for c in code:
@@ -150,5 +150,5 @@ def decrypt(code):
       c %= 95
       c = allchar[c]
       m += c
-  return m;
-# print(decrypt("][lEqf|v(YwKMQ`5>f.f-c(XwDxM")); we're keeping this one here chief!
+  return m
+# print(decrypt("][lEqf|v(YwKMQ`5>f.f-c(XwDxM")) we're keeping this one here chief!

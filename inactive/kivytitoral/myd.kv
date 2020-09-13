@@ -1,0 +1,13 @@
+<Button>:
+    font_size: 40
+    color:0.3, 0.6, 0.7, 1
+    size_hint: 0.2, 0.5
+
+<FloatLayout>:
+    Button:
+        pos_hint: {"x":0.5, "top":1}
+        text: "Mootbing"
+    
+    Button:
+        id: btn
+        text:"BINGBINGMOOOOOOO" if btn.state == 'normal' else "Clicked!!!!"

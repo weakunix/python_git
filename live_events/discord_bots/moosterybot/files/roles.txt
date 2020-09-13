@@ -1,0 +1,82 @@
+EVERYONE GETS A ROLE: NO "INNOCENT" PPL IN THIS TOWN== 
+Characters and their perks:==
+The Killer O_o:== 
+<> Goal: to **KILL** or **BLACKMAIL** the whole community== 
+<> Passive: Scramble the evidence! Give your own knife after a murder to the detective to confuse him! (can be countered by scientist tier 3, if he counters you, you **will** be alerted)== 
+<> Day: Buy higher quality weapons from Black Market (countered by hacker)== 
+    What will it do?== 
+    -give you a better chance at killing your opponents successfully== 
+    -you have a 80% chance with a dagger, it goes up to 90 with a gun (get from market) and so on... (legend has it killrate is 100% with a burrito)== 
+<> Night: Kill/Blackmail someone (kill countered by scientist, witch, mom) (blackmail countered by ethical hacker)== 
+    What will blackmail do?== 
+    -blackmailing someone will force them to obey your command or be threatened with death(you can follow up with the threat or bluff).== 
+    -it is anonymous.
+    -the ethical hacker can see who is getting hacked and can block blackmails once per 4 turns (and if he blocks your blackmail, he knows you are the bad guy, uh oh!)== 
+Note: in games over 7 players there will be an acquaintance!== 
+The (Savior) Detective:== 
+<> Goal: To find out who the **Murder** is and vote them out (collaborate with MILLIONAIRE)== 
+<> Passive: To have the ability to see 3 suspects! (meaning 1 person in the 3 you see is the **MURDERER**) [in over 7 ppl it is 2/5]== 
+<> Day:== 
+<> Night: Work with scientist (countered by Murder blackmailing scientist)== 
+    What will scientist do?== 
+    -his passive is to examine things== 
+    -gives you the dna and person that it belongs to (wow!!!!! better keep him alive!)== 
+The Ethical Hacker:== 
+<> Goal: To stalk the black market to find the killer== 
+<> Passive: Can ‘fake’ item sales on black market and see someone’s true role if they buy (once 5 days)== 
+    -if nobody buys it you get another chance the next day== 
+    -you will see who bought the item and what item it was **AND THEIR ROLE**== 
+<> Day: can have a 10% chance to see who bought what from the black market per item (countered by no buy or civilians)== 
+    -many people frequent the market, just make sure it isn't Megan with her daily shipment of Macbooks (No its not a bomb)== 
+    -you will see who bought the item and what item it was== 
+<> Night: Blocks blackmail (once per two days) from self and can select one person to blackmail (can not be countered) if you are targeted you can see one of two people that may have targeted== 
+    -you will see who is getting targeted at night and can choose to block them or wait and help yourself. You also see who the millionaire is== 
+The Scientist:
+<> Goal: To help the detective and **NEVER** reveal your identity== 
+<> Passive: Gives dna of an item and shows who it belongs to== 
+    -upgrade 1: gets 3 people that may be the neighbor of a suspect (silent)== 
+    -upgrade 2: 3 suspects (silent)== 
+    -upgrade 3: 1 suspect (murder will be alerted)== 
+<> Day: Have a choice of buying lab equipment in black market (this will upgrade your passive and night) (countered by ethical hacker)== 
+<> Night: Redstone someone's house so you can detect activity at their house:== 
+    -t1: see activity== 
+    -t2: role of who entered== 
+    -t3: names== 
+The Witch:==
+<> Goal: To heal everyone that you can== 
+<> Passive: Every ten days you can see one person's **TRUE** role== 
+<> Day: Need to go to black market to buy more magic (countered by ethical hacker)== 
+<> Night: Blocks assasisnation (once per two trips to the market)== 
+    -you won't be able to see who attacked the person== 
+    -you **WILL** see who is getting attacked and you can choose to revive them==
+#break in the thing here
+Game Hunter:== 
+<> Goal: find the murder's weapons== 
+<> Passive: Has a chance to choose one person to kill before you die(countered by scientist, mom, witch)== 
+<> Day: Needs to go to market to get supplies to hunt== 
+<> Night: goes out to hunt for food and potentially (+20% per murder) weapons== 
+    -if you get the weapon, you can give to scientist== 
+overprotective M.O.M.== 
+<> Goal: Stall as many people as you possibly can== 
+<> Passive: Deflect bullets (gun) with pan (only 3 times per **GAME**). (countered by dagger early on) and get killer’s weapon if workhorse dad killed to hand to detective== 
+<> Daily: **MUST** go buy groceries every day== 
+    -yes FYI this is the Megan that buys Macs excessively== 
+<> Night: choose a person to sleep early so they can’t perform their night action== 
+    -can only be overprotective once in three days (countered by paranoid, millionaire, game hunter and good roles)== 
+Workhorse D.A.D.== 
+<> Goal: Stall as many people as possible and if your wife dies, then use all 6 of your nightlys to keep yourself alive== 
+<> Passive: Can get killer’s knife if Mac- err Megan gets killed to hand to detective== 
+<> Daily: choose a person to workhorse and not be able to perform their day action== 
+<> Night: Can lecture your kid at night about [efficiency, time management, relationship, school, purpose, gratefulness] (perk can be used 6 times [else theres nothing to lecture about!!!!])== 
+    -the murder woin’t be able to target you and your neighbors but it exposes your role (noise!!!!)== 
+Millionaire (the successful son of the W.H.D.A.D)== 
+<> Goal: Find out who is the detective and vote in unison with him. However:== 
+    -DO NOT EXPOSE YOUR IDENTITY. You will be blackmailed!!!!!== 
+<> Passive: Bribery== 
+    -if the killer is about to kill you or the town is about to hang you, you can either take one for the team or bribe your way out== 
+    -this will reveal your role, so unless you really need to tell the detective something, take one for the team. (bc else the murder will def try to blackmail you!!!)== 
+<> Daily: Influence== 
+    - Gets more votes 3 instead of 1 at the meeting (this is why you shouldn't get blackmailed)== 
+<> Night: Leaves at night to go to do business deals, come back in morning (blocked by scientist trap, mom)
+this line is kept here to make sure the script doesnt bug :) have a great time!!!
+This line too actually... so imma paste the bee mo-

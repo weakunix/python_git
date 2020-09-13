@@ -1,0 +1,8 @@
+"What is a happy cowboy?\n > A jolly rancher",
+"What's a pampered cow?\n > Spoiled Milk",
+"Who did the cow call to relocate?\n > the MOOVING company",
+"What do you call a scardycow?\n > a coward",
+"Who is MrMoooo?\n > a business cow",
+"What did the cow say to the spilled milk?\n> udder cowtastrophe",
+"What does cows drive into war?\n > milk TANKERS",
+"What did the cow say at the Mexican Restaurant?\n> MOOchas gracias!"
