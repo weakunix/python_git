@@ -1,4 +1,4 @@
-Commands in pandasL:
+Commands in pandas:
 
 #data frame
 df = pd.DataFrame({'Category': ['things', 'in', 'categories']})

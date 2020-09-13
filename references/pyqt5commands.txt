@@ -1,0 +1,16 @@
+PyQt5 Commands
+
+#imports
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+import sys
+
+#Create Window
+app = QApplication(sys.argv)
+window = QMainWindow()
+window.setGeometry(xpos, ypos, xlen, ylen)
+window.setWindowTitle('Title')
+window.show()
+sys.exit(app.exec_())
+
+

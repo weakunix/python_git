@@ -1,6 +1,14 @@
 #imports
-import tkinter as tk, time, pandas as pd
-from tkinter import messagebox
+import time, sys, pandas as pd
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+app = QApplication(sys.argv)
+window = QMainWindow()
+window.setGeometry(0, 0, 800, 600)
+window.setWindowTitle('Test Moo')
+window.show()
+sys.exit(app.exec_())
 
 #vars
 name = ''
@@ -10,18 +18,10 @@ accuracy = 0 #accuracy
 mode = 0 #typing mode
 
 #classes
-##class page 
-class Page:
-    #init
+##page class
+class Page(QMainWindow):
     def __init__(self):
-        #setting its widgets and binds to []
-        self.widgets = []
-        self.binds = []
-    def clear(self):
-        for i in self.widgets:
-            i.destroy()
-        for i in self.binds:
-            window.unbind(i)
+        super().__init__()
 
 #class back button 
 class BackButton:
@@ -217,11 +217,3 @@ def get_add_word(): #TODO GET ADD WORD TO WORK
 
 #main
 if __name__ == '__main__':
-    #window set up
-    window = tk.Tk()
-    window.geometry('800x600')
-    window.config(bg = '#00FFFF')
-    #call login or signup func
-    login_or_signup()
-    #mainloop
-    window.mainloop()
