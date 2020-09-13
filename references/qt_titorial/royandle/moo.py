@@ -1,11 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("Moooo")
         MainWindow.resize(800, 600)
         MainWindow.setStyleSheet('background-color: #00FFFF')
+        self.layout = QtWidgets.QGraphicsAnchorLayout()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.push_orca = QtWidgets.QPushButton(self.centralwidget)
@@ -25,6 +25,7 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.layout.addAnchor(self.layout, QtCore.Qt.AnchorLeft, self.layout, QtCore.Qt.AnchorLeft)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
