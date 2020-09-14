@@ -1,12 +1,12 @@
 #imports
-import tkinter as tk, time, pandas as pd
+import tkinter as tk, time, random
 from tkinter import messagebox
 
 #vars
 name = ''
 words = set() #words
-wpm = 'N/A' #words per minute
-accuracy = 'N/A' #accuracy
+wpm = [] #words per minute
+accuracy = [] #accuracy
 mode = 0 #typing mode
 
 #classes
@@ -90,23 +90,28 @@ def get_account(logorsign):
     #getting account 
     name = loginsignup.widgets[3].get().strip(' ')
     is_account = False #signup is if the account is taken, log in is if the account is stored
-    #try to read
-    try:
-        accounts = pd.read_csv('accounts.txt', index_col = 'name')
-    #else create data frame
-    except:
-        accounts = pd.DataFrame({'name': [], 'wpm': [], 'accuracy': []})
-    for i in range(len(accounts)):
-        if accounts.index[i] == name:
-            is_account = True
-            break
+    with open('names.txt', 'r') as names:
+        for i in names:
+            if i.strip('\n') == name:
+                is_account = True
+                break
     if logorsign == 'Login':
         if is_account:
-            wpm = accounts.loc[name, 'wpm']
-            accuracy = accounts.loc[name, 'accuracy']
+            try:
+                with open('./wpms/{name}_wpms.txt', 'r') as wpms:
+                    for i in wpms:
+                        wpm.append(int(i.strip('\n')))
+            except:
+                pass
+            try:
+                with open('./wpms/{name}_accuracys.txt', 'r') as accuracys:
+                    for i in accuracys:
+                        accuracy.append(int(i.strip('\n')))
+            except:
+                pass
             try:
                 with open(f'./words/{name}_words.txt', 'r') as word_file:
-                    for line in word_file:
+                    for i in word_file:
                         words.add(line.strip('\n'))
             except:
                 pass
@@ -117,11 +122,8 @@ def get_account(logorsign):
     else:
         if not is_account:
             if ' ' not in name:
-                all_names = [accounts.index[i] for i in range(len(accounts))] + [name]
-                all_wpm = [accounts.loc[all_names[i], 'wpm'] for i in range(len(all_names) - 1)] + ['N/A']
-                all_accuracy = [accounts.loc[all_names[i], 'accuracy'] for i in range(len(all_names) - 1)] + ['N/A']
-                accounts = pd.DataFrame({'name': all_names, 'wpm': all_wpm, 'accuracy': all_accuracy})
-                accounts.to_csv('accounts.txt', index = False)
+                with open('names.txt', 'a') as names:
+                    names.write(f'{name}\n')
                 loginsignup.clear()
                 login_success(logorsign)
             else:
@@ -164,6 +166,8 @@ def login_success(logorsign):
      
 ##home page
 def home_page():
+    #globals
+    global wpm, accuracy
     #Page class instance home page
     homepage = Page()
     #window title
@@ -171,17 +175,21 @@ def home_page():
     #making widgets
     home_title = Title('Typing Training', homepage)
     type_button = tk.Button(window, text = 'Type', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), typing_settings()])
-    type_button.place(x = 200, y = 450, anchor = tk.CENTER)
+    type_button.place(x = 300, y = 450, anchor = tk.CENTER)
     add_word_button = tk.Button(window, text = 'Add\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), add_word()])
-    add_word_button.place(x = 300, y = 450, anchor = tk.CENTER)
+    add_word_button.place(x = 400, y = 450, anchor = tk.CENTER)
     remove_word_button = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), remove_word()])
-    remove_word_button.place(x = 400, y = 450, anchor = tk.CENTER)
-    all_word_button = tk.Button(window, text = 'Words', height = 3, width = 8, fg = '#000000', font = ('charter', 15))
-    all_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
-    profile_button = tk.Button(window, text = 'Profile', height = 3, width = 8, fg = '#000000', font = ('charter', 15))
-    profile_button.place(x = 600, y = 450, anchor = tk.CENTER)
+    remove_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
+    if len(wpm) != 0:
+        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)} | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10} | Last type accuracy: {accuracy[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+    else:
+        wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
+        accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
+    wpm_label.place(x = 400, y = 525, anchor = tk.CENTER)
+    accuracy_label.place(x = 400, y = 550, anchor = tk.CENTER)
     #homepage widgets defined
-    homepage.widgets += [type_button, add_word_button, remove_word_button, all_word_button, profile_button]
+    homepage.widgets += [type_button, add_word_button, remove_word_button, wpm_label, accuracy_label]
 
 ##word amount page
 def typing_settings():
@@ -266,6 +274,7 @@ def remove_word():
     remove_instructions.place(x = 400, y = 150, anchor = tk.CENTER)
     #binding keys
     window.bind('<Return>', lambda event: get_remove_word())
+    #defining removeword widgets and binds
     removeword.widgets += [word, remove_button, remove_instructions]
     removeword.binds += ['<Return>']
 
