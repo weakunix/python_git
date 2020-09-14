@@ -114,27 +114,38 @@ def get_account(logorsign):
             loginsignup.clear()
             login_success(logorsign)
         else:
-            not_found = tk.Label(window, text = 'Account not found!', bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-            not_found.place(x = 400, y = 550, anchor = tk.CENTER)
-            loginsignup.widgets.append(not_found)
-            loginsignup.widgets[3].selection_range(0, tk.END)
+            account_fail('Account not found!')
     else:
         if not is_account:
-            wpm = 'N/A'
-            accuracy = 'N/A'
-            words = []
-            all_names = [accounts.index[i] for i in range(len(accounts))] + [name]
-            all_wpm = [accounts.loc[all_names[i], 'wpm'] for i in range(len(all_names) - 1)] + ['N/A']
-            all_accuracy = [accounts.loc[all_names[i], 'accuracy'] for i in range(len(all_names) - 1)] + ['N/A']
-            accounts = pd.DataFrame({'name': all_names, 'wpm': all_wpm, 'accuracy': all_accuracy})
-            accounts.to_csv('accounts.txt', index = False)
-            loginsignup.clear()
-            login_success(logorsign)
+            if ' ' not in name:
+                wpm = 'N/A'
+                accuracy = 'N/A'
+                words = []
+                all_names = [accounts.index[i] for i in range(len(accounts))] + [name]
+                all_wpm = [accounts.loc[all_names[i], 'wpm'] for i in range(len(all_names) - 1)] + ['N/A']
+                all_accuracy = [accounts.loc[all_names[i], 'accuracy'] for i in range(len(all_names) - 1)] + ['N/A']
+                accounts = pd.DataFrame({'name': all_names, 'wpm': all_wpm, 'accuracy': all_accuracy})
+                accounts.to_csv('accounts.txt', index = False)
+                loginsignup.clear()
+                login_success(logorsign)
+            else:
+                account_fail('Your name cannot contain spaces!')
         else:
-            not_found = tk.Label(window, text = 'This name has already been taken!', bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-            not_found.place(x = 400, y = 550, anchor = tk.CENTER)
-            loginsignup.widgets.append(not_found)
-            loginsignup.widgets[3].selection_range(0, tk.END)
+            account_fail('This name has already been taken!')
+
+#account name not valid
+def account_fail(text):
+    #globals
+    global loginsignup
+    try:
+        loginsignup.widgets[5].destroy()
+        loginsignup.widgets[5] = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
+        loginsignup.widgets[5].place(x = 400, y = 550, anchor = tk.CENTER)
+    except:
+        not_found = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
+        not_found.place(x = 400, y = 550, anchor = tk.CENTER)
+        loginsignup.widgets.append(not_found)
+    loginsignup.widgets[3].selection_range(0, tk.END)
 
 #login / sign up successful
 def login_success(logorsign):
@@ -211,9 +222,27 @@ def add_word():
 ##getting the added word
 def get_add_word(): #TODO GET ADD WORD TO WORK
     #globals
-    global addword, name
-    word = addword.widgets[1].get()
-    print(word)    
+    global addword, name, words
+    word = addword.widgets[1].get().strip(' ')
+    already_in = False
+    for i in words:
+        if word == i.strip('\n'):
+            already_in = True
+    if already_in:
+        msg = messagebox.showinfo(title = 'No Duplicates!', message = f'You already have {word} added to your words!')
+        if msg:
+            addword.widgets[1].selection_range(0, tk.END)
+            window.focus()
+            addword.widgets[1].focus()
+    else:
+        with open(f'./words/{name}_words.txt', 'a') as all_words:
+            all_words.write(f'{word}\n')
+        words.append(word)
+        msg = messagebox.showinfo(title = 'Adding Complete!', message = f'Successfully added {word} to your words!')
+        if msg:
+            addword.widgets[1].delete(0, tk.END)
+            window.focus()
+            addword.widgets[1].focus()
 
 #main
 if __name__ == '__main__':
