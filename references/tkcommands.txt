@@ -98,3 +98,20 @@ widget.place_forget()
 
 #slider
 slider = tk.Scale(window, from_ = [number], to = [number], orient = tk.HORIZONTAL) #orient = tk.HORIZONTAL only used for horizontal slider. don't include orient to make a vertical slider
+
+#option menu
+##variable define
+var = tk.StringVar() or tk.IntVar()
+
+##default option
+var.set('Option')
+
+##make menu
+menu = tk.OptionMenu(window, var, options)
+
+#checkbox
+##variable define
+var = tk.StringVar() or tk.IntVar()
+
+##make checkbox
+checkbox = tk.CheckButton(window, text = 'text', variable = var)

@@ -193,13 +193,23 @@ def home_page():
 
 ##word amount page
 def typing_settings():
-    wordamount = Page()
+    #Page class instance typesettings page
+    typesettings = Page()
+    #window title
+    window.title('Typing Settings')
+    #checkbox and option menu variables
+    mode_var = tk.StringVar()
+    mode_var.set('Normal')
+    #making widgets
+    back_to_home = BackButton(typesettings, home_page)
     amount = tk.Scale(window, from_ = 20, to = 200, orient = tk.HORIZONTAL, length = 180, bg = '#00FFFF')
-    amount.place(x = 400, y = 350, anchor = tk.CENTER)
-    start = tk.Button(window, text = 'Start Typing(Enter)', height = 3, width = 15, fg = '#000000', font = ('charter', 15))
+    amount.place(x = 500, y = 350, anchor = tk.CENTER)
+    mode = tk.OptionMenu(window, mode_var, 'Normal', 'Sudden Death')
+    mode.place(x = 300, y = 358, anchor = tk.CENTER)
+    start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15))
     start.place(x = 400, y = 450, anchor = tk.CENTER)
-    instructions = tk.Label(window, text = 'Select the number of\nwords you want to type:', bg = '#00FFFF', fg = '#000000', font = ('charter', 40))
-    instructions.place(x = 400, y = 150, anchor = tk.CENTER)
+    #defining typesettings widgets
+    typesettings.widgets = [amount, mode, start]
 
 ##adding a word
 def add_word():
