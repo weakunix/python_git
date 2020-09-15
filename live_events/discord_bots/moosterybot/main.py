@@ -455,7 +455,7 @@ async def isGame(message):
             person = mentionStrip(getMsg(len(prefix) + len(gameCmd[2][0]) + 1, message.content, True))
             try: 
                 person = int(person)
-                try:
+                try: 
                     emb = await embedMake(
                         title="Successful Invite",
                         desc="Waiting for user response",
