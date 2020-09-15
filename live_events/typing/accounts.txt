@@ -1,2 +1,0 @@
-name,wpm,accuracy
-test,N/A,N/A

@@ -1,12 +1,12 @@
 #imports
-import tkinter as tk, time, pandas as pd
+import tkinter as tk, time, random
 from tkinter import messagebox
 
 #vars
 name = ''
-words = [] #words
-wpm = 0 #words per minute
-accuracy = 0 #accuracy
+words = set() #words
+wpm = [] #words per minute
+accuracy = [] #accuracy
 mode = 0 #typing mode
 
 #classes
@@ -90,51 +90,60 @@ def get_account(logorsign):
     #getting account 
     name = loginsignup.widgets[3].get().strip(' ')
     is_account = False #signup is if the account is taken, log in is if the account is stored
-    #try to read
-    try:
-        accounts = pd.read_csv('accounts.txt', index_col = 'name')
-    #else create data frame
-    except:
-        accounts = pd.DataFrame({'name': [], 'wpm': [], 'accuracy': []})
-    for i in range(len(accounts)):
-        if accounts.index[i] == name:
-            is_account = True
-            break
+    with open('names.txt', 'r') as names:
+        for i in names:
+            if i.strip('\n') == name:
+                is_account = True
+                break
     if logorsign == 'Login':
         if is_account:
-            wpm = accounts.loc[name, 'wpm']
-            accuracy = accounts.loc[name, 'accuracy']
-            words = []
+            try:
+                with open('./wpms/{name}_wpms.txt', 'r') as wpms:
+                    for i in wpms:
+                        wpm.append(int(i.strip('\n')))
+            except:
+                pass
+            try:
+                with open('./wpms/{name}_accuracys.txt', 'r') as accuracys:
+                    for i in accuracys:
+                        accuracy.append(int(i.strip('\n')))
+            except:
+                pass
             try:
                 with open(f'./words/{name}_words.txt', 'r') as word_file:
-                    for line in word_file:
-                        words.append(line.strip('\n'))
+                    for i in word_file:
+                        words.add(line.strip('\n'))
             except:
                 pass
             loginsignup.clear()
             login_success(logorsign)
         else:
-            not_found = tk.Label(window, text = 'Account not found!', bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-            not_found.place(x = 400, y = 550, anchor = tk.CENTER)
-            loginsignup.widgets.append(not_found)
-            loginsignup.widgets[3].selection_range(0, tk.END)
+            account_fail('Account not found!')
     else:
         if not is_account:
-            wpm = 'N/A'
-            accuracy = 'N/A'
-            words = []
-            all_names = [accounts.index[i] for i in range(len(accounts))] + [name]
-            all_wpm = [accounts.loc[all_names[i], 'wpm'] for i in range(len(all_names) - 1)] + ['N/A']
-            all_accuracy = [accounts.loc[all_names[i], 'accuracy'] for i in range(len(all_names) - 1)] + ['N/A']
-            accounts = pd.DataFrame({'name': all_names, 'wpm': all_wpm, 'accuracy': all_accuracy})
-            accounts.to_csv('accounts.txt', index = False)
-            loginsignup.clear()
-            login_success(logorsign)
+            if ' ' not in name:
+                with open('names.txt', 'a') as names:
+                    names.write(f'{name}\n')
+                loginsignup.clear()
+                login_success(logorsign)
+            else:
+                account_fail('Your name cannot contain spaces!')
         else:
-            not_found = tk.Label(window, text = 'This name has already been taken!', bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-            not_found.place(x = 400, y = 550, anchor = tk.CENTER)
-            loginsignup.widgets.append(not_found)
-            loginsignup.widgets[3].selection_range(0, tk.END)
+            account_fail('This name has already been taken!')
+
+#account name not valid
+def account_fail(text):
+    #globals
+    global loginsignup
+    try:
+        loginsignup.widgets[5].destroy()
+        loginsignup.widgets[5] = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
+        loginsignup.widgets[5].place(x = 400, y = 550, anchor = tk.CENTER)
+    except:
+        not_found = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
+        not_found.place(x = 400, y = 550, anchor = tk.CENTER)
+        loginsignup.widgets.append(not_found)
+    loginsignup.widgets[3].selection_range(0, tk.END)
 
 #login / sign up successful
 def login_success(logorsign):
@@ -157,27 +166,33 @@ def login_success(logorsign):
      
 ##home page
 def home_page():
+    #globals
+    global wpm, accuracy
     #Page class instance home page
     homepage = Page()
     #window title
     window.title('Home')
     #making widgets
     home_title = Title('Typing Training', homepage)
-    type_button = tk.Button(window, text = 'Type', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), word_amount()])
-    type_button.place(x = 200, y = 450, anchor = tk.CENTER)
+    type_button = tk.Button(window, text = 'Type', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), typing_settings()])
+    type_button.place(x = 300, y = 450, anchor = tk.CENTER)
     add_word_button = tk.Button(window, text = 'Add\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), add_word()])
-    add_word_button.place(x = 300, y = 450, anchor = tk.CENTER)
-    remove_word = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15))
-    remove_word.place(x = 400, y = 450, anchor = tk.CENTER)
-    all_word = tk.Button(window, text = 'Words', height = 3, width = 8, fg = '#000000', font = ('charter', 15))
-    all_word.place(x = 500, y = 450, anchor = tk.CENTER)
-    profile = tk.Button(window, text = 'Profile', height = 3, width = 8, fg = '#000000', font = ('charter', 15))
-    profile.place(x = 600, y = 450, anchor = tk.CENTER)
+    add_word_button.place(x = 400, y = 450, anchor = tk.CENTER)
+    remove_word_button = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), remove_word()])
+    remove_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
+    if len(wpm) != 0:
+        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)} | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10} | Last type accuracy: {accuracy[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+    else:
+        wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
+        accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
+    wpm_label.place(x = 400, y = 525, anchor = tk.CENTER)
+    accuracy_label.place(x = 400, y = 550, anchor = tk.CENTER)
     #homepage widgets defined
-    homepage.widgets += [type_button, add_word_button, remove_word, all_word, profile]
+    homepage.widgets += [type_button, add_word_button, remove_word_button, wpm_label, accuracy_label]
 
 ##word amount page
-def word_amount():
+def typing_settings():
     wordamount = Page()
     amount = tk.Scale(window, from_ = 20, to = 200, orient = tk.HORIZONTAL, length = 180, bg = '#00FFFF')
     amount.place(x = 400, y = 350, anchor = tk.CENTER)
@@ -205,15 +220,95 @@ def add_word():
     add_instructions.place(x = 400, y = 150, anchor = tk.CENTER)
     #binding keys
     window.bind('<Return>', lambda event: get_add_word())
+    #defining addword widgets and binds
     addword.widgets += [word, add_button, add_instructions]
     addword.binds += ['<Return>']
 
 ##getting the added word
-def get_add_word(): #TODO GET ADD WORD TO WORK
+def get_add_word(): 
     #globals
-    global addword, name
-    word = addword.widgets[1].get()
-    print(word)    
+    global addword, name, words
+    word = addword.widgets[1].get().strip(' ')
+    already_in = False
+    for i in words:
+        if word == i.strip('\n'):
+            already_in = True
+    if already_in:
+        msg = messagebox.showinfo(title = 'No Duplicates!', message = f'You already have {word} added to your words!')
+        if msg:
+            addword.widgets[1].selection_range(0, tk.END)
+            window.focus()
+            addword.widgets[1].focus()
+    else:
+        msg = messagebox.askyesno(title = 'Did you spell correctly?', message = f'Are you sure you want to add {word} into your words?')
+        if msg:
+            with open(f'./words/{name}_words.txt', 'a') as all_words:
+                all_words.write(f'{word}\n')
+            words.add(word)
+            msg = messagebox.showinfo(title = 'Adding Complete!', message = f'Successfully added {word} to your words!')
+            if msg:
+                addword.widgets[1].delete(0, tk.END)
+                window.focus()
+                addword.widgets[1].focus()
+        else:
+            addword.widgets[1].selection_range(0, tk.END)
+            window.focus()
+            addword.widgets[1].focus()
+
+#removing a word
+def remove_word():
+    #globals
+    global removeword
+    #Page class instance removeword page
+    removeword = Page()
+    #window title
+    window.title('Remove Word')
+    #making widgets
+    back_to_home = BackButton(removeword, home_page)
+    word = tk.Entry(window)
+    word.place(x = 400, y = 350, anchor = tk.CENTER)
+    word.focus()
+    remove_button = tk.Button(window, text = 'Remove Word', height = 3, width = 15, fg = '#000000', font = ('charter', 15), command = lambda: get_remove_word())
+    remove_button.place(x = 400, y = 450, anchor = tk.CENTER)
+    remove_instructions = tk.Label(window, text = 'Type the word you\nwant to remove here:', bg = '#00FFFF', fg = '#000000', font = ('charter', 40))
+    remove_instructions.place(x = 400, y = 150, anchor = tk.CENTER)
+    #binding keys
+    window.bind('<Return>', lambda event: get_remove_word())
+    #defining removeword widgets and binds
+    removeword.widgets += [word, remove_button, remove_instructions]
+    removeword.binds += ['<Return>']
+
+#getting the removed word
+def get_remove_word():
+    #globals
+    global removeword, name, words
+    word = removeword.widgets[1].get().strip(' ')
+    already_in = False
+    for i in words:
+        if word == i.strip('\n'):
+            already_in = True
+    if not already_in:
+        msg = messagebox.showinfo(title = 'No can remove!', message = f'You don\'t have {word} added to your words!')
+        if msg:
+            removeword.widgets[1].selection_range(0, tk.END)
+            window.focus()
+            removeword.widgets[1].focus()
+    else:
+        msg = messagebox.askyesno(title = 'It\'ll be gone forever!!! (Unless you add it back)', message = f'Are you sure you want to remove {word} frome your words?')
+        if msg:
+            words.remove(word)
+            with open(f'./words/{name}_words.txt', 'w') as all_words:
+                for i in words:
+                    all_words.write(f'{i}\n')
+            msg = messagebox.showinfo(title = 'Removing Complete!', message = f'Successfully removed {word} from your words!')
+            if msg:
+                removeword.widgets[1].delete(0, tk.END)
+                window.focus()
+                removeword.widgets[1].focus()
+        else:
+            removeword.widgets[1].selection_range(0, tk.END)
+            window.focus()
+            removeword.widgets[1].focus()
 
 #main
 if __name__ == '__main__':
