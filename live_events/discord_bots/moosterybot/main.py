@@ -453,16 +453,9 @@ async def isGame(message):
                         break
         if brek:
             person = mentionStrip(getMsg(len(prefix) + len(gameCmd[2][0]) + 1, message.content, True))
-            try:
+            try: 
                 person = int(person)
                 try:
-                    emb = await embedMake(
-                        title="Invite to play!",
-                        desc="**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: **" + str(message.guild) + "** \nLink to message channel: <#"+str(message.channel.id)+">",
-                        thumbnail='',
-                        footer=""
-                    )
-                    await client.get_user(person).send(embed=emb)
                     emb = await embedMake(
                         title="Successful Invite",
                         desc="Waiting for user response",
@@ -470,6 +463,34 @@ async def isGame(message):
                         footer="sent with the note `"+str()+"`"
                     )
                     await message.author.send(embed=emb)
+                    emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request',
+                                      desc='Pending Game Invite '
+                                           'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
+                                           "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: **" + str(message.guild) + "** \nLink to message channel: <#"+str(message.channel.id)+">",
+                        
+                                      footer='beware of strangers online!')
+                    emoji = await client.get_user(person).send(embed=emb)
+                    await emoji.add_reaction("✅")
+                    await asyncio.sleep(1)
+
+                    def check(reaction, user):
+                        return str(reaction.emoji) and user
+
+                    try:
+                        reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+                    except asyncio.TimeoutError:
+                        emb = await embedMake(
+                            ["This game request from " + str(message.author) + " has timed out.",
+                            "\n You can do '-moostery create public' to make a new game and '-moostery invite @"+str(message.author)+"'`"],
+                            title='Expired game request!',
+                            desc='Sorry!',
+                            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                            footer='Invite them back!'
+                        )
+                        await emoji.edit(embed=emb)
+                    else:
+                        if str(reaction) == '✅':
+                            pass
                 except ValueError:
                     emb = await embedMake(
                         title="Not A User!",
