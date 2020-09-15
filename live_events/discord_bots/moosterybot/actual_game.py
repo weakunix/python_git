@@ -55,12 +55,6 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
         await asyncio.sleep(1)  # for ppl to get to their dms first
     gamething = character_classes.Game(emoji, classes)
     await gamething.startLoop(client, gamething)
-    #await recursion(client, gamething)
-
-
-async def recursion(client, gamething):
-    await gamething.startLoop(client, gamething)
-
 
 def initClasses(key):  # TODO limit to only making roles for one game i gtg eat now
     with open("roles.json", 'r') as brr:

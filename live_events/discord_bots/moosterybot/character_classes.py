@@ -61,7 +61,7 @@ class Game:
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         arymsg = []
-        a = 'Hopefully 10 seconds was enough time' if self.date == 1 else 'goodluck!'
+        a = 'Hopefully 3 seconds was enough time' if self.date == 1 else ' lol this will never show up!'
         emb = await main.embedMake(
             ['Day ' + str(self.date) + ':',
              '**Claim your role by reacting**\n``` 🗡️: Murder (lmao '
@@ -169,8 +169,16 @@ class Game:
         if self.date != 1:
             with open("games.json", 'r') as brr:
                 ppl = json.load(brr)
-            for b in range(len(ppl[str(self.id)])):
-                await client.get_user(int(ppl[str(self.id)][b])).send("Voting right now owo wow")
+            emb = await main.embedMake(
+                ['Day ' + str(self.date) + ':',
+                'are reacting as the Murder (just so you know LOL)'],
+                title='Time to vote!',
+                thumbnail='',
+                desc="Discuss by typing in DM's! Cast votes in 45 seconds!",
+                footer='Note: wait until the second message to start reacting! The bot has to react to all the players\' messages and Discord has a cooldown!'
+            )
+            for i in range(len(ppl[str(self.id)])):
+                await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb)
         return
 
     async def day(self, client):
