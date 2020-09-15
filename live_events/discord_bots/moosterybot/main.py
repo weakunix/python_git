@@ -1,5 +1,6 @@
 '''
 Dumbass VScode never auto changes directory so heres the command:
+
 cd /Users/cowland/python_git/live_events/discord_bots/moosterybot/
 python3 main.py
 '''
@@ -38,7 +39,7 @@ friendCmd = [
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 
-v = '0.1.4'
+v = '0.1.14'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
@@ -60,6 +61,7 @@ async def makeGame(pubpriv, payload):
     b = payload.author.id
     target = payload.author
     author = payload.author.id
+    a = "UR IN PRIVATE GAME FIX THIS BUG LATER"
     if pubpriv:
         # public
         emoji = await payload.channel.send(".")
@@ -92,7 +94,7 @@ async def makeGame(pubpriv, payload):
 
     while True:
         try:
-            reaction, user = await client.wait_for('reaction_add', timeout=180.0, check=check)
+            reaction, user = await client.wait_for('reaction_add', timeout=5.0, check=check)
         except asyncio.TimeoutError:
             emb = await embedMake(
                 title='The Game Has Timed Out',
@@ -111,9 +113,13 @@ async def makeGame(pubpriv, payload):
             )
             for i in range(len(ppl[str(a)])):
                 await client.get_user(int(ppl[str(a)][i])).send(embed=emb)
+            print(ppl)
             ppl.pop(str(a))
+            print(ppl)
             out_file = open("games.json", "w")
             json.dump(ppl, out_file, indent=4)
+            out_file.close()
+            break
         else:
             if str(user) == str(client.get_user(int(author))):
                 if str(reaction) == '☑️' or str(reaction) == '❌':
@@ -777,7 +783,7 @@ async def on_message(message):
 @client.event
 async def on_ready():
     print('\033[0m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    print('\033[92m Logged as {0.user}'.format(client))
+    print('\033[92m Logged as ' + str(client.user) + ' \n Version: ' + str(v))
     print('\033[0m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     await client.change_presence(
         activity=discord.Activity(name='for ' + str(prefix), type=discord.ActivityType.watching))
