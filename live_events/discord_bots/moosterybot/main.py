@@ -1,3 +1,8 @@
+'''
+Dumbass VScode never auto changes directory so heres the command:
+cd /Users/cowland/python_git/live_events/discord_bots/moosterybot/
+python3 main.py
+'''
 import actual_game
 import discord
 import json
@@ -33,7 +38,7 @@ friendCmd = [
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 
-v = '0.1.3'
+v = '0.1.4'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
