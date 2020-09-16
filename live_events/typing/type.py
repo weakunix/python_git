@@ -201,19 +201,23 @@ def typing_settings():
     amount = tk.Scale(window, from_ = 20, to = 200, orient = tk.HORIZONTAL, length = 180, bg = '#00FFFF')
     amount.place(x = 400, y = 375, anchor = tk.CENTER)
     mode = tk.OptionMenu(window, mode_var, 'Normal', 'Sudden Death')
-    mode.place(x = 300, y = 308, anchor = tk.CENTER)
+    mode.place(x = 500, y = 255, anchor = tk.CENTER)
     start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15), command = lambda: typing())
     start.place(x = 400, y = 475, anchor = tk.CENTER)
     words_check = tk.Checkbutton(window, text = 'Words', variable = words_var, bg = '#00FFFF')
-    words_check.place(x = 300, y = 250, anchor = tk.CENTER)
+    words_check.place(x = 200, y = 255, anchor = tk.CENTER)
     numbers_check = tk.Checkbutton(window, text = 'Numbers', variable = numbers_var, bg = '#00FFFF')
-    numbers_check.place(x = 400, y = 250, anchor = tk.CENTER)
+    numbers_check.place(x = 300, y = 255, anchor = tk.CENTER)
     symbols_check = tk.Checkbutton(window, text = 'Symbols', variable = symbols_var, bg = '#00FFFF')
-    symbols_check.place(x = 500, y = 250, anchor = tk.CENTER)
+    symbols_check.place(x = 400, y = 255, anchor = tk.CENTER)
     style = tk.OptionMenu(window, style_var, 'Paragraph', 'Quick Reaction')
-    style.place(x = 500, y = 308, anchor = tk.CENTER)
+    style.place(x = 600, y = 255, anchor = tk.CENTER)
+    one_word_entry = tk.Entry(window)
+    one_word_entry.place(x = 400, y = 325, anchor = tk.CENTER)
+    one_word_label = tk.Label(window, text = 'One Word (Optional):', bg = '#00FFFF', fg = '#000000', font = ('charter', 15))
+    one_word_label.place(x = 225, y = 325, anchor = tk.CENTER)
     #defining typesettings widgets and settings
-    typesettings.widgets += [amount, mode, start, words_check, numbers_check, symbols_check, style]
+    typesettings.widgets += [amount, mode, start, words_check, numbers_check, symbols_check, style, one_word_entry, one_word_label]
     typesettings.settings += [mode_var, words_var, numbers_var, symbols_var, style_var]
 
 ##typing
@@ -231,13 +235,20 @@ def typing():
         if msg:
             window.focus_force()
     else:
-        words_to_type = generate_words(word_amount, settings)
+        words_to_type = generate_words(word_amount, settings, typesettings.widgets[9].get())
+        for i in words_to_type:
+            print(i, end = '')
+        print('')
         #typesettings.clear()
 
 ##generating words
-def generate_words(amount, settings):
+def generate_words(amount, settings, one_word):
     #globals
     global words
+    if one_word == '':
+        one_word = words
+    else:
+        one_word = {one_word}
     words_to_type = []
     if settings[3] == 1:
         symbols = ['\'', '"', '(', ')', '.', ',', '!', '?', ':', ';']
@@ -283,13 +294,13 @@ def generate_words(amount, settings):
                     for k in range(random.randint(1, 10)):
                         word += str(random.randint(0, 10))
                 else:
-                    word_to_add = list(words)[random.randint(0, len(words) - 1)]
+                    word_to_add = list(one_word)[random.randint(0, len(one_word) - 1)]
                     if need_cap:
                         word_to_add = word_to_add[0].upper() + word_to_add[1:]
                         need_cap = False
                     word += word_to_add
             elif is_word:
-                word_to_add = list(words)[random.randint(0, len(words) - 1)]
+                word_to_add = list(one_word)[random.randint(0, len(one_word) - 1)]
                 if need_cap:
                     word_to_add = word_to_add[0].upper() + word_to_add[1:]
                     need_cap = False
