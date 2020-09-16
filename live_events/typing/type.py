@@ -233,7 +233,7 @@ def typing():
             window.focus_force()
     else:
         word_to_type = generate_words(word_amount, settings)
-        typesettings.clear()
+        #typesettings.clear()
 
 ##generating words
 def generate_words(amount, settings):
@@ -255,10 +255,10 @@ def generate_words(amount, settings):
     if symbols and not nums and not is_word:
         for i in range(amount):
             word = ''
-            for k in range(random.randint(1, 9)):
-                word += symbols[random.randint(0, 10)]
+            for k in range(random.randint(1, 10)):
+                word += symbols[random.randint(0, 9)]
             words_to_type.append(word + ' ')
-    if nums and not symbols and not is_word:
+    elif nums and not symbols and not is_word:
         for i in range(amount):
             word = ''
             for k in range(random.randint(1, 10)):
@@ -266,9 +266,9 @@ def generate_words(amount, settings):
             words_to_type.append(word + ' ')
     else:
         need_cap = True
+        is_symbol = False
         for i in range(amount):
             word = ''
-            is_symbol = False
             #starting symbol
             if symbols and not is_symbol:
                 if random.randint(1, 10) == 1:
@@ -301,19 +301,27 @@ def generate_words(amount, settings):
             if symbols:
                 if random.randint(1, 7) == 1:
                     word += symbols[random.randint(4, 9)]
+                    if i == amount - 1:
+                        if is_symbol == ')' or word[-1] == ',' or word[-1] == ';' or word[-1] == ':':
+                            word = word[:-1]
                     if word[-1] == '!' or word[-1] == '?' or word[-1] == '.':
                         need_cap = True
+                elif i == amount - 1 and is_symbol != ')':
+                    word += '.'
             if is_symbol:
                 if i == amount - 1:
                     word += is_symbol
-                else:
+                elif word[-1] != ',' and word[-1] != ';' and word[-1] != ':':
                     if random.randint(1, 3) == 1:
                         word += is_symbol
                         is_symbol = False
-            words_to_type.append(word + ' ')
-    for i in words_to_type:
-        print(i, end = '')
-    print('\n')
+            if i == amount - 1 and symbols:
+                if '!' not in word and '.' not in word and '?' not in word:
+                    word += '.'
+                words_to_type.append(word)
+            else:
+                words_to_type.append(word + ' ')
+    return words_to_type
 
 ##adding a word
 def add_word():
