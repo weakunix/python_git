@@ -709,19 +709,33 @@ async def isinGame(message):
         index = -1000
         for i in range(len(getusergame1)):
             if str(message.author.id) in getusergame1[i]:
-                index = i
+                index = i if i != 0 else -500
                 break
-        if index != -1000:
+        if index != -1000 and index != -500:
             a = getusergame2[index]
-        else:
+        elif index == -1000:
             emb = await embedMake(
-                title='Check Your GameCode!',
+                title='Check Your Status!',
                 thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                desc='Doesn\'t seem like you are in this game!',
+                desc='Doesn\'t seem like you are in a game!',
                 footer='use `-moostery create` to make a new game'
             )
             await message.author.send(embed=emb)
             return
+        elif index == -500:
+            try:
+                a = getusergame2[0]
+                d = role[getusergame2[0]]
+            except:
+                emb = await embedMake(
+                    title='You\'re the host!',
+                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                    desc='You can\'t leave your own game before it has started!!! Click cancel to cancel the game',
+                    footer='use `-moostery create` to make a new game'
+                )
+                await message.author.send(embed=emb)
+                return
+                #if the host is in game and the game has started then he can leave else he can't'''
         if str(a) in activegames:
             for i in range(len(activegames[str(a)])):
                 if str(message.author.id) == activegames[str(a)][i]:
@@ -738,6 +752,12 @@ async def isinGame(message):
         out_file = open("roles.json", "w")
         json.dump(role, out_file, indent=4)
         out_file.close()
+        if activegames[str(a)] == [] and role[str(a)] == []:
+            activegames.pop(str(a))
+            out_file = open("games.json", "w")
+            json.dump(activegames, out_file, indent=4)
+            out_file.close()
+            #if game is empty delete the game
         emb = await embedMake(
             title='Left Game',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
