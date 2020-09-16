@@ -114,4 +114,4 @@ menu = tk.OptionMenu(window, var, options)
 var = tk.StringVar() or tk.IntVar()
 
 ##make checkbox
-checkbox = tk.CheckButton(window, text = 'text', variable = var)
+checkbox = tk.Checkbutton(window, text = 'text', variable = var)
