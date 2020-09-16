@@ -17,6 +17,7 @@ class Page:
         #setting its widgets and binds to []
         self.widgets = []
         self.binds = []
+        self.settings = []
     def clear(self):
         for i in self.widgets:
             i.destroy()
@@ -36,10 +37,12 @@ class BackButton:
 #class title
 class Title:
     #init
-    def __init__(self, text, clear):
+    def __init__(self, text, clear, **kwargs):
+        #kwargs
+        self.y = kwargs.get('y', 175)
         #create title
         self.label = tk.Label(window, text = text, bg = '#00FFFF', fg = '#000000', font = ('charter', 60, 'italic'))
-        self.label.place(x = 400, y = 175, anchor = tk.CENTER)
+        self.label.place(x = 400, y = self.y, anchor = tk.CENTER)
         #append into its page's widgets
         clear.widgets.append(self.label)
 
@@ -112,58 +115,43 @@ def get_account(logorsign):
             try:
                 with open(f'./words/{name}_words.txt', 'r') as word_file:
                     for i in word_file:
-                        words.add(line.strip('\n'))
+                        words.add(i.strip('\n'))
             except:
                 pass
-            loginsignup.clear()
-            login_success(logorsign)
+            msg = messagebox.showinfo(title = 'Stats recovered correctly?', message = 'Login Successful')
+            if msg:
+                loginsignup.clear()
+                window.focus_force()
+                home_page()
         else:
-            account_fail('Account not found!')
+            msg = messagebox.showinfo(title = 'You spelling right?', message = 'Account not found!')
+            if msg:
+                loginsignup.widgets[3].selection_range(0, tk.END)
+                window.focus_force()
+                loginsignup.widgets[3].focus()
     else:
         if not is_account:
             if ' ' not in name:
                 with open('names.txt', 'a') as names:
                     names.write(f'{name}\n')
-                loginsignup.clear()
-                login_success(logorsign)
+                msg = messagebox.showinfo(title = 'Don\'t forget your account!', message = 'Signup Sucessful!')
+                if msg:
+                    loginsignup.clear()
+                    window.focus_force()
+                    home_page()
             else:
-                account_fail('Your name cannot contain spaces!')
+                msg = messagebox.showinfo(title = 'Why spaces huh?', message = 'Your name cannot contain spaces!')
+                if msg:
+                    loginsignup.widgets[3].selection_range(0, tk.END)
+                    window.focus_force()
+                    loginsignup.widgets[3].focus()
         else:
-            account_fail('This name has already been taken!')
+            msg = messagebox.showinfo(title = 'Bummer. Who stole your name?', message = 'This name has already been taken!')
+            if msg:
+                loginsignup.widgets[3].selection_range(0, tk.END)
+                window.focus_force()
+                loginsignup.widgets[3].focus()
 
-#account name not valid
-def account_fail(text):
-    #globals
-    global loginsignup
-    try:
-        loginsignup.widgets[5].destroy()
-        loginsignup.widgets[5] = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-        loginsignup.widgets[5].place(x = 400, y = 550, anchor = tk.CENTER)
-    except:
-        not_found = tk.Label(window, text = text, bg = '#00FFFF', fg = '#FF0000', font = ('charter', 10))
-        not_found.place(x = 400, y = 550, anchor = tk.CENTER)
-        loginsignup.widgets.append(not_found)
-    loginsignup.widgets[3].selection_range(0, tk.END)
-
-#login / sign up successful
-def login_success(logorsign):
-    #page class instance login success page
-    loginsuccess = Page()
-    #window title
-    window.title(f'{logorsign} Success')
-    #making widgets
-    all_set = Title('You\'re all set!', loginsuccess)
-    if logorsign == 'Login':
-        text = 'Login success! Hopefully you got all of your stats recovered correctly...'
-    else:
-        text = 'Signup success! Don\'t forget your account. There isn\'t any account recovery...'
-    details = tk.Label(window, text = text, bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
-    details.place(x = 400, y = 300, anchor = tk.CENTER)
-    start_type = tk.Button(window, text = 'Continue', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [loginsuccess.clear(), home_page()])
-    start_type.place(x = 400, y = 450, anchor = tk.CENTER)
-    #loginsuccess widgets defined
-    loginsuccess.widgets += [details, start_type]
-     
 ##home page
 def home_page():
     #globals
@@ -193,6 +181,8 @@ def home_page():
 
 ##word amount page
 def typing_settings():
+    #globals
+    global typesettings
     #Page class instance typesettings page
     typesettings = Page()
     #window title
@@ -200,16 +190,130 @@ def typing_settings():
     #checkbox and option menu variables
     mode_var = tk.StringVar()
     mode_var.set('Normal')
+    words_var = tk.IntVar()
+    numbers_var = tk.IntVar()
+    symbols_var = tk.IntVar()
+    style_var = tk.StringVar()
+    style_var.set('Paragraph')
     #making widgets
+    settings_title = Title('Typing Settings', typesettings, y = 125)
     back_to_home = BackButton(typesettings, home_page)
     amount = tk.Scale(window, from_ = 20, to = 200, orient = tk.HORIZONTAL, length = 180, bg = '#00FFFF')
-    amount.place(x = 500, y = 350, anchor = tk.CENTER)
+    amount.place(x = 400, y = 375, anchor = tk.CENTER)
     mode = tk.OptionMenu(window, mode_var, 'Normal', 'Sudden Death')
-    mode.place(x = 300, y = 358, anchor = tk.CENTER)
-    start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15))
-    start.place(x = 400, y = 450, anchor = tk.CENTER)
-    #defining typesettings widgets
-    typesettings.widgets = [amount, mode, start]
+    mode.place(x = 300, y = 308, anchor = tk.CENTER)
+    start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15), command = lambda: typing())
+    start.place(x = 400, y = 475, anchor = tk.CENTER)
+    words_check = tk.Checkbutton(window, text = 'Words', variable = words_var, bg = '#00FFFF')
+    words_check.place(x = 300, y = 250, anchor = tk.CENTER)
+    numbers_check = tk.Checkbutton(window, text = 'Numbers', variable = numbers_var, bg = '#00FFFF')
+    numbers_check.place(x = 400, y = 250, anchor = tk.CENTER)
+    symbols_check = tk.Checkbutton(window, text = 'Symbols', variable = symbols_var, bg = '#00FFFF')
+    symbols_check.place(x = 500, y = 250, anchor = tk.CENTER)
+    style = tk.OptionMenu(window, style_var, 'Paragraph', 'Quick Reaction')
+    style.place(x = 500, y = 308, anchor = tk.CENTER)
+    #defining typesettings widgets and settings
+    typesettings.widgets += [amount, mode, start, words_check, numbers_check, symbols_check, style]
+    typesettings.settings += [mode_var, words_var, numbers_var, symbols_var, style_var]
+
+##typing
+def typing():
+    #globals
+    global typesettings, words
+    settings = [i.get() for i in typesettings.settings]
+    word_amount = typesettings.widgets[2].get()
+    if settings[1] == 0 and settings[2] == 0 and settings[3] == 0:
+        msg = messagebox.showinfo(title = 'You can\'t type anything!', message = 'Check at least one of the boxes to start typing!')
+        if msg:
+            window.focus_force()
+    elif settings[1] == 1 and words == []:
+        msg = messagebox.showinfo(title = 'Add words!', message = 'You need to add words!')
+        import pdb;pdb.set_trace()
+        if msg:
+            window.focus_force()
+    else:
+        word_to_type = generate_words(word_amount, settings)
+        typesettings.clear()
+
+##generating words
+def generate_words(amount, settings):
+    #globals
+    global words
+    words_to_type = []
+    if settings[3] == 1:
+        symbols = ['\'', '"', '(', ')', '.', ',', '!', '?', ':', ';']
+    else:
+        symbols = False
+    if settings[2] == 1:
+        nums = True
+    else:
+        nums = False
+    if settings[1] == 1:
+        is_word = True
+    else:
+        is_word = False
+    if symbols and not nums and not is_word:
+        for i in range(amount):
+            word = ''
+            for k in range(random.randint(1, 9)):
+                word += symbols[random.randint(0, 10)]
+            words_to_type.append(word + ' ')
+    if nums and not symbols and not is_word:
+        for i in range(amount):
+            word = ''
+            for k in range(random.randint(1, 10)):
+                word += str(random.randint(0, 10))
+            words_to_type.append(word + ' ')
+    else:
+        need_cap = True
+        for i in range(amount):
+            word = ''
+            is_symbol = False
+            #starting symbol
+            if symbols and not is_symbol:
+                if random.randint(1, 10) == 1:
+                    is_symbol = symbols[random.randint(0, 2)]
+                    word += is_symbol
+                    if is_symbol == '(':
+                        is_symbol = ')'
+                    else:
+                        need_cap = True
+            #number or word
+            if is_word and nums:
+                if random.randint(1, 6) == 1:
+                    for k in range(random.randint(1, 10)):
+                        word += str(random.randint(0, 10))
+                else:
+                    word_to_add = list(words)[random.randint(0, len(words) - 1)]
+                    if need_cap:
+                        word_to_add = word_to_add[0].upper() + word_to_add[1:]
+                        need_cap = False
+                    word += word_to_add
+            elif is_word:
+                word_to_add = list(words)[random.randint(0, len(words) - 1)]
+                if need_cap:
+                    word_to_add = word_to_add[0].upper() + word_to_add[1:]
+                    need_cap = False
+                word += word_to_add
+            else:
+                for k in range(random.randint(1, 10)):
+                    word += str(random.randint(0, 10))
+            if symbols:
+                if random.randint(1, 7) == 1:
+                    word += symbols[random.randint(4, 9)]
+                    if word[-1] == '!' or word[-1] == '?' or word[-1] == '.':
+                        need_cap = True
+            if is_symbol:
+                if i == amount - 1:
+                    word += is_symbol
+                else:
+                    if random.randint(1, 3) == 1:
+                        word += is_symbol
+                        is_symbol = False
+            words_to_type.append(word + ' ')
+    for i in words_to_type:
+        print(i, end = '')
+    print('\n')
 
 ##adding a word
 def add_word():
@@ -247,7 +351,7 @@ def get_add_word():
         msg = messagebox.showinfo(title = 'No Duplicates!', message = f'You already have {word} added to your words!')
         if msg:
             addword.widgets[1].selection_range(0, tk.END)
-            window.focus()
+            window.focus_force()
             addword.widgets[1].focus()
     else:
         msg = messagebox.askyesno(title = 'Did you spell correctly?', message = f'Are you sure you want to add {word} into your words?')
@@ -258,11 +362,11 @@ def get_add_word():
             msg = messagebox.showinfo(title = 'Adding Complete!', message = f'Successfully added {word} to your words!')
             if msg:
                 addword.widgets[1].delete(0, tk.END)
-                window.focus()
+                window.focus_force()
                 addword.widgets[1].focus()
         else:
             addword.widgets[1].selection_range(0, tk.END)
-            window.focus()
+            window.focus_force()
             addword.widgets[1].focus()
 
 #removing a word
@@ -301,7 +405,7 @@ def get_remove_word():
         msg = messagebox.showinfo(title = 'No can remove!', message = f'You don\'t have {word} added to your words!')
         if msg:
             removeword.widgets[1].selection_range(0, tk.END)
-            window.focus()
+            window.focus_force()
             removeword.widgets[1].focus()
     else:
         msg = messagebox.askyesno(title = 'It\'ll be gone forever!!! (Unless you add it back)', message = f'Are you sure you want to remove {word} frome your words?')
@@ -313,11 +417,11 @@ def get_remove_word():
             msg = messagebox.showinfo(title = 'Removing Complete!', message = f'Successfully removed {word} from your words!')
             if msg:
                 removeword.widgets[1].delete(0, tk.END)
-                window.focus()
+                window.focus_force()
                 removeword.widgets[1].focus()
         else:
             removeword.widgets[1].selection_range(0, tk.END)
-            window.focus()
+            window.focus_force()
             removeword.widgets[1].focus()
 
 #main
