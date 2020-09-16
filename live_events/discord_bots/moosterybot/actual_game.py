@@ -38,7 +38,8 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
                                    desc='If you need to leave, this is the gamecode: `' + str(emoji) + '`',
                                    footer='This is your role. Goodluck and have fun!!!')
         await client.get_user(int(ppl[str(emoji)][i])).send(embed=emb)
-    await client.http.delete_message(payload.channel.id, payload.id)
+    if puborpriv:
+        await client.http.delete_message(payload.channel.id, payload.id)
     await intro(emoji, client, ppl, ppltoroles)
     emb = await main.embedMake(title='a')
     arymsg = []

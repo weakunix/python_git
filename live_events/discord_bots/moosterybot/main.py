@@ -61,7 +61,6 @@ async def makeGame(pubpriv, payload):
     b = payload.author.id
     target = payload.author
     author = payload.author.id
-    a = "UR IN PRIVATE GAME FIX THIS BUG LATER"
     if pubpriv:
         # public
         emoji = await payload.channel.send(".")
@@ -75,6 +74,8 @@ async def makeGame(pubpriv, payload):
             footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
         await emoji.edit(embed=emb)
     else:
+        emoji = await target.send(".")
+        a = emoji.id
         emb = await embedMake(
             ["Game Code (for ppl in other servers): ", '\n `' + str(a) + "`"],
             ["Users queued:", client.get_user(int(b))],
@@ -82,7 +83,7 @@ async def makeGame(pubpriv, payload):
             desc='Game type: 🔒, Private',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer='Invite people to play!')
-        emoji = await target.send(embed=emb)
+        await emoji.edit(embed=emb)
     jason_it(str(emoji.id), 'games.json', [str(author)]) #was previously using emoji.id
     await emoji.add_reaction('☑️')
     await emoji.add_reaction('❌')
@@ -455,11 +456,7 @@ async def isGame(message):
             person = mentionStrip(getMsg(len(prefix) + len(gameCmd[2][0]) + 1, message.content, True))
             index = -1000
             for i in range(len(getusergame1)):
-                print(False)
-                print(person)
-                print(getusergame1[i])
                 if str(message.author.id) in getusergame1[i]:
-                    print(True)
                     index = i
                     break
             msgid = getusergame2[index]
@@ -474,12 +471,18 @@ async def isGame(message):
                         footer="sent with the note `"+str()+"`"
                     )
                     await message.author.send(embed=emb)
-                    emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Friend Request',
-                                      desc='Pending Game Invite '
-                                           'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
-                                           "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: **" + str(message.guild) + "** \nLink to message channel: <#"+str(message.channel.id)+">",
-                        
-                                      footer='beware of strangers online!')
+                    if message.guild != None:
+                        emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Game Request',
+                                        desc='Pending Game Invite '
+                                            'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
+                                            "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: **" + str(message.guild),
+                                        footer='beware of strangers online!')
+                    else:
+                        emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Game Request',
+                                        desc='Pending Game Invite '
+                                            'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
+                                            "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: ** DMs: Private game! **",
+                                        footer='beware of strangers online!')
                     emoji = await client.get_user(person).send(embed=emb)
                     await emoji.add_reaction("✅")
                     await asyncio.sleep(1)
