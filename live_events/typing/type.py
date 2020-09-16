@@ -226,13 +226,12 @@ def typing():
         msg = messagebox.showinfo(title = 'You can\'t type anything!', message = 'Check at least one of the boxes to start typing!')
         if msg:
             window.focus_force()
-    elif settings[1] == 1 and words == []:
+    elif settings[1] == 1 and words == set():
         msg = messagebox.showinfo(title = 'Add words!', message = 'You need to add words!')
-        import pdb;pdb.set_trace()
         if msg:
             window.focus_force()
     else:
-        word_to_type = generate_words(word_amount, settings)
+        words_to_type = generate_words(word_amount, settings)
         #typesettings.clear()
 
 ##generating words
