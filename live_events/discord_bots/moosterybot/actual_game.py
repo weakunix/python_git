@@ -12,8 +12,7 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
     channel = client.get_channel(payload.channel.id)
     emb = await main.embedMake(title='Starting game',
                                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='Game starting!! Check your DM\'s! \n If you need to leave, this is the gamecode: `' + str(
-                                   emoji) + '`',
+                               desc='Game starting!! Check your DM\'s!',
                                footer='The game will be played through DM\'s')
     if puborpriv:
         await channel.send(embed=emb)
@@ -35,7 +34,6 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
             roles[int(ppltoroles[i])][1]) + '`'],
                                    title='Role Reveal!',
                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                   desc='If you need to leave, this is the gamecode: `' + str(emoji) + '`',
                                    footer='This is your role. Goodluck and have fun!!!')
         await client.get_user(int(ppl[str(emoji)][i])).send(embed=emb)
     if puborpriv:

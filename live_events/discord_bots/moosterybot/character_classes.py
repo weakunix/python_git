@@ -1022,3 +1022,8 @@ class simp(Characters):
 
     async def Nightrole(self, client, ppl):
         pass
+
+if __name__ == '__main__':
+    print(
+        'wrong file dude... not again!!!'
+    )

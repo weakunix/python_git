@@ -699,58 +699,52 @@ async def isOther(message):  # help and other stuff
 
 async def isinGame(message):
     if message.content.startswith(prefix + inGameCmd[0][0]):
-        a = getMsg(len(prefix) + len(inGameCmd[0][0]) + 1, message.content, True)
-        if a == '':
-            emb = await embedMake(
-                title='Leaving game',
-                thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                desc='Confirm Leaving Game by typing -moostery leave [gamecode]',
-                footer='sad'
-            )
-            await message.author.send(embed=emb)
+        with open("games.json", 'r') as brr:
+            activegames = json.load(brr)
+        with open("roles.json", 'r') as brr:
+            role = json.load(brr)
+        
+        getusergame1 = list(activegames.values())
+        getusergame2 = list(activegames.keys())
+        index = -1000
+        for i in range(len(getusergame1)):
+            if str(message.author.id) in getusergame1[i]:
+                index = i
+                break
+        if index != -1000:
+            a = getusergame2[index]
         else:
-            with open("games.json", 'r') as brr:
-                activegames = json.load(brr)
-            with open("roles.json", 'r') as brr:
-                role = json.load(brr)
-            if str(a) in activegames:
-                if str(message.author.id) in activegames[str(a)]:
-                    for i in range(len(activegames[str(a)])):
-                        if str(message.author.id) == activegames[str(a)][i]:
-                            activegames[str(a)].pop(i)
-                            role[str(a)].pop(i)
-                            break
-                else:
-                    emb = await embedMake(
-                        title='Check Your GameCode!',
-                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                        desc='Doesn\'t seem like you are in this game!',
-                        footer='use `-moostery create` to make a new game'
-                    )
-                    await message.author.send(embed=emb)
-                    return
-            else:
-                emb = await embedMake(
-                    title='Check Your Command!',
-                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                    desc='Doesn\'t seem like you are in a game!',
-                    footer='use `-moostery create` to make a new game'
-                )
-                await message.author.send(embed=emb)
-                return
-            out_file = open("games.json", "w")
-            json.dump(activegames, out_file, indent=4)
-            out_file.close()
-            out_file = open("roles.json", "w")
-            json.dump(role, out_file, indent=4)
-            out_file.close()
             emb = await embedMake(
-                title='Left Game',
+                title='Check Your GameCode!',
                 thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                desc='You have left the table in the middle of a game. GG',
-                footer='what a bummer.'
+                desc='Doesn\'t seem like you are in this game!',
+                footer='use `-moostery create` to make a new game'
             )
             await message.author.send(embed=emb)
+            return
+        if str(a) in activegames:
+            for i in range(len(activegames[str(a)])):
+                if str(message.author.id) == activegames[str(a)][i]:
+                    activegames[str(a)].pop(i)
+                    try:
+                        role[str(a)].pop(i)
+                    except KeyError:
+                        pass
+                    #try and except bc roles arnt handed out until game starts so if u leave beofer game starts it would be a error
+                    break
+        out_file = open("games.json", "w")
+        json.dump(activegames, out_file, indent=4)
+        out_file.close()
+        out_file = open("roles.json", "w")
+        json.dump(role, out_file, indent=4)
+        out_file.close()
+        emb = await embedMake(
+            title='Left Game',
+            thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+            desc='You have left the table in the middle of a game. GG',
+            footer='what a bummer.'
+        )
+        await message.author.send(embed=emb)
     elif message.content.startswith(prefix + inGameCmd[1][0]):
         idAndMsg = getMsg(len(prefix) + len(inGameCmd[1][0]) + 1, message.content, True).split()
         if len(idAndMsg) == 1:
