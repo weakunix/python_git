@@ -34,34 +34,45 @@ class Game:
             if roles[str(self.id)][i] == 1:
                 await self.kids[i].Passive(client)  # detective
         while True:
-            if self.checkIfStop():
-                with open("games.json", 'r') as brr:
-                    ppl = json.load(brr)
-                for i in range(len(ppl[str(self.id)])):
-                    await client.get_user(int(ppl[self.id][i])).send(
-                        "You Win!!! (if the murder kills everyone or you killed the murder!)")
-                    await client.get_user(int(ppl[self.id][i])).send("game log"+str(''.join(self.log)))
-                ppl.pop(str(self.id))
-                out_file = open("games.json", "w")
-                json.dump(ppl, out_file, indent=4)
-                return
-            await self.voting(client)
-            await self.day(client)
-            await self.night(client)
+            if not await self.checkIfStop(client):
+                await self.voting(client)
+            else:
+                break
+            if not await self.checkIfStop(client):
+                await self.day(client)
+            else:
+                break
+            if not await self.checkIfStop(client):
+                await self.night(client)
+            else:
+                break
             self.date += 1
 
-    def checkIfStop(self):
+    async def checkIfStop(self, client):
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         with open("roles.json", "r") as brr:
             roles = json.load(brr)
-        return False # True if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id] else False
+        if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id]:
+            with open("games.json", 'r') as brr:
+                ppl = json.load(brr)
+            for i in range(len(ppl[str(self.id)])):
+                await client.get_user(int(ppl[self.id][i])).send(
+                    "You Win!!! (if the murder kills everyone or you killed the murder!)")
+                await client.get_user(int(ppl[self.id][i])).send("game log"+str(''.join(self.log)))
+            ppl.pop(str(self.id))
+            out_file = open("games.json", "w")
+            json.dump(ppl, out_file, indent=4)
+            out_file.close()
+            return True
+        return False
+
 
     async def claiming(self, client):
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         arymsg = []
-        a = 'Hopefully 3 seconds was enough time' if self.date == 1 else ' lol this will never show up!'
+        a = 'Hopefully 3 seconds was enough time'
         emb = await main.embedMake(
             ['Day ' + str(self.date) + ':',
              '**Claim your role by reacting**\n``` 🗡️: Murder (lmao '
