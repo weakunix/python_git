@@ -39,7 +39,7 @@ friendCmd = [
     ['friend remove', 'usage: friend remove [player id/mention]. removes the person from your friends list (silently)']
 ]
 
-v = '0.1.14'
+v = '0.7'
 key = []
 with open('key.txt', 'r') as b:
     for line in b:
@@ -459,6 +459,15 @@ async def isGame(message):
                 if str(message.author.id) in getusergame1[i]:
                     index = i
                     break
+            for i in range(len(getusergame1)):
+                if str(person) in getusergame1[i]:
+                    emb = await embedMake(
+                        title="Invite Unsuccessful",
+                        desc="The user is in a game!",
+                        thumbnail=''
+                    )
+                    await message.author.send(embed=emb)
+                    return
             msgid = getusergame2[index]
             try: 
                 person = int(person)
@@ -476,13 +485,13 @@ async def isGame(message):
                                         desc='Pending Game Invite '
                                             'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
                                             "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: **" + str(message.guild),
-                                        footer='beware of strangers online!')
+                                        footer='beware of strangers online! You can leave by typing `-moostery leave`')
                     else:
                         emb = await embedMake(["From:", '\n `' + str(message.author) + "`"], title='Game Request',
                                         desc='Pending Game Invite '
                                             'Game Invite (click "✅" to accept, it will expire in 30 seconds)'
                                             "**You have been invited to play!** \nSent From: **" + str(message.author) + "**\nIn: ** DMs: Private game! **",
-                                        footer='beware of strangers online!')
+                                        footer='beware of strangers online! You can leave by typing `-moostery leave`')
                     emoji = await client.get_user(person).send(embed=emb)
                     await emoji.add_reaction("✅")
                     await asyncio.sleep(1)
