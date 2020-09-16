@@ -109,10 +109,10 @@ async def noGame(payload, client, prefix, ppl, emoji, puborno):
     out_file.close()
 
 
-async def joinGame(payload, client):
+async def joinGame(msgid, channelid, client):
     with open("games.json", 'r') as brr:
         gameppl = json.load(brr)
-    temparraystore = gameppl[str(payload.message_id)]
+    temparraystore = gameppl[str(msgid)]
     arraynewgame = []
     arraypeople = []
     if type(temparraystore) != str:
@@ -121,10 +121,10 @@ async def joinGame(payload, client):
             arraypeople.append(str(client.get_user(int(temparraystore[i]))))
     else:
         arraynewgame.append(temparraystore)
-    channel = client.get_channel(payload.channel_id)
-    msg = await channel.fetch_message(payload.message_id)
+    channel = client.get_channel(channelid)
+    msg = await channel.fetch_message(msgid)
     emb = await main.embedMake(
-        ["Game Code (for ppl in other servers): ", '\n `' + str(payload.message_id) + "`"],
+        ["Game Code (for ppl in other servers): ", '\n `' + str(msgid) + "`"],
         arraytoembdtt=arraynewgame,
         valuett=arraypeople,
         title='New Room Made!',

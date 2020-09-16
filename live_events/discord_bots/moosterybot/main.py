@@ -94,7 +94,7 @@ async def makeGame(pubpriv, payload):
 
     while True:
         try:
-            reaction, user = await client.wait_for('reaction_add', timeout=5.0, check=check)
+            reaction, user = await client.wait_for('reaction_add', timeout=180.0, check=check)
         except asyncio.TimeoutError:
             emb = await embedMake(
                 title='The Game Has Timed Out',
@@ -113,9 +113,7 @@ async def makeGame(pubpriv, payload):
             )
             for i in range(len(ppl[str(a)])):
                 await client.get_user(int(ppl[str(a)][i])).send(embed=emb)
-            print(ppl)
             ppl.pop(str(a))
-            print(ppl)
             out_file = open("games.json", "w")
             json.dump(ppl, out_file, indent=4)
             out_file.close()
@@ -411,7 +409,7 @@ async def isGame(message):
                         emb = await embedMake(
                             title='The Game Has Timed Out',
                             desc='This game has timed out!',
-                            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                            thumbnail='https://media.zdiscordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
                             footer='use `-moostery create` to make a new game'
                         )
                         await emoji.edit(embed=emb)
@@ -452,9 +450,22 @@ async def isGame(message):
                         brek = True
                         break
         if brek:
+            getusergame1 = list(activegames.values())
+            getusergame2 = list(activegames.keys())
             person = mentionStrip(getMsg(len(prefix) + len(gameCmd[2][0]) + 1, message.content, True))
+            index = -1000
+            for i in range(len(getusergame1)):
+                print(False)
+                print(person)
+                print(getusergame1[i])
+                if str(message.author.id) in getusergame1[i]:
+                    print(True)
+                    index = i
+                    break
+            msgid = getusergame2[index]
             try: 
                 person = int(person)
+                msgid = int(msgid)
                 try: 
                     emb = await embedMake(
                         title="Successful Invite",
@@ -475,22 +486,24 @@ async def isGame(message):
 
                     def check(reaction, user):
                         return str(reaction.emoji) and user
-
-                    try:
-                        reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
-                    except asyncio.TimeoutError:
-                        emb = await embedMake(
-                            ["This game request from " + str(message.author) + " has timed out.",
-                            "\n You can do '-moostery create public' to make a new game and '-moostery invite @"+str(message.author)+"'`"],
-                            title='Expired game request!',
-                            desc='Sorry!',
-                            thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                            footer='Invite them back!'
-                        )
-                        await emoji.edit(embed=emb)
-                    else:
-                        if str(reaction) == '✅':
-                            pass
+                    while True:
+                        try:
+                            reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+                        except asyncio.TimeoutError:
+                            emb = await embedMake(
+                                ["This game request from " + str(message.author) + " has timed out.",
+                                "\n You can do '-moostery create public' to make a new game and '-moostery invite @"+str(message.author)+"'`"],
+                                title='Expired game request!',
+                                desc='Sorry!',
+                                thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
+                                footer='Invite them back!'
+                            )
+                            await emoji.edit(embed=emb)
+                        else:
+                            if user == client.get_user(person):
+                                if str(reaction) == '✅':
+                                    await gameJoin(msgid, person, message.channel.id)
+                                    break
                 except ValueError:
                     emb = await embedMake(
                         title="Not A User!",
@@ -517,6 +530,41 @@ async def isGame(message):
             await message.author.send(embed=emb)
 
 
+async def gameJoin(msd, author, channel):
+    with open("games.json", 'r') as brr:
+        activegames = json.load(brr)
+    gamestuff = activegames[str(msd)]
+    arraynewgames = []
+    if type(gamestuff) != str:
+        for i in range(len(gamestuff)):
+            arraynewgames.append(gamestuff[i])
+    else:
+        arraynewgames.append(gamestuff)
+    arraynewgames.append(str(author))
+    jason_it(str(msd), 'games.json', arraynewgames)
+    await actual_game.joinGame(msd, channel, client)
+    values = []
+    ara = []
+    if type(activegames[str(msd)]) != str:
+        for i in range(len(activegames[str(msd)])):
+            ara.append(activegames[str(msd)][i])
+            values.append(str(client.get_user(int(activegames[str(msd)][i]))))
+    else:
+        ara.append(activegames[str(msd)])
+        values.append(str(client.get_user(int(activegames[str(msd)]))))
+    emb = await embedMake(['People sat at the table', 'Name and ID'],
+                        title='Joined Game',
+                        arraytoembdtt=ara,
+                        thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+                        valuett=values,
+                        desc='You have joined the table \n Host: ' + str(
+                            client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
+                            msd) + '`',
+                        footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
+                        )
+    await client.get_user(int(author)).send(embed=emb)
+
+
 @client.event
 async def on_raw_reaction_add(payload):
     if payload.user_id == client.user.id:
@@ -534,36 +582,7 @@ async def on_raw_reaction_add(payload):
                         brek = True
                         break
             if not brek:
-                gamestuff = activegames[str(payload.message_id)]
-                arraynewgames = []
-                if type(gamestuff) != str:
-                    for i in range(len(gamestuff)):
-                        arraynewgames.append(gamestuff[i])
-                else:
-                    arraynewgames.append(gamestuff)
-                arraynewgames.append(str(payload.user_id))
-                jason_it(str(payload.message_id), 'games.json', arraynewgames)
-                await actual_game.joinGame(payload, client)
-                values = []
-                ara = []
-                if type(activegames[str(payload.message_id)]) != str:
-                    for i in range(len(activegames[str(payload.message_id)])):
-                        ara.append(activegames[str(payload.message_id)][i])
-                        values.append(str(client.get_user(int(activegames[str(payload.message_id)][i]))))
-                else:
-                    ara.append(activegames[str(payload.message_id)])
-                    values.append(str(client.get_user(int(activegames[str(payload.message_id)]))))
-                emb = await embedMake(['People sat at the table', 'Name and ID'],
-                                    title='Joined Game',
-                                    arraytoembdtt=ara,
-                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                                    valuett=values,
-                                    desc='You have joined the table \n Host: ' + str(
-                                        client.get_user(int(ara[0]))) + '\n Game Code: `' + str(
-                                        payload.message_id) + '`',
-                                    footer='YAY! Have fun!!! I can\'t... because I\'m just a footer...'
-                                    )
-                await client.get_user(int(payload.user_id)).send(embed=emb)
+                await gameJoin(payload.message_id, payload.user_id, payload.channel_id)
             else:
                 emb = await embedMake(
                         title='YOURE IN A GAME!',
@@ -593,7 +612,7 @@ async def on_raw_reaction_remove(payload):
                     out_file = open("games.json", "w")
                     json.dump(activegames, out_file, indent=4)
                     out_file.close()
-                    await actual_game.joinGame(payload, client)
+                    #await actual_game.joinGame(payload.message_id, payload.channel_id, client)
                     emb = await embedMake(
                         title='Left Game',
                         thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
