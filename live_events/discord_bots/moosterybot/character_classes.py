@@ -38,17 +38,14 @@ class Game:
             if roles[str(self.id)][i] == 1:
                 await self.kids[i].Passive(client)  # detective
         while True:
-            if not await self.checkIfStop(client):
-                await self.voting(client)
-            else:
+            a = await self.voting(client)
+            if a == -1:
                 break
-            if not await self.checkIfStop(client):
-                await self.day(client)
-            else:
+            a = await self.day(client)
+            if a == -1:
                 break
-            if not await self.checkIfStop(client):
-                await self.night(client)
-            else:
+            a = await self.night(client)
+            if a == -1:
                 break
             self.date += 1
 
@@ -182,6 +179,9 @@ class Game:
 
     async def voting(self, client):
         if self.date != 1:
+            a = await self.checkIfStop(client) 
+            if a == True:
+                return -1
             with open("games.json", 'r') as brr:
                 ppl = json.load(brr)
             emb = await main.embedMake(
@@ -194,7 +194,7 @@ class Game:
             )
             for i in range(len(ppl[str(self.id)])):
                 await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb)
-        return
+        return 0 
 
     async def day(self, client):
         with open("roles.json", 'r') as brr:
@@ -202,6 +202,9 @@ class Game:
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         for i in range(len(ppl[str(self.id)])):
+            a = await self.checkIfStop(client) 
+            if a == True:
+                return -1
             emb = await main.embedMake(
                 title='Turns:',
                 desc='The ' + str(
@@ -221,6 +224,9 @@ class Game:
             role = json.load(brr)
         Randomorder = []
         while len(Randomorder) < len(ppl[str(self.id)]):
+            a = await self.checkIfStop(client) 
+            if a == True:
+                return -1
             a = random.randint(0, len(ppl[str(self.id)]) - 1)
             if a not in Randomorder: 
                 Randomorder.append(a)
@@ -251,12 +257,8 @@ class Game:
             if str(user) in cls._classInstances[i].players:
                 for l in range(len(cls._classInstances[i].players)):
                     if str(user) == cls._classInstances[i].players[l]:
-                        print(cls._classInstances[i].kids)
-                        print(cls._classInstances[i].players)
                         cls._classInstances[i].players.pop(l)
                         cls._classInstances[i].kids.pop(l)
-                        print(cls._classInstances[i].kids)
-                        print(cls._classInstances[i].players)
                         for e in range(len(cls._classInstances[i].players)):
                             emb = await main.embedMake(
                                 title='Notice! Person has left the game',
@@ -267,7 +269,7 @@ class Game:
                             await client.get_user(int(cls._classInstances[i].players[e])).send(embed=emb)
                         if str(cls._classInstances[i].kids[l].__class__.__name__) == "murder":
                             cls._classInstances[i].badGuys -= 1
-                        return
+                        return #dumb bug fix tmr
         
 
 

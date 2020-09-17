@@ -64,7 +64,7 @@ async def makeGame(pubpriv, payload):
     author = payload.author.id
     if pubpriv:
         # public
-        emoji = await payload.channel.send(".")
+        emoji = await payload.channel.send(embed=await embedMake(title="."))
         a = emoji.id
         emb = await embedMake(
             ["Game Code (for ppl in other servers):", '\n `' + str(a) + "`"],
@@ -73,9 +73,8 @@ async def makeGame(pubpriv, payload):
             desc='Game type: 🔓, Public',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer="If you are the host, press the '☑️' to start game or '❌' to cancel!, Press '🚪' to join/leave the game")
-        await emoji.edit(embed=emb)
     else:
-        emoji = await target.send(".")
+        emoji = await target.send(embed=await embedMake(title="."))
         a = emoji.id
         emb = await embedMake(
             ["Game Code (for ppl in other servers): ", '\n `' + str(a) + "`"],
@@ -84,7 +83,7 @@ async def makeGame(pubpriv, payload):
             desc='Game type: 🔒, Private',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
             footer='Invite people to play!')
-        await emoji.edit(embed=emb)
+    await emoji.edit(embed=emb)
     jason_it(str(emoji.id), 'games.json', [str(author)]) #was previously using emoji.id
     await emoji.add_reaction('☑️')
     await emoji.add_reaction('❌')

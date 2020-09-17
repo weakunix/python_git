@@ -16,6 +16,7 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
                                footer='The game will be played through DM\'s')
     if puborpriv:
         await channel.send(embed=emb)
+        await client.http.delete_message(payload.channel.id, emoji)
     ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(emoji)]))]
     ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
@@ -36,8 +37,6 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
                                    thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
                                    footer='This is your role. Goodluck and have fun!!!')
         await client.get_user(int(ppl[str(emoji)][i])).send(embed=emb)
-    if puborpriv:
-        await client.http.delete_message(payload.channel.id, payload.id)
     await intro(emoji, client, ppl, ppltoroles)
     emb = await main.embedMake(title='a')
     arymsg = []
