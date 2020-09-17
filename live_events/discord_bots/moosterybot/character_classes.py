@@ -57,12 +57,18 @@ class Game:
         if len(ppl[self.id]) - self.badGuys < self.badGuys or 0 not in roles[self.id]:
             with open("games.json", 'r') as brr:
                 ppl = json.load(brr)
+            with open("roles.json", "r") as brr:
+                roles = json.load(brr)
             for i in range(len(ppl[str(self.id)])):
                 await client.get_user(int(ppl[self.id][i])).send(
                     "You Win!!! (if the murder kills everyone or you killed the murder!)")
                 await client.get_user(int(ppl[self.id][i])).send("game log"+str(''.join(self.log)))
             ppl.pop(str(self.id))
+            roles.pop(str(self.id))
             out_file = open("games.json", "w")
+            json.dump(ppl, out_file, indent=4)
+            out_file.close()
+            out_file = open("roles.json", "w")
             json.dump(ppl, out_file, indent=4)
             out_file.close()
             return True
