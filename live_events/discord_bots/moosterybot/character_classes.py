@@ -7,6 +7,9 @@ import asyncio
 
 
 class Game:
+
+    _classInstances = []
+
     def __init__(self, id, containerFilledWithKids):
         self.id = str(id)
         self.date = 1
@@ -16,6 +19,7 @@ class Game:
         self.badGuys = 1 if len(self.players) < 7 else 2
         self.kids = containerFilledWithKids  # all the character classes of the game (sorry FBI)
         self.log = []
+        self._classInstances.append(self)
         '''
         [<character_classes.detective object at 0x7f95667b7b80>, <character_classes.murder object at 0x7f956675db50>]
         ['369652997308809226', '713106996055769110']
@@ -240,6 +244,31 @@ class Game:
                         break
         except IndexError:
             return  # someone died and now the list is shorter. boo hoo, too bad so sad
+    
+    @classmethod
+    async def leaving(cls, user, client):
+        for i in range(len(cls._classInstances)):
+            if str(user) in cls._classInstances[i].players:
+                for l in range(len(cls._classInstances[i].players)):
+                    if str(user) == cls._classInstances[i].players[l]:
+                        print(cls._classInstances[i].kids)
+                        print(cls._classInstances[i].players)
+                        cls._classInstances[i].players.pop(l)
+                        cls._classInstances[i].kids.pop(l)
+                        print(cls._classInstances[i].kids)
+                        print(cls._classInstances[i].players)
+                        for e in range(len(cls._classInstances[i].players)):
+                            emb = await main.embedMake(
+                                title='Notice! Person has left the game',
+                                desc= "**" + str(client.get_user(int(cls._classInstances[i].players[l]))) + '** has left the game! Their role was the **' + str(cls._classInstances[i].kids[l].__class__.__name__) + "**",
+                                footer='If they were the murder, the game automatically ends',
+                                color=0x0000FF
+                            )
+                            await client.get_user(int(cls._classInstances[i].players[e])).send(embed=emb)
+                        if str(cls._classInstances[i].kids[l].__class__.__name__) == "murder":
+                            cls._classInstances[i].badGuys -= 1
+                        return
+        
 
 
 class Characters:

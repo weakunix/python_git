@@ -5,6 +5,7 @@ cd /Users/cowland/python_git/live_events/discord_bots/moosterybot/
 python3 main.py
 '''
 import actual_game
+import character_classes
 import discord
 import json
 import string
@@ -703,7 +704,6 @@ async def isinGame(message):
             activegames = json.load(brr)
         with open("roles.json", 'r') as brr:
             role = json.load(brr)
-        
         getusergame1 = list(activegames.values())
         getusergame2 = list(activegames.keys())
         index = -1000
@@ -746,6 +746,7 @@ async def isinGame(message):
                         pass
                     #try and except bc roles arnt handed out until game starts so if u leave beofer game starts it would be a error
                     break
+        await character_classes.Game.leaving(str(message.author.id), client)
         out_file = open("games.json", "w")
         json.dump(activegames, out_file, indent=4)
         out_file.close()
