@@ -41,7 +41,7 @@ class Title:
         #kwargs
         self.y = kwargs.get('y', 175)
         #create title
-        self.label = tk.Label(window, text = text, bg = '#00FFFF', fg = '#000000', font = ('charter', 60, 'italic'))
+        self.label = tk.Label(window, text = text, bg = '#00ffff', fg = '#000000', font = ('charter', 60, 'italic'))
         self.label.place(x = 400, y = self.y, anchor = tk.CENTER)
         #append into its page's widgets
         clear.widgets.append(self.label)
@@ -73,7 +73,7 @@ def login_signup_page(logorsign):
     #making widgets
     loginsignup_title = Title(f'{logorsign}:', loginsignup)
     back_button = BackButton(loginsignup, login_or_signup)
-    name = tk.Label(window, text = 'Name: ', bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+    name = tk.Label(window, text = 'Name: ', bg = '#00ffff', fg = '#000000', font = ('charter', 20))
     name.place(x = 260, y = 375, anchor = tk.CENTER)
     name_input = tk.Entry(window, font = ('charter', 15))
     name_input.place(x = 400, y = 375, anchor = tk.CENTER)
@@ -169,11 +169,11 @@ def home_page():
     remove_word_button = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), remove_word()])
     remove_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
     if len(wpm) != 0:
-        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
-        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)} | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10} | Last type accuracy: {accuracy[-1]}',  bg = '#00FFFF', fg = '#000000', font = ('charter', 20))
+        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 20))
+        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)} | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10} | Last type accuracy: {accuracy[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 20))
     else:
-        wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
-        accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00FFFF', fg = '#000000', font = ('charter', 10))
+        wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+        accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
     wpm_label.place(x = 400, y = 525, anchor = tk.CENTER)
     accuracy_label.place(x = 400, y = 550, anchor = tk.CENTER)
     #homepage widgets defined
@@ -198,32 +198,33 @@ def typing_settings():
     #making widgets
     settings_title = Title('Typing Settings', typesettings, y = 125)
     back_to_home = BackButton(typesettings, home_page)
-    amount = tk.Scale(window, from_ = 20, to = 200, orient = tk.HORIZONTAL, length = 180, bg = '#00FFFF')
+    amount = tk.Scale(window, from_ = 20, to = 100, orient = tk.HORIZONTAL, length = 120, bg = '#00ffff')
     amount.place(x = 400, y = 375, anchor = tk.CENTER)
     mode = tk.OptionMenu(window, mode_var, 'Normal', 'Sudden Death')
-    mode.place(x = 500, y = 255, anchor = tk.CENTER)
-    start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15), command = lambda: typing())
+    mode.place(x = 525, y = 255, anchor = tk.CENTER)
+    start = tk.Button(window, text = 'Start Typing', height = 3, width = 10, fg = '#000000', font = ('charter', 15), command = lambda: pre_typing())
     start.place(x = 400, y = 475, anchor = tk.CENTER)
-    words_check = tk.Checkbutton(window, text = 'Words', variable = words_var, bg = '#00FFFF')
+    words_check = tk.Checkbutton(window, text = 'Words', variable = words_var, bg = '#00ffff')
     words_check.place(x = 200, y = 255, anchor = tk.CENTER)
-    numbers_check = tk.Checkbutton(window, text = 'Numbers', variable = numbers_var, bg = '#00FFFF')
+    numbers_check = tk.Checkbutton(window, text = 'Numbers', variable = numbers_var, bg = '#00ffff')
     numbers_check.place(x = 300, y = 255, anchor = tk.CENTER)
-    symbols_check = tk.Checkbutton(window, text = 'Symbols', variable = symbols_var, bg = '#00FFFF')
+    symbols_check = tk.Checkbutton(window, text = 'Symbols', variable = symbols_var, bg = '#00ffff')
     symbols_check.place(x = 400, y = 255, anchor = tk.CENTER)
     style = tk.OptionMenu(window, style_var, 'Paragraph', 'Quick Reaction')
-    style.place(x = 600, y = 255, anchor = tk.CENTER)
+    style.place(x = 675, y = 255, anchor = tk.CENTER)
     one_word_entry = tk.Entry(window)
     one_word_entry.place(x = 400, y = 325, anchor = tk.CENTER)
-    one_word_label = tk.Label(window, text = 'One Word (Optional):', bg = '#00FFFF', fg = '#000000', font = ('charter', 15))
+    one_word_label = tk.Label(window, text = 'One Word (Optional):', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
     one_word_label.place(x = 225, y = 325, anchor = tk.CENTER)
     #defining typesettings widgets and settings
     typesettings.widgets += [amount, mode, start, words_check, numbers_check, symbols_check, style, one_word_entry, one_word_label]
     typesettings.settings += [mode_var, words_var, numbers_var, symbols_var, style_var]
 
-##typing
-def typing():
+##pre typing
+def pre_typing():
     #globals
     global typesettings, words
+    sd = False
     settings = [i.get() for i in typesettings.settings]
     word_amount = typesettings.widgets[2].get()
     if settings[1] == 0 and settings[2] == 0 and settings[3] == 0:
@@ -236,10 +237,25 @@ def typing():
             window.focus_force()
     else:
         words_to_type = generate_words(word_amount, settings, typesettings.widgets[9].get())
-        for i in words_to_type:
-            print(i, end = '')
-        print('')
-        #typesettings.clear()
+        typesettings.clear()
+        if settings[0] == 'Sudden Death':
+            sd = True
+        if settings[4] == 'Paragraph':
+            wtt_string = ''
+            for i in words_to_type:
+                wtt_string += i
+            typing(wtt_string, sd, 'Paragraph')
+        elif settings[4] == 'Quick Reaction':
+            typing(words_to_type, sd, 'Quick Reaction', count = 1)
+
+##typing page
+def typing(wtt, sd, style, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
+    count = kwargs.get('count', None)
+    if style == 'Paragraph':
+        words_to_type = tk.Label(window, text = wtt, font = ('charter', 15), bg = '#ffffff', fg = '#000000', wraplength = 700, justify = tk.LEFT)
+        words_to_type.place(x = 50, y = 100, anchor = tk.NW) #TODO ADD COLOR
+    elif style == 'Quick Reaction':
+        print(wtt)
 
 ##generating words
 def generate_words(amount, settings, one_word):
@@ -348,7 +364,7 @@ def add_word():
     word.focus()
     add_button = tk.Button(window, text = 'Add Word', height = 3, width = 15, fg = '#000000', font = ('charter', 15), command = lambda: get_add_word())
     add_button.place(x = 400, y = 450, anchor = tk.CENTER)
-    add_instructions = tk.Label(window, text = 'Type the word you\nwant to add here:', bg = '#00FFFF', fg = '#000000', font = ('charter', 40))
+    add_instructions = tk.Label(window, text = 'Type the word you\nwant to add here:', bg = '#00ffff', fg = '#000000', font = ('charter', 40))
     add_instructions.place(x = 400, y = 150, anchor = tk.CENTER)
     #binding keys
     window.bind('<Return>', lambda event: get_add_word())
@@ -402,7 +418,7 @@ def remove_word():
     word.focus()
     remove_button = tk.Button(window, text = 'Remove Word', height = 3, width = 15, fg = '#000000', font = ('charter', 15), command = lambda: get_remove_word())
     remove_button.place(x = 400, y = 450, anchor = tk.CENTER)
-    remove_instructions = tk.Label(window, text = 'Type the word you\nwant to remove here:', bg = '#00FFFF', fg = '#000000', font = ('charter', 40))
+    remove_instructions = tk.Label(window, text = 'Type the word you\nwant to remove here:', bg = '#00ffff', fg = '#000000', font = ('charter', 40))
     remove_instructions.place(x = 400, y = 150, anchor = tk.CENTER)
     #binding keys
     window.bind('<Return>', lambda event: get_remove_word())
@@ -447,7 +463,7 @@ if __name__ == '__main__':
     #window set up
     window = tk.Tk()
     window.geometry('800x600')
-    window.config(bg = '#00FFFF')
+    window.config(bg = '#00ffff')
     #call login or signup func
     login_or_signup()
     #mainloop
