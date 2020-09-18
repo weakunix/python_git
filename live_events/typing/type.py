@@ -298,12 +298,20 @@ def typing(wtt, sd, style, count, **kwargs): #TODO MAKE A FORMULA TO CREATE WORD
             inpt.focus()
             typing_page.widgets.append(inpt)
     for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
-        window.bind(f'<{i}>', lambda event: typing(wtt, sd, style, count))
+        binding_key = f'<{i}>'
+        typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
     for i in range(10):
-        window.bind(f'<Key-{str(i)}>', lambda event: typing(wtt, sd, style, count))
+        binding_key = f'<Key-{str(i)}>'
+        typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
     for i in ['BackSpace', 'Delete']:
-        window.bind(f'<{i}>', lambda event: typing(wtt, sd, style, count))
+        binding_key = f'<{i}>'
+        typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
     window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, key_clicked = 'space'))
+    typing_page.binds += ['<space>']
+    rage_quit = BackButton(typing_page, home_page)
 
 ##generating words
 def generate_words(amount, settings, one_word):
