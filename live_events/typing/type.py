@@ -244,18 +244,54 @@ def pre_typing():
             wtt_string = ''
             for i in words_to_type:
                 wtt_string += i
-            typing(wtt_string, sd, 'Paragraph')
+            typing(wtt_string, sd, 'Paragraph', 'S')
         elif settings[4] == 'Quick Reaction':
-            typing(words_to_type, sd, 'Quick Reaction', count = 1)
+            typing(words_to_type, sd, 'Quick Reaction', '',  count = 0)
 
 ##typing page
-def typing(wtt, sd, style, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
+def typing(wtt, sd, style, typed, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
+    #globals
+    global typing_page
+    #Page class instance typing page
     count = kwargs.get('count', None)
-    if style == 'Paragraph':
-        words_to_type = tk.Label(window, text = wtt, font = ('charter', 15), bg = '#ffffff', fg = '#000000', wraplength = 700, justify = tk.LEFT)
-        words_to_type.place(x = 50, y = 100, anchor = tk.NW) #TODO ADD COLOR
-    elif style == 'Quick Reaction':
-        print(wtt)
+    try:
+        typed = typing_page.widgets[1].get()
+    except:
+        typing_page = Page()
+        if style == 'Paragraph':
+            words_to_type = tk.Label(window, text = wtt, font = ('charter', 15), bg = '#ffffff', fg = '#000000', wraplength = 700, justify = tk.LEFT)
+            words_to_type.place(x = 50, y = 100, anchor = tk.NW)
+        elif style == 'Quick Reaction':
+            words_to_type = tk.Label(window, text = wtt[count], font = ('charter', 60), bg = '#ffffff', fg = '#000000')
+            words_to_type.place(x = 400, y = 250, anchor = tk.CENTER)
+        typing_page.widgets.append(words_to_type)
+    correct = True
+    for i in range(len(typed)):
+        if typed[i] != wtt[i]:
+            correct = False
+            break
+    if correct:
+        try:
+            typing_page.widgets[1].config(bg = '#00ff00')
+            typing_page.widgets[1].focus()
+        except:
+            inpt = tk.Entry(window)
+            inpt.place(x = 400, y = 450, anchor = tk.CENTER)
+            inpt.focus()
+            typing_page.widgets.append(inpt)
+    else:
+        try:
+            typing_page.widgets[1].config(bg = '#ff0000')
+            typing_page.widgets[1].focus()
+        except:
+            inpt = tk.Entry(window)
+            inpt.place(x = 400, y = 450, anchor = tk.CENTER)
+            inpt.focus()
+            typing_page.widgets.append(inpt)
+    for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,.!?;:\'"':
+        window.bind(f'<{i}>', lambda event: typing(wtt, sd, style, typed))
+    for i in ['space', 'BackSpace', 'Delete']:
+        window.bind(f'<{i}>', lambda event: typing(wtt, sd, style, typed))
 
 ##generating words
 def generate_words(amount, settings, one_word):
