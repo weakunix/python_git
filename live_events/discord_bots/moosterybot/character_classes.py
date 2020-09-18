@@ -31,21 +31,34 @@ class Game:
     async def startLoop(self, client, classtobind):
         with open("roles.json", "r") as brr:
             roles = json.load(brr)
-        for i in range(len(self.kids)):
-            self.kids[i].binding(classtobind)
+        alreadyRan = []
+        lenth = len(self.kids)
+        while len(alreadyRan) < lenth:
+            lenth = len(self.kids) #update in loop justt in case
+            i = random.randint(0, lenth - 1)
+            if i not in alreadyRan:
+                self.kids[i].binding(classtobind)
+                alreadyRan.append(i)
         await self.claiming(client)
-        for i in range(len(roles[str(self.id)])):
-            if roles[str(self.id)][i] == 1:
-                await self.kids[i].Passive(client)  # detective
+
+        alreadyRan = []
+        lenth = len(self.kids)
+        while len(alreadyRan) < lenth:
+            lenth = len(self.kids) #update in loop justt in case
+            i = random.randint(0, lenth - 1)
+            if i not in alreadyRan:
+                with open("roles.json", "r") as brr:
+                    roles = json.load(brr)
+                if roles[str(self.id)][i] == 1:
+                    await self.kids[i].Passive(client)  # detective
+                alreadyRan.append(i)
+            
         while True:
-            a = await self.voting(client)
-            if a == -1:
+            if await self.voting(client) == -1:
                 break
-            a = await self.day(client)
-            if a == -1:
+            if await self.day(client) == -1:
                 break
-            a = await self.night(client)
-            if a == -1:
+            if await self.night(client) == -1:
                 break
             self.date += 1
 
@@ -184,10 +197,10 @@ class Game:
                     await client.get_user(int(ppl[str(self.id)][b])).send(embed=emb)
 
     async def voting(self, client):
+        a = await self.checkIfStop(client) 
+        if a == True:
+            return -1
         if self.date != 1:
-            a = await self.checkIfStop(client) 
-            if a == True:
-                return -1
             with open("games.json", 'r') as brr:
                 ppl = json.load(brr)
             emb = await main.embedMake(
@@ -198,8 +211,18 @@ class Game:
                 desc="Discuss by typing in DM's! Cast votes in 45 seconds!",
                 footer='Note: wait until the second message to start reacting! The bot has to react to all the players\' messages and Discord has a cooldown!'
             )
-            for i in range(len(ppl[str(self.id)])):
-                await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb)
+            alreadyRan = []
+            lenth = len(self.kids)
+            while len(alreadyRan) < lenth:
+                lenth = len(self.kids) #update in loop justt in case
+                i = random.randint(0, lenth - 1)
+                if i not in alreadyRan:
+                    with open("games.json", 'r') as brr:
+                        ppl = json.load(brr)
+                    with open("roles.json", 'r') as brr:
+                        role = json.load(brr)
+                    await client.get_user(int(ppl[str(self.id)][i])).send(embed=emb)
+                    alreadyRan.append(i)
         return 0 
 
     async def day(self, client):
@@ -207,55 +230,64 @@ class Game:
             role = json.load(brr)
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
-        for i in range(len(ppl[str(self.id)])):
-            a = await self.checkIfStop(client) 
-            if a == True:
-                return -1
-            emb = await main.embedMake(
-                title='Turns:',
-                desc='The ' + str(
-                    Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **day** turn!',
-                footer='it won\'t take that long... right?',
-                color=0x9900FF
-            )
-            for ier in range(len(ppl[str(self.id)])):
-                if ier != i:
-                    await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb)
-            await self.kids[i].Dayrole(client)
+        a = await self.checkIfStop(client) 
+        if a == True:
+            return -1
+        alreadyRan = []
+        lenth = len(self.kids)
+        while len(alreadyRan) < lenth:
+            lenth = len(self.kids) #update in loop justt in case
+            i = random.randint(0, lenth - 1)
+            if i not in alreadyRan:
+                with open("games.json", 'r') as brr:
+                    ppl = json.load(brr)
+                with open("roles.json", 'r') as brr:
+                    role = json.load(brr)
+                alreadyRan.append(i)
+                emb = await main.embedMake(
+                    title='Turns:',
+                    desc='The ' + str(
+                        Characters.roleList[int(role[str(self.id)][i])][0]) + ' is taking their **day** turn!',
+                    footer='it won\'t take that long... right?',
+                    color=0x9900FF
+                )
+                for ier in range(len(ppl[str(self.id)])):
+                    if ier != i:
+                        await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb)
+                await self.kids[i].Dayrole(client)
 
     async def night(self, client):
         with open("games.json", 'r') as brr:
             ppl = json.load(brr)
         with open("roles.json", 'r') as brr:
             role = json.load(brr)
-        Randomorder = []
-        while len(Randomorder) < len(ppl[str(self.id)]):
-            a = await self.checkIfStop(client) 
-            if a == True:
-                return -1
-            a = random.randint(0, len(ppl[str(self.id)]) - 1)
-            if a not in Randomorder: 
-                Randomorder.append(a)
-        try:
-            counter = 0
-            while counter < len(ppl[str(self.id)]):
-                for i in range(len(Randomorder)):
-                    if Randomorder[i] == counter:
-                        emb = await main.embedMake(
-                            title='Turns:',
-                            desc='The ' + str(
-                                Characters.roleList[role[str(self.id)][i]][0]) + ' is taking their **night** turn!',
-                            footer='hurry up!!!!!',
-                            color=0x0000FF
-                        )
-                        for ier in range(len(Randomorder)): 
-                            if ier != i:
-                                await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb) #just sending the message no need for Randomorder
-                        await self.kids[i].Nightrole(client, ppl[str(self.id)])
-                        counter += 1
-                        break
-        except IndexError:
-            return  # someone died and now the list is shorter. boo hoo, too bad so sad
+        a = await self.checkIfStop(client) 
+        if a == True:
+            return -1
+        
+        alreadyRan = []
+        lenth = len(self.kids)
+        while len(alreadyRan) < lenth:
+            lenth = len(self.kids) #update in loop justt in case
+            i = random.randint(0, lenth - 1)
+            if i not in alreadyRan:
+                with open("games.json", 'r') as brr:
+                    ppl = json.load(brr)
+                with open("roles.json", 'r') as brr:
+                    role = json.load(brr)
+                alreadyRan.append(i)
+                emb = await main.embedMake(
+                    title='Turns:',
+                    desc='The ' + str(
+                        Characters.roleList[role[str(self.id)][i]][0]) + ' is taking their **night** turn!',
+                    footer='hurry up!!!!!',
+                    color=0x0000FF
+                )
+                lenth = len(self.kids) #update again before running loop
+                for ier in range(lenth): 
+                    if ier != i:
+                        await client.get_user(int(ppl[str(self.id)][ier])).send(embed=emb) #just sending the message no need for Randomorder
+                await self.kids[i].Nightrole(client, ppl[str(self.id)])
     
     @classmethod
     async def leaving(cls, user, client):
@@ -263,18 +295,18 @@ class Game:
             if str(user) in cls._classInstances[i].players:
                 for l in range(len(cls._classInstances[i].players)):
                     if str(user) == cls._classInstances[i].players[l]:
+                        emb = await main.embedMake(
+                                title='Notice! Person has left the game',
+                                desc= "**" + str(client.get_user(int(cls._classInstances[i].players[l]))) + '** has left the game! Their role was the **' + str(cls._classInstances[i].kids[l].__class__.__name__) + "**",
+                                footer='If they were the murder, the game automatically ends after everyone takes their turn...',
+                                color=0x0000FF
+                            )
+                        if str(cls._classInstances[i].kids[l].__class__.__name__) == "murder":
+                            cls._classInstances[i].badGuys -= 1
                         cls._classInstances[i].players.pop(l)
                         cls._classInstances[i].kids.pop(l)
                         for e in range(len(cls._classInstances[i].players)):
-                            emb = await main.embedMake(
-                                title='Notice! Person has left the game',
-                                desc= "**" + str(client.get_user(int(cls._classInstances[i].players[l]))) + '** has left the game! Their role was the **' + str(cls._classInstances[i].kids[l].__class__.__name__) + "**",
-                                footer='If they were the murder, the game automatically ends',
-                                color=0x0000FF
-                            )
                             await client.get_user(int(cls._classInstances[i].players[e])).send(embed=emb)
-                        if str(cls._classInstances[i].kids[l].__class__.__name__) == "murder":
-                            cls._classInstances[i].badGuys -= 1
                         return #dumb bug fix tmr
         
 

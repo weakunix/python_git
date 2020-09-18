@@ -436,7 +436,7 @@ async def isGame(message):
                                     title='YOURE IN A GAME!',
                                     desc='Don\'t ditch your crew! Arrr!',
                                     thumbnail='https://media.discordapp.net/attachments/747159474753503343/749021318011420682/costume9.png',
-                                    footer='however, if you must, leave the game using `-moostery leave [gamecode]`'
+                                    footer='however, if you must, leave the game using `-moostery leave`'
                                 )
             await message.author.send(embed=emb)
     elif message.content.startswith(prefix + gameCmd[1][0]):
@@ -757,7 +757,10 @@ async def isinGame(message):
             out_file = open("games.json", "w")
             json.dump(activegames, out_file, indent=4)
             out_file.close()
-            #if game is empty delete the game
+            role.pop(str(a))
+            out_file = open("roles.json", "w")
+            json.dump(role, out_file, indent=4)
+            out_file.close()
         emb = await embedMake(
             title='Left Game',
             thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
@@ -833,7 +836,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     if message.guild is None:  # in dm
-        if not message.content.startswith(prefix):
+        if not message.content.startswith(prefix) and not message.content.startswith("-mc") :
             emb = await embedMake(["Prefix is:", '`' + str(prefix) + '`'],
                                   title='About this bot',
                                   desc='it seems like you have DM\'d the bot with a message!',
