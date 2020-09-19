@@ -1,5 +1,5 @@
 #imports
-import tkinter as tk, time, random
+import tkinter as tk, datetime as dt, random
 from tkinter import messagebox
 
 #vars
@@ -7,7 +7,6 @@ name = ''
 words = set() #words
 wpm = [] #words per minute
 accuracy = [] #accuracy
-mode = 0 #typing mode
 
 #classes
 ##class page 
@@ -244,14 +243,14 @@ def pre_typing():
             wtt_string = ''
             for i in words_to_type:
                 wtt_string += i
-            typing(words_to_type, sd, 'Paragraph', 0, paragraph = wtt_string)
+            typing(words_to_type, sd, 'Paragraph', 0, set(), dt.datetime.now(), paragraph = wtt_string)
         elif settings[4] == 'Quick Reaction':
-            typing(words_to_type, sd, 'Quick Reaction', 0)
+            typing(words_to_type, sd, 'Quick Reaction', 0, set(), dt.datetime.now())
 
 ##typing page
-def typing(wtt, sd, style, count, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
+def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
     #globals
-    global typing_page
+    global typing_page, name, wpm, accuracy
     key_clicked = kwargs.get('key_clicked', None)
     paragraph = kwargs.get('paragraph', None)
     try:
@@ -288,6 +287,7 @@ def typing(wtt, sd, style, count, **kwargs): #TODO MAKE A FORMULA TO CREATE WORD
                 count += 1
                 if style == 'Quick Reaction':
                     typing_page.widgets[0]['text'] = wtt[count]
+                typing_page.widgets[3]['text'] = f'WPM: {60 * count / (dt.datetime.now() - start_time).total_seconds()}'
     else:
         try:
             typing_page.widgets[1].config(bg = '#ff0000')
@@ -300,18 +300,24 @@ def typing(wtt, sd, style, count, **kwargs): #TODO MAKE A FORMULA TO CREATE WORD
     for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
         binding_key = f'<{i}>'
         typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
     for i in range(10):
         binding_key = f'<Key-{str(i)}>'
         typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
     for i in ['BackSpace', 'Delete']:
         binding_key = f'<{i}>'
         typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count))
-    window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, key_clicked = 'space'))
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+    window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, wrong, start_time, key_clicked = 'space'))
     typing_page.binds += ['<space>']
     rage_quit = BackButton(typing_page, home_page)
+    if len(typing_page.widgets) == 3:
+        current_wpm = tk.Label(window, text = 'WPM: 0', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
+        current_wpm.place(x = 800, y = 0, anchor = tk.NE)
+        current_accuracy = tk.Label(window, text = 'Accuracy: 100%', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
+        current_accuracy.place(x = 800, y = 25, anchor = tk.NE)
+        typing_page.widgets += [current_wpm, current_accuracy]
 
 ##generating words
 def generate_words(amount, settings, one_word):
