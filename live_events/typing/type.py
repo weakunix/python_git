@@ -100,15 +100,15 @@ def get_account(logorsign):
     if logorsign == 'Login':
         if is_account:
             try:
-                with open('./wpms/{name}_wpms.txt', 'r') as wpms:
+                with open(f'./wpms/{name}_wpms.txt', 'r') as wpms:
                     for i in wpms:
-                        wpm.append(int(i.strip('\n')))
+                        wpm.append(float(i.strip('\n')))
             except:
                 pass
             try:
-                with open('./wpms/{name}_accuracys.txt', 'r') as accuracys:
+                with open(f'./accuracys/{name}_accuracys.txt', 'r') as accuracys:
                     for i in accuracys:
-                        accuracy.append(int(i.strip('\n')))
+                        accuracy.append(float(i.strip('\n')))
             except:
                 pass
             try:
@@ -168,8 +168,8 @@ def home_page():
     remove_word_button = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), remove_word()])
     remove_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
     if len(wpm) != 0:
-        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 20))
-        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)} | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10} | Last type accuracy: {accuracy[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 20))
+        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)}% | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10}% | Last type accuracy: {accuracy[-1]}%',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
     else:
         wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
         accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
@@ -281,8 +281,15 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             typing_page.widgets.append(inpt)
         if key_clicked == 'space':
             typing_page.widgets[1].delete(0, tk.END)
-            if count == len(wtt):
-                print('done')
+            if count == len(wtt) - 1:
+                msg = messagebox.askyesno(title = 'Well done! Would you like to join our clan?', message = f'Congrats!\nYou\'ve finised typing!\n\nHere are the results:\n{typing_page.widgets[3]["text"]}\n{typing_page.widgets[4]["text"]}%\n\nWould you like to type again?')
+                if msg or not msg:
+                    with open(f'./wpms/{name}_wpms.txt', 'a') as wpm_file:
+                        wpm_file.write(f'{typing_page.widgets[3]["text"]}\n'[5:])
+                    with open(f'./accuracys/{name}_accuracys.txt', 'a') as accuracy_file:
+                        accuracy_file.write(f'{typing_page.widgets[4]["text"]}'[10:-1] + '\n')
+                    wpm.append(float(typing_page.widgets[3]['text'][5:]))
+                    accuracy.append(float(typing_page.widgets[4]['text'][10:-1]))
             else:
                 count += 1
                 if style == 'Quick Reaction':
@@ -297,6 +304,7 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             inpt.place(x = 400, y = 450, anchor = tk.CENTER)
             inpt.focus()
             typing_page.widgets.append(inpt)
+        wrong.add(count)
     for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
         binding_key = f'<{i}>'
         typing_page.binds.append(binding_key)
@@ -318,6 +326,7 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
         current_accuracy = tk.Label(window, text = 'Accuracy: 100%', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
         current_accuracy.place(x = 800, y = 25, anchor = tk.NE)
         typing_page.widgets += [current_wpm, current_accuracy]
+    typing_page.widgets[4]['text'] = f'Accuracy: {(count + 1 - len(wrong)) / (count + 1) * 100}%'
 
 ##generating words
 def generate_words(amount, settings, one_word):
