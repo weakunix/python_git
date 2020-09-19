@@ -10,13 +10,14 @@ async def startGame(payload, client, ppl, emoji, puborpriv):
     # name   desc    day    night
     roles = character_classes.Characters.roleList
     channel = client.get_channel(payload.channel.id)
-    emb = await main.embedMake(title='Starting game',
-                               thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
-                               desc='Game starting!! Check your DM\'s!',
-                               footer='The game will be played through DM\'s')
     if puborpriv:
+        emb = await main.embedMake(title='Starting game',
+            thumbnail='https://media.discordapp.net/attachments/746731386718912532/747590639151087636/Screen_Shot_2020-08-24_at_6.56.31_PM.png',
+            desc='Game starting!! Check your DM\'s!',
+            footer='The game will be played through DM\'s')
         await channel.send(embed=emb)
         await client.http.delete_message(payload.channel.id, emoji)
+        main.gamesToChannels[str(emoji)] = [str(channel)]
     ppltoroles = [random.randint(2, len(roles) - 1) for x in range(len(ppl[str(emoji)]))]
     ppltoroles[random.randint(0, len(ppltoroles) - 1)] = 0 #change this to test
     tempcheck = random.randint(0, len(ppltoroles) - 1)
