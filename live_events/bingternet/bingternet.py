@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from selenium import webdriver
 import re
 import random
 import os
@@ -60,9 +59,9 @@ while True:
             Bback (goes back)
             Bnew (new tab)
             Bclose (close all tabs)
-            Bmin (close current tab)
+            Bclose (close current tab)
             Bnewsaveloc [./foldername] (changes savig location of sites)
-        <G - eneral>
+        <G - General>
             Gclose/Gexit/Gstop (exits the app)
 </Help>
         """
@@ -75,11 +74,10 @@ while True:
         query = query.replace(" ", "%20")
         qurry = str(link)+str(query)+"&num=5"
 
-        for i in range(50):
+        for i in range(100):
             time.sleep(0.0001) #gives the server some time to rest
             clear()
-            print(f"[< back]  [{str(qurry)}]")
-            print(" Elapsed : |" + ("█" * i) + (" " * (50 - i - 1 ) + "| ") + str(( i + 1) * 2) + "%")
+            print(f"[< bback] [{str(qurry)}] [|" + ("█" * (i // 10)) + (" " * (10 - (i//10) - 1 ) + "|") + str(( i + 1)) + "%] [X bclose]")
         soupOfHTML = BeautifulSoup(requests.get(qurry).content, 'html.parser')
         divider = soupOfHTML.find_all('div', class_='g')
 
@@ -141,9 +139,23 @@ while True:
             input("You have changed your search engine to: "+str(query)+"!\n\nEnter to continue...")
         else:
             input("Remember to include a space between 'SEchange engine'. Avaliable engines " + str(engine).replace("[","").replace("]",""))
-    elif "close" == query.split()[0] or "exit" == query.split()[0] or "stop" == query.split()[0]:
-        clear()
-        print("\033[0;32m Bingternet has been closed. You may now exit. \n\n THANK YOU FOR CHOOSING BINGTERNET!\n\n") 
+    elif "gclose" == query.lower().split()[0] or "gexit" == query.lower().split()[0] or "gstop" == query.lower().split()[0]:
+        for i in range(10):
+            time.sleep(0.1)
+            clear()
+            print(f"""
+ {" " * i * 2}   __________.__                __                              __   
+ {" " * i * 2}   \______   \__| ____    _____/  |_  ___________  ____   _____/  |_ 
+ {" " * i * 2}   |    |  _/  |/    \  / ___\   __\/ __ \_  __ \/    \_/ __ \   __
+ {" " * i * 2}   |    |   \  |   |  \/ /_/  >  | \  ___/|  | \/   |  \  ___/|  |  
+ {" " * i * 2}   |______  /__|___|  /\___  /|__|  \___  >__|  |___|  /\___  >__|  
+ {" " * i * 2}           \/        \//_____/           \/           \/     \/     
+        """)
+            if i == 9:
+                print(f"{' ' * i * 2}          ===============" + "Version: " + str(version) + "=============== \n\n\n")
+            else:
+                print((" " * ((50 - i) * 5)) + ("█" * (i * 5)))
+        print("\033[0;34m Bingternet has been closed. You may now exit. \n\n THANK YOU FOR CHOOSING BINGTERNET!\n\n") 
         break
     clear()
     logo()
