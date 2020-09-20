@@ -21,17 +21,15 @@ cmd = [
     ['how to play', 'usage: how to play. shows all the tips to getting started']
 ]
 gameCmd = [
-    ['create', 'usage: create [server/global (Scope)]. creates new mooder moostery game (shorthand: -mc[pu/pr])'],
-    ['join', 'usage: join [true/false (Queue)]. joins game with code (use at dm), [Queue: True/False (Queues you into '
-             'random '
-             'available games)]'],
+    ['create', 'usage: create [public/private]. creates new mooder moostery game (shorthand: -mc[pu/pr])'],
+    ['join', 'usage: join [gamecode]. joins game with code (use at dm)'],
     ['invite', 'usage: invite [player id/mention] invites the player to a game'],
     ['kick', 'usage: kick [player id/mention] kicks person from room (if you are host)']
 ]
 
 inGameCmd = [
     ['leave', 'leaves the game (in the middle of it), if you are the murder, they will auto-win'],
-    ['pm', 'pm [player id], anonymously send a message to one player or `pm ALL` to send to all']
+    ['pm', 'pm [player id/"all"], anonymously send a message to one player or `pm all` to send to all']
 ]
 
 friendCmd = [
@@ -48,6 +46,8 @@ with open('key.txt', 'r') as b:
 key = str("".join(key))
 client = discord.Client()
 prefix = '-moostery '  # default prefix
+
+gamesToChannels = {} #ugh such a BFI solution
 
 def mentionStrip(target):
     target = target.replace("<", "")  # if you sent in mention
@@ -440,7 +440,49 @@ async def isGame(message):
                                 )
             await message.author.send(embed=emb)
     elif message.content.startswith(prefix + gameCmd[1][0]):
-        pass
+        with open("games.json", 'r') as brr:
+            activegames = json.load(brr)
+        with open("roles.json", 'r') as brr:
+            role = json.load(brr)
+        code  = getMsg(len(prefix) + len(gameCmd[1][0]) + 1, message.content, True)
+        try:
+            code = int(code)
+            if str(code) in activegames:
+                if str(code) in role:
+                    emb = await embedMake(
+                        title="Game already started!",
+                        desc="The code " + str(code) + " can not be joined!",
+                        thumbnail=''
+                    )
+                    await message.author.send(embed=emb)
+                    return
+                elif code not in role: #game hasnt started
+                    for i in range(len(activegames[str(code)])):
+                        if str(message.author.id) in activegames[str(code)]:
+                            emb = await embedMake(
+                                title="Bad code!",
+                                desc="You're already in this game!!!!",
+                                thumbnail=''
+                            )
+                            await message.author.send(embed=emb)
+                            return
+                    await gameJoin(int(code), int(message.author.id), ) #get channel id from msg
+            else:
+                emb = await embedMake(
+                        title="Bad code!",
+                        desc="The code " + str(code) + " does not exist!",
+                        thumbnail=''
+                )
+                await message.author.send(embed=emb)
+                return
+        except ValueError:
+            emb = await embedMake(
+                        title="Bad code!",
+                        desc="The code " + str(code) + " does not exist!",
+                        thumbnail=''
+            )
+            await message.author.send(embed=emb)
+            return
     elif message.content.startswith(prefix + gameCmd[2][0]):
         with open("games.json", 'r') as brr:
             activegames = json.load(brr)
@@ -543,6 +585,7 @@ async def isGame(message):
 
 
 async def gameJoin(msd, author, channel):
+    print(channel)
     with open("games.json", 'r') as brr:
         activegames = json.load(brr)
     gamestuff = activegames[str(msd)]
@@ -865,6 +908,10 @@ def clearFiles():
     w.close()
     os.remove('roles.json')
     w = open('roles.json', 'w+')
+    w.write('{}')
+    w.close()
+    os.remove('joins.json')
+    w = open('joins.json', 'w+')
     w.write('{}')
     w.close()
 

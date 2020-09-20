@@ -1,5 +1,9 @@
 test
 admin
 asd
+<<<<<<< HEAD
 test2
 MrMoooo
+=======
+Admin
+>>>>>>> df5fd5a7d005fa1194cef5964bf498ff2e946689
