@@ -168,8 +168,12 @@ def home_page():
     remove_word_button = tk.Button(window, text = 'Remove\nWord', height = 3, width = 8, fg = '#000000', font = ('charter', 15), command = lambda: [homepage.clear(), remove_word()])
     remove_word_button.place(x = 500, y = 450, anchor = tk.CENTER)
     if len(wpm) != 0:
-        wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
-        accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)}% | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10}% | Last type accuracy: {accuracy[-1]}%',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+        if len(wpm) >= 10:
+            wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / 10} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+            accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)}% | Last 10 types average accuracy: {sum(accuracy[-10:]) / 10}% | Last type accuracy: {accuracy[-1]}%',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+        else:
+            wpm_label = tk.Label(window, text = f'Total average WPM: {sum(wpm) / len(wpm)} | Last 10 types average WPM: {sum(wpm[-10:]) / len(wpm)} | Last type WPM: {wpm[-1]}',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+            accuracy_label = tk.Label(window, text = f'Total average accuracy: {sum(accuracy) / len(accuracy)}% | Last 10 types average accuracy: {sum(accuracy[-10:]) / len(accuracy)}% | Last type accuracy: {accuracy[-1]}%',  bg = '#00ffff', fg = '#000000', font = ('charter', 10))
     else:
         wpm_label = tk.Label(window, text = 'Total average WPM: N/A | Last 10 types average WPM: N/A | Last type WPM: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
         accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
@@ -282,7 +286,7 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
         if key_clicked == 'space':
             typing_page.widgets[1].delete(0, tk.END)
             if count == len(wtt) - 1:
-                msg = messagebox.askyesno(title = 'Well done! Would you like to join our clan?', message = f'Congrats!\nYou\'ve finised typing!\n\nHere are the results:\n{typing_page.widgets[3]["text"]}\n{typing_page.widgets[4]["text"]}%\n\nWould you like to type again?')
+                msg = messagebox.askyesno(title = 'Well done! Would you like to join our clan?', message = f'Congrats!\nYou\'ve finised typing!\n\nHere are the results:\n{typing_page.widgets[3]["text"]}\n{typing_page.widgets[4]["text"]}\n\nWould you like to type again?')
                 if msg or not msg:
                     with open(f'./wpms/{name}_wpms.txt', 'a') as wpm_file:
                         wpm_file.write(f'{typing_page.widgets[3]["text"]}\n'[5:])
@@ -290,6 +294,13 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
                         accuracy_file.write(f'{typing_page.widgets[4]["text"]}'[10:-1] + '\n')
                     wpm.append(float(typing_page.widgets[3]['text'][5:]))
                     accuracy.append(float(typing_page.widgets[4]['text'][10:-1]))
+                    typing_page.clear()
+                    if msg:
+                        window.focus_force()
+                        typing_settings()
+                    else:
+                        window.focus_force()
+                        home_page()
             else:
                 count += 1
                 if style == 'Quick Reaction':
@@ -305,20 +316,24 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             inpt.focus()
             typing_page.widgets.append(inpt)
         wrong.add(count)
-    for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
-        binding_key = f'<{i}>'
-        typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-    for i in range(10):
-        binding_key = f'<Key-{str(i)}>'
-        typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-    for i in ['BackSpace', 'Delete']:
-        binding_key = f'<{i}>'
-        typing_page.binds.append(binding_key)
-        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-    window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, wrong, start_time, key_clicked = 'space'))
-    typing_page.binds += ['<space>']
+    if count != len(wtt) - 1:
+        for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
+            binding_key = f'<{i}>'
+            if binding_key not in typing_page.binds:
+                typing_page.binds.append(binding_key)
+            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+        for i in range(10):
+            binding_key = f'<Key-{str(i)}>'
+            if binding_key not in typing_page.binds:
+                typing_page.binds.append(binding_key)
+            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+        for i in ['BackSpace', 'Delete']:
+            binding_key = f'<{i}>'
+            if binding_key not in typing_page.binds:
+                typing_page.binds.append(binding_key)
+            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+        window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, wrong, start_time, key_clicked = 'space'))
+        typing_page.binds.append('<space>')
     rage_quit = BackButton(typing_page, home_page)
     if len(typing_page.widgets) == 3:
         current_wpm = tk.Label(window, text = 'WPM: 0', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
@@ -326,7 +341,10 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
         current_accuracy = tk.Label(window, text = 'Accuracy: 100%', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
         current_accuracy.place(x = 800, y = 25, anchor = tk.NE)
         typing_page.widgets += [current_wpm, current_accuracy]
-    typing_page.widgets[4]['text'] = f'Accuracy: {(count + 1 - len(wrong)) / (count + 1) * 100}%'
+    try:
+        typing_page.widgets[4]['text'] = f'Accuracy: {(count + 1 - len(wrong)) / (count + 1) * 100}%'
+    except:
+        pass
 
 ##generating words
 def generate_words(amount, settings, one_word):
@@ -456,6 +474,11 @@ def get_add_word():
         msg = messagebox.showinfo(title = 'No Duplicates!', message = f'You already have {word} added to your words!')
         if msg:
             addword.widgets[1].selection_range(0, tk.END)
+            window.focus_force()
+            addword.widgets[1].focus()
+    elif word == '':
+        msg = messagebox.showinfo(title = 'Why you add nothing?', message = 'You cannot add "" to your words')
+        if msg:
             window.focus_force()
             addword.widgets[1].focus()
     else:
