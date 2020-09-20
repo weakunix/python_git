@@ -257,6 +257,7 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
     global typing_page, name, wpm, accuracy
     key_clicked = kwargs.get('key_clicked', None)
     paragraph = kwargs.get('paragraph', None)
+    is_end = False
     try:
         typed = typing_page.widgets[1].get()
     except:
@@ -284,8 +285,11 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             inpt.focus()
             typing_page.widgets.append(inpt)
         if key_clicked == 'space':
+            count += 1
+            typing_page.widgets[3]['text'] = f'WPM: {60 * count / (dt.datetime.now() - start_time).total_seconds()}'
             typing_page.widgets[1].delete(0, tk.END)
             if count == len(wtt) - 1:
+                is_end = True
                 msg = messagebox.askyesno(title = 'Well done! Would you like to join our clan?', message = f'Congrats!\nYou\'ve finised typing!\n\nHere are the results:\n{typing_page.widgets[3]["text"]}\n{typing_page.widgets[4]["text"]}\n\nWould you like to type again?')
                 if msg or not msg:
                     with open(f'./wpms/{name}_wpms.txt', 'a') as wpm_file:
@@ -302,10 +306,8 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
                         window.focus_force()
                         home_page()
             else:
-                count += 1
                 if style == 'Quick Reaction':
                     typing_page.widgets[0]['text'] = wtt[count]
-                typing_page.widgets[3]['text'] = f'WPM: {60 * count / (dt.datetime.now() - start_time).total_seconds()}'
     else:
         try:
             typing_page.widgets[1].config(bg = '#ff0000')
@@ -316,24 +318,23 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             inpt.focus()
             typing_page.widgets.append(inpt)
         wrong.add(count)
-    if count != len(wtt) - 1:
-        for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
-            binding_key = f'<{i}>'
-            if binding_key not in typing_page.binds:
-                typing_page.binds.append(binding_key)
-            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-        for i in range(10):
-            binding_key = f'<Key-{str(i)}>'
-            if binding_key not in typing_page.binds:
-                typing_page.binds.append(binding_key)
-            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-        for i in ['BackSpace', 'Delete']:
-            binding_key = f'<{i}>'
-            if binding_key not in typing_page.binds:
-                typing_page.binds.append(binding_key)
-            window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
-        window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, wrong, start_time, key_clicked = 'space'))
-        typing_page.binds.append('<space>')
+    for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
+        binding_key = f'<{i}>'
+        if binding_key not in typing_page.binds:
+            typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+    for i in range(10):
+        binding_key = f'<Key-{str(i)}>'
+        if binding_key not in typing_page.binds:
+            typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+    for i in ['BackSpace', 'Delete']:
+        binding_key = f'<{i}>'
+        if binding_key not in typing_page.binds:
+            typing_page.binds.append(binding_key)
+        window.bind(binding_key, lambda event: typing(wtt, sd, style, count, wrong, start_time))
+    window.bind(f'<space>', lambda event: typing(wtt, sd, style, count, wrong, start_time, key_clicked = 'space'))
+    typing_page.binds.append('<space>')
     rage_quit = BackButton(typing_page, home_page)
     if len(typing_page.widgets) == 3:
         current_wpm = tk.Label(window, text = 'WPM: 0', bg = '#00ffff', fg = '#000000', font = ('charter', 15))
@@ -345,6 +346,9 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
         typing_page.widgets[4]['text'] = f'Accuracy: {(count + 1 - len(wrong)) / (count + 1) * 100}%'
     except:
         pass
+    if is_end == True:
+        for i in typing_page.binds:
+            window.unbind(i)
 
 ##generating words
 def generate_words(amount, settings, one_word):
