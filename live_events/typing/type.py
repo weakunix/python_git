@@ -299,11 +299,10 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
                     wpm.append(float(typing_page.widgets[3]['text'][5:]))
                     accuracy.append(float(typing_page.widgets[4]['text'][10:-1]))
                     typing_page.clear()
+                    window.focus_force()
                     if msg:
-                        window.focus_force()
                         typing_settings()
                     else:
-                        window.focus_force()
                         home_page()
             else:
                 if style == 'Quick Reaction':
@@ -318,6 +317,16 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FOR
             inpt.focus()
             typing_page.widgets.append(inpt)
         wrong.add(count)
+        if sd == True:
+            is_end = True
+            msg = messagebox.askyesno(title = 'Aya!', message = 'You\'ve typed a word incorrectly!\n\nWould you like to type again?')
+            if msg or not msg:
+                typing_page.clear()
+                window.focus_force()
+                if msg:
+                    typing_settings()
+                else:
+                    home_page()
     for i in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?;:\'"':
         binding_key = f'<{i}>'
         if binding_key not in typing_page.binds:
