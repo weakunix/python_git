@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 import re
 import random
+import webbrowser
 import os
 import time
 import datetime
@@ -44,10 +45,13 @@ link = "https://www.google.com/search?q="
 
 while True:
     clear()
-    if 'halp' == query.split()[0]:
+    if 'halp' == query.split()[0] or 'help' == query.split()[0]:
+        logo()
         print(
         """
 <Help>
+    <logo>
+        Curtesey of [http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20]
     <version>
         Bingternet V """ + str(version) +"""
     <commands>
@@ -55,7 +59,9 @@ while True:
             SEchange [change search engine] (DuckDuckGo, Google, Bing, Yahoo)
             SEshow
         <B - Browser actions>
-            Bsearch[S] [content/URL] (searches for the content on your default search browser. if you type 'S' at the end of 'search', it'll save the site )
+            Bsearch[S] [content/URL] (searches for the content on your default search browser. if you type 'S' at the end of 'search', it'll save the site (you can also save the site after it loads) )
+                save (same as BsearchS but if you forgot u can do after site loads)
+                open (opens site in browser)
             Bback (goes back)
             Bnew (new tab)
             Bclose (close all tabs)
@@ -68,11 +74,10 @@ while True:
         )
         a = input("\n Press enter to continue...")
     elif query.lower().startswith("bsearch"):
-        #driver = webdriver.Chrome('/usr/bin/chromedriver')
         searchORSave = query.lower().startswith("bsearchs ")
         query = query.lower().replace("bsearchs ", "") if searchORSave else query.lower().replace("bsearch ", "")
-        query = query.replace(" ", "%20")
-        qurry = str(link)+str(query)+"&num=5"
+        query = query.replace(" ", "%20") #the word searched for
+        qurry = str(link)+str(query)+"&num=5" #the actual link
 
         for i in range(100):
             time.sleep(0.0001) #gives the server some time to rest
@@ -80,57 +85,30 @@ while True:
             print(f"[< bback] [{str(qurry)}] [|" + ("█" * (i // 10)) + (" " * (10 - (i//10) - 1 ) + "|") + str(( i + 1)) + "%] [X bclose]")
         soupOfHTML = BeautifulSoup(requests.get(qurry).content, 'html.parser')
         divider = soupOfHTML.find_all('div', class_='g')
-
-        if searchORSave:
-            print("======================Saving=site============================")
-            try:
-                if not os.path.exists('./sites/'):
-                    os.mkdir('./sites/')
-                with open(f'./sites/{datetime.datetime.now()}{query}.html', 'w+') as wr:
-                        wr.write(soupOfHTML.prettify())
-                print("File saved to: " + str(os.getcwd()))
-            except Exception as e:
-                print("ERROR SAVING WEBSITE!!! \n" + str(e))
-
-        result = [
-            [], #title
-            [], #desc
-            [] #link
-        ]
-
-        '''for element in divider:
-            print(element)
-            try:
-                link = element.find('a', href=True)
-                title = element.find('h3')
-                print(title)
-                print(link)
-                'if isinstance(title,Tag):
-                    title = title.get_text()
-
-                description = None
-                description = element.find('span', attrs={'class': 'st'})
-
-                if isinstance(description, Tag):
-                    description = description.get_text()
-
-                if link != '' and title != '' and description != '':
-                    result[0].append(link['href'])
-                    result[1].append(title)
-                    result[2].append(description)
-                    print(result)'
-            except Exception as e:
-                print(e)
-                continue'''
-
-        '''for searched in range(len(result[0])):
-            print(result[0][searched])
-            print(result[1][searched])
-            print(result[2][searched])'''
-
-        input(
-             "============================Results=Provided=By=Bingternet===========================\n\nEnter to continue..."
+        print(divider)
+        def save():
+            if searchORSave:
+                print("======================Saving=site============================")
+                try:
+                    if not os.path.exists('./sites/'):
+                        os.mkdir('./sites/')
+                    with open(f'./sites/{datetime.datetime.now()}{query.replace("%20", " ")}.html', 'w+') as wr:
+                            wr.write(soupOfHTML.prettify())
+                    print("File saved to: " + str(os.getcwd()))
+                except Exception as e:
+                    print("ERROR SAVING WEBSITE!!! \n" + str(e))
+        save()
+        adcmd = input(
+             "============================Results=Provided=By=Bingternet===========================\n\nAdditional Commands? (save, open) \n>>>"
         )
+        if adcmd == "save":
+            searchORSave = True
+            save()
+            input("Enter to continue...")
+        elif adcmd == "open":
+            webbrowser.open(str(qurry), autoraise=True)
+            input(f"Opening \n[{qurry}] \n\nEnter to continue...")
+    
     elif "SEchange" == query.split()[0]:
         query = query.replace("SEchange ", "").lower()
         if query in engine:
