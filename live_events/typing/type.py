@@ -7,6 +7,7 @@ name = ''
 words = set() #words
 wpm = [] #words per minute
 accuracy = [] #accuracy
+sd_record = [0, 0] #sudden death record
 
 #classes
 ##class page 
@@ -88,7 +89,7 @@ def login_signup_page(logorsign):
 ##getting account (logging in or signing up)
 def get_account(logorsign):
     #globals
-    global loginsignup, name, words, wpm, accuracy
+    global loginsignup, name, words, wpm, accuracy, sd_record
     #getting account 
     name = loginsignup.widgets[3].get().strip(' ')
     is_account = False #signup is if the account is taken, log in is if the account is stored
@@ -109,6 +110,14 @@ def get_account(logorsign):
                 with open(f'./accuracys/{name}_accuracys.txt', 'r') as accuracys:
                     for i in accuracys:
                         accuracy.append(float(i.strip('\n')))
+            except:
+                pass
+            try:
+                with open(f'./sdrecords/{name}_sdrecord.txt', 'r') as sdrecord:
+                    for i in sdrecord:
+                        sd_record[1] += 1
+                        if int(i.strip('\n')) == 1:
+                            sd_record[0] += 1
             except:
                 pass
             try:
@@ -154,7 +163,7 @@ def get_account(logorsign):
 ##home page
 def home_page():
     #globals
-    global typesettings, wpm, accuracy
+    global typesettings, wpm, accuracy, sd_record
     try:
         typesettings.clear()
     except:
@@ -183,8 +192,10 @@ def home_page():
         accuracy_label = tk.Label(window, text = 'Total average accuracy: N/A | Last 10 types average accuracy: N/A | Last type accuracy: N/A', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
     wpm_label.place(x = 400, y = 525, anchor = tk.CENTER)
     accuracy_label.place(x = 400, y = 550, anchor = tk.CENTER)
+    sd_record_label = tk.Label(window, text = f'Completed sudden death types: {sd_record[0]} / {sd_record[1]}', bg = '#00ffff', fg = '#000000', font = ('charter', 10))
+    sd_record_label.place(x = 400, y = 575, anchor = tk.CENTER)
     #homepage widgets defined
-    homepage.widgets += [type_button, add_word_button, remove_word_button, wpm_label, accuracy_label]
+    homepage.widgets += [type_button, add_word_button, remove_word_button, wpm_label, accuracy_label, sd_record_label]
 
 ##word amount page
 def typing_settings():
@@ -258,7 +269,7 @@ def pre_typing():
 ##typing page
 def typing(wtt, sd, style, count, wrong, start_time, **kwargs): 
     #globals
-    global typing_page, name, wpm, accuracy
+    global typing_page, name, wpm, accuracy, sd_record
     key_clicked = kwargs.get('key_clicked', None)
     paragraph = kwargs.get('paragraph', None)
     is_end = False
@@ -302,6 +313,11 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs):
                         accuracy_file.write(f'{typing_page.widgets[4]["text"]}'[10:-1] + '\n')
                     wpm.append(float(typing_page.widgets[3]['text'][5:]))
                     accuracy.append(float(typing_page.widgets[4]['text'][10:-1]))
+                    if sd:
+                        sd_record[1] += 1
+                        sd_record[0] += 1
+                        with open(f'./sdrecords/{name}_sdrecord.txt', 'a') as sdrecord_file:
+                            sdrecord_file.write(f'1\n')
                     typing_page.clear()
                     window.focus_force()
                     if msg:
@@ -321,7 +337,10 @@ def typing(wtt, sd, style, count, wrong, start_time, **kwargs):
             inpt.focus()
             typing_page.widgets.append(inpt)
         wrong.add(count)
-        if sd == True:
+        if sd:
+            sd_record[1] += 1
+            with open(f'./sdrecords/{name}_sdrecord.txt', 'a') as sdrecord_file:
+                sdrecord_file.write(f'0\n')
             is_end = True
             msg = messagebox.askyesno(title = 'Aya!', message = 'You\'ve typed a word incorrectly!\n\nWould you like to type again?')
             if msg or not msg:
