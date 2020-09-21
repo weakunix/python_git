@@ -154,7 +154,11 @@ def get_account(logorsign):
 ##home page
 def home_page():
     #globals
-    global wpm, accuracy
+    global typesettings, wpm, accuracy
+    try:
+        typesettings.clear()
+    except:
+        pass
     #Page class instance home page
     homepage = Page()
     #window title
@@ -252,7 +256,7 @@ def pre_typing():
             typing(words_to_type, sd, 'Quick Reaction', 0, set(), dt.datetime.now())
 
 ##typing page
-def typing(wtt, sd, style, count, wrong, start_time, **kwargs): #TODO MAKE A FORMULA TO CREATE WORDS
+def typing(wtt, sd, style, count, wrong, start_time, **kwargs): 
     #globals
     global typing_page, name, wpm, accuracy
     key_clicked = kwargs.get('key_clicked', None)
