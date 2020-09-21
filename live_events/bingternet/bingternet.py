@@ -8,9 +8,14 @@ import os
 import time
 import datetime
 
+print(os.name)
+
 def clear():
     if os.name == 'nt': 
-        os.system('cls') 
+        os.system('cls')
+    elif os.name == 'posix':
+    		import console
+    		console.clear() 
     else: 
         os.system('clear')
 
