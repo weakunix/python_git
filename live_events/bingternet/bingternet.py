@@ -55,27 +55,28 @@ while True:
     <version>
         Bingternet V """ + str(version) +"""
     <commands>
-        <SE - Search Engine actions>
+        <Search Engine Actions>
             SEchange [change search engine] (DuckDuckGo, Google, Bing, Yahoo)
             SEshow
-        <B - Browser actions>
-            Bsearch[S] [content/URL] (searches for the content on your default search browser. if you type 'S' at the end of 'search', it'll save the site (you can also save the site after it loads) )
+        <Browser Actions>
+            Search[S] [content/URL] (searches for the content on your default search browser. if you type 'S' at the end of 'search', it'll save the site (you can also save the site after it loads) )
                 save (same as BsearchS but if you forgot u can do after site loads)
                 open (opens site in browser)
-            Bback (goes back)
-            Bnew (new tab)
-            Bclose (close all tabs)
-            Bclose (close current tab)
-            Bnewsaveloc [./foldername] (changes savig location of sites)
-        <G - General>
-            Gclose/Gexit/Gstop (exits the app)
+            back (goes back)
+            new (new tab)
+            close (close all tabs)
+            close (close current tab)
+            newsaveloc [./foldername] (changes savig location of sites)
+        < General>
+            close/exit/stop (exits the app)
+            rem (removes all saved html files)
 </Help>
         """
         )
         a = input("\n Press enter to continue...")
-    elif query.lower().startswith("bsearch"):
-        searchORSave = query.lower().startswith("bsearchs ")
-        query = query.lower().replace("bsearchs ", "") if searchORSave else query.lower().replace("bsearch ", "")
+    elif query.lower().startswith("search"):
+        searchORSave = query.lower().startswith("searchs ")
+        query = query.lower().replace("searchs ", "") if searchORSave else query.lower().replace("search ", "")
         query = query.replace(" ", "%20") #the word searched for
         qurry = str(link)+str(query)+"&num=5" #the actual link
 
@@ -117,7 +118,7 @@ while True:
             input("You have changed your search engine to: "+str(query)+"!\n\nEnter to continue...")
         else:
             input("Remember to include a space between 'SEchange engine'. Avaliable engines " + str(engine).replace("[","").replace("]",""))
-    elif "gclose" == query.lower().split()[0] or "gexit" == query.lower().split()[0] or "gstop" == query.lower().split()[0]:
+    elif "close" == query.lower().split()[0] or "exit" == query.lower().split()[0] or "stop" == query.lower().split()[0]:
         for i in range(10):
             time.sleep(0.1)
             clear()
