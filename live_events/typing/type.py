@@ -1,3 +1,16 @@
+'''
+CURRENT VERSION: 
+1.0
+
+TODOS FOR VERSION 1.1:
+1. Potentially improve wpm calculation
+2. Add an arrow to show which letter / word you are on
+3. Potentially improve UI
+
+DEV NOTES:
+Going to take a break on this project and start working on a hw log, will return in a bit
+'''
+
 #imports
 import tkinter as tk, datetime as dt, random
 from tkinter import messagebox
