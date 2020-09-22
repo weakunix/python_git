@@ -44,18 +44,21 @@ def calcTodo():
 def calcSchedule():
 	clear()
 	sch = []
-	tim = []
-	cntr = 0
+	tim = ["Day"]
 	for classes in scheduleScraped.find_all("span", class_="event-summary"):
-		if classes != None:
-			classes = str(classes).replace('<span class="event-summary">', "").replace("</span>", "").replace("&amp;", "&")
-			if str(classes) not in sch and cntr > 5:
+		if classes is not None:
+			if classes.find_parents('td', class_="null cell-today") != [] or classes.find_parents('td', class_="cell-last-row cell-today") != []:
+				classes = str(classes).replace('<span class="event-summary">', "").replace("</span>", "").replace("&amp;", "&")
 				sch.append(str(classes))
-		cntr += 1
 	
-	for time in scheduleScraped.find_all("span", class_="event-time"):
+	for time in scheduleScraped.find_all("span", class_="event-time"): #have to MANUALLY reverse 4 hours bc it always on dumbass UTC
 		if time != None:
 			time = str(time).replace('<span class="event-time">', "").replace("</span>", "").replace("&amp;", "&")
+			time = time.split(":") if time != "3pm" else [3, "00pm"]
+			time[0] = str(int(time[0]) - 4)
+			if int(time[0]) < 0:
+				time[0] = str(12 + int(time[0]))
+			time = ":".join(time)
 			if time not in tim:
 				tim.append(time)
 
@@ -88,14 +91,14 @@ def main():
 		if sORt.lower() == "schedule":
 			schedules, stime = calcSchedule()
 			displays(schedules, stime)
-			input("Enter to continue...")
+			input("\nEnter to continue...")
 		elif sORt.lower() == "todo":
 			appends = calcTodo()
 			classNames = appends[0]
 			assignment = appends[1]
 			todo = makedict(assignment, todo, classNames)
 			display(todo)
-			input("Enter to continue...") 
+			input("\nEnter to continue...") 
 		elif sORt.lower() == "exit":
 			raise SystemExit("Done")
 		else:
