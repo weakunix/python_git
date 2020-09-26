@@ -52,8 +52,18 @@ window.mainloop()
 #change background
 window.configure(bg = 'color')
 
-#text
-word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color', fg = 'color')
+#label
+##make
+word = tk.Label(window, text = 'text', font = ('font', [fontsize]), bg = 'color', fg = 'color', justify = tk.[SIDE])
+
+##limit how far label goes
+wraplength = [x length]
+
+##getting text of label
+label.cget('text')
+
+##edit text
+label['text'] = 'text'
 
 #make widget disappear
 widget.destroy()
