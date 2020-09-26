@@ -30,15 +30,16 @@ def calcTodo():
 	sub = []
 	desc = []
 	for event in todoScraped.find_all("span", class_="event-summary"):
-		if event != None:
-			event = str(event).replace('<span class="event-summary">', "").replace("</span>", "").replace("&amp;", "&")
-			chars = []
-			i = 0
-			while "-" not in chars:
-				chars.append(event[i])
-				i += 1
-			sub.append("".join(chars).replace("-", ""))
-			desc.append(event.replace("".join(chars), ""))
+		if event != None: 
+			if event.find_parents('td', class_="null cell-today") != []  or event.find_parents('td', class_="cell-last-row cell-today") != []:
+				event = str(event).replace('<span class="event-summary">', "").replace("</span>", "").replace("&amp;", "&")
+				chars = []
+				i = 0
+				while "-" not in chars:
+					chars.append(event[i])
+					i += 1
+				sub.append("".join(chars).replace("-", ""))
+				desc.append(event.replace("".join(chars), ""))
 	return sub, desc
 
 def calcSchedule():
