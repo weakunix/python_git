@@ -21,10 +21,7 @@ def switch_page(clear, create, *args):
     clear.page.hide()
     create.page.show()
     if create == page_two:
-        try:
-            page_two.refresh_text(args[0])
-        except:
-            page_two.refresh_text()
+        page_two.refresh_text(args[0])
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
