@@ -1,7 +1,10 @@
 import todos
 
 def main():
-    pass
+    if menu():
+        todos.display()
+    else:
+        schedule.display()
 
 if __name__ == "__main__":
-    todos.display()
+    main()
