@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>HWTracker</class>
+ <widget class="QMainWindow" name="HWTracker">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>HWTracker V1.0</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="widget" native="true">
@@ -29,7 +29,7 @@
        <x>0</x>
        <y>0</y>
        <width>801</width>
-       <height>601</height>
+       <height>666</height>
       </rect>
      </property>
      <property name="cursor">
@@ -76,285 +76,244 @@
         <string>Add New</string>
        </property>
        <widget class="QWidget" name="dockWidgetContents_2">
-        <widget class="QGroupBox" name="todoDiv">
+        <widget class="QToolBox" name="toolBox">
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>0</x>
            <y>0</y>
-           <width>241</width>
-           <height>281</height>
+           <width>261</width>
+           <height>361</height>
           </rect>
          </property>
-         <property name="title">
-          <string>New TODO</string>
+         <property name="currentIndex">
+          <number>0</number>
          </property>
-         <widget class="QGroupBox" name="newDueGroup">
+         <widget class="QWidget" name="page">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>120</y>
-            <width>221</width>
-            <height>51</height>
+            <x>0</x>
+            <y>0</y>
+            <width>261</width>
+            <height>293</height>
            </rect>
           </property>
-          <property name="title">
-           <string>Due Date</string>
-          </property>
-          <widget class="QDateTimeEdit" name="newDueTime">
+          <attribute name="label">
+           <string>New Assignment</string>
+          </attribute>
+          <widget class="QGroupBox" name="todoDiv">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>20</y>
-             <width>201</width>
-             <height>24</height>
+             <y>0</y>
+             <width>241</width>
+             <height>281</height>
             </rect>
            </property>
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
+           <property name="title">
+            <string>New TODO</string>
            </property>
-          </widget>
-         </widget>
-         <widget class="QGroupBox" name="newHomeworkGroup">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>221</width>
-            <height>101</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Homework</string>
-          </property>
-          <widget class="QTextEdit" name="newHWText">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>30</y>
-             <width>201</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="cursor" stdset="0">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="html">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+           <widget class="QGroupBox" name="newDueGroup">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>120</y>
+              <width>221</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Due Date</string>
+            </property>
+            <widget class="QDateTimeEdit" name="newDueTime">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>20</y>
+               <width>201</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="newHomeworkGroup">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>20</y>
+              <width>221</width>
+              <height>101</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Homework</string>
+            </property>
+            <widget class="QTextEdit" name="newHWText">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>201</width>
+               <height>61</height>
+              </rect>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="placeholderText">
-            <string>Describe your homework... Does it fly? Is it blue? etc </string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QPushButton" name="newAdd">
-          <property name="geometry">
-           <rect>
-            <x>130</x>
-            <y>240</y>
-            <width>101</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="cursor">
-           <cursorShape>OpenHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>Add</string>
-          </property>
-         </widget>
-         <widget class="QGroupBox" name="newClassGroup">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>220</y>
-            <width>121</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Class</string>
-          </property>
-          <widget class="QComboBox" name="newClassToHW">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>20</y>
-             <width>121</width>
-             <height>26</height>
-            </rect>
-           </property>
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
-           </property>
-           <item>
-            <property name="text">
-             <string>Comp Sci </string>
+             </property>
+             <property name="placeholderText">
+              <string>Describe your homework... Does it fly? Is it blue? etc </string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QPushButton" name="newAdd">
+            <property name="geometry">
+             <rect>
+              <x>130</x>
+              <y>240</y>
+              <width>101</width>
+              <height>32</height>
+             </rect>
             </property>
-           </item>
+            <property name="cursor">
+             <cursorShape>OpenHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+           <widget class="QGroupBox" name="newClassGroup">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>220</y>
+              <width>121</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Class</string>
+            </property>
+            <widget class="QComboBox" name="newClassToHW">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>121</width>
+               <height>26</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Comp Sci </string>
+              </property>
+             </item>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="newDifficultyGroup">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>170</y>
+              <width>221</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Difficulty</string>
+            </property>
+            <widget class="QSlider" name="newDifficultySlider">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>20</y>
+               <width>201</width>
+               <height>22</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>SizeHorCursor</cursorShape>
+             </property>
+             <property name="maximum">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </widget>
           </widget>
          </widget>
-         <widget class="QGroupBox" name="newDifficultyGroup">
+         <widget class="QWidget" name="page_2">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>170</y>
-            <width>221</width>
-            <height>51</height>
+            <x>0</x>
+            <y>0</y>
+            <width>261</width>
+            <height>293</height>
            </rect>
           </property>
-          <property name="title">
-           <string>Difficulty</string>
-          </property>
-          <widget class="QSlider" name="newDifficultySlider">
+          <attribute name="label">
+           <string>Get From Calendar</string>
+          </attribute>
+          <widget class="QGroupBox" name="groupBox">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>20</y>
-             <width>201</width>
-             <height>22</height>
+             <y>0</y>
+             <width>241</width>
+             <height>111</height>
             </rect>
            </property>
-           <property name="cursor">
-            <cursorShape>SizeHorCursor</cursorShape>
+           <property name="title">
+            <string>Import from google calendars</string>
            </property>
-           <property name="maximum">
-            <number>10</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
+           <widget class="QPlainTextEdit" name="plainTextEdit">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>221</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="cursor" stdset="0">
+             <cursorShape>IBeamCursor</cursorShape>
+            </property>
+            <property name="placeholderText">
+             <string>paste url here</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>80</y>
+              <width>161</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="cursor">
+             <cursorShape>OpenHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>ADD CALENDAR</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>280</y>
-           <width>241</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Import from google calendars</string>
-         </property>
-         <widget class="QPlainTextEdit" name="plainTextEdit">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>221</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="cursor" stdset="0">
-           <cursorShape>IBeamCursor</cursorShape>
-          </property>
-          <property name="placeholderText">
-           <string>paste url here</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="geometry">
-           <rect>
-            <x>40</x>
-            <y>80</y>
-            <width>161</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="cursor">
-           <cursorShape>OpenHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>ADD CALENDAR</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="sortBy">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>420</y>
-         <width>121</width>
-         <height>151</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>Sort By:</string>
-       </property>
-       <widget class="QRadioButton" name="sortShowDone">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>110</y>
-          <width>191</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="cursor">
-         <cursorShape>OpenHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>Show done</string>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="sortDue">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>104</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="cursor">
-         <cursorShape>OpenHandCursor</cursorShape>
-        </property>
-        <item>
-         <property name="text">
-          <string>Due Date</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Class</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Difficulty</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QComboBox" name="sortAcend">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>70</y>
-          <width>104</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="cursor">
-         <cursorShape>OpenHandCursor</cursorShape>
-        </property>
-        <item>
-         <property name="text">
-          <string>Ascending (A-Z)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Decending (Z-A)</string>
-         </property>
-        </item>
        </widget>
       </widget>
       <widget class="QGroupBox" name="groupBox_5">
@@ -362,7 +321,7 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>260</x>
          <y>0</y>
-         <width>521</width>
+         <width>531</width>
          <height>21</height>
         </rect>
        </property>
@@ -372,14 +331,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QLabel" name="label_5">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>10</x>
           <y>0</y>
-          <width>521</width>
+          <width>531</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Done      Block                 Class                      Difficulty       Progress     Due in   Info</string>
+         <string>Done      Block                 Class                      Difficulty       Progress  Due in      Info</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -391,8 +350,8 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>260</x>
          <y>20</y>
-         <width>521</width>
-         <height>401</height>
+         <width>531</width>
+         <height>501</height>
         </rect>
        </property>
        <property name="cursor" stdset="0">
@@ -402,15 +361,15 @@ p, li { white-space: pre-wrap; }
         <enum>Qt::ScrollBarAlwaysOn</enum>
        </property>
        <property name="widgetResizable">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <widget class="QWidget" name="scrollAreaWidgetContents">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>519</width>
-          <height>399</height>
+          <width>513</width>
+          <height>499</height>
          </rect>
         </property>
         <widget class="QFrame" name="classSubject">
@@ -418,7 +377,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>10</x>
            <y>10</y>
-           <width>481</width>
+           <width>501</width>
            <height>51</height>
           </rect>
          </property>
@@ -428,7 +387,7 @@ p, li { white-space: pre-wrap; }
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="block">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -440,7 +399,7 @@ p, li { white-space: pre-wrap; }
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="blockName">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -457,7 +416,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="classinside">
           <property name="geometry">
            <rect>
             <x>90</x>
@@ -469,7 +428,7 @@ p, li { white-space: pre-wrap; }
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="classname">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -486,7 +445,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-         <widget class="QGroupBox" name="groupBox_4">
+         <widget class="QGroupBox" name="diff">
           <property name="geometry">
            <rect>
             <x>250</x>
@@ -498,7 +457,7 @@ p, li { white-space: pre-wrap; }
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="diffrating">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -515,7 +474,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="ifDone">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -557,22 +516,22 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-         <widget class="QGroupBox" name="groupBox_13">
+         <widget class="QGroupBox" name="duein">
           <property name="geometry">
            <rect>
             <x>390</x>
             <y>10</y>
-            <width>31</width>
+            <width>51</width>
             <height>31</height>
            </rect>
           </property>
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="dueinName">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>10</x>
              <y>0</y>
              <width>31</width>
              <height>31</height>
@@ -589,10 +548,10 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-         <widget class="QToolButton" name="toolButton">
+         <widget class="QToolButton" name="moreInfo">
           <property name="geometry">
            <rect>
-            <x>430</x>
+            <x>450</x>
             <y>10</y>
             <width>41</width>
             <height>31</height>
@@ -608,6 +567,86 @@ p, li { white-space: pre-wrap; }
         </widget>
        </widget>
       </widget>
+      <widget class="QGroupBox" name="sortBy">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>520</y>
+         <width>531</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Sort By:</string>
+       </property>
+       <widget class="QComboBox" name="sortDue">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>211</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
+        <item>
+         <property name="text">
+          <string>Due Date</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Class</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Difficulty</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="sortAcend">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>20</y>
+          <width>211</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
+        <item>
+         <property name="text">
+          <string>Ascending (A-Z)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Decending (Z-A)</string>
+         </property>
+        </item>
+       </widget>
+      </widget>
+      <widget class="QRadioButton" name="sortShowDone">
+       <property name="geometry">
+        <rect>
+         <x>690</x>
+         <y>540</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>OpenHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Show done</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -618,8 +657,8 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>260</x>
          <y>20</y>
-         <width>521</width>
-         <height>401</height>
+         <width>531</width>
+         <height>501</height>
         </rect>
        </property>
        <property name="widgetResizable">
@@ -630,8 +669,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>519</width>
-          <height>399</height>
+          <width>529</width>
+          <height>499</height>
          </rect>
         </property>
         <widget class="QFrame" name="classSubject_2">
@@ -639,7 +678,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>10</x>
            <y>10</y>
-           <width>501</width>
+           <width>491</width>
            <height>51</height>
           </rect>
          </property>
@@ -683,7 +722,7 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>240</x>
             <y>10</y>
-            <width>201</width>
+            <width>191</width>
             <height>31</height>
            </rect>
           </property>
@@ -710,7 +749,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QToolButton" name="toolButton_2">
           <property name="geometry">
            <rect>
-            <x>450</x>
+            <x>440</x>
             <y>10</y>
             <width>41</width>
             <height>31</height>
@@ -806,75 +845,11 @@ p, li { white-space: pre-wrap; }
          </rect>
         </property>
         <property name="text">
-         <string>Time Of Class    Block    Classroom #                     Class                                Info</string>
+         <string>      Time Of Class    Block    Classroom #                     Class                           Info</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="sortBy_2">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>418</y>
-         <width>121</width>
-         <height>111</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>Sort By:</string>
-       </property>
-       <widget class="QComboBox" name="sortDue_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>104</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="cursor">
-         <cursorShape>OpenHandCursor</cursorShape>
-        </property>
-        <item>
-         <property name="text">
-          <string>Time</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Class</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Block</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QComboBox" name="sortAcend_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>70</y>
-          <width>104</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="cursor">
-         <cursorShape>OpenHandCursor</cursorShape>
-        </property>
-        <item>
-         <property name="text">
-          <string>Ascending (A-Z)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Decending (Z-A)</string>
-         </property>
-        </item>
        </widget>
       </widget>
       <widget class="QDockWidget" name="container_2">
@@ -911,226 +886,329 @@ p, li { white-space: pre-wrap; }
         <string>Add New</string>
        </property>
        <widget class="QWidget" name="dockWidgetContents_3">
-        <widget class="QGroupBox" name="todoDiv_2">
+        <widget class="QToolBox" name="toolBox_2">
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>0</x>
            <y>0</y>
-           <width>241</width>
-           <height>331</height>
+           <width>261</width>
+           <height>401</height>
           </rect>
          </property>
-         <property name="title">
-          <string>New Class</string>
+         <property name="currentIndex">
+          <number>1</number>
          </property>
-         <widget class="QGroupBox" name="newDueGroup_2">
+         <widget class="QWidget" name="page_3">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>200</y>
-            <width>221</width>
-            <height>101</height>
+            <x>0</x>
+            <y>0</y>
+            <width>98</width>
+            <height>28</height>
            </rect>
           </property>
-          <property name="title">
-           <string>Time Starts               Time Ends</string>
-          </property>
-          <widget class="QTimeEdit" name="timeEdit_3">
+          <attribute name="label">
+           <string>New Class</string>
+          </attribute>
+          <widget class="QGroupBox" name="todoDiv_2">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>30</y>
-             <width>91</width>
-             <height>31</height>
+             <y>0</y>
+             <width>241</width>
+             <height>331</height>
             </rect>
            </property>
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
+           <property name="title">
+            <string>New Class</string>
            </property>
-          </widget>
-          <widget class="QTimeEdit" name="timeEdit_4">
-           <property name="geometry">
-            <rect>
-             <x>110</x>
-             <y>30</y>
-             <width>101</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="radioButton_2">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>70</y>
-             <width>191</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
-           </property>
-           <property name="text">
-            <string>Custom (swap schedule)</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QGroupBox" name="newHomeworkGroup_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>221</width>
-            <height>181</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Description</string>
-          </property>
-          <widget class="QTextEdit" name="newHWText_2">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>70</y>
-             <width>201</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="cursor" stdset="0">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="html">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+           <widget class="QGroupBox" name="newDueGroup_2">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>200</y>
+              <width>221</width>
+              <height>101</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Time Starts               Time Ends</string>
+            </property>
+            <widget class="QTimeEdit" name="timeEdit_3">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>91</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+            <widget class="QTimeEdit" name="timeEdit_4">
+             <property name="geometry">
+              <rect>
+               <x>110</x>
+               <y>30</y>
+               <width>101</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+            <widget class="QRadioButton" name="radioButton_2">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>70</y>
+               <width>191</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <property name="text">
+              <string>Custom (swap schedule)</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="newHomeworkGroup_2">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>20</y>
+              <width>221</width>
+              <height>181</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Description</string>
+            </property>
+            <widget class="QTextEdit" name="newHWText_2">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>70</y>
+               <width>201</width>
+               <height>61</height>
+              </rect>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="placeholderText">
-            <string>Describe your class... Does it eat? Is it pink? etc </string>
-           </property>
-          </widget>
-          <widget class="QTextEdit" name="newClassName_2">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>30</y>
-             <width>201</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="cursor" stdset="0">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="html">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+             </property>
+             <property name="placeholderText">
+              <string>Describe your class... Does it eat? Is it pink? etc </string>
+             </property>
+            </widget>
+            <widget class="QTextEdit" name="newClassName_2">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>201</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="placeholderText">
-            <string>Class Name</string>
-           </property>
+             </property>
+             <property name="placeholderText">
+              <string>Class Name</string>
+             </property>
+            </widget>
+            <widget class="QPlainTextEdit" name="plainTextEdit_3">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>140</y>
+               <width>51</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="placeholderText">
+              <string>Block</string>
+             </property>
+            </widget>
+            <widget class="QTextEdit" name="textEdit_2">
+             <property name="geometry">
+              <rect>
+               <x>70</x>
+               <y>140</y>
+               <width>141</width>
+               <height>31</height>
+              </rect>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="placeholderText">
+              <string>Classroom number</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>300</y>
+              <width>181</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="cursor">
+             <cursorShape>OpenHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
           </widget>
-          <widget class="QPlainTextEdit" name="plainTextEdit_3">
+         </widget>
+         <widget class="QWidget" name="page_4">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>261</width>
+            <height>333</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Get From Calendar</string>
+          </attribute>
+          <widget class="QGroupBox" name="groupBox_12">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>140</y>
-             <width>51</width>
-             <height>31</height>
+             <y>0</y>
+             <width>241</width>
+             <height>111</height>
             </rect>
            </property>
-           <property name="cursor" stdset="0">
-            <cursorShape>IBeamCursor</cursorShape>
+           <property name="title">
+            <string>Import from google calendars</string>
            </property>
-           <property name="placeholderText">
-            <string>Block</string>
-           </property>
+           <widget class="QPlainTextEdit" name="plainTextEdit_4">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>221</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="cursor" stdset="0">
+             <cursorShape>IBeamCursor</cursorShape>
+            </property>
+            <property name="placeholderText">
+             <string>paste url here</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>80</y>
+              <width>181</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="cursor">
+             <cursorShape>OpenHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>ADD FROM CALENDAR</string>
+            </property>
+           </widget>
           </widget>
-          <widget class="QTextEdit" name="textEdit_2">
-           <property name="geometry">
-            <rect>
-             <x>70</x>
-             <y>140</y>
-             <width>141</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="cursor" stdset="0">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="placeholderText">
-            <string>Classroom number</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QPushButton" name="pushButton_5">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>300</y>
-            <width>181</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="cursor">
-           <cursorShape>OpenHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>Add</string>
-          </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_12">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>330</y>
-           <width>241</width>
-           <height>111</height>
-          </rect>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="sortBy_2">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>520</y>
+         <width>421</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Sort By:</string>
+       </property>
+       <widget class="QComboBox" name="sortDue_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>211</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
+        <item>
+         <property name="text">
+          <string>Time</string>
          </property>
-         <property name="title">
-          <string>Import from google calendars</string>
+        </item>
+        <item>
+         <property name="text">
+          <string>Class</string>
          </property>
-         <widget class="QPlainTextEdit" name="plainTextEdit_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>221</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="cursor" stdset="0">
-           <cursorShape>IBeamCursor</cursorShape>
-          </property>
-          <property name="placeholderText">
-           <string>paste url here</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>80</y>
-            <width>181</width>
-            <height>32</height>
-           </rect>
-          </property>
-          <property name="cursor">
-           <cursorShape>OpenHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>ADD FROM CALENDAR</string>
-          </property>
-         </widget>
-        </widget>
+        </item>
+        <item>
+         <property name="text">
+          <string>Block</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="sortAcend_2">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>20</y>
+          <width>211</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
+        <item>
+         <property name="text">
+          <string>Ascending (A-Z)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Decending (Z-A)</string>
+         </property>
+        </item>
        </widget>
       </widget>
      </widget>
