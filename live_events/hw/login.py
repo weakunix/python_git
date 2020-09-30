@@ -536,7 +536,7 @@ class Ui_Login(object):
 
 
 
-if __name__ == "__main__":
+def Open():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Login = QtWidgets.QMainWindow()
