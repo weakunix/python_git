@@ -1,4 +1,5 @@
 import login
 
 if __name__ == "__main__":
-    login.Open()
+    if login.Open():
+        print("rest of tit")

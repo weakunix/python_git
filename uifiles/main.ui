@@ -77,9 +77,9 @@ QLabel{
 	color:rgb(255, 255, 255);
 }</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <widget class="QFrame" name="leftFrame">
+        <widget class="QFrame" name="changableFrame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -90,7 +90,7 @@ QLabel{
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="login">
              <attribute name="title">
@@ -102,7 +102,7 @@ QLabel{
                 <x>0</x>
                 <y>10</y>
                 <width>151</width>
-                <height>261</height>
+                <height>251</height>
                </rect>
               </property>
               <property name="minimumSize">
@@ -257,7 +257,7 @@ QLabel{
                 <x>0</x>
                 <y>10</y>
                 <width>151</width>
-                <height>261</height>
+                <height>251</height>
                </rect>
               </property>
               <property name="minimumSize">
@@ -410,6 +410,18 @@ policy</string>
             </widget>
            </widget>
           </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="staticFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <widget class="QFrame" name="signinLocal">
             <property name="styleSheet">
@@ -608,7 +620,7 @@ QFrame{
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Downloads/FILE_2695-2.qrc">:/ICON/icon.png</pixmap>
+             <pixmap>:/ICON/icon.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
