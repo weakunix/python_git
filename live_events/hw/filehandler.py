@@ -1,21 +1,33 @@
 import json
 
-class OpenFile():
+class File():
     @staticmethod 
-    def get(filename):
+    def getFileContents(filename):
         try:
             with open(filename) as file:
-                data = file.read()
+                data = json.load(file)
             return data
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
     def checkForUserInDatabase(filename, username, password):
-        data = OpenFile.get(filename)
+        data = File.getFileContents(filename)
         try:
             if username in data:
-                if password in data[str(username)]:
-                    return True
-        except:
-            return False
+                if password == data[str(username)][0]:
+                    return "True"
+                return "BADPASSWORD"
+            return "False"
+        except Exception as e:
+            print(e)
+            return "False"
+
+    @staticmethod
+    def jason_it(filename, key, value):
+        with open(filename, 'r') as brr:
+            prefixes = json.load(brr)
+        prefixes[str(key)] = value
+        with open(filename, 'w') as brrr:
+            json.dump(prefixes, brrr, indent=4)
