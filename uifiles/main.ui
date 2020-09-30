@@ -30,7 +30,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QWidget" name="sidebar" native="true">
+     <widget class="QWidget" name="leftSide" native="true">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -49,6 +49,7 @@
 	border-radius: 10px;
 }
 QPushButton{
+	color:rgb(255, 255, 255);
 	background:rgb(0, 132, 235);
 	border-radius: 10px;
 }
@@ -71,11 +72,14 @@ QCheckBox{
 }
 QCheckBox:hover{
 	border:1px solid rgb(213, 214, 146);
+}
+QLabel{
+	color:rgb(255, 255, 255);
 }</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QFrame" name="Divider">
+        <widget class="QFrame" name="leftFrame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -86,7 +90,7 @@ QCheckBox:hover{
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="login">
              <attribute name="title">
@@ -115,7 +119,7 @@ QCheckBox:hover{
               </property>
               <property name="styleSheet">
                <string notr="true">QFrame{
-	background:rgb(255, 253, 185);
+	background:rgb(83, 82, 84);
 }</string>
               </property>
               <property name="frameShape">
@@ -205,7 +209,7 @@ QCheckBox:hover{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBox_2">
+                   <widget class="QCheckBox" name="keepsignin">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -216,8 +220,8 @@ QCheckBox:hover{
                      <cursorShape>OpenHandCursor</cursorShape>
                     </property>
                     <property name="text">
-                     <string>Keep me signed
- in</string>
+                     <string>Keep me
+ signed in</string>
                     </property>
                    </widget>
                   </item>
@@ -270,7 +274,7 @@ QCheckBox:hover{
               </property>
               <property name="styleSheet">
                <string notr="true">QFrame{
-	background:rgb(255, 253, 185);
+	background:rgb(83, 82, 84);
 }</string>
               </property>
               <property name="frameShape">
@@ -372,7 +376,7 @@ QCheckBox:hover{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBox">
+                   <widget class="QCheckBox" name="agreetopolicy">
                     <property name="cursor">
                      <cursorShape>OpenHandCursor</cursorShape>
                     </property>
@@ -386,7 +390,7 @@ policy</string>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="submitcredentials_2">
+                <widget class="QPushButton" name="registercredentials">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -408,6 +412,11 @@ policy</string>
           </item>
           <item>
            <widget class="QFrame" name="signinLocal">
+            <property name="styleSheet">
+             <string notr="true">QFrame{
+	background:rgb(83, 82, 84);
+}</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -443,98 +452,101 @@ Device</string>
             </layout>
            </widget>
           </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="socials">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{
+          <item>
+           <widget class="QFrame" name="socials">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
 	background:rgb(255, 255, 255);
+}
+QFrame{
+	background:rgb(83, 82, 84);
 }</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0" colspan="3">
-           <widget class="QLabel" name="checkusout">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Visit us &lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="insta">
-            <property name="text">
-             <string/>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
             </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="youtube">
-            <property name="font">
-             <font>
-              <kerning>false</kerning>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../Downloads/youtube_PNG12.png</normaloff>../../Downloads/youtube_PNG12.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="github">
-            <property name="font">
-             <font>
-              <kerning>false</kerning>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../Downloads/github-153-675523.png</normaloff>../../Downloads/github-153-675523.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0" colspan="3">
+              <widget class="QLabel" name="checkusout">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Visit us &lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="insta">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="youtube">
+               <property name="font">
+                <font>
+                 <kerning>false</kerning>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../Downloads/youtube_PNG12.png</normaloff>../../Downloads/youtube_PNG12.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="github">
+               <property name="font">
+                <font>
+                 <kerning>false</kerning>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../Downloads/github-153-675523.png</normaloff>../../Downloads/github-153-675523.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -544,497 +556,360 @@ Device</string>
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="rightSide" native="true">
       <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <widget class="QFrame" name="frame">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>320</y>
-         <width>709</width>
-         <height>349</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QFrame{
-	background:rgb(225, 225, 225);
-	border-radius:15px;
+       <string notr="true">QWidget{
+	background:rgb(220, 220, 220);
+	border-radius: 10px;
 }</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QScrollArea" name="TODO">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_2">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>244</width>
-             <height>326</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_17">
-            <item>
-             <widget class="QGroupBox" name="groupBox_3">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>170</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>TODO</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_16">
-               <item>
-                <widget class="QFrame" name="frame_7">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_18">
-                  <item>
-                   <widget class="QLabel" name="label_6">
-                    <property name="text">
-                     <string>Math geometry assignment</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_8">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_19">
-                  <item>
-                   <widget class="QLabel" name="label_7">
-                    <property name="text">
-                     <string>geometry stuff</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_4">
-              <property name="title">
-               <string>News</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_20">
-               <item>
-                <widget class="QFrame" name="frame_9">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_21">
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="text">
-                     <string>New as of v1.0</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_10">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_22">
-                  <item>
-                   <widget class="QLabel" name="label_9">
-                    <property name="text">
-                     <string>daksjlflllfa</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="SCHEDULE">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>211</width>
-             <height>326</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_23">
-            <item>
-             <widget class="QGroupBox" name="groupBox_5">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>170</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Schedule</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_24">
-               <item>
-                <widget class="QFrame" name="frame_11">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_25">
-                  <item>
-                   <widget class="QLabel" name="label_10">
-                    <property name="text">
-                     <string>10:01-12:34</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_12">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_26">
-                  <item>
-                   <widget class="QLabel" name="label_11">
-                    <property name="text">
-                     <string>Math</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_6">
-              <property name="title">
-               <string>News</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_27">
-               <item>
-                <widget class="QFrame" name="frame_13">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_28">
-                  <item>
-                   <widget class="QLabel" name="label_12">
-                    <property name="text">
-                     <string>12:50-2:01</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_14">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_29">
-                  <item>
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>study hall</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="NEWS">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>210</width>
-             <height>556</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_12">
-            <item>
-             <widget class="QGroupBox" name="groupBox">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>400</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>News</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <item>
-                <widget class="QFrame" name="frame_3">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
-                  <item>
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>New as of v1.0</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_4">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <item>
-                   <widget class="QLabel" name="label_3">
-                    <property name="text">
-                     <string>daksjlflllfa</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_2">
-              <property name="title">
-               <string>News</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <widget class="QFrame" name="frame_5">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_10">
-                  <item>
-                   <widget class="QLabel" name="label_4">
-                    <property name="text">
-                     <string>New as of v1.0</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_6">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_11">
-                  <item>
-                   <widget class="QLabel" name="label_5">
-                    <property name="text">
-                     <string>daksjlflllfa</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QFrame" name="frame_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>711</width>
-         <height>276</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QFrame{
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QFrame" name="ICONFRAME">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>350</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame{
 	border-radius:10px;
 	background:rgb(0, 85, 216)
 }</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="logo">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>250</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../Downloads/FILE_2695-2.qrc">:/ICON/filename-removebg-preview.png</pixmap>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>50</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#74c7ff;&quot;&gt;HW&lt;/span&gt;&lt;span style=&quot; color:#74c7ff;&quot;&gt;Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="ICONPNG">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>250</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../../Downloads/FILE_2695-2.qrc">:/ICON/icon.png</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="HWTRACKERLABEL">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>50</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#fbfbfb;&quot;&gt;HW&lt;/span&gt;&lt;span style=&quot; color:#fbfbfb;&quot;&gt;Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="BOTTOMCONTAINER">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
+	border: 2px solid rgb(120, 119, 121);
+}
+QLabel{
+	background:rgb(94, 136, 238);
+	border-radius:5px;
+}</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QScrollArea" name="TODOS">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="TODOSSCROLLABLE">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>220</width>
+               <height>263</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_27">
+              <item>
+               <widget class="QGroupBox" name="todoBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>170</height>
+                 </size>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_28">
+                 <item>
+                  <widget class="QFrame" name="TBtitleFrame">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_29">
+                    <item>
+                     <widget class="QLabel" name="TBtitle">
+                      <property name="text">
+                       <string>TODO</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="TBdescFrame">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_30">
+                    <item>
+                     <widget class="QLabel" name="TBdesc">
+                      <property name="text">
+                       <string>Geometry stuff</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QScrollArea" name="SCHEDULE">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="SCHEDULESCROLLABLE">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>221</width>
+               <height>263</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_23">
+              <item>
+               <widget class="QGroupBox" name="scheduleBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>170</height>
+                 </size>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_24">
+                 <item>
+                  <widget class="QFrame" name="SBtimeFrame">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_25">
+                    <item>
+                     <widget class="QLabel" name="SBtime">
+                      <property name="text">
+                       <string>10:01-12:34</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="SBdescFrame">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_26">
+                    <item>
+                     <widget class="QLabel" name="SBdesc">
+                      <property name="text">
+                       <string>Math</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QScrollArea" name="NEWS">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="NEWSSCROLLABLE">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>220</width>
+               <height>263</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <widget class="QGroupBox" name="NewsBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>170</height>
+                 </size>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QFrame" name="NBtitleBox">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_9">
+                    <item>
+                     <widget class="QLabel" name="NBtitle">
+                      <property name="text">
+                       <string>New as of v1.0</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="NBdescBox">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <item>
+                     <widget class="QLabel" name="NBdesc">
+                      <property name="text">
+                       <string>daksjlflllfa</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -1131,7 +1006,7 @@ Device</string>
  <connections>
   <connection>
    <sender>actionShow_news</sender>
-   <signal>triggered(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>NEWS</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
@@ -1140,30 +1015,14 @@ Device</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>809</x>
-     <y>543</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionTodo</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>TODO</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>459</x>
-     <y>543</y>
+     <x>824</x>
+     <y>557</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>actionSchedule</sender>
-   <signal>triggered(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>SCHEDULE</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
@@ -1172,8 +1031,8 @@ Device</string>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>608</x>
-     <y>532</y>
+     <x>604</x>
+     <y>557</y>
     </hint>
    </hints>
   </connection>
