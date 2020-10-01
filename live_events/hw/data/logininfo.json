@@ -1,4 +1,5 @@
 {
-    "admin":["password"],
-    "mootbing":["mootbung"]
+    "admin": [
+        "password"
+    ]
 }

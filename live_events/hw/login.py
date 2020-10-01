@@ -546,12 +546,17 @@ class Ui_Login(object):
 
                 #human stuff now
 
-                self.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git"))
+                #open sites when clicked
+
+                self.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
                 self.youtube.clicked.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
                 self.insta.clicked.connect(lambda:  webbrowser.open("https://instagram.com"))
 
-                self.signinLocalButton.clicked.connect(lambda: self.openApp(False))
-                self.submitcredentials.clicked.connect(self.validate) 
+                #link buttons clicked to open locally or validate with (later) database
+
+                self.signinLocalButton.clicked.connect(lambda: self.openApp(False)) # "signs in" with only data from device
+                self.submitcredentials.clicked.connect(self.validate) #submit credentials for validations
+                self.registercredentials.clicked.connect(self.register) #registers account
                 
         #import FILE_2695-2_rc
 
@@ -559,6 +564,7 @@ class Ui_Login(object):
                 password = self.passwordInputS.text()
                 username = self.UsernameInputS.text() #idk how the fuck I flipepd these
                 keepSignedIn = self.keepsignin.isChecked()
+
                 temp = filehandler.File.checkForUserInDatabase("logininfo.json", username, password) #is valid name and password combo
 
                 if temp == "True":
@@ -592,6 +598,37 @@ class Ui_Login(object):
         
         def openApp(self, isOnline):
                 pass #link this to new window later 
+
+        def register(self):
+                username = self.UsernameInputR.text()
+                password = self.passwordInputR.text()
+                passwordConfirm = self.passwordInputConfirmR.text()
+
+                if password == passwordConfirm:
+                        def start(e):
+                                if e.text() == "&Yes":
+                                        filehandler.File.jason_it("logininfo.json", str(username), [str(password)]) #register
+                                        print("oak")
+                        with open("./data/policy.txt") as f:
+                                policy = f.read()
+                        readTerms = QMessageBox()
+                        readTerms.setText("The terms and policies: ")
+                        readTerms.setInformativeText(policy)
+                        readTerms.setIcon(QMessageBox.Information)
+                        readTerms.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+                        readTerms.setDefaultButton(QMessageBox.No)
+                        readTerms.buttonClicked.connect(start)
+
+                        readTerms.exec() 
+                else:
+                        errorNotSamePassword = QMessageBox()
+                        errorNotSamePassword.setText("The passwords do not match!")
+                        errorNotSamePassword.setIcon(QMessageBox.Critical)
+                        errorNotSamePassword.setStandardButtons(QMessageBox.Ok)
+                        errorNotSamePassword.setDefaultButton(QMessageBox.Ok)
+
+                        errorNotSamePassword.exec()
+
 
 
 
