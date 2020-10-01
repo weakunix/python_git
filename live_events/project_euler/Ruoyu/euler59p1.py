@@ -21,4 +21,5 @@ for i in range(ord('a'), ord('z') + 1):
                 text = ''
                 for l in decrypted:
                     text += chr(l)
-                print(text)
+                with open('decrypted57.txt', 'a') as decryption_file:
+                    decryption_file.write(text)
