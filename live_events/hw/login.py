@@ -18,8 +18,8 @@ class Ui_Login(object):
                 Login.setMinimumSize(QtCore.QSize(967, 727))
                 Login.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
                 Login.setStyleSheet("QMainWindow{\n"
-        "    background:rgb(0, 51, 94);\n"
-        "}")
+                "    background:rgb(0, 51, 94);\n"
+                "}")
                 self.centralwidget = QtWidgets.QWidget(Login)
                 self.centralwidget.setObjectName("centralwidget")
                 self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -28,37 +28,37 @@ class Ui_Login(object):
                 self.leftSide.setMinimumSize(QtCore.QSize(200, 0))
                 self.leftSide.setMaximumSize(QtCore.QSize(200, 16777215))
                 self.leftSide.setStyleSheet("QWidget{\n"
-        "    background:rgb(220, 220, 220);\n"
-        "    border-radius: 10px;\n"
-        "}\n"
-        "QPushButton{\n"
-        "    color:rgb(255, 255, 255);\n"
-        "    background:rgb(0, 132, 235);\n"
-        "    border-radius: 10px;\n"
-        "}\n"
-        "QPushButton:hover{\n"
-        "    border:1px solid rgb(213, 214, 146);\n"
-        "}\n"
-        "QLineEdit{\n"
-        "    font-size:18px;\n"
-        "    background:rgb(255, 255, 255);\n"
-        "    border-radius:10px;\n"
-        "    border:0px solid;\n"
-        "    padding-left:2px;\n"
-        "    padding-right:2px;\n"
-        "}\n"
-        "QLineEdit:hover{\n"
-        "    border:1px solid rgb(213, 214, 146);\n"
-        "}\n"
-        "QCheckBox{\n"
-        "    background:rgb(255, 255, 255);\n"
-        "}\n"
-        "QCheckBox:hover{\n"
-        "    border:1px solid rgb(213, 214, 146);\n"
-        "}\n"
-        "QLabel{\n"
-        "    color:rgb(255, 255, 255);\n"
-        "}")
+                "    background:rgb(220, 220, 220);\n"
+                "    border-radius: 10px;\n"
+                "}\n"
+                "QPushButton{\n"
+                "    color:rgb(255, 255, 255);\n"
+                "    background:rgb(0, 132, 235);\n"
+                "    border-radius: 10px;\n"
+                "}\n"
+                "QPushButton:hover{\n"
+                "    border:1px solid rgb(213, 214, 146);\n"
+                "}\n"
+                "QLineEdit{\n"
+                "    font-size:18px;\n"
+                "    background:rgb(255, 255, 255);\n"
+                "    border-radius:10px;\n"
+                "    border:0px solid;\n"
+                "    padding-left:2px;\n"
+                "    padding-right:2px;\n"
+                "}\n"
+                "QLineEdit:hover{\n"
+                "    border:1px solid rgb(213, 214, 146);\n"
+                "}\n"
+                "QCheckBox{\n"
+                "    background:rgb(255, 255, 255);\n"
+                "}\n"
+                "QCheckBox:hover{\n"
+                "    border:1px solid rgb(213, 214, 146);\n"
+                "}\n"
+                "QLabel{\n"
+                "    color:rgb(255, 255, 255);\n"
+                "}")
                 self.leftSide.setObjectName("leftSide")
                 self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.leftSide)
                 self.verticalLayout_7.setObjectName("verticalLayout_7")
@@ -77,8 +77,8 @@ class Ui_Login(object):
                 self.LoginFrame.setMinimumSize(QtCore.QSize(0, 240))
                 self.LoginFrame.setMaximumSize(QtCore.QSize(16777215, 16777215))
                 self.LoginFrame.setStyleSheet("QFrame{\n"
-        "    background:rgb(83, 82, 84);\n"
-        "}")
+                "    background:rgb(83, 82, 84);\n"
+                "}")
                 self.LoginFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
                 self.LoginFrame.setFrameShadow(QtWidgets.QFrame.Raised)
                 self.LoginFrame.setObjectName("LoginFrame")
@@ -138,8 +138,8 @@ class Ui_Login(object):
                 self.registerbox.setMinimumSize(QtCore.QSize(0, 240))
                 self.registerbox.setMaximumSize(QtCore.QSize(16777215, 16777215))
                 self.registerbox.setStyleSheet("QFrame{\n"
-        "    background:rgb(83, 82, 84);\n"
-        "}")
+                "    background:rgb(83, 82, 84);\n"
+                "}")
                 self.registerbox.setFrameShape(QtWidgets.QFrame.StyledPanel)
                 self.registerbox.setFrameShadow(QtWidgets.QFrame.Raised)
                 self.registerbox.setObjectName("registerbox")
@@ -208,8 +208,8 @@ class Ui_Login(object):
                 self.verticalLayout_4.setObjectName("verticalLayout_4")
                 self.signinLocal = QtWidgets.QFrame(self.staticFrame)
                 self.signinLocal.setStyleSheet("QFrame{\n"
-        "    background:rgb(83, 82, 84);\n"
-        "}")
+                "    background:rgb(83, 82, 84);\n"
+                "}")
                 self.signinLocal.setFrameShape(QtWidgets.QFrame.StyledPanel)
                 self.signinLocal.setFrameShadow(QtWidgets.QFrame.Raised)
                 self.signinLocal.setObjectName("signinLocal")
@@ -226,11 +226,11 @@ class Ui_Login(object):
                 self.socials = QtWidgets.QFrame(self.staticFrame)
                 self.socials.setMaximumSize(QtCore.QSize(16777215, 100))
                 self.socials.setStyleSheet("QPushButton{\n"
-        "    background:rgb(255, 255, 255);\n"
-        "}\n"
-        "QFrame{\n"
-        "    background:rgb(83, 82, 84);\n"
-        "}")
+                "    background:rgb(255, 255, 255);\n"
+                "}\n"
+                "QFrame{\n"
+                "    background:rgb(83, 82, 84);\n"
+                "}")
                 self.socials.setFrameShape(QtWidgets.QFrame.StyledPanel)
                 self.socials.setFrameShadow(QtWidgets.QFrame.Plain)
                 self.socials.setObjectName("socials")
@@ -275,18 +275,18 @@ class Ui_Login(object):
                 self.horizontalLayout.addWidget(self.leftSide)
                 self.rightSide = QtWidgets.QWidget(self.centralwidget)
                 self.rightSide.setStyleSheet("QWidget{\n"
-        "    background:rgb(220, 220, 220);\n"
-        "    border-radius: 10px;\n"
-        "}")
+                "    background:rgb(220, 220, 220);\n"
+                "    border-radius: 10px;\n"
+                "}")
                 self.rightSide.setObjectName("rightSide")
                 self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.rightSide)
                 self.verticalLayout_5.setObjectName("verticalLayout_5")
                 self.ICONFRAME = QtWidgets.QFrame(self.rightSide)
                 self.ICONFRAME.setMinimumSize(QtCore.QSize(0, 350))
                 self.ICONFRAME.setStyleSheet("QFrame{\n"
-        "    border-radius:10px;\n"
-        "    background:rgb(0, 85, 216)\n"
-        "}")
+                "    border-radius:10px;\n"
+                "    background:rgb(0, 85, 216)\n"
+                "}")
                 self.ICONFRAME.setFrameShape(QtWidgets.QFrame.StyledPanel)
                 self.ICONFRAME.setFrameShadow(QtWidgets.QFrame.Raised)
                 self.ICONFRAME.setObjectName("ICONFRAME")
@@ -318,12 +318,12 @@ class Ui_Login(object):
                 self.BOTTOMCONTAINER.setFont(font)
                 self.BOTTOMCONTAINER.setAutoFillBackground(False)
                 self.BOTTOMCONTAINER.setStyleSheet("QGroupBox{\n"
-        "    border: 2px solid rgb(120, 119, 121);\n"
-        "}\n"
-        "QLabel{\n"
-        "    background:rgb(94, 136, 238);\n"
-        "    border-radius:5px;\n"
-        "}")
+                "    border: 2px solid rgb(120, 119, 121);\n"
+                "}\n"
+                "QLabel{\n"
+                "    background:rgb(94, 136, 238);\n"
+                "    border-radius:5px;\n"
+                "}")
                 self.BOTTOMCONTAINER.setObjectName("BOTTOMCONTAINER")
                 self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.BOTTOMCONTAINER)
                 self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -501,7 +501,7 @@ class Ui_Login(object):
                 self.UsernameInputS.setPlaceholderText(_translate("Login", "Username"))
                 self.passwordInputS.setPlaceholderText(_translate("Login", "Password"))
                 self.keepsignin.setText(_translate("Login", "Keep me\n"
-        " signed in"))
+                " signed in"))
                 self.submitcredentials.setText(_translate("Login", "Sign In"))
                 self.tabWidget.setTabText(self.tabWidget.indexOf(self.login), _translate("Login", "Login"))
                 self.registerlable.setText(_translate("Login", "Register"))
@@ -509,19 +509,19 @@ class Ui_Login(object):
                 self.passwordInputR.setPlaceholderText(_translate("Login", "Password"))
                 self.passwordInputConfirmR.setPlaceholderText(_translate("Login", "Pass again"))
                 self.agreetopolicy.setText(_translate("Login", "Agree to \n"
-        "policy"))
+                "policy"))
                 self.registercredentials.setText(_translate("Login", "Sign Up"))
                 self.tabWidget.setTabText(self.tabWidget.indexOf(self.signup), _translate("Login", "Register"))
                 self.signinLocalText.setText(_translate("Login", "Make an account to \n"
-        " save your classes\n"
-        " and schoolwork \n"
-        " into our database\n"
-        " however if you are\n"
-        " offline, click \n"
-        " \"continue from\n"
-        " device\""))
+                " save your classes\n"
+                " and schoolwork \n"
+                " into our database\n"
+                " however if you are\n"
+                " offline, click \n"
+                " \"continue from\n"
+                " device\""))
                 self.signinLocalButton.setText(_translate("Login", "Continue From \n"
-        "Device"))
+                "Device"))
                 self.checkusout.setText(_translate("Login", "<html><head/><body><p>Visit us <br/></p></body></html>"))
                 self.HWTRACKERLABEL.setText(_translate("Login", "<html><head/><body><p><span style=\" font-weight:600; color:#fbfbfb;\">HW</span><span style=\" color:#fbfbfb;\">Tracker</span></p></body></html>"))
                 self.TBtitle.setText(_translate("Login", "TODO"))
@@ -550,7 +550,7 @@ class Ui_Login(object):
                 self.youtube.clicked.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
                 self.insta.clicked.connect(lambda:  webbrowser.open("https://instagram.com"))
 
-                #self.signinLocalButton.clicked.connect()
+                self.signinLocalButton.clicked.connect(lambda: self.openApp(False))
                 self.submitcredentials.clicked.connect(self.validate) 
                 
         #import FILE_2695-2_rc
@@ -559,7 +559,7 @@ class Ui_Login(object):
                 password = self.passwordInputS.text()
                 username = self.UsernameInputS.text() #idk how the fuck I flipepd these
                 keepSignedIn = self.keepsignin.isChecked()
-                temp = filehandler.File.checkForUserInDatabase("logininfo.json", username, password)
+                temp = filehandler.File.checkForUserInDatabase("logininfo.json", username, password) #is valid name and password combo
 
                 if temp == "True":
                         def yes(selection):
@@ -577,11 +577,11 @@ class Ui_Login(object):
                                 KeepSignedInConfirm.buttonClicked.connect(yes)
 
                                 KeepSignedInConfirm.exec()
-                        print("clicked") #link this to new window later 
+                        self.openApp(True)
                 else:
                         MAKE_A_DAMN_ACCOUNT = QMessageBox()
                         if temp == "False":
-                                MAKE_A_DAMN_ACCOUNT.setText("Error: You do not have an account made! Head over to the 'Register' tab and create an account on us. Free of charge!")
+                                MAKE_A_DAMN_ACCOUNT.setText("Error: You do not have an account made! Head over to the 'Register' tab and create an account on us. Free of charge! Or, you can continue as a guest. But be wary! Your data will be gone if you delete this app!")
                         else:
                                 MAKE_A_DAMN_ACCOUNT.setText("Error: Wrong Password!")
                         MAKE_A_DAMN_ACCOUNT.setIcon(QMessageBox.Critical)
@@ -589,6 +589,9 @@ class Ui_Login(object):
                         MAKE_A_DAMN_ACCOUNT.setDefaultButton(QMessageBox.Ok)
 
                         MAKE_A_DAMN_ACCOUNT.exec()
+        
+        def openApp(self, isOnline):
+                pass #link this to new window later 
 
 
 
@@ -603,4 +606,4 @@ def Open():
         sys.exit(app.exec_())
 
 if __name__ == "__main__":
-        print("dumbdumb u did wrong file")
+        raise SystemExit("dumbdumb u did wrong file")

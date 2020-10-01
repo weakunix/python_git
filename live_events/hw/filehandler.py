@@ -1,10 +1,12 @@
 import json
 
+fileFolder = "./data/"
+
 class File():
     @staticmethod 
     def getFileContents(filename):
         try:
-            with open(filename) as file:
+            with open(fileFolder+filename) as file:
                 data = json.load(file)
             return data
         except Exception as e:
@@ -26,8 +28,8 @@ class File():
 
     @staticmethod
     def jason_it(filename, key, value):
-        with open(filename, 'r') as brr:
+        with open(fileFolder+filename, 'r') as brr:
             prefixes = json.load(brr)
         prefixes[str(key)] = value
-        with open(filename, 'w') as brrr:
+        with open(fileFolder+filename, 'w') as brrr:
             json.dump(prefixes, brrr, indent=4)
