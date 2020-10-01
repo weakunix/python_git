@@ -565,7 +565,7 @@ class Ui_Login(object):
                 username = self.UsernameInputS.text() #idk how the fuck I flipepd these
                 keepSignedIn = self.keepsignin.isChecked()
 
-                temp = filehandler.File.checkForUserInDatabase("logininfo.json", username, password) #is valid name and password combo
+                temp = filehandler.File.checkForUserInDatabase(username, password) #is valid name and password combo
 
                 if temp == "True":
                         def yes(selection):
@@ -605,21 +605,36 @@ class Ui_Login(object):
                 passwordConfirm = self.passwordInputConfirmR.text()
 
                 if password == passwordConfirm:
-                        def start(e):
-                                if e.text() == "&Yes":
-                                        filehandler.File.jason_it("logininfo.json", str(username), [str(password)]) #register
-                                        print("oak")
-                        with open("./data/policy.txt") as f:
-                                policy = f.read()
-                        readTerms = QMessageBox()
-                        readTerms.setText("The terms and policies: ")
-                        readTerms.setInformativeText(policy)
-                        readTerms.setIcon(QMessageBox.Information)
-                        readTerms.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
-                        readTerms.setDefaultButton(QMessageBox.No)
-                        readTerms.buttonClicked.connect(start)
+                        if not filehandler.File.checkForUserAlreadyExists(str(username)):
+                                def start(e):
+                                        if e.text() == "&Yes":
+                                                filehandler.File.jason_it("logininfo.json", str(username), [str(password)]) #register and log to logininfo.json
+                                                accountMadeSuccess = QMessageBox()
+                                                accountMadeSuccess.setText("The account '" + str(username) + "' has been created!")
+                                                accountMadeSuccess.setIcon(QMessageBox.Information)
+                                                accountMadeSuccess.setStandardButtons(QMessageBox.Ok)
+                                                accountMadeSuccess.setDefaultButton(QMessageBox.Ok)
 
-                        readTerms.exec() 
+                                                accountMadeSuccess.exec()
+                                with open("./data/policy.txt") as f:
+                                        policy = f.read()
+                                readTerms = QMessageBox()
+                                readTerms.setText("The terms and policies: ")
+                                readTerms.setInformativeText(policy)
+                                readTerms.setIcon(QMessageBox.Information)
+                                readTerms.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+                                readTerms.setDefaultButton(QMessageBox.No)
+                                readTerms.buttonClicked.connect(start)
+
+                                readTerms.exec() 
+                        else:
+                                errorUserAlreadyExists = QMessageBox()
+                                errorUserAlreadyExists.setText("The username '" + str(username) + "' is already in use!")
+                                errorUserAlreadyExists.setIcon(QMessageBox.Critical)
+                                errorUserAlreadyExists.setStandardButtons(QMessageBox.Ok)
+                                errorUserAlreadyExists.setDefaultButton(QMessageBox.Ok)
+
+                                errorUserAlreadyExists.exec()
                 else:
                         errorNotSamePassword = QMessageBox()
                         errorNotSamePassword.setText("The passwords do not match!")
@@ -628,6 +643,12 @@ class Ui_Login(object):
                         errorNotSamePassword.setDefaultButton(QMessageBox.Ok)
 
                         errorNotSamePassword.exec()
+                
+                self.UsernameInputR.clear()
+                self.passwordInputR.clear()
+                self.passwordInputConfirmR.clear()
+
+                self.tabWidget.setCurrentIndex(0)
 
 
 

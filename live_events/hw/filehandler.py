@@ -14,8 +14,8 @@ class File():
             return False
 
     @staticmethod
-    def checkForUserInDatabase(filename, username, password):
-        data = File.getFileContents(filename)
+    def checkForUserInDatabase(username, password):
+        data = File.getFileContents("logininfo.json")
         try:
             if username in data:
                 if password == data[str(username)][0]:
@@ -33,3 +33,10 @@ class File():
         prefixes[str(key)] = value
         with open(fileFolder+filename, 'w') as brrr:
             json.dump(prefixes, brrr, indent=4)
+
+    @staticmethod 
+    def checkForUserAlreadyExists(username):
+        data = File.getFileContents("logininfo.json")
+        if username in data:
+            return True
+        return False
