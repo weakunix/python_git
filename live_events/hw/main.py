@@ -1,10 +1,5 @@
-import todos
-
-def main():
-    if menu():
-        todos.display()
-    else:
-        schedule.display()
+import login
 
 if __name__ == "__main__":
-    main()
+    if login.Open():
+        print("rest of tit")
