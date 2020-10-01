@@ -357,8 +357,13 @@ async def on_message(message):
             for i in range(0, 5):
                 await message.channel.send(spam)
         elif message.content.startswith(prefix + cmd[10][0]):
-            await message.channel.send(
-                'https://media.discordapp.net/attachments/663150753946402820/745720458174922823/unknown.png')
+            abc = random.randint(0,1)
+            if abc:
+                await message.channel.send(
+                    'https://media.discordapp.net/attachments/663150753946402820/745720458174922823/unknown.png')
+            else:
+                await message.channel.send(
+                    'https://media.discordapp.net/attachments/663150753946402820/761241974271377448/unknown.png')
         elif message.content.startswith(prefix + cmd[11][0]):
             pushorcas = [
                 'https://media.discordapp.net/attachments/663150753946402820/738870510708064286/image0.jpg?width=1248&height=936',
