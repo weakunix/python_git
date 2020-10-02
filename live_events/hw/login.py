@@ -591,7 +591,7 @@ class Ui_Login(object):
                         MAKE_A_DAMN_ACCOUNT.exec()
         
         def openApp(self, isOnline):
-                pass #link this to new window later 
+                pass #link this to new window later actualapp.open(isOnline)
 
         def register(self):
                 username = self.UsernameInputR.text()

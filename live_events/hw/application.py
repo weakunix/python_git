@@ -1006,11 +1006,12 @@ class Ui_HWTracker(object):
         self.actionclass.setText(_translate("HWTracker", "class"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    HWTracker = QtWidgets.QMainWindow()
-    ui = Ui_HWTracker()
-    ui.setupUi(HWTracker)
-    HWTracker.show()
-    sys.exit(app.exec_())
+def open(isOnline):
+        #isonline you dont need to worry about, if it is online then we will access the database
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        HWTracker = QtWidgets.QMainWindow()
+        ui = Ui_HWTracker()
+        ui.setupUi(HWTracker)
+        HWTracker.show()
+        sys.exit(app.exec_())
