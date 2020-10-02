@@ -55,16 +55,65 @@
 	color:rgb(255, 255, 255);
 }
 QTextEdit{
-	border-radius:10px;
-	background:rgb(67, 147, 223);
-}
-QPushButton:hover{
-	border:1px solid rgb(255, 247, 118);
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
 }
 QPushButton{
 	color: rgb(255, 255, 255);
 	border-radius:3px;
 	border: 1px solid rgb(28, 139, 255);
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QDateTimeEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QSlider{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+
+
+QPushButton:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QDateTimeEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QTextEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QSlider:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton{
+	color:rgb(255, 255, 255);
+	border-radius:3px;
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
 }</string>
           </property>
           <property name="title">
@@ -105,11 +154,21 @@ p, li { white-space: pre-wrap; }
              <property name="title">
               <string>Due Date</string>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <widget class="QDateTimeEdit" name="newDueTime">
                 <property name="cursor">
                  <cursorShape>OpenHandCursor</cursorShape>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton">
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Assignment Repeats?</string>
                 </property>
                </widget>
               </item>
@@ -192,6 +251,23 @@ QLabel{
 }
 QRadioButton{
 	color:rgb(255, 255, 255);
+	border-radius:3px;
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
 }</string>
           </property>
           <property name="frameShape">
@@ -423,8 +499,8 @@ QPushButton{
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>596</width>
-                <height>395</height>
+                <width>632</width>
+                <height>405</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -432,7 +508,7 @@ QPushButton{
                 <widget class="QFrame" name="classSubject">
                  <property name="minimumSize">
                   <size>
-                   <width>551</width>
+                   <width>600</width>
                    <height>72</height>
                   </size>
                  </property>
@@ -684,6 +760,12 @@ QPushButton{
               </item>
               <item>
                <widget class="QRadioButton" name="sortShowDone">
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="cursor">
                  <cursorShape>OpenHandCursor</cursorShape>
                 </property>
@@ -722,9 +804,7 @@ QPushButton{
 }
 QRadioButton{
 	color:rgb(255, 255, 255);
-}
-QPushButton:hover{
-	border:1px solid rgb(255, 247, 118);
+	border-radius:3px;
 }
 QPushButton{
 	color: rgb(255, 255, 255);
@@ -732,8 +812,29 @@ QPushButton{
 	border: 1px solid rgb(28, 139, 255);
 }
 QTextEdit{
-	border-radius:10px;
-	background:rgb(67, 147, 223);
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QDateTimeEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QTextEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
 }</string>
           </property>
           <property name="title">
@@ -887,6 +988,19 @@ QGroupBox{
 }
 QLabel{
 	padding-top:0px;
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
 }</string>
           </property>
           <property name="frameShape">
@@ -1140,8 +1254,8 @@ QPushButton{
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>596</width>
-                <height>395</height>
+                <width>632</width>
+                <height>405</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1149,7 +1263,7 @@ QPushButton{
                 <widget class="QFrame" name="classSubject_2">
                  <property name="minimumSize">
                   <size>
-                   <width>550</width>
+                   <width>600</width>
                    <height>71</height>
                   </size>
                  </property>
