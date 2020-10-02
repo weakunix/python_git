@@ -187,10 +187,6 @@ class Ui_Login(object):
                 self.passwordInputConfirmR.setEchoMode(QtWidgets.QLineEdit.Password)
                 self.passwordInputConfirmR.setObjectName("passwordInputConfirmR")
                 self.verticalLayout_3.addWidget(self.passwordInputConfirmR)
-                self.agreetopolicy = QtWidgets.QCheckBox(self.registerFrame)
-                self.agreetopolicy.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-                self.agreetopolicy.setObjectName("agreetopolicy")
-                self.verticalLayout_3.addWidget(self.agreetopolicy)
                 self.verticalLayout_13.addWidget(self.registerFrame)
                 self.registercredentials = QtWidgets.QPushButton(self.registerbox)
                 self.registercredentials.setMinimumSize(QtCore.QSize(0, 20))
@@ -508,8 +504,6 @@ class Ui_Login(object):
                 self.UsernameInputR.setPlaceholderText(_translate("Login", "Username"))
                 self.passwordInputR.setPlaceholderText(_translate("Login", "Password"))
                 self.passwordInputConfirmR.setPlaceholderText(_translate("Login", "Pass again"))
-                self.agreetopolicy.setText(_translate("Login", "Agree to \n"
-                "policy"))
                 self.registercredentials.setText(_translate("Login", "Sign Up"))
                 self.tabWidget.setTabText(self.tabWidget.indexOf(self.signup), _translate("Login", "Register"))
                 self.signinLocalText.setText(_translate("Login", "Make an account to \n"
@@ -619,7 +613,7 @@ class Ui_Login(object):
                                 with open("./data/policy.txt") as f:
                                         policy = f.read()
                                 readTerms = QMessageBox()
-                                readTerms.setText("The terms and policies: ")
+                                readTerms.setText("ACCEPT OUR TERMS AND POLICIES TO CONTINUE (CLICK YES IF YOU ACCEPT)")
                                 readTerms.setInformativeText(policy)
                                 readTerms.setIcon(QMessageBox.Information)
                                 readTerms.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
