@@ -1006,7 +1006,7 @@ class Ui_HWTracker(object):
         self.actionclass.setText(_translate("HWTracker", "class"))
 
 
-def open(isOnline):
+def Open(isOnline):
         #isonline you dont need to worry about, if it is online then we will access the database
         import sys
         app = QtWidgets.QApplication(sys.argv)
@@ -1015,3 +1015,10 @@ def open(isOnline):
         ui.setupUi(HWTracker)
         HWTracker.show()
         sys.exit(app.exec_())
+
+        if not isOnline:
+                import filehandler
+                todos = filehandler.File.getFileContents("todos.json")
+                schedule = filehandler.File.getFileContents("classes.json")
+        else:
+                pass #access database here
