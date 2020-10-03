@@ -32,9 +32,9 @@
        <cursorShape>ArrowCursor</cursorShape>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="todotab">
        <attribute name="title">
         <string>Todo List</string>
        </attribute>
@@ -235,7 +235,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame">
+         <widget class="QFrame" name="RightSideTodo">
           <property name="styleSheet">
            <string notr="true">QFrame
 {
@@ -278,7 +278,7 @@ QRadioButton:hover{
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QFrame" name="frame_5">
+            <widget class="QFrame" name="topbar">
              <property name="styleSheet">
               <string notr="true">QGroupBox{
 	border-radius:3px;
@@ -291,7 +291,7 @@ QLabel{
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_46">
               <item>
-               <widget class="QGroupBox" name="groupBox_21">
+               <widget class="QGroupBox" name="donetodo">
                 <property name="maximumSize">
                  <size>
                   <width>69</width>
@@ -303,7 +303,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_44">
                  <item>
-                  <widget class="QLabel" name="label_16">
+                  <widget class="QLabel" name="donenametodo">
                    <property name="text">
                     <string>Done?</string>
                    </property>
@@ -316,7 +316,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_20">
+               <widget class="QGroupBox" name="blocktodo">
                 <property name="maximumSize">
                  <size>
                   <width>64</width>
@@ -328,7 +328,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_41">
                  <item>
-                  <widget class="QLabel" name="label_15">
+                  <widget class="QLabel" name="blocknametodo">
                    <property name="text">
                     <string>Block</string>
                    </property>
@@ -341,13 +341,13 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="classinside_4">
+               <widget class="QGroupBox" name="classinsidetodo">
                 <property name="title">
                  <string/>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_40">
                  <item>
-                  <widget class="QLabel" name="classname_4">
+                  <widget class="QLabel" name="classnametodo">
                    <property name="text">
                     <string>Class</string>
                    </property>
@@ -360,7 +360,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="diff_4">
+               <widget class="QGroupBox" name="difftodo">
                 <property name="maximumSize">
                  <size>
                   <width>86</width>
@@ -372,7 +372,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_43">
                  <item>
-                  <widget class="QLabel" name="diffrating_4">
+                  <widget class="QLabel" name="diffratingtodo">
                    <property name="text">
                     <string>Difficulty</string>
                    </property>
@@ -385,7 +385,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_19">
+               <widget class="QGroupBox" name="progresstodo">
                 <property name="maximumSize">
                  <size>
                   <width>85</width>
@@ -397,7 +397,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
                  <item>
-                  <widget class="QLabel" name="diffrating_5">
+                  <widget class="QLabel" name="progressbartodo">
                    <property name="text">
                     <string>Progress</string>
                    </property>
@@ -410,7 +410,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="duein_4">
+               <widget class="QGroupBox" name="dueintodo">
                 <property name="maximumSize">
                  <size>
                   <width>55</width>
@@ -422,7 +422,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_42">
                  <item>
-                  <widget class="QLabel" name="dueinName_4">
+                  <widget class="QLabel" name="dueinnametodo">
                    <property name="layoutDirection">
                     <enum>Qt::LeftToRight</enum>
                    </property>
@@ -438,7 +438,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_22">
+               <widget class="QGroupBox" name="infotodo">
                 <property name="maximumSize">
                  <size>
                   <width>70</width>
@@ -450,7 +450,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_45">
                  <item>
-                  <widget class="QLabel" name="label_17">
+                  <widget class="QLabel" name="infonametodo">
                    <property name="text">
                     <string>Info</string>
                    </property>
@@ -466,7 +466,7 @@ QLabel{
             </widget>
            </item>
            <item>
-            <widget class="QScrollArea" name="scrollableClassesDisplay">
+            <widget class="QScrollArea" name="scrollableHomeworkDisplay">
              <property name="cursor" stdset="0">
               <cursorShape>ArrowCursor</cursorShape>
              </property>
@@ -493,7 +493,7 @@ QPushButton{
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents">
+             <widget class="QWidget" name="scrollHomework">
               <property name="geometry">
                <rect>
                 <x>0</x>
@@ -610,7 +610,7 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_6">
+                   <widget class="QGroupBox" name="progress">
                     <property name="maximumSize">
                      <size>
                       <width>50</width>
@@ -671,14 +671,14 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QFrame" name="frame_2">
+                   <widget class="QFrame" name="extrainfo">
                     <property name="maximumSize">
                      <size>
                       <width>51</width>
                       <height>16777215</height>
                      </size>
                     </property>
-                    <widget class="QPushButton" name="pushButton">
+                    <widget class="QPushButton" name="extrabtn">
                      <property name="geometry">
                       <rect>
                        <x>0</x>
@@ -781,7 +781,7 @@ QPushButton{
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="scheduletab">
        <attribute name="title">
         <string>Schedule</string>
        </attribute>
@@ -841,13 +841,13 @@ QRadioButton:hover{
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
-            <widget class="QGroupBox" name="newHomeworkGroup_2">
+            <widget class="QGroupBox" name="NewClassGroup">
              <property name="title">
               <string>Description</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="2" column="1">
-               <widget class="QTextEdit" name="textEdit_2">
+               <widget class="QTextEdit" name="newClassroomNum">
                 <property name="maximumSize">
                  <size>
                   <width>141</width>
@@ -886,7 +886,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="0" colspan="2">
-               <widget class="QTextEdit" name="newHWText_2">
+               <widget class="QTextEdit" name="newClassDesc">
                 <property name="maximumSize">
                  <size>
                   <width>180</width>
@@ -909,7 +909,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QTextEdit" name="textEdit_3">
+               <widget class="QTextEdit" name="newBlock">
                 <property name="maximumSize">
                  <size>
                   <width>50</width>
@@ -928,27 +928,27 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="newDueGroup_2">
+            <widget class="QGroupBox" name="classstartdonetime">
              <property name="title">
               <string>Time Starts        Time Ends</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_3">
               <item row="0" column="0">
-               <widget class="QTimeEdit" name="timeEdit_3">
+               <widget class="QTimeEdit" name="starts">
                 <property name="cursor">
                  <cursorShape>OpenHandCursor</cursorShape>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QTimeEdit" name="timeEdit_4">
+               <widget class="QTimeEdit" name="done">
                 <property name="cursor">
                  <cursorShape>OpenHandCursor</cursorShape>
                 </property>
                </widget>
               </item>
               <item row="1" column="0" colspan="2">
-               <widget class="QRadioButton" name="radioButton_2">
+               <widget class="QRadioButton" name="isunusual">
                 <property name="cursor">
                  <cursorShape>OpenHandCursor</cursorShape>
                 </property>
@@ -961,7 +961,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="newAddS">
              <property name="cursor">
               <cursorShape>OpenHandCursor</cursorShape>
              </property>
@@ -974,7 +974,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_6">
+         <widget class="QFrame" name="RightSideSchedule">
           <property name="styleSheet">
            <string notr="true">QFrame
 {
@@ -1010,7 +1010,7 @@ QComboBox:hover{
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QFrame" name="frame_11">
+            <widget class="QFrame" name="topBarS">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1029,7 +1029,7 @@ QLabel{
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QGroupBox" name="groupBox_17">
+               <widget class="QGroupBox" name="classtimesched">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1047,7 +1047,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_37">
                  <item>
-                  <widget class="QLabel" name="label_13">
+                  <widget class="QLabel" name="classtimenamesched">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1069,7 +1069,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_18">
+               <widget class="QGroupBox" name="classblocksched">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1087,7 +1087,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_38">
                  <item>
-                  <widget class="QLabel" name="label_14">
+                  <widget class="QLabel" name="classblocknamesched">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1106,7 +1106,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_15">
+               <widget class="QGroupBox" name="classnumsched">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1124,7 +1124,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_35">
                  <item>
-                  <widget class="QLabel" name="label_11">
+                  <widget class="QLabel" name="classnumnamesched">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1143,7 +1143,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_11">
+               <widget class="QGroupBox" name="classsched">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1161,7 +1161,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_34">
                  <item>
-                  <widget class="QLabel" name="label_10">
+                  <widget class="QLabel" name="classnamesched">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1180,7 +1180,7 @@ QLabel{
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_16">
+               <widget class="QGroupBox" name="classinfosched">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1198,7 +1198,7 @@ QLabel{
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_36">
                  <item>
-                  <widget class="QLabel" name="label_12">
+                  <widget class="QLabel" name="classinfonamesched">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1220,7 +1220,7 @@ QLabel{
             </widget>
            </item>
            <item>
-            <widget class="QScrollArea" name="scrollableClassesDisplay_3">
+            <widget class="QScrollArea" name="scrollableClassesDisplay">
              <property name="cursor" stdset="0">
               <cursorShape>ArrowCursor</cursorShape>
              </property>
@@ -1247,7 +1247,7 @@ QPushButton{
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents_3">
+             <widget class="QWidget" name="scrollClass">
               <property name="geometry">
                <rect>
                 <x>0</x>
@@ -1258,7 +1258,7 @@ QPushButton{
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
                <item>
-                <widget class="QFrame" name="classSubject_2">
+                <widget class="QFrame" name="classItem">
                  <property name="minimumSize">
                   <size>
                    <width>600</width>
@@ -1279,7 +1279,7 @@ QPushButton{
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_16">
                   <item>
-                   <widget class="QGroupBox" name="groupBox_9">
+                   <widget class="QGroupBox" name="timeclassstartend">
                     <property name="maximumSize">
                      <size>
                       <width>100</width>
@@ -1291,7 +1291,7 @@ QPushButton{
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_33">
                      <item>
-                      <widget class="QLabel" name="label_8">
+                      <widget class="QLabel" name="time">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -1310,7 +1310,7 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_7">
+                   <widget class="QGroupBox" name="classBlockSched">
                     <property name="maximumSize">
                      <size>
                       <width>50</width>
@@ -1322,7 +1322,7 @@ QPushButton{
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_29">
                      <item>
-                      <widget class="QLabel" name="label_6">
+                      <widget class="QLabel" name="classBlockTextSched">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -1341,13 +1341,13 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_10">
+                   <widget class="QGroupBox" name="classNumberSched">
                     <property name="title">
                      <string/>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_30">
                      <item>
-                      <widget class="QLabel" name="label_9">
+                      <widget class="QLabel" name="classNumberNameSched">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -1366,13 +1366,13 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_8">
+                   <widget class="QGroupBox" name="classNameSched_2">
                     <property name="title">
                      <string/>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_31">
                      <item>
-                      <widget class="QLabel" name="label_7">
+                      <widget class="QLabel" name="classNameSched">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -1391,7 +1391,7 @@ QPushButton{
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_2">
+                   <widget class="QPushButton" name="showExtra">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
