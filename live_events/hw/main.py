@@ -134,5 +134,14 @@ class App:
         sys.exit(self.app.exec_())
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     startPage = loginPage()
     #app = App()
+=======
+    #'''
+    '''if login.Open():
+        print("rest of tit")
+        #'''
+    import application
+    application.Open(False)#'''
+>>>>>>> fbc37efb01199d3f48ca34482ddf955d49524f0f
