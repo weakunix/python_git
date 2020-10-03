@@ -1003,6 +1003,9 @@ class Ui_HWTracker(object):
         self.actionEnter_Fullscreen.setShortcut(_translate("HWTracker", "Ctrl+F11"))
         self.actionSettings.setText(_translate("HWTracker", "Settings"))
         self.actionhomework.setText(_translate("HWTracker", "homework"))
+<<<<<<< HEAD:live_events/hw/QTgenerated/application.py
+        self.actionclass.setText(_translate("HWTracker", "class"))
+=======
         self.actionclass.setText(_translate("HWTracker", "class"))
 
 
@@ -1022,3 +1025,4 @@ def Open(isOnline):
                 schedule = filehandler.File.getFileContents("classes.json")
         else:
                 pass #access database here
+>>>>>>> fbc37efb01199d3f48ca34482ddf955d49524f0f:live_events/hw/application.py

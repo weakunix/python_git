@@ -1,8 +1,151 @@
-import login
+import sys
+
+#IMPORT FILES
+from QTgenerated import application, login
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import filehandler
+import webbrowser
+
+class loginPage:
+    def __init__(self):
+        import sys
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.Login = QtWidgets.QMainWindow()
+        self.ui = login.Ui_Login()
+        self.ui.setupUi(self.Login)
+        #human stuff now
+
+        #open sites when clicked
+
+        self.ui.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
+        self.ui.youtube.clicked.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
+        self.ui.insta.clicked.connect(lambda:  webbrowser.open("https://instagram.com"))
+
+        #link buttons clicked to open locally or validate with (later) database
+
+        self.ui.signinLocalButton.clicked.connect(lambda: self.openApp(False)) # "signs in" with only data from device
+        self.ui.submitcredentials.clicked.connect(self.validate) #submit credentials for validations
+        self.ui.registercredentials.clicked.connect(self.register) #registers account
+
+        #put at end
+        self.Login.show()
+        sys.exit(self.app.exec_())
+
+    def validate(self):
+        password = self.ui.passwordInputS.text()
+        username = self.ui.UsernameInputS.text() #idk how the fuck I flipepd these
+        keepSignedIn = self.ui.keepsignin.isChecked()
+        temp = filehandler.File.checkForUserInDatabase(username, password) #is valid name and password combo
+        if temp == "True":
+            def yes(selection):
+                if selection.text() == "&Yes":
+                    filehandler.File.jason_it("settings.json", "autoLogIn", "True")
+                else:
+                    filehandler.File.jason_it("settings.json", "autoLogIn", "False")
+            if keepSignedIn:
+                KeepSignedInConfirm = QMessageBox()
+                KeepSignedInConfirm.setText("Confirm to keep yourself signed in automatically?")
+                KeepSignedInConfirm.setInformativeText("Don't do this on shared devices to prevent theft!")
+                KeepSignedInConfirm.setIcon(QMessageBox.Critical)
+                KeepSignedInConfirm.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+                KeepSignedInConfirm.setDefaultButton(QMessageBox.No)
+                KeepSignedInConfirm.buttonClicked.connect(yes)
+
+                KeepSignedInConfirm.exec()
+            self.openApp(True)
+        else:
+            MAKE_A_DAMN_ACCOUNT = QMessageBox()
+            if temp == "False":
+                MAKE_A_DAMN_ACCOUNT.setText("Error: You do not have an account made! Head over to the 'Register' tab and create an account on us. Free of charge! Or, you can continue as a guest. But be wary! Your data will be gone if you delete this app!")
+            else:
+                MAKE_A_DAMN_ACCOUNT.setText("Error: Wrong Password!")
+            MAKE_A_DAMN_ACCOUNT.setIcon(QMessageBox.Critical)
+            MAKE_A_DAMN_ACCOUNT.setStandardButtons(QMessageBox.Ok)
+            MAKE_A_DAMN_ACCOUNT.setDefaultButton(QMessageBox.Ok)
+
+            MAKE_A_DAMN_ACCOUNT.exec()
+
+    def register(self):
+        username = self.ui.UsernameInputR.text()
+        password = self.ui.passwordInputR.text()
+        passwordConfirm = self.ui.passwordInputConfirmR.text()
+
+        if password == passwordConfirm:
+            if not filehandler.File.checkForUserAlreadyExists(str(username)):
+                def start(e):
+                    if e.text() == "&Yes":
+                        filehandler.File.jason_it("logininfo.json", str(username), [str(password)]) #register and log to logininfo.json
+                        accountMadeSuccess = QMessageBox()
+                        accountMadeSuccess.setText("The account '" + str(username) + "' has been created!")
+                        accountMadeSuccess.setIcon(QMessageBox.Information)
+                        accountMadeSuccess.setStandardButtons(QMessageBox.Ok)
+                        accountMadeSuccess.setDefaultButton(QMessageBox.Ok)
+
+                        accountMadeSuccess.exec()
+                with open("./data/policy.txt") as f:
+                    policy = f.read()
+                readTerms = QMessageBox()
+                readTerms.setText("ACCEPT OUR TERMS AND POLICIES TO CONTINUE (CLICK YES IF YOU ACCEPT)")
+                readTerms.setInformativeText(policy)
+                readTerms.setIcon(QMessageBox.Information)
+                readTerms.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+                readTerms.setDefaultButton(QMessageBox.No)
+                readTerms.buttonClicked.connect(start)
+
+                readTerms.exec() 
+            else:
+                errorUserAlreadyExists = QMessageBox()
+                errorUserAlreadyExists.setText("The username '" + str(username) + "' is already in use!")
+                errorUserAlreadyExists.setIcon(QMessageBox.Critical)
+                errorUserAlreadyExists.setStandardButtons(QMessageBox.Ok)
+                errorUserAlreadyExists.setDefaultButton(QMessageBox.Ok)
+
+                errorUserAlreadyExists.exec()
+        else:
+            errorNotSamePassword = QMessageBox()
+            errorNotSamePassword.setText("The passwords do not match!")
+            errorNotSamePassword.setIcon(QMessageBox.Critical)
+            errorNotSamePassword.setStandardButtons(QMessageBox.Ok)
+            errorNotSamePassword.setDefaultButton(QMessageBox.Ok)
+
+            errorNotSamePassword.exec()
+        
+        self.ui.UsernameInputR.clear()
+        self.ui.passwordInputR.clear()
+        self.ui.passwordInputConfirmR.clear()
+
+        self.ui.tabWidget.setCurrentIndex(0)
+
+    def openApp(self, isOnline):
+        pass #link this to new window later actualapp.open(isOnline) @BOTMOOOOO
+
+class App:
+    def __init__(self):
+        import sys
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.HWTracker = QtWidgets.QMainWindow()
+        self.ui = application.Ui_HWTracker()
+        self.ui.setupUi(self.HWTracker)
+
+        #more code here later
+
+        self.HWTracker.show()
+        sys.exit(self.app.exec_())
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     if login.Open():
+=======
+<<<<<<< HEAD
+    startPage = loginPage()
+    #app = App()
+=======
+    #'''
+    '''if login.Open():
+>>>>>>> 124c39a004562f6d3fb4591227197610181d0a8e
         print("rest of tit")
         '''
     import application
     application.Open(False)#'''
+>>>>>>> fbc37efb01199d3f48ca34482ddf955d49524f0f
