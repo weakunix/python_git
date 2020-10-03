@@ -1,3 +1,4 @@
+#imports
 import sys
 
 #IMPORT FILES
@@ -7,9 +8,8 @@ from PyQt5.QtWidgets import QMessageBox
 import filehandler
 import webbrowser
 
-class loginPage:
+class loginPage():
     def __init__(self):
-        import sys
         self.app = QtWidgets.QApplication(sys.argv)
         self.Login = QtWidgets.QMainWindow()
         self.ui = login.Ui_Login()
@@ -118,11 +118,11 @@ class loginPage:
         self.ui.tabWidget.setCurrentIndex(0)
 
     def openApp(self, isOnline):
-        pass #link this to new window later actualapp.open(isOnline) @BOTMOOOOO
+       app = App() 
+       self.ui.hide()
 
 class App:
     def __init__(self):
-        import sys
         self.app = QtWidgets.QApplication(sys.argv)
         self.HWTracker = QtWidgets.QMainWindow()
         self.ui = application.Ui_HWTracker()
