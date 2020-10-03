@@ -3,9 +3,9 @@ import sys
 
 #IMPORT FILES
 from QTgenerated import application, login
+from handlers import filehandler, newhandler
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-import filehandler
 import webbrowser
 
 class loginPage():
