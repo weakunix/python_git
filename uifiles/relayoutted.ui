@@ -32,7 +32,7 @@
        <cursorShape>ArrowCursor</cursorShape>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -478,7 +478,6 @@ QLabel{
 QLabel{
 	color:rgb(255, 255, 255);
 	background:rgb(77, 135, 255);
-	top-padding:0px;
 }
 QProgressBar{
 	color:rgb(0, 255, 52);
@@ -1233,7 +1232,6 @@ QLabel{
 QLabel{
 	color:rgb(255, 255, 255);
 	background:rgb(77, 135, 255);
-	top-padding:0px;
 }
 QProgressBar{
 	color:rgb(0, 255, 52);

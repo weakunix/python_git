@@ -290,7 +290,6 @@ class Ui_HWTracker(object):
 "QLabel{\n"
 "    color:rgb(255, 255, 255);\n"
 "    background:rgb(77, 135, 255);\n"
-"    top-padding:0px;\n"
 "}\n"
 "QProgressBar{\n"
 "    color:rgb(0, 255, 52);\n"
@@ -634,7 +633,6 @@ class Ui_HWTracker(object):
 "QLabel{\n"
 "    color:rgb(255, 255, 255);\n"
 "    background:rgb(77, 135, 255);\n"
-"    top-padding:0px;\n"
 "}\n"
 "QProgressBar{\n"
 "    color:rgb(0, 255, 52);\n"
@@ -876,7 +874,7 @@ class Ui_HWTracker(object):
         self.menubar.addAction(self.menuHow_to_use.menuAction())
 
         self.retranslateUi(HWTracker)
-        self.switchTab.setCurrentIndex(0)
+        self.switchTab.setCurrentIndex(1)
         self.actionEnter_Fullscreen.triggered.connect(HWTracker.showFullScreen)
         self.actionExit.triggered.connect(HWTracker.showNormal)
         self.actionclass.triggered['bool'].connect(self.todoDiv.setVisible)
