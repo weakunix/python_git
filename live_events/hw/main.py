@@ -134,5 +134,5 @@ class App:
         sys.exit(self.app.exec_())
 
 if __name__ == "__main__":
-      startPage = loginPage()
+    startPage = loginPage()
     #app = App()
