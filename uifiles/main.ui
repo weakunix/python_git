@@ -24,7 +24,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
-	background:rgb(0, 51, 94);
+	background:rgb(51, 50, 51);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -45,22 +45,24 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QWidget{
-	background:rgb(220, 220, 220);
+	background:rgb(66, 64, 66);
 	border-radius: 10px;
 }
 QPushButton{
 	color:rgb(255, 255, 255);
-	background:rgb(0, 132, 235);
-	border-radius: 10px;
+	background: rgb(50, 50, 54);
+	border-radius:3px;
+	border: 1px solid rgb(27, 129, 255);
 }
 QPushButton:hover{
 	border:1px solid rgb(213, 214, 146);
 }
 QLineEdit{
 	font-size:18px;
-	background:rgb(255, 255, 255);
-	border-radius:10px;
-	border:0px solid;
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+	border-radius:3px;
+	border: 1px solid rgb(27, 129, 255);
 	padding-left:2px;
 	padding-right:2px;
 }
@@ -68,7 +70,9 @@ QLineEdit:hover{
 	border:1px solid rgb(213, 214, 146);
 }
 QCheckBox{
-	background:rgb(255, 255, 255);
+	background: rgb(66, 64, 66);
+	border: 1px solid rgb(27, 129, 255);
+	color:rgb(255, 255, 255);
 }
 QCheckBox:hover{
 	border:1px solid rgb(213, 214, 146);
@@ -102,7 +106,7 @@ QLabel{
                 <x>0</x>
                 <y>10</y>
                 <width>151</width>
-                <height>251</height>
+                <height>241</height>
                </rect>
               </property>
               <property name="minimumSize">
@@ -184,14 +188,14 @@ QLabel{
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout">
                   <item>
-                   <widget class="QLineEdit" name="passwordInputS">
+                   <widget class="QLineEdit" name="UsernameInputS">
                     <property name="placeholderText">
                      <string>Username</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="UsernameInputS">
+                   <widget class="QLineEdit" name="PasswordInputS">
                     <property name="font">
                      <font>
                       <pointsize>-1</pointsize>
@@ -257,7 +261,7 @@ QLabel{
                 <x>0</x>
                 <y>10</y>
                 <width>151</width>
-                <height>251</height>
+                <height>240</height>
                </rect>
               </property>
               <property name="minimumSize">
@@ -283,7 +287,7 @@ QLabel{
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_13">
+              <layout class="QVBoxLayout" name="verticalLayout_10">
                <item>
                 <widget class="QLabel" name="registerlable">
                  <property name="maximumSize">
@@ -324,6 +328,9 @@ QLabel{
                  </property>
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
                  </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
@@ -372,17 +379,6 @@ QLabel{
                     </property>
                     <property name="placeholderText">
                      <string>Pass again</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="agreetopolicy">
-                    <property name="cursor">
-                     <cursorShape>OpenHandCursor</cursorShape>
-                    </property>
-                    <property name="text">
-                     <string>Agree to 
-policy</string>
                     </property>
                    </widget>
                   </item>
@@ -499,6 +495,9 @@ QFrame{
              </item>
              <item row="1" column="0">
               <widget class="QPushButton" name="insta">
+               <property name="cursor">
+                <cursorShape>OpenHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -508,8 +507,8 @@ QFrame{
                </property>
                <property name="iconSize">
                 <size>
-                 <width>32</width>
-                 <height>32</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
               </widget>
@@ -521,6 +520,9 @@ QFrame{
                  <kerning>false</kerning>
                 </font>
                </property>
+               <property name="cursor">
+                <cursorShape>OpenHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -530,8 +532,8 @@ QFrame{
                </property>
                <property name="iconSize">
                 <size>
-                 <width>32</width>
-                 <height>32</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
               </widget>
@@ -543,6 +545,9 @@ QFrame{
                  <kerning>false</kerning>
                 </font>
                </property>
+               <property name="cursor">
+                <cursorShape>OpenHandCursor</cursorShape>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -552,8 +557,8 @@ QFrame{
                </property>
                <property name="iconSize">
                 <size>
-                 <width>32</width>
-                 <height>32</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
               </widget>
@@ -571,7 +576,7 @@ QFrame{
      <widget class="QWidget" name="rightSide" native="true">
       <property name="styleSheet">
        <string notr="true">QWidget{
-	background:rgb(220, 220, 220);
+	background:rgb(66, 64, 66);
 	border-radius: 10px;
 }</string>
       </property>
@@ -658,16 +663,24 @@ QFrame{
          </property>
          <property name="styleSheet">
           <string notr="true">QGroupBox{
-	border: 2px solid rgb(120, 119, 121);
+	border: 2px solid rgb(50, 50, 54);
 }
 QLabel{
-	background:rgb(94, 136, 238);
+	background:rgb(50, 50, 54);
 	border-radius:5px;
+	border: 2px solid rgb(27, 129, 255);
+	padding:2px;
+	color:rgb(255, 255, 255);
 }</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QScrollArea" name="TODOS">
+            <property name="styleSheet">
+             <string notr="true">QGroupBox{
+	border: 1px solid rgb(27, 129, 255);
+}</string>
+            </property>
             <property name="verticalScrollBarPolicy">
              <enum>Qt::ScrollBarAlwaysOff</enum>
             </property>
@@ -701,7 +714,7 @@ QLabel{
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>40</height>
+                     <height>50</height>
                     </size>
                    </property>
                    <property name="frameShape">
@@ -752,6 +765,11 @@ QLabel{
           </item>
           <item>
            <widget class="QScrollArea" name="SCHEDULE">
+            <property name="styleSheet">
+             <string notr="true">QGroupBox{
+	border: 1px solid rgb(27, 129, 255);
+}</string>
+            </property>
             <property name="verticalScrollBarPolicy">
              <enum>Qt::ScrollBarAlwaysOff</enum>
             </property>
@@ -785,7 +803,7 @@ QLabel{
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>40</height>
+                     <height>50</height>
                     </size>
                    </property>
                    <property name="frameShape">
@@ -863,13 +881,18 @@ QLabel{
                   <height>170</height>
                  </size>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox{
+	border: 1px solid rgb(27, 129, 255);
+}</string>
+                </property>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
                   <widget class="QFrame" name="NBtitleBox">
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>40</height>
+                     <height>50</height>
                     </size>
                    </property>
                    <property name="frameShape">
@@ -881,6 +904,12 @@ QLabel{
                    <layout class="QVBoxLayout" name="verticalLayout_9">
                     <item>
                      <widget class="QLabel" name="NBtitle">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>New as of v1.0</string>
                       </property>

@@ -16,6 +16,26 @@ class loginPage():
         self.ui.setupUi(self.Login)
         #human stuff now
 
+        iconSizer = 35
+
+        #manually making buttons (bc path doesnt work)
+        self.ui.ICONPNG.setPixmap(QtGui.QPixmap("./icons/ICON.png"))
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("./icons/INSTA.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.insta.setIcon(icon)
+        self.ui.insta.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("./icons/YOUTUBE.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.youtube.setIcon(icon1)
+        self.ui.youtube.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("./icons/GITHUB.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.github.setIcon(icon2)
+        self.ui.github.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+
         #open sites when clicked
 
         self.ui.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
@@ -33,7 +53,7 @@ class loginPage():
         sys.exit(self.app.exec_())
 
     def validate(self):
-        password = self.ui.passwordInputS.text()
+        password = self.ui.PasswordInputS.text()
         username = self.ui.UsernameInputS.text() #idk how the fuck I flipepd these
         keepSignedIn = self.ui.keepsignin.isChecked()
         temp = filehandler.File.checkForUserInDatabase(username, password) #is valid name and password combo
@@ -133,6 +153,6 @@ class App:
         self.HWTracker.show()
         sys.exit(self.app.exec_())
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     startPage = loginPage()
     #app = App()

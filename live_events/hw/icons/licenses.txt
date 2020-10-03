@@ -1,1 +1,7 @@
-all these pictures are mine, I drew them. however you can reuse as you wish
+all these pictures are mine, I drew them. however you can reuse as you wish.
+
+TOOLS USED: 
+drawing:
+Affinity Designer
+PNG CROPPER AND TRANSPARENT BACKGROUND AND RESIZING:
+https://onlinepngtools.com/crop-png
