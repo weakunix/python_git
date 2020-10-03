@@ -1004,14 +1004,3 @@ class Ui_HWTracker(object):
         self.actionSettings.setText(_translate("HWTracker", "Settings"))
         self.actionhomework.setText(_translate("HWTracker", "homework"))
         self.actionclass.setText(_translate("HWTracker", "class"))
-
-
-def open(isOnline):
-        #isonline you dont need to worry about, if it is online then we will access the database
-        import sys
-        app = QtWidgets.QApplication(sys.argv)
-        HWTracker = QtWidgets.QMainWindow()
-        ui = Ui_HWTracker()
-        ui.setupUi(HWTracker)
-        HWTracker.show()
-        sys.exit(app.exec_())
