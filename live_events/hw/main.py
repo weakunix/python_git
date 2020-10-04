@@ -149,10 +149,13 @@ class App:
         self.ui.setupUi(self.HWTracker)
 
         #more code here later
+        self.ui.newAdd.clicked.connect(lambda: [newhandler.newSomething.newHomework(self.ui), self.HWTracker.repaint()])
+        self.ui.newAddS.clicked.connect(lambda: [newhandler.newSomething.newClass(self.ui), self.HWTracker.repaint()])
 
+        #always last
         self.HWTracker.show()
         sys.exit(self.app.exec_())
 
 if __name__ == "__main__": 
-    startPage = loginPage()
-    #app = App()
+    #startPage = loginPage()
+    app = App()
