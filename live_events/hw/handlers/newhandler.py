@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import filehandler
 
 translate = QtCore.QCoreApplication.translate
 
@@ -90,14 +91,16 @@ class newSomething:
         dueIn = (dueDate - QtCore.QDateTime().currentDateTime().toSecsSinceEpoch())
 
         if dueIn < 0: 
-            return #cnat be already due lmao
+            return #can't be already due lmao
 
-        dueIn = (dueIn // 86400)
+        dueIn = (dueIn // 86400) #convert to days
 
         print(dueIn)
 
         if homeworkInfo.replace(" ", "") == "":
             return #not good!!! don't put JUST SPACE as hw name 
+
+        filehandler.File.jason_it("todos.json", str(fromClass), [str(difficulty), str("0%"), str(dueIn), str(isRepeating), str(homeworkInfo)]) #add to file
 
         ui.scrollHomework = QtWidgets.QWidget()
         ui.scrollHomework.setGeometry(QtCore.QRect(0, 0, 632, 405))
