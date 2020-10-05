@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import filehandler
+#import filehandler
 
 translate = QtCore.QCoreApplication.translate
 
@@ -102,14 +102,10 @@ class newSomething:
             return #can't be already due lmao
         
         #calculates when assignment is due
-        dueIn = 90240
-        temp = 0
         dueDays = (dueIn // 86400)
         temp = dueIn % 86400
         dueHours = temp // 3600
         dueMinutes = temp % 3600 // 60
-		
-        print(dueIn)
 
         if homeworkInfo.replace(" ", "") == "":
             return #not good!!! don't put JUST SPACE as hw name 
