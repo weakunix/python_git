@@ -4,7 +4,14 @@ translate = QtCore.QCoreApplication.translate
 
 class newSomething:
     @staticmethod
-    def newClass(ui, className, classBlock, classDue, classRoom, classTimes):
+    def newClass(ui):
+        
+        className = ""
+        timeStarts = ""
+        timeEnds = ""
+        blockName = ""
+        classRoomNumber = ""
+        
         ui.scrollClass = QtWidgets.QWidget()
         ui.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
         ui.scrollClass.setObjectName("scrollClass")
@@ -92,8 +99,9 @@ class newSomething:
         if dueIn < 0: 
             return #cnat be already due lmao
 
-        dueIn = (dueIn // 86400)
-
+        dueDays = (dueIn // 86400)
+		dueHours = (dueIn % 86400)
+		
         print(dueIn)
 
         if homeworkInfo.replace(" ", "") == "":
@@ -195,5 +203,3 @@ class newSomething:
         ui.diffrating.setText(translate("HWTracker", str(difficulty)+ "/10"))
         ui.dueinName.setText(translate("HWTracker", "1d"))
         ui.extrabtn.setText(translate("HWTracker", "..."))
-
-        
