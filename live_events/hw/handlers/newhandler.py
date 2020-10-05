@@ -4,7 +4,7 @@ translate = QtCore.QCoreApplication.translate
 
 class newSomething:
     @staticmethod
-    def newClass(ui):
+    def newClass(ui, className, classBlock, classDue, classRoom, classTimes):
         ui.scrollClass = QtWidgets.QWidget()
         ui.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
         ui.scrollClass.setObjectName("scrollClass")
