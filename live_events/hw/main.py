@@ -44,14 +44,14 @@ class loginPage():
 
         #link buttons clicked to open locally or validate with (later) database
 
-        self.ui.signinLocalButton.clicked.connect(lambda: self.openApp(False)) # "signs in" with only data from device
+        self.ui.signinLocalButton.clicked.connect(lambda: [self.app.quit(), self.openApp(False)]) # "signs in" with only data from device
         self.ui.submitcredentials.clicked.connect(self.validate) #submit credentials for validations
         self.ui.registercredentials.clicked.connect(self.register) #registers account
 
         #put at end
         self.Login.show()
         sys.exit(self.app.exec_())
-
+    
     def validate(self):
         password = self.ui.PasswordInputS.text()
         username = self.ui.UsernameInputS.text() #idk how the fuck I flipepd these
@@ -73,6 +73,7 @@ class loginPage():
                 KeepSignedInConfirm.buttonClicked.connect(yes)
 
                 KeepSignedInConfirm.exec()
+            self.app.quit()
             self.openApp(True)
         else:
             MAKE_A_DAMN_ACCOUNT = QMessageBox()
@@ -138,8 +139,8 @@ class loginPage():
         self.ui.tabWidget.setCurrentIndex(0)
 
     def openApp(self, isOnline):
+       self.Login.hide()
        app = App() 
-       self.ui.hide()
 
 class App:
     def __init__(self):
@@ -157,5 +158,6 @@ class App:
         sys.exit(self.app.exec_())
 
 if __name__ == "__main__": 
-    #startPage = loginPage()
-    app = App()
+    startPage = loginPage()
+    #app = App()
+    sys.exit(QtWidgets.QApplication(sys.argv).exec_())
