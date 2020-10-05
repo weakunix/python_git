@@ -1,0 +1,13 @@
+these files in this folder are called handlers.
+They handle all the operations done when making a change in settings or making new homework/classes
+the code isn't really functional on its own. it is imported from main.py in the other folders.
+ 
+ newhandler:
+ 
+ handles all the creation of assingments and homeworks
+ 
+ filehandlers:
+ 
+ they are used when you need to change settings or store info locally
+ 
+ WARNING: DO NOT CHANGE THESE FILES AT ALL ELSE IT MAY BREAK THE APP!!! YOU ARE FULLY RESPONABLE FOR ANY LOSS DATA!!! THE ONLY WAY TO FIX IT IS TO REINSTALL THE APP AND MAKE A BACK UP OF THE JSON FILES!!!!! (they are located in ./data/)

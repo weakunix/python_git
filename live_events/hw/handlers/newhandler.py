@@ -12,6 +12,7 @@ class newSomething:
         blockName = ""
         classRoomNumber = ""
         
+        
         ui.scrollClass = QtWidgets.QWidget()
         ui.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
         ui.scrollClass.setObjectName("scrollClass")
@@ -99,8 +100,13 @@ class newSomething:
         if dueIn < 0: 
             return #cnat be already due lmao
 
+        #calculates when assignment is due
+        dueIn = 90240
+        temp = 0
         dueDays = (dueIn // 86400)
-		dueHours = (dueIn % 86400)
+        temp = dueIn % 86400
+        dueHours = temp // 3600
+        dueMinutes = temp % 3600 // 60
 		
         print(dueIn)
 

@@ -1,7 +1,1 @@
-all these pictures are mine, I drew them. however you can reuse as you wish.
-
-TOOLS USED: 
-drawing:
-Affinity Designer
-PNG CROPPER AND TRANSPARENT BACKGROUND AND RESIZING:
-https://onlinepngtools.com/crop-png
+WARNING: DO NOT MODIFY THESE ICONS IN THE APP. IT WILL RESULT IN LOST ICONS AND MAY DEGRADE YOUR VIEWING EXPERIANCE!!! (however, they wont break your saves/the app's function like modifying data or filehandlers) MODIFY AT YOUR OWN RISK!!!! THE SOCIAL ICONS (INSTA, YOUTUBE, GIT) ARE 50X50 DOWNSCALED TO 35X35, THE PENCIL ICON IS 193X193 DOWNSCALED TO IDK.
