@@ -89,6 +89,8 @@ Examples
 **If adding classes/todos in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
 
 ##### modifying classes.json 
+![classes.json image](https://i.ibb.co/gRMtm62/Screen-Shot-2020-10-07-at-10-57-14-AM.png)
+
 ```json
 "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
 ```
@@ -98,6 +100,7 @@ Example:
 ```
 
 ##### modifying todos.json
+![classes.json image](https://i.ibb.co/4mGGhL4/Screen-Shot-2020-10-07-at-10-57-50-AM.png)
 ```json
 "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
 ```
