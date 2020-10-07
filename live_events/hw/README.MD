@@ -10,10 +10,9 @@ What are you waiting for? Download it below!
 
 ## Downloads
 
-Download the app version here on [our website]()/[AppStore](). Or if you want to run the source code, proceed to the Contributor section.
+Download the app version here on [our website]()/[AppStore]().
 
-## Contributor:
-### Install:
+Download to run source code:
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
 
@@ -53,6 +52,7 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
 ![WINDOWS](https://i.ibb.co/x6rb3r5/Screen-Shot-2020-10-07-at-11-34-46-AM.png)
 </details>
 
+## Contributor:
 ### File Modifications:
 
 **DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
