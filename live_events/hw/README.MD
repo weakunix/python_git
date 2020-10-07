@@ -10,10 +10,13 @@ What are you waiting for? Download it below!
 
 ## Downloads
 
-Download the app version here on [our website]()/[AppStore](). 
+### Easy Download
 
-## Contributor:
-### Install:
+Download the app version here on [our website]()/[AppStore]().
+
+### Source Code Download
+
+Download to run source code:
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
 
@@ -28,6 +31,19 @@ Download the app version here on [our website]()/[AppStore]().
     ```bash
     pip3 install PyQt5
     ```
+<details><summary><b>Show Command Instructions To Run File</b></summary>
+4. You want to 'cd' to main.py's dir (./HWTracker)
+
+
+    cd ./HWTracker/
+
+5. Then run it with 'python3'
+
+    ```bash
+    python3 main.py
+    ```
+</details>
+<details><summary><b>Show Non-Command Line Instructions To Run File</b></summary>
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
@@ -36,33 +52,24 @@ Download the app version here on [our website]()/[AppStore]().
 ![WINDOWS](https://i.ibb.co/nw03r1J/Capture.png)
 
 5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
+![MAC](https://i.ibb.co/cJLDJZC/Screen-Shot-2020-10-07-at-11-32-03-AM.png)
+![WINDOWS](https://i.ibb.co/x6rb3r5/Screen-Shot-2020-10-07-at-11-34-46-AM.png)
+</details>
 
-CMD/Terminal:
-
-4. You want to 'cd' to main.py's dir (./HWTracker)
-
-    ```bash
-    cd ./HWTracker/
-    ```
-
-5. Then run it with 'python3'
-
-    ```bash
-    python3 main.py
-    ```
-    
+## Contributor:
 ### File Modifications:
 
 **DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
 
 #### Modifying Handlers:
 
-They handle all the operations done when making a change in settings or making new homework/classes
-the code isn't really functional on its own. it is imported from main.py in the other folders.
-
-##### UI HANDLER
+##### Modifying newhandler
 What is it?
-It handles everything about UI that is dynamic. (changed when the app is running)
+It handles everything about UI that is dynamic. (UI that is changed when the app is running)
+
+like adding classes
+
+![eg. adding classes img](https://i.ibb.co/CW8MMdg/Screen-Shot-2020-10-07-at-12-06-17-PM.png)
 
 Examples
 * Add New button is pressed and UI handler adds a todo/class into the QScrollArea
@@ -70,7 +77,7 @@ Examples
 
 **If you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw) code a change in UIhandler and file a PR**
 
-##### FILE HANDLER
+##### Modifying filehandler
 What is it?
 It handles everything about files.
 
@@ -124,14 +131,49 @@ Pencil Icon (base template):
 
 ### Pull Requests:
 
-must be formatted like this:
+#### must be formatted like this:
+
+<details><summary><b>Show Code Format</b></summary>
+    
+old code
+    
+```python
+def bot():
+    print("hi")
+```
+
+new code
+
+```python
+#Added a parameter slot
+def bot(yes):
+    print(str(yes)) #replaced "hi" to yes so it prints whatever is passed through
+```
+
+</details>
+
+<details><summary><b>Checklist</b></summary>
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] I have checked my code and corrected any misspellings
+
+checklist from https://guides.github.com/features/mastering-markdown/
+
+</details>
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT License. ](https://choosealicense.com/licenses/mit/)
 This project is completely open source. You are free to reuse anything as you wish. 
 
 Founded by Mootbing and MrMoooo.
 
-Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
 
-Images in this file hosted with https://imgbb.com
+> Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
+> Images in this file hosted with https://imgbb.com
