@@ -73,6 +73,7 @@ QCheckBox{
 	background: rgb(66, 64, 66);
 	border: 1px solid rgb(27, 129, 255);
 	color:rgb(255, 255, 255);
+	border-radius:3px;
 }
 QCheckBox:hover{
 	border:1px solid rgb(213, 214, 146);
