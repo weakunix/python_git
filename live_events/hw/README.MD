@@ -66,7 +66,7 @@ Download to run source code:
 They handle all the operations done when making a change in settings or making new homework/classes
 the code isn't really functional on its own. it is imported from main.py in the other folders.
 
-##### UI HANDLER
+##### Modifying newhandler
 What is it?
 It handles everything about UI that is dynamic. (changed when the app is running)
 
@@ -76,7 +76,7 @@ Examples
 
 **If you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw) code a change in UIhandler and file a PR**
 
-##### FILE HANDLER
+##### Modifying filehandler
 What is it?
 It handles everything about files.
 
