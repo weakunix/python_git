@@ -111,12 +111,12 @@ Format:
 Socail icons:
 50x50 downscaled to 35x35
 
-![template]()
+![socials template](https://i.ibb.co/5WN31jq/rsz-1pixil-frame-0-2.png)
 
 Pencil Icon:
-193x193 upscaled to 339x326
+193x192 upscaled to 339x326
 
-![icon template]()
+![icon template](https://i.ibb.co/Kj853c3/testi-1-1.png)
 
 ### Pull Requests:
 
