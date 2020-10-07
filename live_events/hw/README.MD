@@ -51,6 +51,8 @@ CMD/Terminal:
     
 ### File Modifications:
 
+**DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
+
 #### Modifying Handlers:
 
 They handle all the operations done when making a change in settings or making new homework/classes
@@ -64,7 +66,7 @@ Examples
 * Add New button is pressed and UI handler adds a todo/class into the QScrollArea
 * The topbar widget is clicked, changing the appearance from dark mode to light mode (ewww)
 
-**You shouldn't mess with this file unless you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw)**
+**If you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw) code a change in UIhandler and file a PR**
 
 ##### FILE HANDLER
 What is it?
@@ -74,16 +76,17 @@ Examples
 * Add New button is pressed and File handler adds the new classes/todo.json to include the new data (yes it is also stored in the database but just in case no wifi)
 * The topbar widget is clicked, changing the default always signin setting to False (writes into settings.json)
 
-**You shouldn't mess with this file unless you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw)**
-
-#### Modifying 
+**If you need to change how data gets written/anything about local data, filehandler's where you should look**
 
 #### Modifying Data Files:
 
 **NOTICE**
+
 **Do not modify policy.txt!!! THAT IS LEGAL STUFF!!!**
 
 **Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR APP BREAKS!!! DEBUG OR RECLONE**
+
+**If adding classes/todos in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
 
 ##### modifying classes.json 
 ```json
@@ -103,8 +106,6 @@ Example:
 "Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
 ```
 
-**If adding them in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
-
 ### Pull Requests:
 
 must be formatted like this:
@@ -114,3 +115,5 @@ must be formatted like this:
 This project is completely open source. You are free to reuse anything as you wish. 
 
 Founded by Mootbing and MrMoooo.
+
+Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
