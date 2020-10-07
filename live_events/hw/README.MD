@@ -104,7 +104,7 @@ Format:
 "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
 ```
 
-#### Modifying Icons
+### Modifying Icons
 
 **For whatever reason, if you want custom icons instead of the ones I drew, you can modify them (I won't take it personally). But keep a few things in mind:**
 
