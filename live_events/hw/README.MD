@@ -60,11 +60,11 @@ CMD/Terminal:
 
 * modifying classes.json
 ** Layout: 
-** > "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
-** > "English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
+> "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
+> "English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
 * modifying todos.json
-** > "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
-** > "Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
+> "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
+> "Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
 
 ### Pull Requests:
 
