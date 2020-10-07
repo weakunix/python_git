@@ -91,22 +91,19 @@ Examples
 ##### modifying classes.json 
 ![classes.json image](https://i.ibb.co/gRMtm62/Screen-Shot-2020-10-07-at-10-57-14-AM.png)
 
+Format:
+
 ```json
 "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
-```
-Example:
-```json
-"English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
 ```
 
 ##### modifying todos.json
 ![todos.json image](https://i.ibb.co/4mGGhL4/Screen-Shot-2020-10-07-at-10-57-50-AM.png)
+
+Format:
+
 ```json
 "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
-```
-Example:
-```json
-"Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
 ```
 
 ### Pull Requests:
