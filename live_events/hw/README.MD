@@ -31,9 +31,8 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
 <details><summary><b>Show Command Instructions To Run File</b></summary>
 4. You want to 'cd' to main.py's dir (./HWTracker)
 
-    ```bash
+
     cd ./HWTracker/
-    ```
 
 5. Then run it with 'python3'
 
