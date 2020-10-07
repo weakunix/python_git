@@ -6,6 +6,8 @@ HWorker/HWTracker (we haven't decided yet) is an app used to manage your schoolw
 
 tba
 
+What are you waiting for? Download it below!
+
 ## Downloads
 
 Download the app version here on [our website]()/[AppStore](). 
