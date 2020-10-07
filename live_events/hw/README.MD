@@ -34,7 +34,7 @@ Download the app on the [AppStore]().
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
-[MAC]()
+[MAC](https://ibb.co/8PfYqqM)
 
 [WINDOWS]()
 
