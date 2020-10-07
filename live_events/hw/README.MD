@@ -50,7 +50,8 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
 ![WINDOWS](https://i.ibb.co/nw03r1J/Capture.png)
 
 5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
-
+![MAC](https://i.ibb.co/cJLDJZC/Screen-Shot-2020-10-07-at-11-32-03-AM.png)
+![WINDOWS](https://i.ibb.co/x6rb3r5/Screen-Shot-2020-10-07-at-11-34-46-AM.png)
 </details>
 ### File Modifications:
 
