@@ -20,7 +20,7 @@ Download the app on the [AppStore]().
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
 
-2. To run with source code and modifiable files, clone this repository with console command git [git](https://github.com/weakunix/python_git.git).
+2. To run with source code and modifiable files, clone this repository using console command:
 
     ```bash
     git clone https://github.com/weakunix/python_git.git
