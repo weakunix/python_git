@@ -80,15 +80,13 @@ Examples
 
 #### Modifying Data Files:
 
-**NOTICE**
+**DO NOT MODIFY POLICY.TXT THAT IS LEGAL STUFF!!!**
 
-**Do not modify policy.txt!!! THAT IS LEGAL STUFF!!!**
-
-**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR APP BREAKS!!! DEBUG OR RECLONE**
+**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! MODIFY AT YOUR OWN RISK**
 
 **If adding classes/todos in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
 
-##### modifying classes.json 
+##### Modifying classes.json 
 ![classes.json image](https://i.ibb.co/gRMtm62/Screen-Shot-2020-10-07-at-10-57-14-AM.png)
 
 Format:
@@ -97,7 +95,7 @@ Format:
 "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
 ```
 
-##### modifying todos.json
+##### Modifying todos.json
 ![todos.json image](https://i.ibb.co/4mGGhL4/Screen-Shot-2020-10-07-at-10-57-50-AM.png)
 
 Format:
@@ -105,6 +103,20 @@ Format:
 ```json
 "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
 ```
+
+#### Modifying Icons
+
+**For whatever reason, if you want custom icons instead of the ones I drew, you can modify them (I won't take it personally). But keep a few things in mind:**
+
+Socail icons:
+50x50 downscaled to 35x35
+
+![template]()
+
+Pencil Icon:
+193x193 upscaled to 339x326
+
+![icon template]()
 
 ### Pull Requests:
 
@@ -117,4 +129,5 @@ This project is completely open source. You are free to reuse anything as you wi
 Founded by Mootbing and MrMoooo.
 
 Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
+
 Images in this file hosted with https://imgbb.com
