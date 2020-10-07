@@ -34,9 +34,9 @@ Download the app on the [AppStore]().
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
-![MAC](./icons/support/macHelp)
+![MAC](/icons/support/macHelp)
 
-![WINDOWS](./icons/support/windowsHelp)
+![WINDOWS](/icons/support/windowsHelp)
 
 5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
 
