@@ -10,7 +10,11 @@ What are you waiting for? Download it below!
 
 ## Downloads
 
+### Easy Download
+
 Download the app version here on [our website]()/[AppStore]().
+
+### Source Code Download
 
 Download to run source code:
 
@@ -126,7 +130,42 @@ Pencil Icon (base template):
 
 ### Pull Requests:
 
-must be formatted like this:
+#### must be formatted like this:
+
+<details><summary><b>Show Code Format</b></summary>
+    
+old code
+    
+```python
+def bot():
+    print("hi")
+```
+
+new code
+
+```python
+#Added a parameter slot
+def bot(yes):
+    print(str(yes)) #replaced "hi" to yes so it prints whatever is passed through
+```
+
+</details>
+
+<details><summary><b>Checklist</b></summary>
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] I have checked my code and corrected any misspellings
+
+checklist from https://guides.github.com/features/mastering-markdown/
+
+</details>
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
