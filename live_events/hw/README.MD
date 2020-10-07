@@ -52,6 +52,18 @@ CMD/Terminal:
     ```bash
     python3 main.py
     ```
+    
+### File Modifications:
+
+#### Modifying Data Files:
+
+**NOTICE**
+**Do not modify policy.txt!!! That is legal stuff!!!**
+
+**Do not modify Settings.json unless YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!!**
+
+
+* m
 
 ### Pull Requests:
 
