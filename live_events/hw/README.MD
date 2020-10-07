@@ -52,6 +52,7 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
 ![MAC](https://i.ibb.co/cJLDJZC/Screen-Shot-2020-10-07-at-11-32-03-AM.png)
 ![WINDOWS](https://i.ibb.co/x6rb3r5/Screen-Shot-2020-10-07-at-11-34-46-AM.png)
 </details>
+
 ### File Modifications:
 
 **DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
