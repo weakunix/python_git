@@ -28,7 +28,7 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
     ```bash
     pip3 install PyQt5
     ```
-
+<details><summary><b>Show Command Instructions To Run File</b></summary>
 4. You want to 'cd' to main.py's dir (./HWTracker)
 
     ```bash
@@ -40,8 +40,8 @@ Download the app version here on [our website]()/[AppStore](). Or if you want to
     ```bash
     python3 main.py
     ```
-
-<details><summary><b>Show Non-Command Line Instructions</b></summary>
+</details>
+<details><summary><b>Show Non-Command Line Instructions To Run File</b></summary>
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
