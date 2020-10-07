@@ -29,9 +29,9 @@ Download the app version here on [our website]()/[AppStore]().
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
-![MAC](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/support/macHelp.PNG)
+![MAC](https://i.ibb.co/44X1zzW/Screen-Shot-2020-10-06-at-10-39-48-PM.png)
 
-![WINDOWS](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/support/windowshelp.PNG)
+![WINDOWS](https://i.ibb.co/nw03r1J/Capture.png)
 
 5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
 
