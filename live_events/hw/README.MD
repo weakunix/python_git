@@ -108,13 +108,13 @@ Format:
 
 **For whatever reason, if you want custom icons instead of the ones I drew, you can modify them (I won't take it personally). But keep a few things in mind:**
 
-Socail icons:
+Socail icons (base template):
 
 ![socials template](https://i.ibb.co/5WN31jq/rsz-1pixil-frame-0-2.png)
 
 50x50 downscaled to 35x35
 
-Pencil Icon:
+Pencil Icon (base template):
 
 ![icon template](https://i.ibb.co/Kj853c3/testi-1-1.png)
 
