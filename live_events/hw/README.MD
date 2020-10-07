@@ -65,7 +65,9 @@ Download to run source code:
 
 ##### Modifying newhandler
 What is it?
-It handles everything about UI that is dynamic. (changed when the app is running)
+It handles everything about UI that is dynamic. (UI that is changed when the app is running)
+
+![eg. adding classes](https://i.ibb.co/CW8MMdg/Screen-Shot-2020-10-07-at-12-06-17-PM.png)
 
 Examples
 * Add New button is pressed and UI handler adds a todo/class into the QScrollArea
