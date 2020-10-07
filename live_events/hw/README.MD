@@ -8,11 +8,7 @@ tba
 
 ## Downloads
 
-Download the app version here on [our website](). 
-
-OR
-
-Download the app on the [AppStore](). 
+Download the app version here on [our website]()/[AppStore](). 
 
 ## Contributor:
 ### Install:
@@ -58,16 +54,17 @@ CMD/Terminal:
 #### Modifying Data Files:
 
 **NOTICE**
-**Do not modify policy.txt!!! That is legal stuff!!!**
+**Do not modify policy.txt!!! THAT IS LEGAL STUFF!!!**
 
-**Do not modify Settings.json unless YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!!**
+**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR FILE BREAKS!!! RECLONE**
 
-
-* m
+* modifying classes.json
+** 
+* modifying todos.json
 
 ### Pull Requests:
 
-must be formatted like this
+must be formatted like this:
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
