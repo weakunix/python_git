@@ -68,6 +68,7 @@ What is it?
 It handles everything about UI that is dynamic. (UI that is changed when the app is running)
 
 like adding classes
+
 ![eg. adding classes img](https://i.ibb.co/CW8MMdg/Screen-Shot-2020-10-07-at-12-06-17-PM.png)
 
 Examples
