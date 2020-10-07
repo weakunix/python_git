@@ -10,7 +10,7 @@ What are you waiting for? Download it below!
 
 ## Downloads
 
-Download the app version here on [our website]()/[AppStore](). 
+Download the app version here on [our website]()/[AppStore](). Or if you want to run the source code, proceed to the Contributor section.
 
 ## Contributor:
 ### Install:
@@ -29,16 +29,6 @@ Download the app version here on [our website]()/[AppStore]().
     pip3 install PyQt5
     ```
 
-4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
-
-![MAC](https://i.ibb.co/44X1zzW/Screen-Shot-2020-10-06-at-10-39-48-PM.png)
-
-![WINDOWS](https://i.ibb.co/nw03r1J/Capture.png)
-
-5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
-
-CMD/Terminal:
-
 4. You want to 'cd' to main.py's dir (./HWTracker)
 
     ```bash
@@ -50,7 +40,18 @@ CMD/Terminal:
     ```bash
     python3 main.py
     ```
-    
+
+<details><summary><b>Show Non-Command Line Instructions</b></summary>
+
+4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
+
+![MAC](https://i.ibb.co/44X1zzW/Screen-Shot-2020-10-06-at-10-39-48-PM.png)
+
+![WINDOWS](https://i.ibb.co/nw03r1J/Capture.png)
+
+5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
+
+</details>
 ### File Modifications:
 
 **DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
