@@ -51,6 +51,17 @@ CMD/Terminal:
     
 ### File Modifications:
 
+#### Modifying Handlers:
+
+They handle all the operations done when making a change in settings or making new homework/classes
+the code isn't really functional on its own. it is imported from main.py in the other folders.
+
+##### UI HANDLER
+> Makes the UI of new classes after clicking the 'Add New' button in the
+> You shouldn't mess with this file unless you want to change the appearance of an item inside the QScrollArea (display area for classes/hw)
+
+#### Modifying 
+
 #### Modifying Data Files:
 
 **NOTICE**
@@ -58,12 +69,13 @@ CMD/Terminal:
 
 **Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR FILE BREAKS!!! RECLONE**
 
-* modifying classes.json
+##### modifying classes.json
 ** Layout: 
 > "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
 
 > "English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
-* modifying todos.json
+
+##### modifying todos.json
 > "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
 
 > "Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
