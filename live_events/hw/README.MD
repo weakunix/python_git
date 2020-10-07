@@ -8,15 +8,14 @@ tba
 
 ## Downloads
 
-### Non-developer/consumer:
-
 Download the app version here on [our website](). 
 
 OR
 
 Download the app on the [AppStore](). 
 
-### Developer/contributor:
+## Contributor:
+### Install:
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
 
@@ -54,8 +53,12 @@ CMD/Terminal:
     python3 main.py
     ```
 
+### Pull Requests:
+
+must be formatted like this
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
-This project is completely open source (except for the database with passwords... DUH!).
+This project is completely open source. You are free to reuse anything as you wish. 
 
-Founded by Mootbing and MrMoooo, two highschoolers.
+Founded by Mootbing and MrMoooo.
