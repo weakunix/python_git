@@ -109,14 +109,16 @@ Format:
 **For whatever reason, if you want custom icons instead of the ones I drew, you can modify them (I won't take it personally). But keep a few things in mind:**
 
 Socail icons:
-50x50 downscaled to 35x35
 
 ![socials template](https://i.ibb.co/5WN31jq/rsz-1pixil-frame-0-2.png)
 
+50x50 downscaled to 35x35
+
 Pencil Icon:
-193x192 upscaled to 339x326
 
 ![icon template](https://i.ibb.co/Kj853c3/testi-1-1.png)
+
+193x192 upscaled to 339x326
 
 ### Pull Requests:
 
