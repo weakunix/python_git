@@ -57,8 +57,24 @@ They handle all the operations done when making a change in settings or making n
 the code isn't really functional on its own. it is imported from main.py in the other folders.
 
 ##### UI HANDLER
-> Makes the UI of new classes after clicking the 'Add New' button in the
-> You shouldn't mess with this file unless you want to change the appearance of an item inside the QScrollArea (display area for classes/hw)
+What is it?
+It handles everything about UI that is dynamic. (changed when the app is running)
+
+Examples
+* Add New button is pressed and UI handler adds a todo/class into the QScrollArea
+* The topbar widget is clicked, changing the appearance from dark mode to light mode (ewww)
+
+**You shouldn't mess with this file unless you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw)**
+
+##### FILE HANDLER
+What is it?
+It handles everything about files.
+
+Examples
+* Add New button is pressed and File handler adds the new classes/todo.json to include the new data (yes it is also stored in the database but just in case no wifi)
+* The topbar widget is clicked, changing the default always signin setting to False (writes into settings.json)
+
+**You shouldn't mess with this file unless you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw)**
 
 #### Modifying 
 
