@@ -67,18 +67,27 @@ the code isn't really functional on its own. it is imported from main.py in the 
 **NOTICE**
 **Do not modify policy.txt!!! THAT IS LEGAL STUFF!!!**
 
-**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR FILE BREAKS!!! RECLONE**
+**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR APP BREAKS!!! DEBUG OR RECLONE**
 
-##### modifying classes.json
-** Layout: 
-> "class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
-
-> "English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
+##### modifying classes.json 
+```json
+"class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
+```
+Example:
+```json
+"English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
+```
 
 ##### modifying todos.json
-> "class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
+```json
+"class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
+```
+Example:
+```json
+"Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
+```
 
-> "Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
+**If adding them in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
 
 ### Pull Requests:
 
