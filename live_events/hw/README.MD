@@ -117,3 +117,4 @@ This project is completely open source. You are free to reuse anything as you wi
 Founded by Mootbing and MrMoooo.
 
 Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
+Images in this file hosted with https://imgbb.com
