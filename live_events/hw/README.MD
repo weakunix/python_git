@@ -8,19 +8,14 @@ tba
 
 ## Downloads
 
-### Non-developer/consumer:
+Download the app version here on [our website]()/[AppStore](). 
 
-Download the app version here on [our website](). 
-
-OR
-
-Download the app on the [AppStore](). 
-
-### Developer/contributor:
+## Contributor:
+### Install:
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
 
-2. To run with source code and modifiable files, clone this repository with console command git [git](https://github.com/weakunix/python_git.git).
+2. To run with source code and modifiable files, clone this repository using console command:
 
     ```bash
     git clone https://github.com/weakunix/python_git.git
@@ -34,9 +29,9 @@ Download the app on the [AppStore]().
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
 
-![MAC](https://ibb.co/8PfYqqM)
+![MAC](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/support/macHelp.PNG)
 
-![WINDOWS](https://ibb.co/7Szgvpm)
+![WINDOWS](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/support/windowshelp.PNG)
 
 5. Right click on 'main.py' then RUN with Python 3.8.5. or open with your favorite code editor (notepad for the win!)
 
@@ -53,9 +48,72 @@ CMD/Terminal:
     ```bash
     python3 main.py
     ```
+    
+### File Modifications:
+
+**DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
+
+#### Modifying Handlers:
+
+They handle all the operations done when making a change in settings or making new homework/classes
+the code isn't really functional on its own. it is imported from main.py in the other folders.
+
+##### UI HANDLER
+What is it?
+It handles everything about UI that is dynamic. (changed when the app is running)
+
+Examples
+* Add New button is pressed and UI handler adds a todo/class into the QScrollArea
+* The topbar widget is clicked, changing the appearance from dark mode to light mode (ewww)
+
+**If you want to change the appearance of an item add a new feature inside the QScrollArea or (display area for classes/hw) code a change in UIhandler and file a PR**
+
+##### FILE HANDLER
+What is it?
+It handles everything about files.
+
+Examples
+* Add New button is pressed and File handler adds the new classes/todo.json to include the new data (yes it is also stored in the database but just in case no wifi)
+* The topbar widget is clicked, changing the default always signin setting to False (writes into settings.json)
+
+**If you need to change how data gets written/anything about local data, filehandler's where you should look**
+
+#### Modifying Data Files:
+
+**NOTICE**
+
+**Do not modify policy.txt!!! THAT IS LEGAL STUFF!!!**
+
+**Do not modify Settings.json UNLESS YOU KNOW WHAT YOU'RE DOING ENTIRELY!!!! IF YOUR APP BREAKS!!! DEBUG OR RECLONE**
+
+**If adding classes/todos in the app doesn't work, you can manually add a new line of class/todos and it will work (don't forget a comma in the previous line!!)**
+
+##### modifying classes.json 
+```json
+"class name":["timestarts-timeends (24 hour)", "block (A-z/1-10)", "classroom #", "teacher name", "class info and about"]
+```
+Example:
+```json
+"English":["13:50-14:05", "B", "LC9", "Garrow", "journals"]
+```
+
+##### modifying todos.json
+```json
+"class name":["%difficulty (0-10)", "%completion (0-100)", "due in (1d/w/m/y)", "is repeating? if so cycle listed in different thing", "homework description"]
+```
+Example:
+```json
+"Computer Science":["6", "50%", "1d", "True", "finish java stuff"]
+```
+
+### Pull Requests:
+
+must be formatted like this:
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
-This project is completely open source (except for the database with passwords... DUH!).
+This project is completely open source. You are free to reuse anything as you wish. 
 
-Founded by Mootbing and MrMoooo, two highschoolers.
+Founded by Mootbing and MrMoooo.
+
+Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
