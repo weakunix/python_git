@@ -174,7 +174,7 @@ This project is completely open source. You are free to reuse anything as you wi
 
 Founded by Mootbing and MrMoooo.
 
-![Company icon](https://i.ibb.co/RTmr0hs/output-onlinepngtools-12.png)
+![Company icon](https://i.ibb.co/rxd0Txc/image0-png.jpg)
 
 Company ICON
 
