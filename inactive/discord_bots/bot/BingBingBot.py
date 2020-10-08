@@ -675,7 +675,13 @@ async def on_message(message):
                 await reciever.send(embed=emb)
             else:
                 await message.channel.send("U BROKE BOI NO MANEY SEND")
-        # end here ^^^^
+        elif message.content.startswith(prefix + "schedule"):
+            import getHomeowrk
+            schedules, stime = getHomeowrk.calcSchedule()
+            getHomeowrk.displays(schedules, stime)
+            for i in range(len(stime)):
+                await message.channel.send(f"\nClass at {str(stime[i])}:\n {str(schedules[i])}")
+            # end here ^^^^
         elif message.content.startswith(prefix):
             await message.channel.send("moo? That's not a cow command. Type " + prefix + "help")
         elif message.content.startswith('does jason still have feelings for Megan'):
