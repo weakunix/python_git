@@ -174,7 +174,7 @@ This project is completely open source. You are free to reuse anything as you wi
 
 Founded by Mootbing and MrMoooo.
 
-![Company icon](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/mootbing.png)
+![Company icon](https://i.ibb.co/RTmr0hs/output-onlinepngtools-12.png)
 
 Company ICON
 
