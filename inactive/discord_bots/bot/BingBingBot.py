@@ -678,7 +678,6 @@ async def on_message(message):
         elif message.content.startswith(prefix + "schedule"):
             import getHomeowrk
             schedules, stime = getHomeowrk.calcSchedule()
-            getHomeowrk.displays(schedules, stime)
             for i in range(len(stime)):
                 await message.channel.send(f"\nClass at {str(stime[i])}:\n {str(schedules[i])}")
             # end here ^^^^
