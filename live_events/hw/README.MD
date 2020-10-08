@@ -176,6 +176,7 @@ Founded by Mootbing and MrMoooo.
 
 ![Company icon](https://raw.githubusercontent.com/weakunix/python_git/master/live_events/hw/icons/mootbing.png)
 
+Company ICON
 
 > Readme made with GITHUB's readme editor and https://guides.github.com/features/mastering-markdown/
 > Images in this file hosted with https://imgbb.com
