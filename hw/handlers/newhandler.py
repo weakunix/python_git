@@ -7,12 +7,13 @@ class newSomething:
     @staticmethod
     def newClass(ui):
         
-        className = ""
-        timeStarts = ""
-        timeEnds = ""
-        blockName = ""
-        classRoomNumber = ""
-        
+        className = ui.newClassName_2.toPlainText()
+        timeStarts = ui.starts.dateTime()
+        timeEnds = ui.done.dateTime()
+        blockName = ui.newBlock.toPlainText()
+        classRoomNumber = ui.newClassroomNum.toPlainText()
+
+        #
         
         ui.scrollClass = QtWidgets.QWidget()
         ui.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
