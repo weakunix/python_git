@@ -5,7 +5,7 @@ translate = QtCore.QCoreApplication.translate
 
 class newSomething:
     @staticmethod
-    def newClass(ui):
+    def newClass(ui, arrayOfClassesAlready):
         
         className = ui.newClassName_2.toPlainText()
         timeStarts = ui.starts.dateTime()
@@ -90,7 +90,7 @@ class newSomething:
         ui.showExtra.setText(translate("HWTracker", "..."))
 
     @staticmethod
-    def newHomework(ui):
+    def newHomework(ui, arrayOfTodosAlready):
         homeworkInfo = ui.newHWText.toPlainText()
         dueDate = ui.newDueTime.dateTime().toSecsSinceEpoch()
         isRepeating = ui.radioButton.isDown() #Ruoyu for you bc your dumb shitqing
