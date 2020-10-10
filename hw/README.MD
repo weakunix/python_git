@@ -58,7 +58,7 @@ Download to run source code:
 
 ## Contributor:
 
-**REFER TO CONTRIBUTE.MD**
+**REFER TO [CONTRIBUTE.MD](CONTRUBUTE.MD)**
 
 ## License
 [MIT License. ](https://choosealicense.com/licenses/mit/)
