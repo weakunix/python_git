@@ -75,10 +75,8 @@ Pencil Icon (base template):
 
 ## Pull Requests:
 
-### must be formatted like this:
+### Must Be Formatted Like This:
 
-<details><summary><b>Show Code Format</b></summary>
-    
 old code
     
 ```python
@@ -94,9 +92,7 @@ def bot(yes):
     print(str(yes)) #replaced "hi" to yes so it prints whatever is passed through
 ```
 
-</details>
-
-<details><summary><b>Checklist</b></summary>
+### CHECKLIST
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
@@ -109,8 +105,6 @@ def bot(yes):
 - [ ] I have checked my code and corrected any misspellings
 
 checklist from https://guides.github.com/features/mastering-markdown/
-
-</details>
 
 ## License
 [MIT License. ](https://choosealicense.com/licenses/mit/)
