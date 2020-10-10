@@ -31,18 +31,18 @@ Download to run source code:
     ```bash
     pip3 install PyQt5
     ```
-<details><summary><b>Show Command Instructions To Run File</b></summary>
+
 4. You want to 'cd' to main.py's dir (./HWTracker)
 
-
+    ```bash
     cd ./HWTracker/
+    ```
 
 5. Then run it with 'python3'
 
     ```bash
     python3 main.py
     ```
-</details>
 <details><summary><b>Show Non-Command Line Instructions To Run File</b></summary>
 
 4. Use your file browser to locate where 'main.py' is (it should be in the first folder) 
