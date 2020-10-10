@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>967</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>967</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuImport_Calendar">
+     <property name="title">
+      <string>Import Calendar</string>
+     </property>
+     <addaction name="actionImport_from_file"/>
+     <addaction name="actionImport_from_URL"/>
+    </widget>
+    <addaction name="menuImport_Calendar"/>
+    <addaction name="actionSave_Calendar"/>
+    <addaction name="actionSave_Calendar_As"/>
+   </widget>
+   <widget class="QMenu" name="menuSidebars">
+    <property name="title">
+     <string>Sidebars</string>
+    </property>
+    <addaction name="actionShow_Homework"/>
+    <addaction name="actionShow_Class"/>
+   </widget>
+   <widget class="QMenu" name="menuAppearance">
+    <property name="title">
+     <string>Appearance</string>
+    </property>
+    <widget class="QMenu" name="menuThemes">
+     <property name="title">
+      <string>Themes</string>
+     </property>
+     <addaction name="actionLight_Mode"/>
+     <addaction name="actionDark_Mode"/>
+    </widget>
+    <addaction name="menuThemes"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnter_Fullscreen"/>
+   </widget>
+   <widget class="QMenu" name="menuOption">
+    <property name="title">
+     <string>Option</string>
+    </property>
+    <addaction name="actionSettings"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuTutorial">
+    <property name="title">
+     <string>Tutorial</string>
+    </property>
+    <addaction name="actionView_Online_Tutorial"/>
+    <addaction name="separator"/>
+    <addaction name="actionSearch_For_Problem"/>
+   </widget>
+   <addaction name="menuOption"/>
+   <addaction name="menuFile"/>
+   <addaction name="menuSidebars"/>
+   <addaction name="menuAppearance"/>
+   <addaction name="menuTutorial"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSave_Calendar">
+   <property name="text">
+    <string>Save Calendar</string>
+   </property>
+  </action>
+  <action name="actionSave_Calendar_As">
+   <property name="text">
+    <string>Save Calendar As</string>
+   </property>
+  </action>
+  <action name="actionImport_from_file">
+   <property name="text">
+    <string>Import from file</string>
+   </property>
+  </action>
+  <action name="actionImport_from_URL">
+   <property name="text">
+    <string>Import from URL</string>
+   </property>
+  </action>
+  <action name="actionShow_Homework">
+   <property name="text">
+    <string>Show Homework</string>
+   </property>
+  </action>
+  <action name="actionShow_Class">
+   <property name="text">
+    <string>Show Class</string>
+   </property>
+  </action>
+  <action name="actionEnter_Fullscreen">
+   <property name="text">
+    <string>Enter Fullscreen</string>
+   </property>
+  </action>
+  <action name="actionLight_Mode">
+   <property name="text">
+    <string>Light Mode</string>
+   </property>
+  </action>
+  <action name="actionDark_Mode">
+   <property name="text">
+    <string>Dark Mode</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionView_Online_Tutorial">
+   <property name="text">
+    <string>View Online Tutorial</string>
+   </property>
+  </action>
+  <action name="actionSearch_For_Problem">
+   <property name="text">
+    <string>Search For Problem</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
