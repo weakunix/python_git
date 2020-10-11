@@ -1,20 +1,26 @@
 #IMPORT FILES
-from QTgenerated import application, login
+from QTgenerated import hw_main_window as mw, application, login
 from handlers import filehandler, newhandler
 
 #other python imports
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-import webbrowser
-import sys
+import webbrowser, sys
 
-class loginPage():
-    def __init__(self):
-        self.app = QtWidgets.QApplication(sys.argv)
-        self.Login = QtWidgets.QMainWindow()
-        self.ui = login.Ui_Login()
-        self.ui.setupUi(self.Login)
+class hwMainWindow(mw.Ui_MainWindow):
+    def __init__(self, main_window):
+        self.main_window = main_window
+        self.setupUi(self.main_window)
+        self.main_window.show()
+
+    #TODO JASON: ADD MAIN WINDOW TOOLBAR LINKING IN __init__ METHOD
+
+
+class loginPage(login.Ui_Form):
+    def __init__(self, ui):
         #human stuff now
+        self.ui = ui
+        self.setupUi(self.ui)
 
         iconSizer = 35
 
@@ -142,22 +148,22 @@ class loginPage():
        self.Login.hide()
        app = App() 
 
-class App:
-    def __init__(self):
-        self.app = QtWidgets.QApplication(sys.argv)
-        self.HWTracker = QtWidgets.QMainWindow()
-        self.ui = application.Ui_HWTracker()
-        self.ui.setupUi(self.HWTracker)
+class App(application.Ui_Form):
+    def __init__(self, ui):
+        self.ui = ui
 
         #more code here later
         self.ui.newAdd.clicked.connect(lambda: [newhandler.newSomething.newHomework(self.ui), self.HWTracker.repaint()])
         self.ui.newAddS.clicked.connect(lambda: [newhandler.newSomething.newClass(self.ui), self.HWTracker.repaint()])
 
-        #always last
-        self.HWTracker.show()
-        sys.exit(self.app.exec_())
 
 if __name__ == "__main__": 
-    startPage = loginPage()
-    #app = App()
-    sys.exit(QtWidgets.QApplication(sys.argv).exec_())
+    app = QtWidgets.QApplication(sys.argv)
+    main_window = QtWidgets.QMainWindow()
+    main_window = hwMainWindow(main_window)
+    login_page = QtWidgets.QWidget(main_window.main_window)
+    login_page = loginPage(login_page)
+    app_page = QtWidgets.QWidget(main_window.main_window)
+    app_page = App(app_page)
+    login_page.show()
+    sys.exit(app.exec_())
