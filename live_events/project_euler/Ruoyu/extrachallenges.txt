@@ -1,3 +1,4 @@
 Euler 39: Make program faster
 Euler 43: Make program faster (use last three digits to consider if divisible by 17 and 13)
 Euler 50: Make program faster
+Euler 79: Make program be able to give correct answer even if there are repeating digits
