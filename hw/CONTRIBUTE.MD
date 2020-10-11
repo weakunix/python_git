@@ -112,4 +112,4 @@ This project is completely open source. You are free to reuse anything as you wi
 
 Founded by Mootbing and MrMoooo.
 
-![Company icon](https://i.ibb.co/rxd0Txc/image0-png.jpg)
+![Company icon](https://i.ibb.co/k8xwz5y/17-AC015-D-470-C-44-EF-BCEC-19462-EDE5-B44.png)
