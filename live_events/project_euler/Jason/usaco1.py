@@ -1,1 +1,0 @@
-cows = [x for x in range(20000)]
