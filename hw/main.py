@@ -26,6 +26,7 @@ class loginPage(login.Ui_Form):
 
         #manually making buttons (bc path doesnt work)
         self.ICONPNG.setPixmap(QtGui.QPixmap("./icons/ICON.png"))
+        self.ICONPNG.setAlignment(QtCore.Qt.AlignCenter)
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./icons/INSTA.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -43,20 +44,15 @@ class loginPage(login.Ui_Form):
         self.github.setIconSize(QtCore.QSize(iconSizer, iconSizer))
 
         #open sites when clicked
-
-        self.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
-        self.youtube.clicked.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
-        self.insta.clicked.connect(lambda:  webbrowser.open("https://instagram.com"))
+        self.github.pressed.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
+        self.youtube.pressed.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
+        self.insta.pressed.connect(lambda:  webbrowser.open("https://instagram.com"))
 
         #link buttons clicked to open locally or validate with (later) database
 
-        self.signinLocalButton.clicked.connect(lambda: [self.openApp(False)]) # "signs in" with only data from device
-        self.submitcredentials.clicked.connect(self.validate) #submit credentials for validations
-        self.registercredentials.clicked.connect(self.register) #registers account
-
-        #put at end
-        #self.Login.show()
-        #sys.exit(self.app.exec_())
+        self.signinLocalButton.pressed.connect(lambda: [self.openApp(False)]) # "signs in" with only data from device
+        self.submitcredentials.pressed.connect(self.validate) #submit credentials for validations
+        self.registercredentials.pressed.connect(self.register) #registers account
     
     def validate(self):
         password = self.PasswordInputS.text()
@@ -154,8 +150,8 @@ class App(application.Ui_Form):
         self.setupUi(self.ui)
 
         #more code here later
-        '''self.newAdd.clicked.connect(lambda: [newhandler.newSomething.newHomework(self, [])])
-        self.newAddS.clicked.connect(lambda: [newhandler.newSomething.newClass(self, [])])'''
+        '''self.newAdd.pressed.connect(lambda: [newhandler.newSomething.newHomework(self, [])])
+        self.newAddS.pressed.connect(lambda: [newhandler.newSomething.newClass(self, [])])'''
 
 
 if __name__ == "__main__": 
