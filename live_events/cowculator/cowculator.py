@@ -101,6 +101,7 @@ def calculate_arithmetic(inpt):
         inpt = inpt.replace('^', '**')
         inpt = inpt.replace('gcf', 'gcd')
         inpt = eval(inpt)
+        #TODO ADD A CHECK WHERE IT TAKES ALL LETTER INPUTS TO CHECK IF THEY ARE ACTUALLY FUNCTIONS, IF THEY ARE NOT SET inpt = None
         if inpt != None:
             print(f'\033[1;32;1m{inpt}')
     except:
