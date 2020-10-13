@@ -495,7 +495,7 @@ QFrame{
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</normaloff>../../Downloads/output-onlinepngtools-removebg-preview-2.png</iconset>
+              <normaloff>../../icons/INSTA.png</normaloff>../../icons/INSTA.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -520,7 +520,7 @@ QFrame{
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../Downloads/youtube_PNG12.png</normaloff>../../Downloads/youtube_PNG12.png</iconset>
+              <normaloff>../../icons/YOUTUBE.png</normaloff>../../icons/YOUTUBE.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -545,7 +545,7 @@ QFrame{
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../Downloads/github-153-675523.png</normaloff>../../Downloads/github-153-675523.png</iconset>
+              <normaloff>../../icons/GITHUB.png</normaloff>../../icons/GITHUB.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -623,7 +623,7 @@ QFrame{
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/ICON/icon.png</pixmap>
+          <pixmap>../../icons/ICON.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -693,8 +693,8 @@ QLabel{
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>222</width>
-            <height>267</height>
+            <width>220</width>
+            <height>263</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -783,7 +783,7 @@ QLabel{
             <x>0</x>
             <y>0</y>
             <width>221</width>
-            <height>267</height>
+            <height>263</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -866,8 +866,8 @@ QLabel{
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>222</width>
-            <height>267</height>
+            <width>220</width>
+            <height>263</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12">

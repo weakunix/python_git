@@ -25,43 +25,39 @@ class loginPage(login.Ui_Form):
         iconSizer = 35
 
         #manually making buttons (bc path doesnt work)
-        self.ui.ICONPNG.setPixmap(QtGui.QPixmap("./icons/ICON.png"))
+        self.ICONPNG.setPixmap(QtGui.QPixmap("./icons/ICON.png"))
+        self.ICONPNG.setAlignment(QtCore.Qt.AlignCenter)
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./icons/INSTA.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.ui.insta.setIcon(icon)
-        self.ui.insta.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+        self.insta.setIcon(icon)
+        self.insta.setIconSize(QtCore.QSize(iconSizer, iconSizer))
 
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("./icons/YOUTUBE.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.ui.youtube.setIcon(icon1)
-        self.ui.youtube.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+        self.youtube.setIcon(icon1)
+        self.youtube.setIconSize(QtCore.QSize(iconSizer, iconSizer))
 
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("./icons/GITHUB.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.ui.github.setIcon(icon2)
-        self.ui.github.setIconSize(QtCore.QSize(iconSizer, iconSizer))
+        self.github.setIcon(icon2)
+        self.github.setIconSize(QtCore.QSize(iconSizer, iconSizer))
 
         #open sites when clicked
-
-        self.ui.github.clicked.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
-        self.ui.youtube.clicked.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
-        self.ui.insta.clicked.connect(lambda:  webbrowser.open("https://instagram.com"))
+        self.github.pressed.connect(lambda : webbrowser.open("https://github.com/weakunix/python_git")) 
+        self.youtube.pressed.connect(lambda: webbrowser.open("https://www.youtube.com/c/cowland"))
+        self.insta.pressed.connect(lambda:  webbrowser.open("https://instagram.com"))
 
         #link buttons clicked to open locally or validate with (later) database
 
-        self.ui.signinLocalButton.clicked.connect(lambda: [self.app.quit(), self.openApp(False)]) # "signs in" with only data from device
-        self.ui.submitcredentials.clicked.connect(self.validate) #submit credentials for validations
-        self.ui.registercredentials.clicked.connect(self.register) #registers account
-
-        #put at end
-        self.Login.show()
-        sys.exit(self.app.exec_())
+        self.signinLocalButton.pressed.connect(lambda: [self.openApp(False)]) # "signs in" with only data from device
+        self.submitcredentials.pressed.connect(self.validate) #submit credentials for validations
+        self.registercredentials.pressed.connect(self.register) #registers account
     
     def validate(self):
-        password = self.ui.PasswordInputS.text()
-        username = self.ui.UsernameInputS.text() #idk how the fuck I flipepd these
-        keepSignedIn = self.ui.keepsignin.isChecked()
+        password = self.PasswordInputS.text()
+        username = self.UsernameInputS.text() #idk how the fuck I flipepd these
+        keepSignedIn = self.keepsignin.isChecked()
         temp = filehandler.File.checkForUserInDatabase(username, password) #is valid name and password combo
         if temp == "True":
             def yes(selection):
@@ -79,7 +75,7 @@ class loginPage(login.Ui_Form):
                 KeepSignedInConfirm.buttonClicked.connect(yes)
 
                 KeepSignedInConfirm.exec()
-            self.app.quit()
+            #self.app.quit()
             self.openApp(True)
         else:
             MAKE_A_DAMN_ACCOUNT = QMessageBox()
@@ -94,9 +90,9 @@ class loginPage(login.Ui_Form):
             MAKE_A_DAMN_ACCOUNT.exec()
 
     def register(self):
-        username = self.ui.UsernameInputR.text()
-        password = self.ui.passwordInputR.text()
-        passwordConfirm = self.ui.passwordInputConfirmR.text()
+        username = self.UsernameInputR.text()
+        password = self.passwordInputR.text()
+        passwordConfirm = self.passwordInputConfirmR.text()
 
         if password == passwordConfirm:
             if not filehandler.File.checkForUserAlreadyExists(str(username)):
@@ -138,23 +134,24 @@ class loginPage(login.Ui_Form):
 
             errorNotSamePassword.exec()
         
-        self.ui.UsernameInputR.clear()
-        self.ui.passwordInputR.clear()
-        self.ui.passwordInputConfirmR.clear()
+        self.UsernameInputR.clear()
+        self.passwordInputR.clear()
+        self.passwordInputConfirmR.clear()
 
-        self.ui.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(0)
 
     def openApp(self, isOnline):
-       self.Login.hide()
-       app = App() 
+        self.ui.hide()
+        app_page.ui.show()
 
 class App(application.Ui_Form):
     def __init__(self, ui):
         self.ui = ui
+        self.setupUi(self.ui)
 
         #more code here later
-        self.ui.newAdd.clicked.connect(lambda: [newhandler.newSomething.newHomework(self.ui), self.HWTracker.repaint()])
-        self.ui.newAddS.clicked.connect(lambda: [newhandler.newSomething.newClass(self.ui), self.HWTracker.repaint()])
+        '''self.newAdd.pressed.connect(lambda: [newhandler.newSomething.newHomework(self, [])])
+        self.newAddS.pressed.connect(lambda: [newhandler.newSomething.newClass(self, [])])'''
 
 
 if __name__ == "__main__": 
@@ -165,5 +162,5 @@ if __name__ == "__main__":
     login_page = loginPage(login_page)
     app_page = QtWidgets.QWidget(main_window.main_window)
     app_page = App(app_page)
-    login_page.show()
+    login_page.ui.show()
     sys.exit(app.exec_())

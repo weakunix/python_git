@@ -12,6 +12,7 @@ def factorize(inpt):
     print(inpt)
     for i in range(inpt):
         if inpt % (i + 1) == 0:
+            factorize(inpt % (i + 1))
             print(f"factor! {str(inpt / (i + 1))}")
             arrayOfFactors.append(int(inpt / (i + 1)))
 
