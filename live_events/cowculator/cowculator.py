@@ -59,8 +59,8 @@ current_mode = 0
 #user def cowculator functions 
 ##evaluaate input
 def eval_input():
-    global current_mode
-    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: List of modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
+    global current_mode, modes
+    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
         try:
@@ -91,6 +91,10 @@ def eval_input():
             print('\n' + '\033[1;36;1m=' * 50 + f'\n\nSwitched to {modes[current_mode]} mode')
     elif inpt.lower() == 'functions':
         print('\n' + '\033[1;36;1m=' * 50 + '\033[1;33;1m\n\nToo lazy, haven\'t logged the functions yet')
+    elif inpt.lower() == 'modes':
+        print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
+        for i in range(4):
+            print(modes[i][0].upper() + modes[i][1:])
     else:
         if current_mode == 0:
             calculate_arithmetic(inpt)
