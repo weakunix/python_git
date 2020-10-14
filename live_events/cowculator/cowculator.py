@@ -48,15 +48,83 @@ def lcm_for_two(x, y):
 
 #vars
 inpt = '' #user input
-modes = { #modes
-          0: 'arithmetic', #arithmetic
-          1: 'algebra', #algebra
-          2: 'fractions', #fractions
-          3: 'bases' #base
-}
+modes = { 0: 'arithmetic', #modes
+          1: 'algebra',
+          2: 'fractions',
+          3: 'bases' }
 current_mode = 0
+nums = [str(i) for i in range(10)] #all numbers
+allo = { '+': lambda x, y: x + y, #all operators
+         '-': lambda x, y: x - y,
+         '*': lambda x, y: x * y,
+         '/': lambda x, y: x / y,
+         '^': lambda x, y: x ** y,
+         'uniadd' : lambda x: x,
+         'unisub' : lambda x: -x }
+unio = { 'uniadd', 'unisub' } #uni operations
+allf = { 'max' : max, #all functions
+         'min' : min,
+         'gcd' : gcd,
+         'lcm' : lcm }
+pr = { '+': 0, #order of operations
+       '-': 0,
+       '*': 1,
+       '/': 1,
+       '^': 2,
+       'uniadd' : 3,
+       'unisub' : 3 }
 
-#user def cowculator functions 
+#reverse polish calculation functions
+##tokenize numbers and symbols
+def tokenize(expr):
+    tokenized = [] #tokenized expression
+    dot = False #if there is a decimal point
+    token_type = None #token type (number, operator
+    token = '' #current token
+    for k, i in enumerate(expr):
+        if i in nums: #number
+            if token_type == 'number':
+                token += i
+            else:
+                tokenized.append(token)
+                token = i
+                token_type = 'number'
+                dot = False
+        elif (i in allo and i not in unio) or i == '(' or i == ')' or i == ',': #operator
+            tokenized.append(token)
+            token = i
+            token_type = 'operator'
+            dot = False
+        elif i.isalpha(): #letter / function
+            if token_type == 'letter':
+                token += i
+            else:
+                tokenized.append(token)
+                token = i
+                token_type = 'letter'
+            dot = False
+        elif i == '.': #decimal point
+            if dot:
+                print(f'\033[1;31;1mError: {token} contains more than one decimal point')
+                return None
+            else:
+                if token_type == 'number':
+                    token += i
+                else:
+                    tokenized.append(token)
+                    token = i
+                    token_type = 'number'
+                dot = True
+        elif i != ' ':
+            print(f'\033[1;31;1mError: unrecognized token {i}')
+            return None
+        if '' in tokenized:
+            tokenized.pop()
+        if k == len(expr) - 1:
+            tokenized.append(token)
+    return tokenized
+
+#console functions 
 ##evaluaate input
 def eval_input():
     global current_mode, modes
@@ -99,18 +167,6 @@ def eval_input():
         if current_mode == 0:
             calculate_arithmetic(inpt)
        
-##calculate answer
-def calculate_arithmetic(inpt):
-    try:
-        inpt = inpt.replace('^', '**')
-        inpt = inpt.replace('gcf', 'gcd')
-        inpt = eval(inpt)
-        #TODO ADD A CHECK WHERE IT TAKES ALL LETTER INPUTS TO CHECK IF THEY ARE ACTUALLY FUNCTIONS, IF THEY ARE NOT SET inpt = None
-        if inpt != None:
-            print(f'\033[1;32;1m{inpt}')
-    except:
-        print('\033[1;31;1mError: Invalid equation')
-
 #main
 if __name__ == '__main__':
     print('\033[1;32;1mWelcome to the Cowculator v1.0!\033[0m')
