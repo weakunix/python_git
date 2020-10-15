@@ -59,6 +59,8 @@ allo = { '+': lambda x, y: x + y, #all operators
          '*': lambda x, y: x * y,
          '/': lambda x, y: x / y,
          '^': lambda x, y: x ** y,
+         '**': lambda x, y: x ** y,
+         '//': lambda x, y: x // y,
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x }
 unio = { 'uniadd', 'unisub' } #uni operations
@@ -66,22 +68,32 @@ allf = { 'max' : max, #all functions
          'min' : min,
          'gcd' : gcd,
          'lcm' : lcm }
-pr = { '+': 0, #order of operations
-       '-': 0,
-       '*': 1,
-       '/': 1,
-       '^': 2,
-       'uniadd' : 3,
-       'unisub' : 3 }
+precedence = { '+': 0, #precedence
+               '-': 0,
+               '*': 1,
+               '/': 1,
+               '//': 1,
+               '^': 2,
+               '**': 2,
+               'uniadd' : 3,
+               'unisub' : 3 }
 
 #reverse polish calculation functions
+##if string is a float
+def is_number(s):
+    try:
+        return float(s)
+    except:
+        return False
+
 ##tokenize numbers and symbols
 def tokenize(expr):
     tokenized = [] #tokenized expression
     dot = False #if there is a decimal point
     token_type = None #token type (number, operator
     token = '' #current token
-    for k, i in enumerate(expr):
+    double_operator = False #if there is ** used for exponent or // used for floor
+    for i in expr:
         if i in nums: #number
             if token_type == 'number':
                 token += i
@@ -90,10 +102,17 @@ def tokenize(expr):
                 token = i
                 token_type = 'number'
                 dot = False
+            if double_operator:
+                double_operator = False
         elif (i in allo and i not in unio) or i == '(' or i == ')' or i == ',': #operator
-            tokenized.append(token)
-            token = i
-            token_type = 'operator'
+            if double_operator == i:
+                token += i
+            else:
+                tokenized.append(token)
+                token = i
+                token_type = 'operator'
+                if i == '*' or i == '/':
+                    double_operator = i
             dot = False
         elif i.isalpha(): #letter / function
             if token_type == 'letter':
@@ -103,6 +122,8 @@ def tokenize(expr):
                 token = i
                 token_type = 'letter'
             dot = False
+            if double_operator:
+                double_operator = False
         elif i == '.': #decimal point
             if dot:
                 print(f'\033[1;31;1mError: {token} contains more than one decimal point')
@@ -115,14 +136,97 @@ def tokenize(expr):
                     token = i
                     token_type = 'number'
                 dot = True
+            if double_operator:
+                double_operator = False
         elif i != ' ':
-            print(f'\033[1;31;1mError: unrecognized token {i}')
+            print(f'\033[1;31;1mError: unrecognized character {i}')
             return None
         if '' in tokenized:
             tokenized.pop()
-        if k == len(expr) - 1:
-            tokenized.append(token)
+    tokenized.append(token)
     return tokenized
+
+##shunting yard algorithm for shunting
+def shunting(expr):
+    operator = [] #operator stack
+    output = [] #output stack
+    function_arg = 0 #if a number is a function argument
+    unioperator = True #if an operator is a unioperator
+    operators_to_pop = []
+    for k, i in enumerate(expr):
+        operators_to_pop = []
+        if is_number(i): #number
+            output.append(i)
+            unioperator = False
+        elif i in allo: #operator
+            if unioperator:
+                if i == '+':
+                    i = 'uniadd'
+                elif i == '-':
+                    i = 'unisub'
+                else:
+                    print(f'\033[1;31;1mError: unrecognized unioperator {i}')
+                    return None
+            for j in range(1, len(operator) + 1):
+                if operator[-j] == '(':
+                    break
+                try:
+                    if (precedence[operator[-j]] >= precedence[i] and i not in unio) or precedence[operator[-j]] > precedence[i]:
+                        operators_to_pop.append(-j)
+                    else:
+                        break
+                except:
+                    pass
+            for l, j in enumerate(operators_to_pop):
+                output.append(operator.pop(j + l))
+            operator.append(i)
+            unioperator = True
+        elif i in allf: #function
+            function_arg += 1
+            operator.append('(')
+            try:
+                if expr[k + 2] == ')' and expr[k + 2] != ',':
+                    operator.append([i, 0])
+                else:
+                    operator.append([i, 1])
+                unioperator = False
+            except:
+                try:
+                    if expr[k + 1] == '(':
+                        print('\033[1;31;1mError: expected \')\' to end function')
+                except:
+                    print('\033[1;31;1mError: expected \'(\' when using function')
+                return None
+        elif i == '(': #start parentheses
+            if expr[k - 1] not in allf:
+                operator.append('(')
+            unioperator = True
+        elif i == ')': #end parentheses
+                for j in range(1, len(operator) + 1):
+                    if operator[-j] == '(':
+                        if type(operator[-j + 1]) == list:
+                            function_arg -= 1
+                        for l in range(j - 1):
+                            output.append(operator.pop(-1))
+                        operator.pop(-1)
+                        break
+                unioperator = False
+        elif i == ',': #comma
+            try:
+                if expr[k + 1] != ')' and expr[k + 1] != ',':
+                    for j in range(1, len(operator) + 1):
+                        if type(operator[-j]) == list:
+                            operator[-j][1] += 1
+                            break
+                unioperator = True
+            except:
+                print('\033[1;31;1mError: expected \')\' to end function')
+        else:
+            print(f'\033[1;31;1mErorr: unrecognized character {i}')
+            return None
+    for i in range(len(operator)):
+        output.append(operator.pop(-1))
+    return output
 
 #console functions 
 ##evaluaate input
@@ -164,8 +268,9 @@ def eval_input():
         for i in range(4):
             print(modes[i][0].upper() + modes[i][1:])
     else:
-        if current_mode == 0:
-            calculate_arithmetic(inpt)
+        if tokenize(inpt) != None:
+            if shunting(tokenize(inpt)) != None:
+                print(f'\033[1;32;1m{shunting(tokenize(inpt))}')
        
 #main
 if __name__ == '__main__':
