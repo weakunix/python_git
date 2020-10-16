@@ -139,7 +139,7 @@ def tokenize(expr):
             if double_operator:
                 double_operator = False
         elif i != ' ':
-            print(f'\033[1;31;1mError: unrecognized character {i}')
+            print(f'\033[1;31;1mError: unrecognized token {i}')
             return None
         if '' in tokenized:
             tokenized.pop()
@@ -152,7 +152,8 @@ def shunting(expr):
     output = [] #output stack
     function_arg = 0 #if a number is a function argument
     unioperator = True #if an operator is a unioperator
-    operators_to_pop = []
+    operators_to_pop = [] #operators to pop from operator stack
+    parentheses = 0 #number of parentheses
     for k, i in enumerate(expr):
         operators_to_pop = []
         if is_number(i): #number
@@ -200,6 +201,7 @@ def shunting(expr):
         elif i == '(': #start parentheses
             if expr[k - 1] not in allf:
                 operator.append('(')
+            parentheses += 1
             unioperator = True
         elif i == ')': #end parentheses
                 for j in range(1, len(operator) + 1):
@@ -210,6 +212,7 @@ def shunting(expr):
                             output.append(operator.pop(-1))
                         operator.pop(-1)
                         break
+                parentheses -= 1
                 unioperator = False
         elif i == ',': #comma
             try:
@@ -217,16 +220,25 @@ def shunting(expr):
                     for j in range(1, len(operator) + 1):
                         if type(operator[-j]) == list:
                             operator[-j][1] += 1
+                            for l in range(j - 1):
+                                output.append(operator.pop())
                             break
                 unioperator = True
             except:
                 print('\033[1;31;1mError: expected \')\' to end function')
         else:
-            print(f'\033[1;31;1mErorr: unrecognized character {i}')
+            print(f'\033[1;31;1mErorr: unrecognized token {i}')
             return None
+    if parentheses:
+        print('\033[1;31;1mError; expected \')\'')
+        return None
     for i in range(len(operator)):
         output.append(operator.pop(-1))
     return output
+
+##evaluate reverse polish expression
+def eval_rp(expr):
+    pass
 
 #console functions 
 ##evaluaate input
