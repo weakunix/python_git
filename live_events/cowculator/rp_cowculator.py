@@ -1,15 +1,15 @@
 #imports
-
+import numpy as np
 
 # user defined functions
 def gcd(*n):
     if len(n) == 0:
         raise SystemExit("Error: at least one argument for gcd.")
-    if len(n) == 1:
+    elif len(n) == 1:
         return n
-    if len(n) == 2:
+    elif len(n) == 2:
         return gcd_2n(*n)
-    if len(n) > 2:
+    else:
         a = n[0]
         for i in n:
             a = gcd_2n(a, i)
@@ -24,18 +24,20 @@ def gcd_2n(a, b):
         b %= a
         if b == 0:
             return a
+
 def lcm(*n):
     if len(n) == 0:
         raise SystemExit("Error: at least one argument for lcm.")
-    if len(n) == 1:
+    elif len(n) == 1:
         return n
-    if len(n) == 2:
+    elif len(n) == 2:
         return lcm_2n(*n)
-    if len(n) > 2:
+    else:
         a = n[0]
         for i in n:
             a = lcm_2n(a, i)
         return a
+
 def lcm_2n(a, b):
     g = gcd_2n(a, b)
     a = a * b / g
