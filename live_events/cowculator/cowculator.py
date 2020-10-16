@@ -1,5 +1,5 @@
 #imports
-import numpy as np, sympy
+import numpy as np
 
 #user def albreto functions
 ##gcd for any amount of numbers
@@ -68,6 +68,10 @@ allf = { 'max' : max, #all functions
          'min' : min,
          'gcd' : gcd,
          'lcm' : lcm }
+fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
+          'min': [1, False],
+          'gcd': [1, False],
+          'lcm': [1, False] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -115,6 +119,7 @@ def tokenize(expr):
                     double_operator = i
             dot = False
         elif i.isalpha(): #letter / function
+            i = i.lower()
             if token_type == 'letter':
                 token += i
             else:
@@ -229,8 +234,11 @@ def shunting(expr):
         else:
             print(f'\033[1;31;1mErorr: unrecognized token {i}')
             return None
-    if parentheses:
-        print('\033[1;31;1mError; expected \')\'')
+    if parentheses > 0:
+        print('\033[1;31;1mError: expected \')\'')
+        return None
+    if parentheses < 0:
+        print('\033[1;31;1mError: unexpected \')\'')
         return None
     for i in range(len(operator)):
         output.append(operator.pop(-1))
@@ -238,10 +246,38 @@ def shunting(expr):
 
 ##evaluate reverse polish expression
 def eval_rp(expr):
-    pass
-
+    numstack = [] #number stack
+    operator = '' #operator / function
+    for i in expr:
+        if type(i) == list: #function
+            min_args = fargs[i[0]][0]
+            max_args = fargs[i[0]][1]
+            if min_args > i[1]:
+                print(f'\033[1;31;1mError: function \'{i}\' must contain at least {min_args} arguments')
+                return None
+            if max_args and max_args < i[1] :
+                print(f'\033[1;31;1mError: function \'{i}\' must not contain more than {max_args} arguments')
+                return None
+            funcargs = []
+            for k in range(i[1]):
+                funcargs.append(numstack.pop(-1))
+            funcargs.reverse()
+            numstack.append(allf[i[0]](*funcargs))
+        elif i in unio: #uni operator
+            numstack.append(allo[i](numstack.pop()))
+        elif i in allo: #operator
+            oargs = [numstack.pop(), numstack.pop()]
+            oargs.reverse()
+            numstack.append(allo[i](*oargs))
+        else: #number
+            numstack.append(float(i))
+    if len(numstack) != 1:
+        print('\033[1;31;1mError: invalid expression')
+        return None
+    return numstack[0]
+           
 #console functions 
-##evaluaate input
+##evaluate input
 def eval_input():
     global current_mode, modes
     inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
@@ -282,7 +318,8 @@ def eval_input():
     else:
         if tokenize(inpt) != None:
             if shunting(tokenize(inpt)) != None:
-                print(f'\033[1;32;1m{shunting(tokenize(inpt))}')
+                if eval_rp(shunting(tokenize(inpt))) != None:
+                    print(f'\033[1;32;1m{eval_rp(shunting(tokenize(inpt)))}')
        
 #main
 if __name__ == '__main__':
