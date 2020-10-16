@@ -33,3 +33,7 @@ WHERE name = "admin" OR name = "ADMIN"; #delete the entries with name as ADMIN t
 SELECT name, test.favfood FROM test; #get certain things from a table you can use test. to make it clearer
 
 SELECT * FROM test ORDER BY test.favfood, id ASC; #order by ascending order A-Z of favfood first, if two has the same then it orders by their id.
+
+SELECT name, password FROM test; #select items from test
+
+SELECT name, password FROM test LIMIT 2; #select items from test
