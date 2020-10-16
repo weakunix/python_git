@@ -182,7 +182,7 @@ QLabel{
                <item>
                 <widget class="QLineEdit" name="UsernameInputS">
                  <property name="placeholderText">
-                  <string>Username</string>
+                  <string>User ID</string>
                  </property>
                 </widget>
                </item>
@@ -331,13 +331,6 @@ QLabel{
                <enum>QFrame::Sunken</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <widget class="QLineEdit" name="UsernameInputR">
-                 <property name="placeholderText">
-                  <string>Username</string>
-                 </property>
-                </widget>
-               </item>
                <item>
                 <widget class="QLineEdit" name="passwordInputR">
                  <property name="font">
@@ -693,8 +686,8 @@ QLabel{
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>220</width>
-            <height>263</height>
+            <width>222</width>
+            <height>267</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -783,7 +776,7 @@ QLabel{
             <x>0</x>
             <y>0</y>
             <width>221</width>
-            <height>263</height>
+            <height>267</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -866,8 +859,8 @@ QLabel{
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>220</width>
-            <height>263</height>
+            <width>222</width>
+            <height>267</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12">
