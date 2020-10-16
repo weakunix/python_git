@@ -221,7 +221,7 @@ def shunting(expr):
                         if type(operator[-j]) == list:
                             operator[-j][1] += 1
                             for l in range(j - 1):
-                                output.append(operator.pop())
+                                output.append(operator.pop(-1))
                             break
                 unioperator = True
             except:
