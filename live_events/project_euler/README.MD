@@ -25,8 +25,7 @@ Because there are two active contributers on this repo. DUH
 We are slackers!
 
 #### Royandl
-- [x] 1 - 50
-- [x] 50 - 100
+- [x] 1 - 100
 
 #### Jasone
 
