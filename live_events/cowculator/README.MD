@@ -6,13 +6,13 @@ This cowculator uses the shunting yard algorithm to convert an expression into a
 
 #### Working functions:
 * Basic operators
- ** +
- ** -
- ** *
- ** /
- ** ^ or **
- ** //
- ** ()
+    ** +
+    ** -
+    ** *
+    ** /
+    ** ^ or **
+    ** //
+    ** ()
 * gcd
 * lcm
 * max
@@ -49,13 +49,13 @@ Don't ask me for a password
 
 ### Things coming in version 1.1:
 #### New functions:
--√ (square root)
--! (factorial)
--!! (double factorial)
--root(x, y) (basically y to the root x (i.e. if y was 8 and x was 3 then it would be cube root y))
--floor(x) (for those people who don't know // is floor)
--ceiling(x) (celing (aka floor(x) + 1 when x is not an integer))
-This is 100% coming out in the 
+* √ (square root)
+* ! (factorial)
+* !! (double factorial)
+* root(x, y) (basically y to the root x (i.e. if y was 8 and x was 3 then it would be cube root y))
+* floor(x) (for those people who don't know // is floor)
+* ceiling(x) (celing (aka floor(x) + 1 when x is not an integer))
+This is 100% coming out in version 1.1 of the Console Cowculator
 
 #### Ans:
 I may add an ans thing which is the following
