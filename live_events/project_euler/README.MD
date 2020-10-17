@@ -1,6 +1,6 @@
 # Project Euler(OILER) Problems
 
-Royandle's favorite thing to do besides [Albreto](https://www.youtube.com/watch?v=JyWqUfb-EAA)!
+Royandle's favorite thing to do besides ~~[Albreto](https://www.youtube.com/watch?v=JyWqUfb-EAA)~~!
 
 ## What the hell is this?
 
