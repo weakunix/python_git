@@ -37,3 +37,5 @@ SELECT * FROM test ORDER BY test.favfood, id ASC; #order by ascending order A-Z 
 SELECT name, password FROM test; #select items from test
 
 SELECT name, password FROM test LIMIT 2; #select items from test
+
+SELECT * FROM test WHERE password in ("password"); #select items from test
