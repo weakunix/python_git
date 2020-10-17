@@ -30,3 +30,5 @@ But the reality is much more complex than that. Here is some stuff you need to d
 * The host has to go to their router settings and configure the port to forward to their local device
 * After every power outage to their ISP or their house they'll have to reconfigure the port (unless you turn on static, in which case, good for you)
 * Beware of firewalls!
+
+Am I talking gibberish? If so look up some articles and tutorials on how to port forward (if you have a Minecraft server hosted locally, you're already ahead of the game!)
