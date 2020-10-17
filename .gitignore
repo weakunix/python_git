@@ -2,3 +2,10 @@
 live_events/bingternet/sites
 live_events/hw/data
 __pycache__/
+.idea/discord.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/python_git.iml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/inspectionProfiles/profiles_settings.xml
