@@ -1,35 +1,35 @@
-#CONSOLE COWCULATOR VERSION INFO AND UPDATES
+# CONSOLE COWCULATOR VERSION INFO AND UPDATES
 
-##VERSION 1.0
-###First official working version of cowculator!
+## VERSION 1.0
+### First official working version of cowculator!
 This cowculator uses the shunting yard algorithm to convert an expression into a reverse polish expression and then get the answer
 
-####Working functions:
+#### Working functions:
 -Basic operators +, -, *, /, ^ or **, //, (, ), uniadd, unisub
 -gcd
 -lcm
 -max
 -min
 
-####Functions
+#### Functions
 Functions command not working cause I am too lazy to code it.
 
-####Modes
+#### Modes
 Modes just shows your current mode and all modes.
 
-####Switch
+#### Switch
 Switch doesn't do anything cause I only coded arithmetic mode right now/
 
-####Exit
+#### Exit
 Exit works cause it's just an exit.
 
-####What's this? A hidden function?
+#### What's this? A hidden function?
 And of course for those people who actually read the readme, I will include a hidden function!
 Of course it's the hidden airplane game (duh it's in every single cowculator version (actually I'm wrong because the first few versions of this cowculator won't cause I haven't coded it yet whoops)).
  
 Type
 ```
-hidden_airplane_game.launch()"
+hidden_airplane_game.launch()
 ```
 Caps or not caps it doesn't matter mate.
 You want to feel like a badass hacker so that's why I used something_something.launch().
@@ -37,11 +37,11 @@ You want to feel like a badass hacker so that's why I used something_something.l
 It will then ask you for a password.
 The password is this:
 ```
-Don't ask me for a password"
+Don't ask me for a password
 ```
 
-###Things coming in version 1.1:
-####New functions:
+### Things coming in version 1.1:
+#### New functions:
 -√ (square root)
 -! (factorial)
 -!! (double factorial)
@@ -50,7 +50,7 @@ Don't ask me for a password"
 -ceiling(x) (celing (aka floor(x) + 1 when x is not an integer))
 This is 100% coming out in the 
 
-####Ans:
+#### Ans:
 I may add an ans thing which is the following
 
 Say your previous equation you typed in was 2 + 2
@@ -62,7 +62,7 @@ In the previous example your answers would be [4, 8] so ans would be 8 and ans2 
 
 I can't guarentee this will be in the version 1.1 of the Console Cowculator
 
-####Airplane Game:
+#### Airplane Game:
 I will make a new file and start working on the airplane game
 This time your progress actually saves!
 
