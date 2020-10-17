@@ -24,7 +24,7 @@ There are two files, host.py and nost.py, host is the guy that has the port forw
 1. Have the client enter the host's EXTERNAL IP ADRESS and their port
 1. Type away!!!
 
-But the reality is much more complex than that. Here is some stuff you need to do before you use this:
+**But the reality is much more complex than that. Here is some stuff you need to do before you use this:**
 
 * Get Python 3.8.5... duh
 * The host has to go to their router settings and configure the port to forward to their local device
@@ -32,3 +32,9 @@ But the reality is much more complex than that. Here is some stuff you need to d
 * Beware of firewalls!
 
 Am I talking gibberish? If so look up some articles and tutorials on how to port forward (if you have a Minecraft server hosted locally, you're already ahead of the game!)
+
+## Test versions
+
+**Beware, these are unstable!**
+
+They behave the same way as regular ones do, however with some experimental features!
