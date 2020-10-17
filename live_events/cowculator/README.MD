@@ -6,9 +6,9 @@ This cowculator uses the shunting yard algorithm to convert an expression into a
 
 #### Working functions:
 * Basic operators
-    * +
-    * -
-    * *
+    * '+'
+    * '-'
+    * '*'
     * /
     * ^ or **
     * //
@@ -40,12 +40,6 @@ hidden_airplane_game.launch()
 ```
 Caps or not caps it doesn't matter mate.
 You want to feel like a badass hacker so that's why I used something_something.launch().
-
-It will then ask you for a password.
-The password is this:
-```
-Don't ask me for a password
-```
 
 ### Things coming in version 1.1:
 #### New functions:
