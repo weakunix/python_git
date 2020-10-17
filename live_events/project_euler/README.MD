@@ -19,3 +19,17 @@ Because there are two active contributers on this repo. DUH
 [Look here](https://projecteuler.net/archives), the problems range from 5% difficulty to 100%. Goodluck! 
 
 *Note: you need an account to submit your answers*
+
+### How much have yall done?
+
+We are slackers!
+
+#### Royandl
+- [x] 1 - 50
+- [x] 50 - 100
+
+#### Jasone
+
+- [x] 1 - 2
+
+Err yea I don't do much. I focus on apps and projects instead :sweat_smile:
