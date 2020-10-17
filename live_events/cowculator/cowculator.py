@@ -46,13 +46,20 @@ def lcm(*args):
 def lcm_for_two(x, y):
     return x * y / gcd_for_two(x, y)
 
+def factorial(x):
+    for i in range(1, x + 1):
+        
+
+def double_factorial(x):
+    pass
+
 #vars
-inpt = '' #user input
+version = 'v1.0' #version
 modes = { 0: 'arithmetic', #modes
           1: 'algebra',
           2: 'fractions',
           3: 'bases' }
-current_mode = 0
+current_momport pdb;pdb.set_trace()ude = 0
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
          '-': lambda x, y: x - y,
@@ -61,9 +68,12 @@ allo = { '+': lambda x, y: x + y, #all operators
          '^': lambda x, y: x ** y,
          '**': lambda x, y: x ** y,
          '//': lambda x, y: x // y,
+         '√': lambda x: x ** (1 / 2),
          'uniadd' : lambda x: x,
-         'unisub' : lambda x: -x }
-unio = { 'uniadd', 'unisub' } #uni operations
+         'unisub' : lambda x: -x,
+         '!': lambda x: factorial(x),
+         '!!': lambda x: double_factorial(x) }
+unio = {'uniadd', 'unisub', '√', '!', '!!'} #uni operations
 allf = { 'max' : max, #all functions
          'min' : min,
          'gcd' : gcd,
@@ -79,8 +89,11 @@ precedence = { '+': 0, #precedence
                '//': 1,
                '^': 2,
                '**': 2,
+               '√': 2,
                'uniadd' : 3,
-               'unisub' : 3 }
+               'unisub' : 3,
+               '!': 4,
+               '!!': 4 }
 
 #reverse polish calculation functions
 ##if string is a float
@@ -108,7 +121,7 @@ def tokenize(expr):
                 dot = False
             if double_operator:
                 double_operator = False
-        elif (i in allo and i not in unio) or i == '(' or i == ')' or i == ',': #operator
+        elif i in allo or i == '(' or i == ')' or i == ',': #operator
             if double_operator == i:
                 token += i
             else:
@@ -144,7 +157,7 @@ def tokenize(expr):
             if double_operator:
                 double_operator = False
         elif i != ' ':
-            print(f'\033[1;31;1mError: unrecognized token {i}')
+            print(f'\033[1;31;1mError: unrecognized token \'{i}\'')
             return None
         if '' in tokenized:
             tokenized.pop()
@@ -170,7 +183,7 @@ def shunting(expr):
                     i = 'uniadd'
                 elif i == '-':
                     i = 'unisub'
-                else:
+                elif i != '√':
                     print(f'\033[1;31;1mError: unrecognized unioperator {i}')
                     return None
             for j in range(1, len(operator) + 1):
@@ -232,7 +245,7 @@ def shunting(expr):
             except:
                 print('\033[1;31;1mError: expected \')\' to end function')
         else:
-            print(f'\033[1;31;1mErorr: unrecognized token {i}')
+            print(f'\033[1;31;1mErorr: unrecognized token \'{i}\'')
             return None
     if parentheses > 0:
         print('\033[1;31;1mError: expected \')\'')
@@ -323,6 +336,6 @@ def eval_input():
        
 #main
 if __name__ == '__main__':
-    print('\033[1;32;1mWelcome to the Cowculator v1.0!\033[0m')
+    print(f'\033[1;32;1mWelcome to the Cowculator {version}!\033[0m')
     while True:
         eval_input()
