@@ -6,9 +6,9 @@ This cowculator uses the shunting yard algorithm to convert an expression into a
 
 #### Working functions:
 * Basic operators
-    * +
-    * -
-    * *
+    * \+
+    * \-
+    * \*
     * /
     * ^ or **
     * //
