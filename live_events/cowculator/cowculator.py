@@ -61,9 +61,10 @@ allo = { '+': lambda x, y: x + y, #all operators
          '^': lambda x, y: x ** y,
          '**': lambda x, y: x ** y,
          '//': lambda x, y: x // y,
+         '√': lambda x: x ** (1 / 2),
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x }
-unio = { 'uniadd', 'unisub' } #uni operations
+unio = {'uniadd', 'unisub', '√'} #uni operations
 allf = { 'max' : max, #all functions
          'min' : min,
          'gcd' : gcd,
@@ -79,6 +80,7 @@ precedence = { '+': 0, #precedence
                '//': 1,
                '^': 2,
                '**': 2,
+               '√': 2,
                'uniadd' : 3,
                'unisub' : 3 }
 
@@ -108,7 +110,7 @@ def tokenize(expr):
                 dot = False
             if double_operator:
                 double_operator = False
-        elif (i in allo and i not in unio) or i == '(' or i == ')' or i == ',': #operator
+        elif i in allo or i == '(' or i == ')' or i == ',': #operator
             if double_operator == i:
                 token += i
             else:
@@ -170,7 +172,7 @@ def shunting(expr):
                     i = 'uniadd'
                 elif i == '-':
                     i = 'unisub'
-                else:
+                elif i != '√':
                     print(f'\033[1;31;1mError: unrecognized unioperator {i}')
                     return None
             for j in range(1, len(operator) + 1):
