@@ -38,8 +38,7 @@ Type
 ```
 hidden_airplane_game.launch()
 ```
-Caps or not caps it doesn't matter mate.
-You want to feel like a badass hacker so that's why I used something_something.launch().
+Caps or not caps it doesn't matter.
 
 ### Things coming in version 1.1:
 #### New functions:
