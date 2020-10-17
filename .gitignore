@@ -9,3 +9,4 @@ __pycache__/
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/inspectionProfiles/profiles_settings.xml
+.vscode
