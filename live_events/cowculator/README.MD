@@ -5,11 +5,18 @@
 This cowculator uses the shunting yard algorithm to convert an expression into a reverse polish expression and then get the answer
 
 #### Working functions:
-*Basic operators +, -, *, /, ^ or **, //, (, )
-*gcd
-*lcm
-*max
-*min
+* Basic operators
+ ** +
+ ** -
+ ** *
+ ** /
+ ** ^ or **
+ ** //
+ ** ()
+* gcd
+* lcm
+* max
+* min
 
 #### Functions
 Functions command not working cause I am too lazy to code it.
