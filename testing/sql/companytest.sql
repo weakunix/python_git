@@ -1,3 +1,5 @@
+use hw;
+
 CREATE TABLE kid (
 	name VARCHAR(20) PRIMARY KEY,
     birth DATE,
@@ -54,3 +56,18 @@ VALUES(
 );
 
 SELECT * from kid;
+
+DROP TABLE kid;
+
+#other stuff here
+SELECT kid.dad AS parent, kid.mom AS parent from kid WHERE name = "brother" OR name = "sister"; 
+
+#count how many ppl have parents
+SELECT COUNT(dad) from kid;
+
+#print the kid that is a girl that is born after 2005
+SELECT *
+FROM kid
+WHERE sex = "F" AND birth > '2005-01-01'
+
+#AVG(), SUM... unused as there is no data of numbers
