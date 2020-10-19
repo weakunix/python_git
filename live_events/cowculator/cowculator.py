@@ -361,7 +361,7 @@ def eval_rp(expr):
 ##evaluate input
 def eval_input():
     global current_mode, modes, answers
-    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
+    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;35;1mClear: Clear all answers\n\033[1;37;1mAnswers: List of all answers\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
         try:
@@ -396,6 +396,23 @@ def eval_input():
         print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
         for i in range(4):
             print(modes[i][0].upper() + modes[i][1:])
+    elif inpt.lower() == 'clear':
+        inpt = input('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAre you sure you want to clear all of your answers?\033[0m\n')
+        try:
+            inpt = inpt.lower()[0]
+        except:
+            inpt = None
+        if inpt == 'y':
+            answers = []
+            print('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAll answers cleared')
+    elif inpt.lower() == 'answers':
+        print('\n' + '\n\033[1;36;1m=' * 50 + '\033[1;37;1m')
+        for i in answers:
+            for j, k in enumerate(i):
+                print(k, end = '')
+                if j != len(i) - 1:
+                    print(',', end = '')
+            print('')
     else:
         answer = tokenize(inpt)
         if answer != None:
