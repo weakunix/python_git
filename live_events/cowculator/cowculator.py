@@ -1,5 +1,5 @@
 #imports
-import numpy as np
+import sympy
 
 #user def albreto functions
 ##gcd for any amount of numbers
@@ -47,11 +47,17 @@ def lcm_for_two(x, y):
     return x * y / gcd_for_two(x, y)
 
 def factorial(x):
+    prod = 1
     for i in range(1, x + 1):
-        
+        prod *= i
+    return prod
 
 def double_factorial(x):
-    pass
+    prod = 1
+    for i in range(x % 2, x + 1, 2):
+        if i != 0:
+            prod *= i
+    return prod
 
 #vars
 version = 'v1.0' #version
@@ -59,7 +65,7 @@ modes = { 0: 'arithmetic', #modes
           1: 'algebra',
           2: 'fractions',
           3: 'bases' }
-current_momport pdb;pdb.set_trace()ude = 0
+current_mode = 0
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
          '-': lambda x, y: x - y,
@@ -71,9 +77,9 @@ allo = { '+': lambda x, y: x + y, #all operators
          '√': lambda x: x ** (1 / 2),
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x,
-         '!': lambda x: factorial(x),
-         '!!': lambda x: double_factorial(x) }
-unio = {'uniadd', 'unisub', '√', '!', '!!'} #uni operations
+         '!': lambda x, y: factorial(x),
+         '!!': lambda x, y: double_factorial(x) }
+unio = {'uniadd', 'unisub', '√'} #uni operations
 allf = { 'max' : max, #all functions
          'min' : min,
          'gcd' : gcd,
@@ -101,7 +107,7 @@ def is_number(s):
     try:
         return float(s)
     except:
-        return False
+        return None
 
 ##tokenize numbers and symbols
 def tokenize(expr):
@@ -124,11 +130,12 @@ def tokenize(expr):
         elif i in allo or i == '(' or i == ')' or i == ',': #operator
             if double_operator == i:
                 token += i
+                double_operator = False
             else:
                 tokenized.append(token)
                 token = i
                 token_type = 'operator'
-                if i == '*' or i == '/':
+                if i == '*' or i == '/' or i == '!':
                     double_operator = i
             dot = False
         elif i.isalpha(): #letter / function
@@ -161,7 +168,17 @@ def tokenize(expr):
             return None
         if '' in tokenized:
             tokenized.pop()
+        try:
+            if tokenized[-1] == '!' or tokenized[-1] == '!!':
+                tokenized.append('0')
+        except:
+            pass
     tokenized.append(token)
+    try:
+        if tokenized[-1] == '!' or tokenized[-1] == '!!':
+            tokenized.append('0')
+    except:
+        pass
     return tokenized
 
 ##shunting yard algorithm for shunting
@@ -174,7 +191,7 @@ def shunting(expr):
     parentheses = 0 #number of parentheses
     for k, i in enumerate(expr):
         operators_to_pop = []
-        if is_number(i): #number
+        if is_number(i) != None: #number
             output.append(i)
             unioperator = False
         elif i in allo: #operator
@@ -281,6 +298,10 @@ def eval_rp(expr):
         elif i in allo: #operator
             oargs = [numstack.pop(), numstack.pop()]
             oargs.reverse()
+            if i == '!' or i == '!!':
+                if int(oargs[0]) != oargs[0]:
+                    return None
+                oargs[0] = int(oargs[0])
             numstack.append(allo[i](*oargs))
         else: #number
             numstack.append(float(i))
