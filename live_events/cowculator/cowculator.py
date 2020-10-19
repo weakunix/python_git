@@ -102,7 +102,8 @@ modes = { 0: 'arithmetic', #modes
           1: 'algebra',
           2: 'fractions',
           3: 'bases' }
-current_mode = 0
+current_mode = 0 #current mode
+style = False #style, False = normal, True = terminal
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
          '-': lambda x, y: x - y,
@@ -358,9 +359,9 @@ def eval_rp(expr):
     return numstack[0]
            
 #console functions 
-##evaluate input
+##evaluate input normal
 def eval_input():
-    global current_mode, modes, answers
+    global current_mode, modes, style, answers
     inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;35;1mClear: Clear all answers\n\033[1;37;1mAnswers: List of all answers\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
@@ -406,13 +407,18 @@ def eval_input():
             answers = []
             print('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAll answers cleared')
     elif inpt.lower() == 'answers':
-        print('\n' + '\n\033[1;36;1m=' * 50 + '\033[1;37;1m')
-        for i in answers:
-            for j, k in enumerate(i):
-                print(k, end = '')
-                if j != len(i) - 1:
-                    print(',', end = '')
-            print('')
+        print('\n' + '\033[1;36;1m=' * 50 + '\n\033[1;37;1m')
+        if answers != []:
+            for i in answers:
+                for j, k in enumerate(i):
+                    print(k, end = '')
+                    if j != len(i) - 1:
+                        print(',', end = '')
+                print('')
+        else:
+            print('None')
+    elif inpt.lower() == 'terminal':
+        style = True
     else:
         answer = tokenize(inpt)
         if answer != None:
@@ -426,8 +432,16 @@ def eval_input():
                     else:
                         answers.append(answer)
 
+##evaluate input terminal style
+def terminal_eval_input():
+    global current_mode, modes, style, answers
+    pass #TODO make terminal style 
+
 #main
 if __name__ == '__main__':
     print(f'\033[1;32;1mWelcome to the Cowculator {version}!\033[0m')
     while True:
-        eval_input()
+        if style:
+            terminal_eval_input()
+        else:
+            eval_input()
