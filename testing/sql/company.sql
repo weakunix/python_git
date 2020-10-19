@@ -26,4 +26,4 @@ INSERT INTO mootbing
 
 DROP TABLE mootbing;
 
-SELECT * FROM mootbing WHERE mootbing.nam LIKE "%LLC" OR mootbing.nam LIKE "%LLC%";
+SELECT * FROM mootbing WHERE mootbing.nam LIKE "%LLC%";
