@@ -65,6 +65,12 @@ def double_factorial(x):
 def root(x, y):
     return y ** (1 / x)
 
+#ceiling
+def ceiling(x):
+    if int(x) == x:
+        return int(x)
+    return int(x) + 1
+
 #vars
 version = 'v1.0' #version
 modes = { 0: 'arithmetic', #modes
@@ -90,12 +96,17 @@ allf = { 'max': max, #all functions
          'min': min,
          'gcd': gcd,
          'lcm': lcm,
-         'root': root }
+         'root': root,
+         'floor': lambda x: int(x),
+         'ceiling': ceiling }
+
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
           'lcm': [1, False],
-          'root': [2, 2] }
+          'root': [2, 2],
+          'floor': [1, 1],
+          'ceiling': [1, 1] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -294,7 +305,7 @@ def eval_rp(expr):
                 print(f'\033[1;31;1mError: function \'{i[0]}\' must contain at least {min_args} arguments')
                 return None
             if max_args and max_args < i[1] :
-                print(f'\033[1;31;1mError: function \'{i}\' must not contain more than {max_args} arguments')
+                print(f'\033[1;31;1mError: function \'{i[0]}\' must not contain more than {max_args} arguments')
                 return None
             funcargs = []
             for k in range(i[1]):
