@@ -25,7 +25,7 @@ Functions command not working cause I am too lazy to code it.
 Modes just shows your current mode and all modes.
 
 #### Switch
-Switch doesn't do anything cause I only coded arithmetic mode right now/
+Switch doesn't do anything cause I only coded arithmetic mode right now
 
 #### Exit
 Exit works cause it's just an exit.
