@@ -71,8 +71,33 @@ def ceiling(x):
         return int(x)
     return int(x) + 1
 
+#previous answers
+def ans(x = 1, y = 1):
+    try:
+       x = int(x)
+    except:
+        print(f'\033[1;31;1mError: {x} must be an integer')
+        return None
+    try:
+        y = int(y)
+    except:
+        print(f'\033[1;31;1mError: {y} must be an integer')
+        return None
+    try:
+        previous_answer = answers[-x]
+    except:
+        print(f'\033[1;31;1mError: answer {x} does not exist')
+        return None
+    try:
+        previous_answer = previous_answer[y - 1]
+    except:
+        print(f'\033[1;31;1mError: index {y} of answer {x} does not exist')
+        return None
+    return previous_answer
+
 #vars
 version = 'v1.0' #version
+answers = [] #answers
 modes = { 0: 'arithmetic', #modes
           1: 'algebra',
           2: 'fractions',
@@ -98,15 +123,16 @@ allf = { 'max': max, #all functions
          'lcm': lcm,
          'root': root,
          'floor': lambda x: int(x),
-         'ceiling': ceiling }
-
+         'ceiling': ceiling,
+         'ans': ans }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
           'lcm': [1, False],
           'root': [2, 2],
           'floor': [1, 1],
-          'ceiling': [1, 1] }
+          'ceiling': [1, 1],
+          'ans': [0, 2] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -312,6 +338,8 @@ def eval_rp(expr):
                 funcargs.append(numstack.pop(-1))
             funcargs.reverse()
             numstack.append(allf[i[0]](*funcargs))
+            if numstack[-1] == None:
+                return None
         elif i in unio: #uni operator
             numstack.append(allo[i](numstack.pop()))
         elif i in allo: #operator
@@ -332,7 +360,7 @@ def eval_rp(expr):
 #console functions 
 ##evaluate input
 def eval_input():
-    global current_mode, modes
+    global current_mode, modes, answers
     inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
@@ -369,11 +397,18 @@ def eval_input():
         for i in range(4):
             print(modes[i][0].upper() + modes[i][1:])
     else:
-        if tokenize(inpt) != None:
-            if shunting(tokenize(inpt)) != None:
-                if eval_rp(shunting(tokenize(inpt))) != None:
-                    print(f'\033[1;32;1m{eval_rp(shunting(tokenize(inpt)))}')
-       
+        answer = tokenize(inpt)
+        if answer != None:
+            answer = shunting(answer)
+            if answer != None:
+                answer = eval_rp(answer)
+                if answer != None:
+                    print(f'\033[1;32;1m{answer}')
+                    if type(answer) == float or type(answer) == int:
+                        answers.append([answer])
+                    else:
+                        answers.append(answer)
+
 #main
 if __name__ == '__main__':
     print(f'\033[1;32;1mWelcome to the Cowculator {version}!\033[0m')
