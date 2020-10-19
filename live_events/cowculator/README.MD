@@ -63,7 +63,7 @@ In the previous example your answers would be [4, 8] so ans would be 8 and ans2 
 I can't guarentee this will be in the version 1.1 of the Console Cowculator
 
 #### Airplane Game:
-I will make a new file and start working on the airplane game
+I will make a new file and start working on the airplane game.
 This time your progress actually saves!
 
 I can't guarentee this will be in the version 1.1 of the Console Cowculator
