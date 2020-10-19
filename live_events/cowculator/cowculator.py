@@ -46,18 +46,24 @@ def lcm(*args):
 def lcm_for_two(x, y):
     return x * y / gcd_for_two(x, y)
 
+#factorial
 def factorial(x):
     prod = 1
     for i in range(1, x + 1):
         prod *= i
     return prod
 
+#double factorial
 def double_factorial(x):
     prod = 1
     for i in range(x % 2, x + 1, 2):
         if i != 0:
             prod *= i
     return prod
+
+#root
+def root(x, y):
+    return y ** (1 / x)
 
 #vars
 version = 'v1.0' #version
@@ -80,14 +86,16 @@ allo = { '+': lambda x, y: x + y, #all operators
          '!': lambda x, y: factorial(x),
          '!!': lambda x, y: double_factorial(x) }
 unio = {'uniadd', 'unisub', '√'} #uni operations
-allf = { 'max' : max, #all functions
-         'min' : min,
-         'gcd' : gcd,
-         'lcm' : lcm }
+allf = { 'max': max, #all functions
+         'min': min,
+         'gcd': gcd,
+         'lcm': lcm,
+         'root': root }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
-          'lcm': [1, False] }
+          'lcm': [1, False],
+          'root': [2, 2] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -283,7 +291,7 @@ def eval_rp(expr):
             min_args = fargs[i[0]][0]
             max_args = fargs[i[0]][1]
             if min_args > i[1]:
-                print(f'\033[1;31;1mError: function \'{i}\' must contain at least {min_args} arguments')
+                print(f'\033[1;31;1mError: function \'{i[0]}\' must contain at least {min_args} arguments')
                 return None
             if max_args and max_args < i[1] :
                 print(f'\033[1;31;1mError: function \'{i}\' must not contain more than {max_args} arguments')
