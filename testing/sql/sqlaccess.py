@@ -20,7 +20,7 @@ inject = ("INSERT INTO test "
 for i in range(random.randint(0,20)):
     cursor.execute(inject, (
         "".join([random.choice(string.ascii_letters) for i in range(random.randint(1, 10))])
-        , "".join([random.choice(string.ascii_letters) for i in range(random.randint1, 10))])
+        , "".join([random.choice(string.ascii_letters) for i in range(random.randint(1, 10))])
         )
     )
     cnx.commit()

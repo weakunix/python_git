@@ -1,11 +1,15 @@
-#IMPORT FILES
-from QTgenerated import hw_main_window as mw, application, login
-from handlers import filehandler, newhandler
+#System imports
+import sys
+import webbrowser
 
-#other python imports
+#PYQT5 imports
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-import webbrowser, sys
+
+#import files
+from handlers import filehandler, newhandler, sqlhandler
+from QTgenerated import application, hw_main_window as mw, login
+
 
 class hwMainWindow(mw.Ui_MainWindow):
     def __init__(self, main_window):
