@@ -12,7 +12,7 @@ def setup():
     cnx = mysql.connector.connect(**config)
     return cnx
 
-def inject(database, keys, values):
+def write(database, keys, values):
     cnx = setup()
     cursor  = cnx.cursor()
     try:
@@ -24,13 +24,13 @@ def inject(database, keys, values):
         cursor.execute(inject, (database, keys, values)) #injects username and password as new set in database
         cnx.commit()
         cleanUp(cnx, cursor)
-        return getSelected(database, "*")
+        return read(database, "*")
     except Exception:
         cleanUp(cnx, cursor)
         print(Exception)
         return False
 
-def getSelected(database, selected):
+def read(database, selected):
     cnx = setup()
     cursor  = cnx.cursor()
     try:
@@ -42,3 +42,6 @@ def getSelected(database, selected):
         cleanUp(cnx, cursor)
         print(Exception)
         return False
+
+if __name__ == "__main__":
+    raise SystemExit("wrong file again... smh")
