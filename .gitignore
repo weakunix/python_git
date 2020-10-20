@@ -10,3 +10,4 @@ __pycache__/
 .idea/workspace.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .vscode
+testing/sql/cornfiguration.json

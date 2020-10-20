@@ -9,7 +9,7 @@ keyboardsim = Controller()
 
 while True:
     if keyboard.is_pressed('q'):
-        for i in range(10000):
+        for i in range(100):
             a = []
             for er in range(random.randint(1, 5)):
                 a.append(alphabet[random.randint(0, len(alphabet) - 1)])
