@@ -1,5 +1,5 @@
 #imports
-import numpy as np
+import sympy
 
 #user def albreto functions
 ##gcd for any amount of numbers
@@ -46,20 +46,64 @@ def lcm(*args):
 def lcm_for_two(x, y):
     return x * y / gcd_for_two(x, y)
 
+#factorial
 def factorial(x):
+    prod = 1
     for i in range(1, x + 1):
-        
+        prod *= i
+    return prod
 
+#double factorial
 def double_factorial(x):
-    pass
+    prod = 1
+    for i in range(x % 2, x + 1, 2):
+        if i != 0:
+            prod *= i
+    return prod
+
+#root
+def root(x, y):
+    return y ** (1 / x)
+
+#ceiling
+def ceiling(x):
+    if int(x) == x:
+        return int(x)
+    return int(x) + 1
+
+#previous answers
+def ans(x = 1, y = 1):
+    try:
+       x = int(x)
+    except:
+        print(f'\033[1;31;1mError: {x} must be an integer')
+        return None
+    try:
+        y = int(y)
+    except:
+        print(f'\033[1;31;1mError: {y} must be an integer')
+        return None
+    try:
+        previous_answer = answers[-x]
+    except:
+        print(f'\033[1;31;1mError: answer {x} does not exist')
+        return None
+    try:
+        previous_answer = previous_answer[y - 1]
+    except:
+        print(f'\033[1;31;1mError: index {y} of answer {x} does not exist')
+        return None
+    return previous_answer
 
 #vars
 version = 'v1.0' #version
+answers = [] #answers
 modes = { 0: 'arithmetic', #modes
           1: 'algebra',
           2: 'fractions',
           3: 'bases' }
-current_momport pdb;pdb.set_trace()ude = 0
+current_mode = 0 #current mode
+style = False #style, False = normal, True = terminal
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
          '-': lambda x, y: x - y,
@@ -71,17 +115,25 @@ allo = { '+': lambda x, y: x + y, #all operators
          '√': lambda x: x ** (1 / 2),
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x,
-         '!': lambda x: factorial(x),
-         '!!': lambda x: double_factorial(x) }
-unio = {'uniadd', 'unisub', '√', '!', '!!'} #uni operations
-allf = { 'max' : max, #all functions
-         'min' : min,
-         'gcd' : gcd,
-         'lcm' : lcm }
+         '!': lambda x, y: factorial(x),
+         '!!': lambda x, y: double_factorial(x) }
+unio = {'uniadd', 'unisub', '√'} #uni operations
+allf = { 'max': max, #all functions
+         'min': min,
+         'gcd': gcd,
+         'lcm': lcm,
+         'root': root,
+         'floor': lambda x: int(x),
+         'ceiling': ceiling,
+         'ans': ans }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
-          'lcm': [1, False] }
+          'lcm': [1, False],
+          'root': [2, 2],
+          'floor': [1, 1],
+          'ceiling': [1, 1],
+          'ans': [0, 2] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -101,7 +153,7 @@ def is_number(s):
     try:
         return float(s)
     except:
-        return False
+        return None
 
 ##tokenize numbers and symbols
 def tokenize(expr):
@@ -124,11 +176,12 @@ def tokenize(expr):
         elif i in allo or i == '(' or i == ')' or i == ',': #operator
             if double_operator == i:
                 token += i
+                double_operator = False
             else:
                 tokenized.append(token)
                 token = i
                 token_type = 'operator'
-                if i == '*' or i == '/':
+                if i == '*' or i == '/' or i == '!':
                     double_operator = i
             dot = False
         elif i.isalpha(): #letter / function
@@ -161,7 +214,17 @@ def tokenize(expr):
             return None
         if '' in tokenized:
             tokenized.pop()
+        try:
+            if tokenized[-1] == '!' or tokenized[-1] == '!!':
+                tokenized.append('0')
+        except:
+            pass
     tokenized.append(token)
+    try:
+        if tokenized[-1] == '!' or tokenized[-1] == '!!':
+            tokenized.append('0')
+    except:
+        pass
     return tokenized
 
 ##shunting yard algorithm for shunting
@@ -174,7 +237,7 @@ def shunting(expr):
     parentheses = 0 #number of parentheses
     for k, i in enumerate(expr):
         operators_to_pop = []
-        if is_number(i): #number
+        if is_number(i) != None: #number
             output.append(i)
             unioperator = False
         elif i in allo: #operator
@@ -266,21 +329,27 @@ def eval_rp(expr):
             min_args = fargs[i[0]][0]
             max_args = fargs[i[0]][1]
             if min_args > i[1]:
-                print(f'\033[1;31;1mError: function \'{i}\' must contain at least {min_args} arguments')
+                print(f'\033[1;31;1mError: function \'{i[0]}\' must contain at least {min_args} arguments')
                 return None
             if max_args and max_args < i[1] :
-                print(f'\033[1;31;1mError: function \'{i}\' must not contain more than {max_args} arguments')
+                print(f'\033[1;31;1mError: function \'{i[0]}\' must not contain more than {max_args} arguments')
                 return None
             funcargs = []
             for k in range(i[1]):
                 funcargs.append(numstack.pop(-1))
             funcargs.reverse()
             numstack.append(allf[i[0]](*funcargs))
+            if numstack[-1] == None:
+                return None
         elif i in unio: #uni operator
             numstack.append(allo[i](numstack.pop()))
         elif i in allo: #operator
             oargs = [numstack.pop(), numstack.pop()]
             oargs.reverse()
+            if i == '!' or i == '!!':
+                if int(oargs[0]) != oargs[0]:
+                    return None
+                oargs[0] = int(oargs[0])
             numstack.append(allo[i](*oargs))
         else: #number
             numstack.append(float(i))
@@ -290,10 +359,10 @@ def eval_rp(expr):
     return numstack[0]
            
 #console functions 
-##evaluate input
+##evaluate input normal
 def eval_input():
-    global current_mode, modes
-    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
+    global current_mode, modes, style, answers
+    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;35;1mClear: Clear all answers\n\033[1;37;1mAnswers: List of all answers\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
         try:
@@ -328,14 +397,51 @@ def eval_input():
         print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
         for i in range(4):
             print(modes[i][0].upper() + modes[i][1:])
+    elif inpt.lower() == 'clear':
+        inpt = input('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAre you sure you want to clear all of your answers?\033[0m\n')
+        try:
+            inpt = inpt.lower()[0]
+        except:
+            inpt = None
+        if inpt == 'y':
+            answers = []
+            print('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAll answers cleared')
+    elif inpt.lower() == 'answers':
+        print('\n' + '\033[1;36;1m=' * 50 + '\n\033[1;37;1m')
+        if answers != []:
+            for i in answers:
+                for j, k in enumerate(i):
+                    print(k, end = '')
+                    if j != len(i) - 1:
+                        print(',', end = '')
+                print('')
+        else:
+            print('None')
+    elif inpt.lower() == 'terminal':
+        style = True
     else:
-        if tokenize(inpt) != None:
-            if shunting(tokenize(inpt)) != None:
-                if eval_rp(shunting(tokenize(inpt))) != None:
-                    print(f'\033[1;32;1m{eval_rp(shunting(tokenize(inpt)))}')
-       
+        answer = tokenize(inpt)
+        if answer != None:
+            answer = shunting(answer)
+            if answer != None:
+                answer = eval_rp(answer)
+                if answer != None:
+                    print(f'\033[1;32;1m{answer}')
+                    if type(answer) == float or type(answer) == int:
+                        answers.append([answer])
+                    else:
+                        answers.append(answer)
+
+##evaluate input terminal style
+def terminal_eval_input():
+    global current_mode, modes, style, answers
+    pass #TODO make terminal style 
+
 #main
 if __name__ == '__main__':
     print(f'\033[1;32;1mWelcome to the Cowculator {version}!\033[0m')
     while True:
-        eval_input()
+        if style:
+            terminal_eval_input()
+        else:
+            eval_input()
