@@ -16,6 +16,16 @@ Download the app version here on [our website]()/[AppStore]().
 
 ### Source Code Download
 
+#### Dependencies
+
+*These are the exact name(s) of the packages, just use pip3 install (name)*
+
+* PyQt5
+* webbrowser
+* mysql-connector-python
+* json
+* 
+
 Download to run source code:
 
 1. Make sure you have Python 3.8.5 installed! If not, you can go [here](https://www.python.org/downloads/).
