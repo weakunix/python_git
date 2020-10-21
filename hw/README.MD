@@ -35,6 +35,7 @@ Download to run source code:
 * webbrowser (should be installed with python listed here just in case)
 * json (should be installed with python listed here just in case)
 * random (should be installed with python listed here just in case)
+* datetime (should be installed with python listed here just in case)
 
 3. Then, pip install PyQt5 and other dependencies
 
