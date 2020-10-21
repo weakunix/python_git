@@ -33,10 +33,3 @@ class File():
         prefixes[str(key)] = value
         with open(fileFolder+filename, 'w') as brrr:
             json.dump(prefixes, brrr, indent=4)
-
-    @staticmethod 
-    def checkForUserAlreadyExists(username):
-        data = File.getFileContents("logininfo.json")
-        if username in data:
-            return True
-        return False

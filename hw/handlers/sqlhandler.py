@@ -12,36 +12,54 @@ def setup():
     cnx = mysql.connector.connect(**config)
     return cnx
 
-def write(database, keys, values):
+def write(table, keys, values):
     cnx = setup()
     cursor  = cnx.cursor()
     try:
         inject = (
-            "INSERT INTO %s "
-            "(%s) "
-            "VALUES (%s);"
+            f"INSERT INTO {table} ({keys}) VALUES ({values});"
         )
-        cursor.execute(inject, (database, keys, values)) #injects username and password as new set in database
+        cursor.execute(inject, (table, keys, values)) #injects username and password as new set in database
         cnx.commit()
         cleanUp(cnx, cursor)
-        return read(database, "*")
-    except Exception:
+        return read(table, "*")
+    except Exception as e:
         cleanUp(cnx, cursor)
-        print(Exception)
+        print(e)
         return False
 
-def read(database, selected):
+def read(table, selected, condition = "", order = ""):
     cnx = setup()
     cursor  = cnx.cursor()
     try:
-        query = ("Select %s FROM %s")
-        cursor.execute(query, (selected, database))
+        query = (f"SELECT {selected} FROM {table} {condition} {order};")
+        cursor.execute(query)
+        arrayOfItems = []
+        for item in cursor:
+            arrayOfItems.append(item)
         cleanUp(cnx, cursor)
-        return cursor #gotta do whatever with the values
-    except Exception:
+        return arrayOfItems
+    except Exception as e:
         cleanUp(cnx, cursor)
-        print(Exception)
+        print(e)
         return False
 
+def checkForDuplicate(table, key, valueofdupe):
+    data = read(table, key)
+    if valueofdupe in data:
+        return True
+    return False
+
+'''
+@staticmethod 
+    def checkForUserAlreadyExists(username):
+        data = File.getFileContents("logininfo.json")
+        if username in data:
+            return True
+        return False
+'''
+
 if __name__ == "__main__":
-    raise SystemExit("wrong file again... smh")
+    arrayOfItems = read("kid", "*")
+    print(arrayOfItems)
+    #raise SystemExit("wrong file again... smh")
