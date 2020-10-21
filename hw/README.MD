@@ -32,11 +32,11 @@ Download to run source code:
 
 * PyQt5
 * mysql-connector-python
-* webbrowser (should be installed with python
+* webbrowser (should be installed with python)
 * json (should be installed with python)
 * random (should be installed with python)
 
-3. Then, pip install PyQt5 and other dependencies (if you haven't installed them already)
+3. Then, pip install PyQt5 and other dependencies
 
     ```bash
     pip3 install PyQt5
