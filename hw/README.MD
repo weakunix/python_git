@@ -25,8 +25,18 @@ Download to run source code:
     ```bash
     git clone https://github.com/weakunix/python_git.git
     ```
+ 
+#### Dependencies
 
-3. Then, pip install PyQt5 (if you haven't done so already)
+*These are the exact name(s) of the modules, just use pip3 install (name)*
+
+* PyQt5
+* mysql-connector-python
+* webbrowser (should be installed with python listed here just in case)
+* json (should be installed with python listed here just in case)
+* random (should be installed with python listed here just in case)
+
+3. Then, pip install PyQt5 and other dependencies
 
     ```bash
     pip3 install PyQt5
@@ -58,7 +68,7 @@ Download to run source code:
 
 ## Contributor:
 
-For contributing info and guidelines, refer to "[CONTRIBUTE.MD](https://github.com/weakunix/python_git/blob/master/hw/CONTRIBUTE.MD)"
+For contributing info (dependencies and guidelines etc), refer to "[CONTRIBUTE.MD](https://github.com/weakunix/python_git/blob/master/hw/CONTRIBUTE.MD)"
 
 ## License
 [MIT License. ](https://choosealicense.com/licenses/mit/)
