@@ -26,15 +26,15 @@ Download to run source code:
     git clone https://github.com/weakunix/python_git.git
     ```
  
-### Dependencies
+#### Dependencies
 
-*These are the exact name(s) of the packages, just use pip3 install (name)*
+*These are the exact name(s) of the modules, just use pip3 install (name)*
 
 * PyQt5
-* webbrowser
 * mysql-connector-python
-* json
-* 
+* webbrowser (should be installed with python
+* json (should be installed with python)
+* random (should be installed with python)
 
 3. Then, pip install PyQt5 and other dependencies (if you haven't installed them already)
 
