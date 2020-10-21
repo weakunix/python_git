@@ -70,3 +70,8 @@ I will make a new file and start working on the airplane game.
 This time your progress actually saves!
 
 I can't guarentee this will be in the version 1.1 of the Console Cowculator
+
+## VERSION 1.1
+### What changed?
+Nothing really.
+All I did was fix some not big deal bugs and add new functions.
