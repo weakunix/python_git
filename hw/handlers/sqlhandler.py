@@ -2,6 +2,7 @@
 import mysql.connector
 import json
 import random
+import datetime
 
 def cleanUp(cursor, cnx):
     cursor.close()
@@ -50,10 +51,8 @@ def read(table, selected, condition = "", order = ""):
         return False
 
 def checkForDuplicate(table, key, valueofdupe):
-    data = read(table, key)
-    if valueofdupe in data:
-        return True
-    return False
+    data = read(table, key, f'''WHERE {key} = "{valueofdupe}"''')
+    return True if data != [] else False
 
 '''
 @staticmethod 
@@ -66,6 +65,6 @@ def checkForDuplicate(table, key, valueofdupe):
 
 if __name__ == "__main__":
     #arrayOfItems = read("kid", "*")
-    #arrayOfItems = write("kid", '''"person",  "1933-1-2", "F", "B+", Null, Null''')
-    #print(arrayOfItems)
+    #print(checkForDuplicate("kid", "blood", "O "))
+    #print(write("kid", '''"person",  "1933-1-2", "F", "B+", Null, Null'''))
     raise SystemExit("wrong file again... smh")
