@@ -12,14 +12,19 @@ def setup():
     cnx = mysql.connector.connect(**config)
     return cnx
 
-def write(table, keys, values):
+def write(table, values, keys = ""):
     cnx = setup()
     cursor  = cnx.cursor()
     try:
-        inject = (
-            f"INSERT INTO {table} ({keys}) VALUES ({values});"
-        )
-        cursor.execute(inject, (table, keys, values)) #injects username and password as new set in database
+        if keys != "":
+            inject = (
+                f"INSERT INTO {table} ({keys}) VALUES ({values});"
+            )
+        else:
+            inject = (
+                f"INSERT INTO {table} VALUES ({values});"
+            )
+        cursor.execute(inject) #injects username and password as new set in database
         cnx.commit()
         cleanUp(cnx, cursor)
         return read(table, "*")
@@ -60,6 +65,7 @@ def checkForDuplicate(table, key, valueofdupe):
 '''
 
 if __name__ == "__main__":
-    arrayOfItems = read("kid", "*")
-    print(arrayOfItems)
-    #raise SystemExit("wrong file again... smh")
+    #arrayOfItems = read("kid", "*")
+    #arrayOfItems = write("kid", '''"person",  "1933-1-2", "F", "B+", Null, Null''')
+    #print(arrayOfItems)
+    raise SystemExit("wrong file again... smh")
