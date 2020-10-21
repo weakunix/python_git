@@ -54,15 +54,6 @@ def checkForDuplicate(table, key, valueofdupe):
     data = read(table, key, f'''WHERE {key} = "{valueofdupe}"''')
     return True if data != [] else False
 
-'''
-@staticmethod 
-    def checkForUserAlreadyExists(username):
-        data = File.getFileContents("logininfo.json")
-        if username in data:
-            return True
-        return False
-'''
-
 if __name__ == "__main__":
     #arrayOfItems = read("kid", "*")
     #print(checkForDuplicate("kid", "blood", "O "))
