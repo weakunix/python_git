@@ -14,19 +14,6 @@ class File():
             return False
 
     @staticmethod
-    def checkForUserInDatabase(username, password):
-        data = File.getFileContents("logininfo.json")
-        try:
-            if username in data:
-                if password == data[str(username)][0]:
-                    return "True"
-                return "BADPASSWORD"
-            return "False"
-        except Exception as e:
-            print(e)
-            return "False"
-
-    @staticmethod
     def jason_it(filename, key, value):
         with open(fileFolder+filename, 'r') as brr:
             prefixes = json.load(brr)
