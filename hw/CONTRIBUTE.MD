@@ -1,16 +1,6 @@
 # CONTRIBUTION TO THE PROJECT
 We appreciate your kindness to contribute! Here are some guidelines and tips to get you started!
 
-## Dependencies
-
-*These are the exact name(s) of the packages, just use pip3 install (name)*
-
-* PyQt5
-* webbrowser
-* mysql-connector-python
-* json
-* 
-
 ## File Modifications:
 
 **DISCLAIMER WE ARE NO WAY RESPONSIBLE IF YOU BREAK YOUR APPLICATION/LOSE DATA, YOU ARE RESPONSABLE FOR ALL OUTCOMES OF TAMPERING WITH FILES**
