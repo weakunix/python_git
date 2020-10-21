@@ -1,5 +1,8 @@
 # CONSOLE COWCULATOR VERSION INFO AND UPDATES
 
+## DEPENDENCIES
+* sympy (for algebra)
+
 ## VERSION 1.0
 ### First official working version of cowculator!
 This cowculator uses the shunting yard algorithm to convert an expression into a reverse polish expression and then get the answer
