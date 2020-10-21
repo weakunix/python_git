@@ -121,6 +121,7 @@ allo = { '+': lambda x, y: x + y, #all operators
          '**': lambda x, y: x ** y,
          '//': lambda x, y: x // y,
          '√': lambda x: x ** (1 / 2),
+         'mod': lambda x, y: x % y,
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x,
          '!': lambda x, y: factorial(x),
@@ -129,6 +130,7 @@ unio = {'uniadd', 'unisub', '√'} #uni operations
 allf = { 'max': max, #all functions
          'min': min,
          'gcd': gcd,
+         'gcf': gcd,
          'lcm': lcm,
          'root': root,
          'floor': lambda x: int(x),
@@ -137,6 +139,7 @@ allf = { 'max': max, #all functions
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
+          'gcf': [1, False],
           'lcm': [1, False],
           'root': [2, 2],
           'floor': [1, 1],
@@ -196,6 +199,8 @@ def tokenize(expr):
             i = i.lower()
             if token_type == 'letter':
                 token += i
+                if token in allo:
+                    token_type = 'operator'
             else:
                 tokenized.append(token)
                 token = i
