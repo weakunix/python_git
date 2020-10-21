@@ -87,7 +87,7 @@ Well it's just the functions listed above in "Things coming in version 1.1" but 
 * ceiling(x) (celing (aka floor(x) + 1 when x is not an integer))
 (Totally didn't copy and paste that)
 
-#### Ans
+#### Ans:
 This is added!
 
 Everytime you get an answer it will be added to your answers list.
@@ -101,7 +101,7 @@ x is which answer you want (i.e. if your answer list is [1, 2, 3] ans(1) is 3 an
 y is the index of your answer.
 This is only used when you have a multiple number solution (i.e. prime factor 6 = 2, 3 so your answer would be [2, 3]. if you set y to 1 it would be 2, if you set y to 2 it would be 3).
 
-#### Bug fixes
+#### Bug fixes:
 Before if you typed something like this:
 ```
 exit6
@@ -120,7 +120,7 @@ They don't notice that exit6 is not going to exit the program.
 This is what I meant by not big deal bug fixes.
 Oh well.
 
-#### Airplane Game
+#### Airplane Game:
 Nope, sorry this isn't out yet.
 I don't see this coming out anytime soon because this is really just a few if statements which is quite boring to code.
 It may be coded later.
