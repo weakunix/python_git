@@ -58,7 +58,7 @@ Download to run source code:
 
 ## Contributor:
 
-For contributing info and guidelines, refer to "[CONTRIBUTE.MD](https://github.com/weakunix/python_git/blob/master/hw/CONTRIBUTE.MD)"
+For contributing info (dependencies and guidelines etc), refer to "[CONTRIBUTE.MD](https://github.com/weakunix/python_git/blob/master/hw/CONTRIBUTE.MD)"
 
 ## License
 [MIT License. ](https://choosealicense.com/licenses/mit/)
