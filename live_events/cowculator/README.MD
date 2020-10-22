@@ -132,6 +132,7 @@ It may be coded later.
 * median(\*args) (median of all arguments)
 * mode(\*args) (mode of all arguments)
 * Maybe other things that I think of later
+
 This is 100% coming out in version 1.1 of the Console Cowculator.
 
 #### Algebra mode:
