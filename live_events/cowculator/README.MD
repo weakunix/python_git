@@ -133,12 +133,12 @@ It may be coded later.
 * mode(\*args) (mode of all arguments)
 * Maybe other things that I think of later
 
-This is 100% coming out in version 1.1 of the Console Cowculator.
+This is 100% coming out in version 1.2 of the Console Cowculator.
 
 #### Algebra mode:
 Yep this is coming out next.
 I think how it works is the user inputs x amount of equations seperated by something (maybe | or [] I have no idea) and it takes each equation and does subsitution to get the values of all variables.
-This is 100% coming out in version 1.1 of the Console Cowculator.
+This is 100% coming out in version 1.2 of the Console Cowculator.
 
 #### Airplane game:
 I'll just continue putting this here.
