@@ -128,11 +128,28 @@ def mean(*args):
 
 ##median
 def median(*args):
-    pass #TODO CODE
+    args = list(args)
+    args.sort()
+    if len(args) % 2 == 0:
+        return (args[len(args) / 2] + args[len(args) / 2 - 1]) / 2
+    return args[int((len(args) - 1) / 2)]
 
 ##mode
 def mode(*args):
-    pass #TODO CODE
+    amount_of_numbers = collections.Counter()
+    largest_occurence = 0
+    mode_nums = []
+    for i in args:
+        amount_of_numbers[i] += 1
+    for i in amount_of_numbers:
+        if amount_of_numbers[i] > largest_occurence:
+            largest_occurence = amount_of_numbers[i]
+    for i in amount_of_numbers:
+        if amount_of_numbers[i] == largest_occurence:
+            mode_nums.append(i)
+    if len(mode_nums) == 1:
+        return mode_nums[0]
+    return mode_nums
 
 #vars
 version = 'v1.0' #version
@@ -152,7 +169,7 @@ allo = { '+': lambda x, y: x + y, #all operators
          '**': lambda x, y: x ** y,
          '//': lambda x, y: x // y,
          '√': lambda x: x ** (1 / 2),
-         'mod': lambda x, y: x % y,
+         '%': lambda x, y: x % y,
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x,
          '!': lambda x, y: factorial(x),
@@ -164,6 +181,8 @@ allf = { 'max': max, #all functions
          'gcf': gcd,
          'lcm': lcm,
          'mean': mean,
+         'median': median,
+         'mode': mode, 
          'root': lambda x, y: y ** (1 / x),
          'floor': lambda x: int(x),
          'ceiling': ceiling,
@@ -176,6 +195,8 @@ fargs = { 'max': [1, False], #required function argument amount [least amount, l
           'gcf': [1, False],
           'lcm': [1, False],
           'mean': [1, False],
+          'median': [1, False],
+          'mode': [1, False], 
           'root': [2, 2],
           'floor': [1, 1],
           'ceiling': [1, 1],
@@ -236,8 +257,6 @@ def tokenize(expr):
             i = i.lower()
             if token_type == 'letter':
                 token += i
-                if token in allo:
-                    token_type = 'operator'
             else:
                 tokenized.append(token)
                 token = i
