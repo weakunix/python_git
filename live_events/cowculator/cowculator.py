@@ -62,25 +62,30 @@ def ceiling(x):
     return int(x) + 1
 
 ##previous answers
-def ans(x = -1, y = 1):
+def ans(x = -1, y = 'all'):
     try:
        if x == int(x):
            x = int(x)
        else:
-           print(f'\033[1;31;1mError: {x} is not an integer')
+           print(f'\033[1;31;1mError: invalid ans index {x}')
            return None
     except:
-        print(f'\033[1;31;1mError: {x} is not an integer')
+        print(f'\033[1;31;1mError: invalid ans index {x}')
         return None
-    try:
-        if y == int(y):
-            y = int(y)
-        else:
-            print(f'\033[1;31;1mError: {y} is not an integer')
+    if type(y) == float or type(y) == int:
+        try:
+            if y == int(y):
+                y = int(y)
+            else:
+                print(f'\033[1;31;1mError: invalid ans index {y}')
+                return None
+        except:
+            print(f'\033[1;31;1mError: invalid ans index {y}')
             return None
-    except:
-        print(f'\033[1;31;1mError: {y} is not an integer')
-        return None
+    else:
+        y = y.lower()
+        if y != 'all':
+            print(f'\033[1;31;1mError: invalid ans index {y}')
     if x == 0 or y == 0:
         print('\033[1;31;1mError: ans index must not be 0')
         return None
@@ -92,14 +97,19 @@ def ans(x = -1, y = 1):
     except:
         print(f'\033[1;31;1mError: answer {x} does not exist')
         return None
-    try:
-        if y > 0:
-            previous_answer = previous_answer[y - 1]
-        else:
-            previous_answer = previous_answer[y]
-    except:
-        print(f'\033[1;31;1mError: index {y} of answer {x} does not exist')
-        return None
+    if y == 'all':
+        if len(previous_answer) == 1:
+            return previous_answer[0]
+        return previous_answer
+    else:
+        try:
+            if y > 0:
+                previous_answer = previous_answer[y - 1]
+            else:
+                previous_answer = previous_answer[y]
+        except:
+            print(f'\033[1;31;1mError: index {y} of answer {x} does not exist')
+            return None
     return previous_answer
 
 ##prime factorization
@@ -186,6 +196,7 @@ allf = { 'max': max, #all functions
          'root': lambda x, y: y ** (1 / x),
          'floor': lambda x: int(x),
          'ceiling': ceiling,
+         'abs': abs,
          'ans': ans,
          'prime_factorize': prime_factorization,
          'pf': prime_factorization }
@@ -200,6 +211,7 @@ fargs = { 'max': [1, False], #required function argument amount [least amount, l
           'root': [2, 2],
           'floor': [1, 1],
           'ceiling': [1, 1],
+          'abs': [1, 1],
           'ans': [0, 2],
           'prime_factorize': [1, 1],
           'pf': [1, 1] }
@@ -376,6 +388,20 @@ def shunting(expr):
                 unioperator = True
             except:
                 print('\033[1;31;1mError: expected \')\' to end function')
+        elif i.lower() == 'all':
+            valid_all = False
+            for j in range(1, len(operator) + 1):
+                if type(operator[-j]) == list:
+                    if operator[-j][0] == 'ans':
+                        output.append(i)
+                        unioperator = False
+                        valid_all = True
+                    else:
+                        print(f'\033[1;31;1mErorr: unrecognized token \'{i}\'')
+                        return None
+            if not valid_all:
+                print(f'\033[1;31;1mErorr: unrecognized token \'{i}\'')
+                return None
         else:
             print(f'\033[1;31;1mErorr: unrecognized token \'{i}\'')
             return None
@@ -420,6 +446,8 @@ def eval_rp(expr):
                     return None
                 oargs[0] = int(oargs[0])
             numstack.append(allo[i](*oargs))
+        elif i == 'all':
+            numstack.append(i)
         else: #number
             numstack.append(float(i))
     if len(numstack) != 1:
