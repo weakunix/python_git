@@ -125,7 +125,7 @@ def prime_factorization(x):
         return None
     prime_factors = []
     for i in range(2, x + 1):
-        while x  % i == 0:
+        while x % i == 0:
             x /= i
             prime_factors.append(i)
     if len(prime_factors) == 1:
@@ -160,6 +160,26 @@ def mode(*args):
     if len(mode_nums) == 1:
         return mode_nums[0]
     return mode_nums
+
+##factors of number
+def factorize(x):
+    try:
+        if int(x) == x:
+            x = int(x)
+        else:
+            print(f'\033[1;31;1mError: {x} is not an integer')
+            return None
+    except:
+        print(f'\033[1;31;1mError: {x} is not an integer')
+        return None
+    factors = []
+    for i in range(1, x + 1):
+        if i in factors:
+            factors.sort()
+            return factors
+        if x % i == 0:
+            factors.append(i)
+            factors.append(int(x / i))
 
 #vars
 version = 'v1.0' #version
@@ -198,6 +218,7 @@ allf = { 'max': max, #all functions
          'ceiling': ceiling,
          'abs': abs,
          'ans': ans,
+         'factorize': factorize,
          'prime_factorize': prime_factorization,
          'pf': prime_factorization }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
@@ -213,6 +234,7 @@ fargs = { 'max': [1, False], #required function argument amount [least amount, l
           'ceiling': [1, 1],
           'abs': [1, 1],
           'ans': [0, 2],
+          'factorize': [1, 1],
           'prime_factorize': [1, 1],
           'pf': [1, 1] }
 precedence = { '+': 0, #precedence
