@@ -7,7 +7,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
 #import files
-from handlers import filehandler, newhandler, sqlhandler
+from handlers import filehandler, newhandler, sqlhandler, themeshandler
 from QTgenerated import application, hw_main_window as mw, login
 
 
@@ -57,18 +57,20 @@ class loginPage(login.Ui_Form):
         self.signinLocalButton.pressed.connect(lambda: [self.openApp(False)]) # "signs in" with only data from device
         self.submitcredentials.pressed.connect(self.validate) #submit credentials for validations
         self.registercredentials.pressed.connect(self.register) #registers account
+
+        
     
     def validate(self):
         password = self.PasswordInputS.text()
         username = self.UsernameInputS.text() #idk how the fuck I flipepd these
         keepSignedIn = self.keepsignin.isChecked()
-        temp = filehandler.File.checkForUserInDatabase(username, password) #is valid name and password combo
+        temp = filehandler.checkForUserInDatabase(username, password) #is valid name and password combo
         if temp == "True":
             def yes(selection):
                 if selection.text() == "&Yes":
-                    filehandler.File.jason_it("settings.json", "autoLogIn", "True")
+                    filehandler.yaml_it("settings.yaml", "autolog", "True")
                 else:
-                    filehandler.File.jason_it("settings.json", "autoLogIn", "False")
+                    filehandler.yaml_it("settings.yaml", "autolog", "False")
             if keepSignedIn:
                 KeepSignedInConfirm = QMessageBox()
                 KeepSignedInConfirm.setText("Confirm to keep yourself signed in automatically?")
@@ -99,10 +101,10 @@ class loginPage(login.Ui_Form):
         passwordConfirm = self.passwordInputConfirmR.text()
 
         if password == passwordConfirm:
-            if not filehandler.File.checkForUserAlreadyExists(str(username)):
+            if not filehandler.checkForUserAlreadyExists(str(username)):
                 def start(e):
                     if e.text() == "&Yes":
-                        filehandler.File.jason_it("logininfo.json", str(username), [str(password)]) #register and log to logininfo.json
+                        filehandler.jason_it("logininfo.json", str(username), [str(password)]) #register and log to logininfo.json
                         accountMadeSuccess = QMessageBox()
                         accountMadeSuccess.setText("The account '" + str(username) + "' has been created!")
                         accountMadeSuccess.setIcon(QMessageBox.Information)
@@ -152,6 +154,8 @@ class App(application.Ui_Form):
     def __init__(self, ui):
         self.ui = ui
         self.setupUi(self.ui)
+
+        themeshandler.styleMain(self)
 
         #more code here later
         '''self.newAdd.pressed.connect(lambda: [newhandler.newSomething.newHomework(self, [])])
