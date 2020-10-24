@@ -1,4 +1,4 @@
-# CONSOLE COWCULATOR VERSION INFO AND UPDATES
+# THE COWCULATOR (console version)
 
 ## Dependencies
 * sympy (for algebra)
