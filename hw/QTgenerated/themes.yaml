@@ -1,0 +1,35 @@
+#themes you can pick from. using YAML so it is more readable (feel free to edit these to your liking)
+color:
+  blue: 
+    "rgb values here"
+  green: 
+    "rgb"
+  yellow: 
+    "rgb"
+  red: 
+    "rgb"
+  orange: 
+    "rgb"
+  purple: 
+    "rgb"
+  
+
+#non colored
+
+dark:
+  fiftyshades: 
+    "rgb"
+  cave:
+    "rgb"
+
+light:
+  milk: 
+    "rgb"
+  cloud: 
+    "rgb" 
+
+#user defined themes
+
+user:
+  example: 
+    "rgb"
