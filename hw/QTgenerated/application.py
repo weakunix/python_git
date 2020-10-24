@@ -26,6 +26,7 @@ class Ui_Form(object):
         self.todoDiv = QtWidgets.QGroupBox(self.todotab)
         self.todoDiv.setMaximumSize(QtCore.QSize(225, 16777215))
         self.todoDiv.setTitle("")
+        self.todoDiv.setStyleSheet("")
         self.todoDiv.setObjectName("todoDiv")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.todoDiv)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
