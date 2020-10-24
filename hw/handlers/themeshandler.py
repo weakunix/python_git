@@ -5,9 +5,11 @@ directory = "./QTgenerated/"
 defaultstyle = str(filehandler.yamlload("./data/settings.yaml")["theme"])
 
 def styleMain(ui):
-    
-    ui.todoDiv.setStyleSheet(styleGetter("todoDiv"))
-    #change later to have the 2 in settings.
+    for objs in filehandler.yamlload(directory+"themes.yaml")[str(defaultstyle)]:
+        try:
+            exec(f"ui.{str(objs)}.setStyleSheet(styleGetter(str(objs)))")
+        except Exception:
+            print(Exception)
 
 def styleGetter(obj):
     return str((filehandler.yamlload(directory+"themes.yaml")[str(defaultstyle)][str(obj)]).replace(" ", "").replace('"', "")).replace("\\n", "")

@@ -81,52 +81,14 @@ class Ui_Form(object):
         self.verticalLayout_14.addWidget(self.newAdd)
         self.horizontalLayout_2.addWidget(self.todoDiv)
         self.RightSideTodo = QtWidgets.QFrame(self.todotab)
-        self.RightSideTodo.setStyleSheet("QFrame\n"
-"{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"}\n"
-"QGroupBox{\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QLabel{\n"
-"    padding-top:0px;\n"
-"}\n"
-"QRadioButton{\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"}\n"
-"QComboBox{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QComboBox:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QRadioButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.RightSideTodo.setStyleSheet("")
         self.RightSideTodo.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.RightSideTodo.setFrameShadow(QtWidgets.QFrame.Raised)
         self.RightSideTodo.setObjectName("RightSideTodo")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.RightSideTodo)
         self.verticalLayout.setObjectName("verticalLayout")
         self.topbar = QtWidgets.QFrame(self.RightSideTodo)
-        self.topbar.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.topbar.setStyleSheet("")
         self.topbar.setObjectName("topbar")
         self.horizontalLayout_46 = QtWidgets.QHBoxLayout(self.topbar)
         self.horizontalLayout_46.setObjectName("horizontalLayout_46")
@@ -210,21 +172,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.topbar)
         self.scrollableHomeworkDisplay = QtWidgets.QScrollArea(self.RightSideTodo)
         self.scrollableHomeworkDisplay.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.scrollableHomeworkDisplay.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QProgressBar{\n"
-"    color:rgb(0, 255, 52);\n"
-"}\n"
-"QPushButton{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.scrollableHomeworkDisplay.setStyleSheet("")
         self.scrollableHomeworkDisplay.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.scrollableHomeworkDisplay.setWidgetResizable(True)
         self.scrollableHomeworkDisplay.setObjectName("scrollableHomeworkDisplay")
@@ -287,9 +235,7 @@ class Ui_Form(object):
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
         self.progressBar = QtWidgets.QProgressBar(self.progress)
         self.progressBar.setMaximumSize(QtCore.QSize(95, 16777215))
-        self.progressBar.setStyleSheet("QProgressBar{\n"
-"    background:rgb(255, 255, 255);\n"
-"}")
+        self.progressBar.setStyleSheet("")
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_12.addWidget(self.progressBar)
@@ -349,46 +295,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.scheduleDiv = QtWidgets.QGroupBox(self.scheduletab)
         self.scheduleDiv.setMaximumSize(QtCore.QSize(225, 16777215))
-        self.scheduleDiv.setStyleSheet("QGroupBox{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QRadioButton{\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"}\n"
-"QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"    border: 1px solid rgb(28, 139, 255);\n"
-"}\n"
-"QTextEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QDateTimeEdit:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QDateTimeEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QDateTimeEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QTextEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QRadioButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.scheduleDiv.setStyleSheet("")
         self.scheduleDiv.setTitle("")
         self.scheduleDiv.setObjectName("scheduleDiv")
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.scheduleDiv)
@@ -441,31 +348,7 @@ class Ui_Form(object):
         self.verticalLayout_11.addWidget(self.newAddS)
         self.horizontalLayout_7.addWidget(self.scheduleDiv)
         self.RightSideSchedule = QtWidgets.QFrame(self.scheduletab)
-        self.RightSideSchedule.setStyleSheet("QFrame\n"
-"{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"}\n"
-"QGroupBox{\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QLabel{\n"
-"    padding-top:0px;\n"
-"}\n"
-"QComboBox:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QComboBox{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.RightSideSchedule.setStyleSheet("")
         self.RightSideSchedule.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.RightSideSchedule.setFrameShadow(QtWidgets.QFrame.Raised)
         self.RightSideSchedule.setObjectName("RightSideSchedule")
@@ -473,14 +356,7 @@ class Ui_Form(object):
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.topBarS = QtWidgets.QFrame(self.RightSideSchedule)
         self.topBarS.setMaximumSize(QtCore.QSize(16777215, 74))
-        self.topBarS.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.topBarS.setStyleSheet("")
         self.topBarS.setObjectName("topBarS")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.topBarS)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
@@ -553,21 +429,7 @@ class Ui_Form(object):
         self.verticalLayout_5.addWidget(self.topBarS)
         self.scrollableClassesDisplay = QtWidgets.QScrollArea(self.RightSideSchedule)
         self.scrollableClassesDisplay.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.scrollableClassesDisplay.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QProgressBar{\n"
-"    color:rgb(0, 255, 52);\n"
-"}\n"
-"QPushButton{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.scrollableClassesDisplay.setStyleSheet("")
         self.scrollableClassesDisplay.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.scrollableClassesDisplay.setWidgetResizable(True)
         self.scrollableClassesDisplay.setObjectName("scrollableClassesDisplay")
