@@ -1,13 +1,10 @@
 #imports
-import sympy
+import sympy, collections
 
 #user def albreto functions
 ##gcd for any amount of numbers
 def gcd(*args):
-    if len(args) == 0:
-        print('\033[1;31;1mError: gcd/gcf funtion must contain at least 1 argument')
-        return None
-    elif len(args) == 1:
+    if len(args) == 1:
         return args[0]
     elif len(args) == 2:
         return gcd_for_two(args[0], args[1])
@@ -29,10 +26,7 @@ def gcd_for_two(x, y):
 
 ##lcm for any amount of numbers
 def lcm(*args):
-    if len(args) == 0:
-        print('\033[1;31;1mError: lcm funtion must contain at least 1 argument')
-        return None
-    elif len(args) == 1:
+    if len(args) == 1:
         return args[0]
     elif len(args) == 2:
         return lcm_for_two(args[0], args[1])
@@ -46,14 +40,14 @@ def lcm(*args):
 def lcm_for_two(x, y):
     return x * y / gcd_for_two(x, y)
 
-#factorial
+##factorial
 def factorial(x):
     prod = 1
     for i in range(1, x + 1):
         prod *= i
     return prod
 
-#double factorial
+##double factorial
 def double_factorial(x):
     prod = 1
     for i in range(x % 2, x + 1, 2):
@@ -61,47 +55,101 @@ def double_factorial(x):
             prod *= i
     return prod
 
-#root
-def root(x, y):
-    return y ** (1 / x)
-
-#ceiling
+##ceiling
 def ceiling(x):
     if int(x) == x:
         return int(x)
     return int(x) + 1
 
-#previous answers
-def ans(x = 1, y = 1):
+##previous answers
+def ans(x = -1, y = 1):
     try:
        if x == int(x):
            x = int(x)
        else:
-           print(f'\033[1;31;1mError: {x} must be an integer')
+           print(f'\033[1;31;1mError: {x} is not an integer')
            return None
     except:
-        print(f'\033[1;31;1mError: {x} must be an integer')
+        print(f'\033[1;31;1mError: {x} is not an integer')
         return None
     try:
         if y == int(y):
             y = int(y)
         else:
-            print(f'\033[1;31;1mError: {y} must be an integer')
+            print(f'\033[1;31;1mError: {y} is not an integer')
             return None
     except:
-        print(f'\033[1;31;1mError: {y} must be an integer')
+        print(f'\033[1;31;1mError: {y} is not an integer')
+        return None
+    if x == 0 or y == 0:
+        print('\033[1;31;1mError: ans index must not be 0')
         return None
     try:
-        previous_answer = answers[-x]
+        if x > 0:
+            previous_answer = answers[x - 1]
+        else:
+            previous_answer = answers[x]
     except:
         print(f'\033[1;31;1mError: answer {x} does not exist')
         return None
     try:
-        previous_answer = previous_answer[y - 1]
+        if y > 0:
+            previous_answer = previous_answer[y - 1]
+        else:
+            previous_answer = previous_answer[y]
     except:
         print(f'\033[1;31;1mError: index {y} of answer {x} does not exist')
         return None
     return previous_answer
+
+##prime factorization
+def prime_factorization(x):
+    try:
+        if int(x) == x:
+            x = int(x)
+        else:
+            print(f'\033[1;31;1mError: {x} is not an integer')
+            return None
+    except:
+        print(f'\033[1;31;1mError: {x} is not an integer')
+        return None
+    prime_factors = []
+    for i in range(2, x + 1):
+        while x  % i == 0:
+            x /= i
+            prime_factors.append(i)
+    if len(prime_factors) == 1:
+        return prime_factors[0]
+    return prime_factors
+
+##mean
+def mean(*args):
+    return sum(args) / len(args)
+
+##median
+def median(*args):
+    args = list(args)
+    args.sort()
+    if len(args) % 2 == 0:
+        return (args[len(args) / 2] + args[len(args) / 2 - 1]) / 2
+    return args[int((len(args) - 1) / 2)]
+
+##mode
+def mode(*args):
+    amount_of_numbers = collections.Counter()
+    largest_occurence = 0
+    mode_nums = []
+    for i in args:
+        amount_of_numbers[i] += 1
+    for i in amount_of_numbers:
+        if amount_of_numbers[i] > largest_occurence:
+            largest_occurence = amount_of_numbers[i]
+    for i in amount_of_numbers:
+        if amount_of_numbers[i] == largest_occurence:
+            mode_nums.append(i)
+    if len(mode_nums) == 1:
+        return mode_nums[0]
+    return mode_nums
 
 #vars
 version = 'v1.0' #version
@@ -121,6 +169,7 @@ allo = { '+': lambda x, y: x + y, #all operators
          '**': lambda x, y: x ** y,
          '//': lambda x, y: x // y,
          '√': lambda x: x ** (1 / 2),
+         '%': lambda x, y: x % y,
          'uniadd' : lambda x: x,
          'unisub' : lambda x: -x,
          '!': lambda x, y: factorial(x),
@@ -129,19 +178,31 @@ unio = {'uniadd', 'unisub', '√'} #uni operations
 allf = { 'max': max, #all functions
          'min': min,
          'gcd': gcd,
+         'gcf': gcd,
          'lcm': lcm,
-         'root': root,
+         'mean': mean,
+         'median': median,
+         'mode': mode, 
+         'root': lambda x, y: y ** (1 / x),
          'floor': lambda x: int(x),
          'ceiling': ceiling,
-         'ans': ans }
+         'ans': ans,
+         'prime_factorize': prime_factorization,
+         'pf': prime_factorization }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
           'gcd': [1, False],
+          'gcf': [1, False],
           'lcm': [1, False],
+          'mean': [1, False],
+          'median': [1, False],
+          'mode': [1, False], 
           'root': [2, 2],
           'floor': [1, 1],
           'ceiling': [1, 1],
-          'ans': [0, 2] }
+          'ans': [0, 2],
+          'prime_factorize': [1, 1],
+          'pf': [1, 1] }
 precedence = { '+': 0, #precedence
                '-': 0,
                '*': 1,
@@ -192,7 +253,7 @@ def tokenize(expr):
                 if i == '*' or i == '/' or i == '!':
                     double_operator = i
             dot = False
-        elif i.isalpha(): #letter / function
+        elif i.isalpha() or i == '_': #letter / function
             i = i.lower()
             if token_type == 'letter':
                 token += i
@@ -410,7 +471,7 @@ def eval_input():
             for i in answers:
                 for j, k in enumerate(i):
                     print(k, end = '')
-                if j != len(i) - 1:
+                    if j != len(i) - 1:
                         print(',', end = '')
                 print('')
         else:
