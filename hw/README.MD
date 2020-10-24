@@ -32,6 +32,7 @@ Download to run source code:
 
 * PyQt5
 * mysql-connector-python
+* pyyaml
 * webbrowser (should be installed with python listed here just in case)
 * json (should be installed with python listed here just in case)
 * random (should be installed with python listed here just in case)

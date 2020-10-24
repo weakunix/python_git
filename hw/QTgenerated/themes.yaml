@@ -1,0 +1,75 @@
+'''
+themes you can pick from. using YAML so it is more readable (feel free to edit these to your liking)
+structured like this:
+Note: these only apply in the actual app, for now youre stuck with the login screen 
+
+category:
+  theme:
+    - background:
+      rgb
+    - leftPanel:
+      rgb
+    - rightPanel:
+      rgb
+    - textboxes:
+      rgb
+    - dropdowns:
+      rgb
+    - buttons:
+      rgb
+    - radiobuttons:
+      rgb
+    - duedate:
+      rgb
+    - timeEdits:
+      rgb
+    - classes:
+      -buttons:
+        rgb
+      -texts:
+        rgb
+      -frames:
+        rgb
+    - todos:
+      -buttons:
+        rgb
+      -texts:
+        rgb
+      -frames:
+        rgb
+'''
+
+color:
+  blue: 
+    "rgb values here"
+  green: 
+    "rgb"
+  yellow: 
+    "rgb"
+  red: 
+    "rgb"
+  orange: 
+    "rgb"
+  purple: 
+    "rgb"
+  
+
+#non colored
+
+dark:
+  fiftyshades: 
+    "rgb"
+  cave:
+    "rgb"
+
+light:
+  milk: 
+    "rgb"
+  cloud: 
+    "rgb" 
+
+#user defined themes
+
+user:
+  example: 
+    "rgb"
