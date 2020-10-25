@@ -58,7 +58,7 @@ Of course it's the hidden airplane game (duh it's in every single cowculator ver
  
 Type
 ```
-hidden_airplane_game.launch()
+switch airplane
 ```
 Caps or not caps it doesn't matter.
 
