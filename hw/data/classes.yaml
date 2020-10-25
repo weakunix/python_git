@@ -1,0 +1,15 @@
+Computer Science: 
+  - start: 11:30
+  - end: 13:40
+  - block: "A"
+  - classroom: "LC7"
+  - teacher: "Lake"
+  - comment: "best class"
+
+English:
+  - start: 13:50
+  - end: 14:05
+  - block: "B"
+  - classroom: "LC9"
+  - teacher: "ABCD"
+  - comment: "journal"

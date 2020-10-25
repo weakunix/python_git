@@ -1,0 +1,6 @@
+Computer Science: 
+  difficulty: 6
+  progress: 50
+  due: 1 #datetime
+  repeats: True
+  comments: "finish java stuff"

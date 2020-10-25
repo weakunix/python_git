@@ -64,7 +64,7 @@ class loginPage(login.Ui_Form):
         password = self.PasswordInputS.text()
         username = self.UsernameInputS.text() #idk how the fuck I flipepd these
         keepSignedIn = self.keepsignin.isChecked()
-        temp = filehandler.checkForUserInDatabase(username, password) #is valid name and password combo
+        #temp = filehandler.checkForUserInDatabase(username, password) #is valid name and password combo
         if temp == "True":
             def yes(selection):
                 if selection.text() == "&Yes":
@@ -100,11 +100,11 @@ class loginPage(login.Ui_Form):
         password = self.passwordInputR.text()
         passwordConfirm = self.passwordInputConfirmR.text()
 
-        if password == passwordConfirm:
+        '''if password == passwordConfirm:
             if not filehandler.checkForUserAlreadyExists(str(username)):
                 def start(e):
                     if e.text() == "&Yes":
-                        filehandler.jason_it("logininfo.json", str(username), [str(password)]) #register and log to logininfo.json
+                        # change this to sql access later
                         accountMadeSuccess = QMessageBox()
                         accountMadeSuccess.setText("The account '" + str(username) + "' has been created!")
                         accountMadeSuccess.setIcon(QMessageBox.Information)
@@ -139,6 +139,7 @@ class loginPage(login.Ui_Form):
             errorNotSamePassword.setDefaultButton(QMessageBox.Ok)
 
             errorNotSamePassword.exec()
+        '''
         
         self.UsernameInputR.clear()
         self.passwordInputR.clear()
