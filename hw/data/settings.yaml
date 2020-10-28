@@ -1,5 +1,5 @@
 #custom configs
 
 autologin: False
-theme: "blue"
+theme: "contrastful"
 shown: [True, True, True] #classes, todos, whatever else
