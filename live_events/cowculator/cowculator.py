@@ -1,9 +1,13 @@
 #imports
-import sympy, collections
+import sympy, collections, math
 
 #user def albreto functions
 ##gcd for any amount of numbers
 def gcd(*args):
+    list_of_ans = [] #list of answers
+    for i in args:
+        if type(i) == list:
+            pass #TODO CODE THIS
     if len(args) == 1:
         return args[0]
     elif len(args) == 2:
@@ -181,6 +185,19 @@ def factorize(x):
             factors.append(i)
             factors.append(int(x / i))
 
+##logarithm
+def log(*args):
+    args = list(args)
+    if args[0] <= 1:
+        print('\033[1;31;1mError: log base must be greater than 1')
+        return None
+    if args[-1] <= 0:
+        print('\033[1;31;1mError: log argument must be greater than 0')
+        return None
+    if len(args) == 2:
+        args.reverse()
+    return math.log(*args)
+
 #vars
 version = 'v1.0' #version
 answers = [] #answers
@@ -218,6 +235,7 @@ allf = { 'max': max, #all functions
          'ceiling': ceiling,
          'abs': abs,
          'ans': ans,
+         'log': log,
          'factorize': factorize,
          'prime_factorize': prime_factorization,
          'pf': prime_factorization }
@@ -234,6 +252,7 @@ fargs = { 'max': [1, False], #required function argument amount [least amount, l
           'ceiling': [1, 1],
           'abs': [1, 1],
           'ans': [0, 2],
+          'log': [1, 2], 
           'factorize': [1, 1],
           'prime_factorize': [1, 1],
           'pf': [1, 1] }
@@ -442,7 +461,7 @@ def eval_rp(expr):
     numstack = [] #number stack
     operator = '' #operator / function
     for i in expr:
-        if type(i) == list: #function
+        if type(i) == list and i[0] in allf: #function
             min_args = fargs[i[0]][0]
             max_args = fargs[i[0]][1]
             if min_args > i[1]:
@@ -468,7 +487,7 @@ def eval_rp(expr):
                     return None
                 oargs[0] = int(oargs[0])
             numstack.append(allo[i](*oargs))
-        elif i == 'all':
+        elif i == 'all': #all parameter
             numstack.append(i)
         else: #number
             numstack.append(float(i))
