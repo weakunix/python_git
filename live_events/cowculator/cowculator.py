@@ -188,6 +188,12 @@ def factorize(x):
 ##logarithm
 def log(*args):
     args = list(args)
+    if args[0] <= 1:
+        print('\033[1;31;1mError: log base must be greater than 1')
+        return None
+    if args[-1] <= 0:
+        print('\033[1;31;1mError: log argument must be greater than 0')
+        return None
     if len(args) == 2:
         args.reverse()
     return math.log(*args)
