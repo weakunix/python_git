@@ -1,15 +1,19 @@
 from pynput.keyboard import Controller, Listener, Key
 
-# how to setup your keyboard bc for control and whateves keys
 keyboardsim = Controller()
 
+toggle = True
 
 def on_press(key):
+    global toggle
     if key == Key.cmd_l or key == Key.ctrl_l:
-        exit()
+        if toggle:
+            toggle = False
+        else:
+            toggle = True
     elif key == Key.backspace:
         return
-    elif key != Key.space:
+    elif key != Key.space and toggle:
         keyboardsim.type(" ")
     else:
         return
