@@ -516,10 +516,13 @@ def eval_input():
         if switchable:
             print('\n' + '\033[1;36;1m=' * 50 + f'\n\nSwitched to {modes[current_mode]} mode')
     elif inpt.lower() == 'functions':
-        with open(f'./tutorials/{modes[current_mode]}.txt', 'r') as function_file:
-            for line in function_file:
-                line = line.strip('\n')
-                print(f'\033[1;33;1m{line}')
+        try:
+            with open(f'./tutorials/{modes[current_mode]}.txt', 'r') as function_file:
+                for line in function_file:
+                    line = line.strip('\n')
+                    print(f'\033[1;33;1m{line}')
+        except:
+            print(f'\033[1;33;1mToo lazy, haven\'t written the list of functions yet')
     elif inpt.lower() == 'modes':
         print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
         for i in range(4):
