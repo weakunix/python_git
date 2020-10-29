@@ -7,10 +7,7 @@ toggle = True
 def on_press(key):
     global toggle
     if key == Key.cmd_l or key == Key.ctrl_l:
-        if toggle:
-            toggle = False
-        else:
-            toggle = True
+        toggle = not toggle
     elif key == Key.backspace:
         return
     elif key != Key.space and toggle:
