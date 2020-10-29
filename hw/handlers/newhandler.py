@@ -15,23 +15,126 @@ class newSomething:
 
         #
         
-        ui.scrollClass = QtWidgets.QWidget()
-        ui.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
-        ui.scrollClass.setObjectName("scrollClass")
-        ui.verticalLayout_3 = QtWidgets.QVBoxLayout(ui.scrollClass)
-        ui.verticalLayout_3.setObjectName("verticalLayout_3")
-        ui.classItem = QtWidgets.QFrame(ui.scrollClass)
-        ui.classItem.setMinimumSize(QtCore.QSize(600, 71))
-        ui.classItem.setMaximumSize(QtCore.QSize(16777215, 71))
-        ui.classItem.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        ui.classItem.setFrameShadow(QtWidgets.QFrame.Raised)
-        ui.classItem.setObjectName("classItem")
-        ui.horizontalLayout_16 = QtWidgets.QHBoxLayout(ui.classItem)
-        ui.horizontalLayout_16.setObjectName("horizontalLayout_16")
-        ui.timeclassstartend = QtWidgets.QGroupBox(ui.classItem)
-        ui.timeclassstartend.setMaximumSize(QtCore.QSize(100, 71))
-        ui.timeclassstartend.setTitle("")
-        ui.timeclassstartend.setObjectName("timeclassstartend")
+        ui.time.setText(ui._translate("Form", "11:45-12:01"))
+        ui.classBlockTextSched.setText(ui._translate("Form", "A"))
+        ui.classNumberNameSched.setText(ui._translate("Form", "LC 7"))
+        ui.classNameSched.setText(ui._translate("Form", "AP Computer Science"))
+        ui.showExtra.setText(ui._translate("Form", "..."))
+
+    @staticmethod
+    def newHomework(ui, arrayOfTodosAlready):
+        homeworkInfo = ui.newHWText.toPlainText()
+        dueDate = ui.newDueTime.dateTime().toSecsSinceEpoch()
+        isRepeating = ui.radioButton.isDown() #Ruoyu for you bc your dumb shitqing
+        difficulty = ui.newDifficultySlider.value()
+        fromClass = ui.newClassToHW.currentText()
+
+        dueIn = (dueDate - QtCore.QDateTime().currentDateTime().toSecsSinceEpoch())
+
+        if dueIn < 0: 
+            return #can't be already due lmao
+        
+        #calculates when assignment is due
+        dueDays = (dueIn // 86400)
+        temp = dueIn % 86400
+        dueHours = temp // 3600
+        dueMinutes = temp % 3600 // 60
+
+        if homeworkInfo.replace(" ", "") == "":
+            return #not good!!! don't put JUST SPACE as hw name 
+
+        #add to file
+
+        newSomething.todos(ui)
+
+        ui.blockName.setText(ui._translate("Form", "")) # get block from class info
+        ui.classname.setText(ui._translate("Form", str(fromClass)))
+        ui.diffrating.setText(ui._translate("Form", f"{str(difficulty)}/10"))
+        ui.dueinName.setText(ui._translate("Form", str(dueDays)))
+        ui.extrabtn.setText(ui._translate("Form", "..."))
+
+    @staticmethod
+    def todos(ui):
+        ui.horizontalLayout_14 = QtWidgets.QHBoxLayout(ui.classSubject)
+        ui.horizontalLayout_14.setObjectName("horizontalLayout_14")
+        ui.ifDone = QtWidgets.QCheckBox(ui.classSubject)
+        ui.ifDone.setMaximumSize(QtCore.QSize(20, 16777215))
+        ui.ifDone.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        ui.ifDone.setText("")
+        ui.ifDone.setObjectName("ifDone")
+        ui.horizontalLayout_14.addWidget(ui.ifDone)
+        ui.block = QtWidgets.QGroupBox(ui.classSubject)
+        ui.block.setMaximumSize(QtCore.QSize(39, 16777215))
+        ui.block.setTitle("")
+        ui.block.setObjectName("block")
+        ui.horizontalLayout_11 = QtWidgets.QHBoxLayout(ui.block)
+        ui.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        ui.blockName = QtWidgets.QLabel(ui.block)
+        ui.blockName.setAlignment(QtCore.Qt.AlignCenter)
+        ui.blockName.setObjectName("blockName")
+        ui.horizontalLayout_11.addWidget(ui.blockName)
+        ui.horizontalLayout_14.addWidget(ui.block)
+        ui.classinside = QtWidgets.QGroupBox(ui.classSubject)
+        ui.classinside.setTitle("")
+        ui.classinside.setObjectName("classinside")
+        ui.horizontalLayout_10 = QtWidgets.QHBoxLayout(ui.classinside)
+        ui.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        ui.classname = QtWidgets.QLabel(ui.classinside)
+        ui.classname.setAlignment(QtCore.Qt.AlignCenter)
+        ui.classname.setObjectName("classname")
+        ui.horizontalLayout_10.addWidget(ui.classname)
+        ui.horizontalLayout_14.addWidget(ui.classinside)
+        ui.diff = QtWidgets.QGroupBox(ui.classSubject)
+        ui.diff.setMaximumSize(QtCore.QSize(57, 16777215))
+        ui.diff.setTitle("")
+        ui.diff.setObjectName("diff")
+        ui.horizontalLayout_9 = QtWidgets.QHBoxLayout(ui.diff)
+        ui.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        ui.diffrating = QtWidgets.QLabel(ui.diff)
+        ui.diffrating.setAlignment(QtCore.Qt.AlignCenter)
+        ui.diffrating.setObjectName("diffrating")
+        ui.horizontalLayout_9.addWidget(ui.diffrating)
+        ui.horizontalLayout_14.addWidget(ui.diff)
+        ui.progress = QtWidgets.QGroupBox(ui.classSubject)
+        ui.progress.setMaximumSize(QtCore.QSize(50, 71))
+        ui.progress.setTitle("")
+        ui.progress.setObjectName("progress")
+        ui.horizontalLayout_12 = QtWidgets.QHBoxLayout(ui.progress)
+        ui.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        ui.progressBar = QtWidgets.QProgressBar(ui.progress)
+        ui.progressBar.setMaximumSize(QtCore.QSize(95, 16777215))
+        ui.progressBar.setStyleSheet("")
+        ui.progressBar.setProperty("value", 24)
+        ui.progressBar.setObjectName("progressBar")
+        ui.horizontalLayout_12.addWidget(ui.progressBar)
+        ui.horizontalLayout_14.addWidget(ui.progress)
+        ui.duein = QtWidgets.QGroupBox(ui.classSubject)
+        ui.duein.setMaximumSize(QtCore.QSize(50, 71))
+        ui.duein.setTitle("")
+        ui.duein.setObjectName("duein")
+        ui.horizontalLayout_13 = QtWidgets.QHBoxLayout(ui.duein)
+        ui.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        ui.dueinName = QtWidgets.QLabel(ui.duein)
+        ui.dueinName.setLayoutDirection(QtCore.Qt.LeftToRight)
+        ui.dueinName.setAlignment(QtCore.Qt.AlignCenter)
+        ui.dueinName.setObjectName("dueinName")
+        ui.horizontalLayout_13.addWidget(ui.dueinName)
+        ui.horizontalLayout_14.addWidget(ui.duein)
+        ui.extrainfo = QtWidgets.QFrame(ui.classSubject)
+        ui.extrainfo.setMaximumSize(QtCore.QSize(51, 16777215))
+        ui.extrainfo.setObjectName("extrainfo")
+        ui.extrabtn = QtWidgets.QPushButton(ui.extrainfo)
+        ui.extrabtn.setGeometry(QtCore.QRect(0, 0, 40, 38))
+        ui.extrabtn.setMinimumSize(QtCore.QSize(40, 38))
+        ui.extrabtn.setMaximumSize(QtCore.QSize(40, 38))
+        ui.extrabtn.setObjectName("extrabtn")
+        ui.horizontalLayout_14.addWidget(ui.extrainfo)
+        ui.verticalLayout_2.addWidget(ui.classSubject)
+        ui.scrollableHomeworkDisplay.setWidget(ui.scrollHomework)
+        ui.verticalLayout.addWidget(ui.scrollableHomeworkDisplay)
+    
+    @staticmethod
+    def classs(ui):
         ui.horizontalLayout_33 = QtWidgets.QHBoxLayout(ui.timeclassstartend)
         ui.horizontalLayout_33.setObjectName("horizontalLayout_33")
         ui.time = QtWidgets.QLabel(ui.timeclassstartend)
@@ -81,131 +184,3 @@ class newSomething:
         ui.horizontalLayout_16.addWidget(ui.showExtra)
         ui.verticalLayout_3.addWidget(ui.classItem)
         ui.scrollableClassesDisplay.setWidget(ui.scrollClass)
-        ui.verticalLayout_5.addWidget(ui.scrollableClassesDisplay)
-
-        ui.time.setText(translate("HWTracker", "11:45-12:01"))
-        ui.classBlockTextSched.setText(translate("HWTracker", "A"))
-        ui.classNumberNameSched.setText(translate("HWTracker", "LC 7"))
-        ui.classNameSched.setText(translate("HWTracker", "AP Computer Science"))
-        ui.showExtra.setText(translate("HWTracker", "..."))
-
-    @staticmethod
-    def newHomework(ui, arrayOfTodosAlready):
-        homeworkInfo = ui.newHWText.toPlainText()
-        dueDate = ui.newDueTime.dateTime().toSecsSinceEpoch()
-        isRepeating = ui.radioButton.isDown() #Ruoyu for you bc your dumb shitqing
-        difficulty = ui.newDifficultySlider.value()
-        fromClass = ui.newClassToHW.currentText()
-
-        dueIn = (dueDate - QtCore.QDateTime().currentDateTime().toSecsSinceEpoch())
-
-        if dueIn < 0: 
-            return #can't be already due lmao
-        
-        #calculates when assignment is due
-        dueDays = (dueIn // 86400)
-        temp = dueIn % 86400
-        dueHours = temp // 3600
-        dueMinutes = temp % 3600 // 60
-
-        if homeworkInfo.replace(" ", "") == "":
-            return #not good!!! don't put JUST SPACE as hw name 
-
-        #add to file
-
-        ui.scrollHomework = QtWidgets.QWidget()
-        ui.scrollHomework.setGeometry(QtCore.QRect(0, 0, 632, 405))
-        ui.scrollHomework.setObjectName("scrollHomework")
-        ui.verticalLayout_2 = QtWidgets.QVBoxLayout(ui.scrollHomework)
-        ui.verticalLayout_2.setObjectName("verticalLayout_2")
-        ui.classSubject = QtWidgets.QFrame(ui.scrollHomework)
-        ui.classSubject.setMinimumSize(QtCore.QSize(600, 72))
-        ui.classSubject.setMaximumSize(QtCore.QSize(16777215, 72))
-        ui.classSubject.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        ui.classSubject.setFrameShadow(QtWidgets.QFrame.Raised)
-        ui.classSubject.setObjectName("classSubject")
-        ui.horizontalLayout_14 = QtWidgets.QHBoxLayout(ui.classSubject)
-        ui.horizontalLayout_14.setObjectName("horizontalLayout_14")
-        ui.ifDone = QtWidgets.QCheckBox(ui.classSubject)
-        ui.ifDone.setMaximumSize(QtCore.QSize(20, 16777215))
-        ui.ifDone.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        ui.ifDone.setText("")
-        ui.ifDone.setObjectName("ifDone")
-        ui.horizontalLayout_14.addWidget(ui.ifDone)
-        ui.block = QtWidgets.QGroupBox(ui.classSubject)
-        ui.block.setMaximumSize(QtCore.QSize(39, 16777215))
-        ui.block.setTitle("")
-        ui.block.setObjectName("block")
-        ui.horizontalLayout_11 = QtWidgets.QHBoxLayout(ui.block)
-        ui.horizontalLayout_11.setObjectName("horizontalLayout_11")
-        ui.blockName = QtWidgets.QLabel(ui.block)
-        ui.blockName.setAlignment(QtCore.Qt.AlignCenter)
-        ui.blockName.setObjectName("blockName")
-        ui.horizontalLayout_11.addWidget(ui.blockName)
-        ui.horizontalLayout_14.addWidget(ui.block)
-        ui.classinside = QtWidgets.QGroupBox(ui.classSubject)
-        ui.classinside.setTitle("")
-        ui.classinside.setObjectName("classinside")
-        ui.horizontalLayout_10 = QtWidgets.QHBoxLayout(ui.classinside)
-        ui.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        ui.classname = QtWidgets.QLabel(ui.classinside)
-        ui.classname.setAlignment(QtCore.Qt.AlignCenter)
-        ui.classname.setObjectName("classname")
-        ui.horizontalLayout_10.addWidget(ui.classname)
-        ui.horizontalLayout_14.addWidget(ui.classinside)
-        ui.diff = QtWidgets.QGroupBox(ui.classSubject)
-        ui.diff.setMaximumSize(QtCore.QSize(57, 16777215))
-        ui.diff.setTitle("")
-        ui.diff.setObjectName("diff")
-        ui.horizontalLayout_9 = QtWidgets.QHBoxLayout(ui.diff)
-        ui.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        ui.diffrating = QtWidgets.QLabel(ui.diff)
-        ui.diffrating.setAlignment(QtCore.Qt.AlignCenter)
-        ui.diffrating.setObjectName("diffrating")
-        ui.horizontalLayout_9.addWidget(ui.diffrating)
-        ui.horizontalLayout_14.addWidget(ui.diff)
-        ui.progress = QtWidgets.QGroupBox(ui.classSubject)
-        ui.progress.setMaximumSize(QtCore.QSize(50, 71))
-        ui.progress.setTitle("")
-        ui.progress.setObjectName("progress")
-        ui.horizontalLayout_12 = QtWidgets.QHBoxLayout(ui.progress)
-        ui.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        ui.progressBar = QtWidgets.QProgressBar(ui.progress)
-        ui.progressBar.setMaximumSize(QtCore.QSize(95, 16777215))
-        ui.progressBar.setStyleSheet("QProgressBar{\n"
-"    background:rgb(255, 255, 255);\n"
-"}")
-        ui.progressBar.setProperty("value", 24)
-        ui.progressBar.setObjectName("progressBar")
-        ui.horizontalLayout_12.addWidget(ui.progressBar)
-        ui.horizontalLayout_14.addWidget(ui.progress)
-        ui.duein = QtWidgets.QGroupBox(ui.classSubject)
-        ui.duein.setMaximumSize(QtCore.QSize(50, 71))
-        ui.duein.setTitle("")
-        ui.duein.setObjectName("duein")
-        ui.horizontalLayout_13 = QtWidgets.QHBoxLayout(ui.duein)
-        ui.horizontalLayout_13.setObjectName("horizontalLayout_13")
-        ui.dueinName = QtWidgets.QLabel(ui.duein)
-        ui.dueinName.setLayoutDirection(QtCore.Qt.LeftToRight)
-        ui.dueinName.setAlignment(QtCore.Qt.AlignCenter)
-        ui.dueinName.setObjectName("dueinName")
-        ui.horizontalLayout_13.addWidget(ui.dueinName)
-        ui.horizontalLayout_14.addWidget(ui.duein)
-        ui.extrainfo = QtWidgets.QFrame(ui.classSubject)
-        ui.extrainfo.setMaximumSize(QtCore.QSize(51, 16777215))
-        ui.extrainfo.setObjectName("extrainfo")
-        ui.extrabtn = QtWidgets.QPushButton(ui.extrainfo)
-        ui.extrabtn.setGeometry(QtCore.QRect(0, 0, 40, 38))
-        ui.extrabtn.setMinimumSize(QtCore.QSize(40, 38))
-        ui.extrabtn.setMaximumSize(QtCore.QSize(40, 38))
-        ui.extrabtn.setObjectName("extrabtn")
-        ui.horizontalLayout_14.addWidget(ui.extrainfo)
-        ui.verticalLayout_2.addWidget(ui.classSubject)
-        ui.scrollableHomeworkDisplay.setWidget(ui.scrollHomework)
-        ui.verticalLayout.addWidget(ui.scrollableHomeworkDisplay)
-
-        ui.blockName.setText(translate("HWTracker", "A"))
-        ui.classname.setText(translate("HWTracker", str(fromClass)))
-        ui.diffrating.setText(translate("HWTracker", str(difficulty)+ "/10"))
-        ui.dueinName.setText(translate("HWTracker", "1d"))
-        ui.extrabtn.setText(translate("HWTracker", "..."))
