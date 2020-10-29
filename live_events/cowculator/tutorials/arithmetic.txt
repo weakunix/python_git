@@ -1,0 +1,43 @@
+Functions:
+
++: syntax: x + y, adds x and y
+-: syntax: x - y, subtracts x and y
+*: syntax: x * y, multiplies x and y
+/: syntax: x / y, divides x and y
+^: syntax: x ^ y, x to the power of y
+**: syntax: x ** y, x to the power of y
+//: syntax: x // y, the floor of x / y
+√: syntax: √x, square root of x
+%: syntax: x % y, x mod (modulo) y (remainder of x / y)
+!: syntax: x!, x factorial (x * (x - 1) * (x - 2) * ...)
+!!: syntax: x!!, x double factorial (x * (x - 2) * (x - 4) * ...)
+max: syntax: max(1-infinite arguments), the greatest number of all the arguments
+min: syntax: min(1-infinite arguments), the least number of all the arguments
+gcd: syntax: gcd(1-infinite arguments), the greatest common denominator of all the arguments
+gcf: syntax: gcf(1-infinite arguments), the greatest common denominator of all the arguments
+lcm: syntax: lcm(1-infinite arguments), the least common multiple of all the arguments
+mean: syntax: mean(1-infinite arguments), the arithmetic mean of all the arguments
+median: syntax: median(1-infinite arguments), the median of all the arguments (the middle number (or mean of the middle two numbers) when all numbers are ordered)
+mode: syntax: mode(1-infinite arguments), the mode of all the arguments (the number(s) that appear most in all the numbers)
+root: syntax: root(x, y), x root y (y ^ (1 / x))
+floor: syntax: floor(x), the greatest integer that is less than or equal to x
+ceiling: syntax: floor(x), the least integer that is greater than or equal to x
+abs: syntax: abs(x), the absolute value of x
+log: syntax: log(x, y), logarithm with x as base and y as argument (use log(x) for natural log of x)
+factorize: syntax: factorize(x), gives all factors of x
+prime_factorize: syntax: prime_factorize(x), prime factors of x
+pf: syntax: pf(x), prime factors of x
+
+ans: syntax: ans(optional x, optional y)
+x is defaulted to -1 and y is defaulted to 'all'
+x:
+if x is positive it goes from the top of your list of answers (i.e if x is 2 and your answer list is [1, 1325, 32, 123] it would give you 1325)
+if x is negative it goes from the bottom of your list of answers (i.e. if x is -2 and your answer list is [1, 1325, 32, 123] it would give you 32)
+y:
+if answers is a list of numbers (i.e. the answer of pf(12) would be [2, 2, 3]) you can use positive to go from the left of your answer and negative to go from the right of your answer
+this gives you a specific number rather than the entire list
+
+NOTE:
+you can put functions inside of functions
+for example:
+max(gcd(1234, 34), lcm(124, 24))
