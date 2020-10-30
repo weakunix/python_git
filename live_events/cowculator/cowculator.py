@@ -201,11 +201,7 @@ def log(*args):
 #vars
 version = 'v1.0' #version
 answers = [] #answers
-modes = { 0: 'algebra', #modes
-          1: 'arithmetic',
-          2: 'bases',
-          3: 'fractions' }
-modes_flipped = ['algebra', 'arithmetic', 'bases', 'fractions'] #basically flipped dictionary of modes
+modes = ['algebra', 'arithmetic', 'bases', 'fractions'] #modes
 current_mode = 1 #current mode
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
@@ -499,7 +495,7 @@ def eval_rp(expr):
 #console functions 
 ##evaluate input normal
 def eval_input():
-    global current_mode, modes, style, answers, modes_flipped
+    global current_mode, modes, style, answers
     inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;35;1mClear: Clear all answers\n\033[1;37;1mAnswers: List of all answers\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
     if inpt.lower() == 'exit':
         inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
@@ -512,15 +508,21 @@ def eval_input():
     elif 'switch' in inpt.lower():
         switchable = True
         inpt = inpt.lower().split(' ')[1]
-        if inpt in modes_flipped:
-            current_mode = modes_flipped.index(inpt)
+        if inpt in modes:
+            current_mode = modes.index(inpt)
         else:
             print(f'\033[1;31;1mError: mode {inpt} not found')
             switchable = False
         if switchable:
             print('\n' + '\033[1;36;1m=' * 50 + f'\n\nSwitched to {modes[current_mode]} mode')
     elif inpt.lower() == 'functions':
-        print('\n' + '\033[1;36;1m=' * 50 + '\033[1;33;1m\n\nToo lazy, haven\'t logged the functions yet')
+        try:
+            with open(f'./tutorials/{modes[current_mode]}.txt', 'r') as function_file:
+                for line in function_file:
+                    line = line.strip('\n')
+                    print(f'\033[1;33;1m{line}')
+        except:
+            print(f'\033[1;33;1mToo lazy, haven\'t written the list of functions yet')
     elif inpt.lower() == 'modes':
         print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
         for i in range(4):
