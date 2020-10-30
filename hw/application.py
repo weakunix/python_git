@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'noinsideapp.ui'
+# Form implementation generated from reading ui file 'appaswidget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -25,74 +25,8 @@ class Ui_Form(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.todoDiv = QtWidgets.QGroupBox(self.todotab)
         self.todoDiv.setMaximumSize(QtCore.QSize(225, 16777215))
-        self.todoDiv.setStyleSheet("QGroupBox{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QTextEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"    border: 1px solid rgb(28, 139, 255);\n"
-"}\n"
-"QComboBox{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QComboBox:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QDateTimeEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QDateTimeEdit:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QSlider{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"\n"
-"QPushButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QDateTimeEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QTextEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QSlider:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QRadioButton{\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"}\n"
-"QRadioButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
         self.todoDiv.setTitle("")
+        self.todoDiv.setStyleSheet("")
         self.todoDiv.setObjectName("todoDiv")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.todoDiv)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -147,52 +81,14 @@ class Ui_Form(object):
         self.verticalLayout_14.addWidget(self.newAdd)
         self.horizontalLayout_2.addWidget(self.todoDiv)
         self.RightSideTodo = QtWidgets.QFrame(self.todotab)
-        self.RightSideTodo.setStyleSheet("QFrame\n"
-"{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"}\n"
-"QGroupBox{\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QLabel{\n"
-"    padding-top:0px;\n"
-"}\n"
-"QRadioButton{\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"}\n"
-"QComboBox{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QComboBox:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QRadioButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.RightSideTodo.setStyleSheet("")
         self.RightSideTodo.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.RightSideTodo.setFrameShadow(QtWidgets.QFrame.Raised)
         self.RightSideTodo.setObjectName("RightSideTodo")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.RightSideTodo)
         self.verticalLayout.setObjectName("verticalLayout")
         self.topbar = QtWidgets.QFrame(self.RightSideTodo)
-        self.topbar.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.topbar.setStyleSheet("")
         self.topbar.setObjectName("topbar")
         self.horizontalLayout_46 = QtWidgets.QHBoxLayout(self.topbar)
         self.horizontalLayout_46.setObjectName("horizontalLayout_46")
@@ -276,31 +172,21 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.topbar)
         self.scrollableHomeworkDisplay = QtWidgets.QScrollArea(self.RightSideTodo)
         self.scrollableHomeworkDisplay.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.scrollableHomeworkDisplay.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QProgressBar{\n"
-"    color:rgb(0, 255, 52);\n"
-"}\n"
-"QPushButton{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.scrollableHomeworkDisplay.setStyleSheet("")
         self.scrollableHomeworkDisplay.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.scrollableHomeworkDisplay.setWidgetResizable(True)
         self.scrollableHomeworkDisplay.setObjectName("scrollableHomeworkDisplay")
         self.scrollHomework = QtWidgets.QWidget()
-        self.scrollHomework.setGeometry(QtCore.QRect(0, 0, 596, 395))
+        self.scrollHomework.setGeometry(QtCore.QRect(0, 0, 632, 405))
         self.scrollHomework.setObjectName("scrollHomework")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollHomework)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.scrollableHomeworkDisplay.setWidget(self.scrollHomework)
-        self.verticalLayout.addWidget(self.scrollableHomeworkDisplay)
+        self.classSubject = QtWidgets.QFrame(self.scrollHomework)
+        self.classSubject.setMinimumSize(QtCore.QSize(600, 72))
+        self.classSubject.setMaximumSize(QtCore.QSize(16777215, 72))
+        self.classSubject.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.classSubject.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.classSubject.setObjectName("classSubject")
         self.sortBy = QtWidgets.QGroupBox(self.RightSideTodo)
         self.sortBy.setObjectName("sortBy")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.sortBy)
@@ -332,46 +218,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.scheduleDiv = QtWidgets.QGroupBox(self.scheduletab)
         self.scheduleDiv.setMaximumSize(QtCore.QSize(225, 16777215))
-        self.scheduleDiv.setStyleSheet("QGroupBox{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QRadioButton{\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"}\n"
-"QPushButton{\n"
-"    color: rgb(255, 255, 255);\n"
-"    border-radius:3px;\n"
-"    border: 1px solid rgb(28, 139, 255);\n"
-"}\n"
-"QTextEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QDateTimeEdit:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QDateTimeEdit{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QDateTimeEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QTextEdit:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}\n"
-"QRadioButton:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.scheduleDiv.setStyleSheet("")
         self.scheduleDiv.setTitle("")
         self.scheduleDiv.setObjectName("scheduleDiv")
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.scheduleDiv)
@@ -424,31 +271,7 @@ class Ui_Form(object):
         self.verticalLayout_11.addWidget(self.newAddS)
         self.horizontalLayout_7.addWidget(self.scheduleDiv)
         self.RightSideSchedule = QtWidgets.QFrame(self.scheduletab)
-        self.RightSideSchedule.setStyleSheet("QFrame\n"
-"{\n"
-"    border-radius:10px;\n"
-"    padding-top:10px;\n"
-"    background:rgb(69, 69, 73);\n"
-"}\n"
-"QGroupBox{\n"
-"    color:rgb(255, 255, 255);\n"
-"}\n"
-"QLabel{\n"
-"    padding-top:0px;\n"
-"}\n"
-"QComboBox:drop-down{\n"
-"    border: 0px;\n"
-"    background:rgb(90, 151, 255);\n"
-"}\n"
-"QComboBox{\n"
-"    border-radius: 3px;\n"
-"    border: 1px solid rgb(27, 129, 255);\n"
-"    background: rgb(50, 50, 54);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border:1px solid rgb(255, 247, 118);\n"
-"}")
+        self.RightSideSchedule.setStyleSheet("")
         self.RightSideSchedule.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.RightSideSchedule.setFrameShadow(QtWidgets.QFrame.Raised)
         self.RightSideSchedule.setObjectName("RightSideSchedule")
@@ -456,14 +279,7 @@ class Ui_Form(object):
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.topBarS = QtWidgets.QFrame(self.RightSideSchedule)
         self.topBarS.setMaximumSize(QtCore.QSize(16777215, 74))
-        self.topBarS.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.topBarS.setStyleSheet("")
         self.topBarS.setObjectName("topBarS")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.topBarS)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
@@ -536,30 +352,27 @@ class Ui_Form(object):
         self.verticalLayout_5.addWidget(self.topBarS)
         self.scrollableClassesDisplay = QtWidgets.QScrollArea(self.RightSideSchedule)
         self.scrollableClassesDisplay.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.scrollableClassesDisplay.setStyleSheet("QGroupBox{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QLabel{\n"
-"    color:rgb(255, 255, 255);\n"
-"    background:rgb(77, 135, 255);\n"
-"}\n"
-"QProgressBar{\n"
-"    color:rgb(0, 255, 52);\n"
-"}\n"
-"QPushButton{\n"
-"    border-radius:3px;\n"
-"    background:rgb(77, 135, 255);\n"
-"}")
+        self.scrollableClassesDisplay.setStyleSheet("")
         self.scrollableClassesDisplay.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.scrollableClassesDisplay.setWidgetResizable(True)
         self.scrollableClassesDisplay.setObjectName("scrollableClassesDisplay")
         self.scrollClass = QtWidgets.QWidget()
-        self.scrollClass.setGeometry(QtCore.QRect(0, 0, 596, 395))
+        self.scrollClass.setGeometry(QtCore.QRect(0, 0, 632, 405))
         self.scrollClass.setObjectName("scrollClass")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollClass)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.scrollableClassesDisplay.setWidget(self.scrollClass)
+        self.classItem = QtWidgets.QFrame(self.scrollClass)
+        self.classItem.setMinimumSize(QtCore.QSize(600, 71))
+        self.classItem.setMaximumSize(QtCore.QSize(16777215, 71))
+        self.classItem.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.classItem.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.classItem.setObjectName("classItem")
+        self.horizontalLayout_16 = QtWidgets.QHBoxLayout(self.classItem)
+        self.horizontalLayout_16.setObjectName("horizontalLayout_16")
+        self.timeclassstartend = QtWidgets.QGroupBox(self.classItem)
+        self.timeclassstartend.setMaximumSize(QtCore.QSize(100, 71))
+        self.timeclassstartend.setTitle("")
+        self.timeclassstartend.setObjectName("timeclassstartend")
         self.verticalLayout_5.addWidget(self.scrollableClassesDisplay)
         self.sortBy_2 = QtWidgets.QGroupBox(self.RightSideSchedule)
         self.sortBy_2.setStyleSheet("")
@@ -584,7 +397,7 @@ class Ui_Form(object):
         self.switchTab.addTab(self.scheduletab, "")
 
         self.retranslateUi(Form)
-        self.switchTab.setCurrentIndex(1)
+        self.switchTab.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):

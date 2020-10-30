@@ -1,0 +1,1111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>963</width>
+    <height>682</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTabWidget" name="switchTab">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>943</width>
+     <height>663</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="todotab">
+    <attribute name="title">
+     <string>Todo List</string>
+    </attribute>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QGroupBox" name="todoDiv">
+       <property name="maximumSize">
+        <size>
+         <width>225</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	border-radius:10px;
+	padding-top:10px;
+	background:rgb(69, 69, 73);
+	color:rgb(255, 255, 255);
+}
+QTextEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QPushButton{
+	color: rgb(255, 255, 255);
+	border-radius:3px;
+	border: 1px solid rgb(28, 139, 255);
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QDateTimeEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QSlider{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+
+
+QPushButton:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QDateTimeEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QTextEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QSlider:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton{
+	color:rgb(255, 255, 255);
+	border-radius:3px;
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
+}</string>
+       </property>
+       <property name="title">
+        <string/>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QGroupBox" name="newHomeworkGroup">
+          <property name="title">
+           <string>Homework</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <item>
+            <widget class="QTextEdit" name="newHWText">
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="placeholderText">
+              <string>Describe your homework... Does it fly? Is it blue? etc </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="newDueGroup">
+          <property name="title">
+           <string>Due Date</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QDateTimeEdit" name="newDueTime">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Assignment Repeats?</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="newDifficultyGroup">
+          <property name="title">
+           <string>Difficulty</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QSlider" name="newDifficultySlider">
+             <property name="cursor">
+              <cursorShape>SizeHorCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="maximum">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="newClassGroup">
+          <property name="title">
+           <string>Class</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <widget class="QComboBox" name="newClassToHW">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Comp Sci </string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="newAdd">
+          <property name="cursor">
+           <cursorShape>OpenHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="RightSideTodo">
+       <property name="styleSheet">
+        <string notr="true">QFrame
+{
+	border-radius:10px;
+	padding-top:10px;
+	background:rgb(69, 69, 73);
+}
+QGroupBox{
+	color:rgb(255, 255, 255);
+}
+QLabel{
+	padding-top:0px;
+}
+QRadioButton{
+	color:rgb(255, 255, 255);
+	border-radius:3px;
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QFrame" name="topbar">
+          <property name="styleSheet">
+           <string notr="true">QGroupBox{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}
+QLabel{
+	color:rgb(255, 255, 255);
+	background:rgb(77, 135, 255);
+}</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_46">
+           <item>
+            <widget class="QGroupBox" name="donetodo">
+             <property name="maximumSize">
+              <size>
+               <width>69</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_44">
+              <item>
+               <widget class="QLabel" name="donenametodo">
+                <property name="text">
+                 <string>Done?</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="blocktodo">
+             <property name="maximumSize">
+              <size>
+               <width>64</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_41">
+              <item>
+               <widget class="QLabel" name="blocknametodo">
+                <property name="text">
+                 <string>Block</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="classinsidetodo">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_40">
+              <item>
+               <widget class="QLabel" name="classnametodo">
+                <property name="text">
+                 <string>Class</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="difftodo">
+             <property name="maximumSize">
+              <size>
+               <width>86</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_43">
+              <item>
+               <widget class="QLabel" name="diffratingtodo">
+                <property name="text">
+                 <string>Difficulty</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="progresstodo">
+             <property name="maximumSize">
+              <size>
+               <width>85</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="progressbartodo">
+                <property name="text">
+                 <string>Progress</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="dueintodo">
+             <property name="maximumSize">
+              <size>
+               <width>55</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_42">
+              <item>
+               <widget class="QLabel" name="dueinnametodo">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>Due</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="infotodo">
+             <property name="maximumSize">
+              <size>
+               <width>70</width>
+               <height>71</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_45">
+              <item>
+               <widget class="QLabel" name="infonametodo">
+                <property name="text">
+                 <string>Info</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollableHomeworkDisplay">
+          <property name="cursor" stdset="0">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}
+QLabel{
+	color:rgb(255, 255, 255);
+	background:rgb(77, 135, 255);
+}
+QProgressBar{
+	color:rgb(0, 255, 52);
+}
+QPushButton{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}</string>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollHomework">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>596</width>
+             <height>395</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2"/>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="sortBy">
+          <property name="title">
+           <string>Sort By:</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QComboBox" name="sortDue">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Due Date</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Class</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Difficulty</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="sortAcend">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Ascending (A-Z, 1-10)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Decending (Z-A, 10-1)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="sortShowDone">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <property name="text">
+              <string>Show done</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="scheduletab">
+    <attribute name="title">
+     <string>Schedule</string>
+    </attribute>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="QGroupBox" name="scheduleDiv">
+       <property name="maximumSize">
+        <size>
+         <width>225</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	border-radius:10px;
+	padding-top:10px;
+	background:rgb(69, 69, 73);
+	color:rgb(255, 255, 255);
+}
+QRadioButton{
+	color:rgb(255, 255, 255);
+	border-radius:3px;
+}
+QPushButton{
+	color: rgb(255, 255, 255);
+	border-radius:3px;
+	border: 1px solid rgb(28, 139, 255);
+}
+QTextEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QDateTimeEdit{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QDateTimeEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QTextEdit:hover{
+	border:1px solid rgb(255, 247, 118);
+}
+QRadioButton:hover{
+	border:1px solid rgb(255, 247, 118);
+}</string>
+       </property>
+       <property name="title">
+        <string/>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QGroupBox" name="NewClassGroup">
+          <property name="title">
+           <string>Description</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="2" column="1">
+            <widget class="QTextEdit" name="newClassroomNum">
+             <property name="maximumSize">
+              <size>
+               <width>141</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="placeholderText">
+              <string>Classroom number</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QTextEdit" name="newClassName_2">
+             <property name="maximumSize">
+              <size>
+               <width>180</width>
+               <height>60</height>
+              </size>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="placeholderText">
+              <string>Class Name</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QTextEdit" name="newClassDesc">
+             <property name="maximumSize">
+              <size>
+               <width>180</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="placeholderText">
+              <string>Describe your class... Does it eat? Is it pink? etc </string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTextEdit" name="newBlock">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
+             <property name="placeholderText">
+              <string>Block</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="classstartdonetime">
+          <property name="title">
+           <string>Time Starts        Time Ends</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QTimeEdit" name="starts">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QTimeEdit" name="done">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QRadioButton" name="isunusual">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <property name="text">
+              <string>Custom (swap schedule)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="newAddS">
+          <property name="cursor">
+           <cursorShape>OpenHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="RightSideSchedule">
+       <property name="styleSheet">
+        <string notr="true">QFrame
+{
+	border-radius:10px;
+	padding-top:10px;
+	background:rgb(69, 69, 73);
+}
+QGroupBox{
+	color:rgb(255, 255, 255);
+}
+QLabel{
+	padding-top:0px;
+}
+QComboBox:drop-down{
+	border: 0px;
+	background:rgb(90, 151, 255);
+}
+QComboBox{
+	border-radius: 3px;
+	border: 1px solid rgb(27, 129, 255);
+	background: rgb(50, 50, 54);
+	color: rgb(255, 255, 255);
+}
+QComboBox:hover{
+	border:1px solid rgb(255, 247, 118);
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QFrame" name="topBarS">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>74</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}
+QLabel{
+	color:rgb(255, 255, 255);
+	background:rgb(77, 135, 255);
+}</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QGroupBox" name="classtimesched">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_37">
+              <item>
+               <widget class="QLabel" name="classtimenamesched">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Time</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::AutoText</enum>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="classblocksched">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_38">
+              <item>
+               <widget class="QLabel" name="classblocknamesched">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Block</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="classnumsched">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_35">
+              <item>
+               <widget class="QLabel" name="classnumnamesched">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Classroom #</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="classsched">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_34">
+              <item>
+               <widget class="QLabel" name="classnamesched">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Class</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="classinfosched">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>70</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_36">
+              <item>
+               <widget class="QLabel" name="classinfonamesched">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Info</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollableClassesDisplay">
+          <property name="cursor" stdset="0">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}
+QLabel{
+	color:rgb(255, 255, 255);
+	background:rgb(77, 135, 255);
+}
+QProgressBar{
+	color:rgb(0, 255, 52);
+}
+QPushButton{
+	border-radius:3px;
+	background:rgb(77, 135, 255);
+}</string>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollClass">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>596</width>
+             <height>395</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3"/>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="sortBy_2">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="title">
+           <string>Sort By:</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_27">
+           <item>
+            <widget class="QComboBox" name="sortDue_2">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Time</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Class</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Block</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="sortAcend_2">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <item>
+              <property name="text">
+               <string>Ascending (A-Z, 1-10)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Decending (Z-A, 10-1)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
