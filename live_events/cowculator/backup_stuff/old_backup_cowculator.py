@@ -1,7 +1,7 @@
 #imports
-import collections, math
+import sympy, collections, math
 
-#user def functions
+#user def albreto functions
 ##gcd for any amount of numbers
 def gcd(*args):
     list_of_ans = [] #list of answers
@@ -67,14 +67,6 @@ def ceiling(x):
 
 ##previous answers
 def ans(x = -1, y = 'all'):
-    answers = []
-    with open('./answers.txt', 'r') as answer_file:
-        for line in answer_file:
-            if line.strip('\n') != '':
-                line = line.strip('\n').split(' ')
-                for i in range(len(line)):
-                    line[i] = float(line[i])
-                answers.append(line)
     try:
        if x == int(x):
            x = int(x)
@@ -207,6 +199,10 @@ def log(*args):
     return math.log(*args)
 
 #vars
+version = 'v1.0' #version
+answers = [] #answers
+modes = ['algebra', 'arithmetic', 'bases', 'fractions'] #modes
+current_mode = 1 #current mode
 nums = [str(i) for i in range(10)] #all numbers
 allo = { '+': lambda x, y: x + y, #all operators
          '-': lambda x, y: x - y,
@@ -495,15 +491,63 @@ def eval_rp(expr):
         print('\033[1;31;1mError: invalid expression')
         return None
     return numstack[0]
-          
-#testing
-if __name__ == '__main__':
-    with open('./../answers.txt', 'w') as answers:
-        answers.write('')
-    while True:
-        inpt = input('\033[0mExpression:\n')
-        if inpt.lower() == 'exit':
-            break
+           
+#console functions 
+##evaluate input normal
+def eval_input():
+    global current_mode, modes, style, answers
+    inpt = input('\n' + '\033[1;36;1m=' * 50 + f'\033[1;32;1m\n\nCommands:\n\n\033[1;33;1mFunctions: List functions of {modes[current_mode]} mode\n\033[1;34;1mModes: Shows your current mode and all modes of the Cowculator\n\033[1;36;1mSwitch [mode]: Switch to selected mode\n\033[1;35;1mClear: Clear all answers\n\033[1;37;1mAnswers: List of all answers\n\033[1;31;1mExit: Exit program\n\n\033[0mTo calculate just type in a valid equation:\n').strip(' ')
+    if inpt.lower() == 'exit':
+        inpt = input('\n' + '\033[1;36;1m=' * 50 + '\033[1;31;1m\n\nAre you sure you want to exit?\n\033[0m')
+        try:
+            inpt = inpt[0].lower()
+        except:
+            inpt = None
+        if inpt == 'y':
+            raise SystemExit('\033[0m')
+    elif 'switch' in inpt.lower():
+        switchable = True
+        inpt = inpt.lower().split(' ')[1]
+        if inpt in modes:
+            current_mode = modes.index(inpt)
+        else:
+            print(f'\033[1;31;1mError: mode {inpt} not found')
+            switchable = False
+        if switchable:
+            print('\n' + '\033[1;36;1m=' * 50 + f'\n\nSwitched to {modes[current_mode]} mode')
+    elif inpt.lower() == 'functions':
+        try:
+            with open(f'./tutorials/{modes[current_mode]}.txt', 'r') as function_file:
+                for line in function_file:
+                    line = line.strip('\n')
+                    print(f'\033[1;33;1m{line}')
+        except:
+            print(f'\033[1;33;1mToo lazy, haven\'t written the list of functions yet')
+    elif inpt.lower() == 'modes':
+        print('\n' + '\033[1;36;1m=' * 50 + f'\033[1;34;1m\n\nCurrent mode: {modes[current_mode]}\n\nAll modes:')
+        for i in range(4):
+            print(modes[i][0].upper() + modes[i][1:])
+    elif inpt.lower() == 'clear':
+        inpt = input('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAre you sure you want to clear all of your answers?\033[0m\n')
+        try:
+            inpt = inpt.lower()[0]
+        except:
+            inpt = None
+        if inpt == 'y':
+            answers = []
+            print('\n' + '\033[1;36;1m=' * 50 + '\n\n\033[1;35;1mAll answers cleared')
+    elif inpt.lower() == 'answers':
+        print('\n' + '\033[1;36;1m=' * 50 + '\n\033[1;37;1m')
+        if answers != []:
+            for i in answers:
+                for j, k in enumerate(i):
+                    print(k, end = '')
+                    if j != len(i) - 1:
+                        print(',', end = '')
+                print('')
+        else:
+            print('None')
+    else:
         answer = tokenize(inpt)
         if answer != None:
             answer = shunting(answer)
@@ -511,13 +555,13 @@ if __name__ == '__main__':
                 answer = eval_rp(answer)
                 if answer != None:
                     print(f'\033[1;32;1m{answer}')
-                    write_answer = ''
-                    if type(answer) == int or type(answer) == float:
-                        write_answer = str(answer)
+                    if type(answer) == float or type(answer) == int:
+                        answers.append([answer])
                     else:
-                        for k, i in enumerate(answer):
-                            write_answer += str(i)
-                            if k != len(answer) - 1:
-                                write_answer += ' '
-                    with open('./../answers.txt', 'a') as answers:
-                        answers.write(write_answer + '\n')
+                        answers.append(answer)
+
+#main
+if __name__ == '__main__':
+    print(f'\033[1;32;1mWelcome to the Cowculator {version}!\033[0m')
+    while True:
+        eval_input()

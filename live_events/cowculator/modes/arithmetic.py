@@ -498,7 +498,7 @@ def eval_rp(expr):
           
 #testing
 if __name__ == '__main__':
-    with open('./answers.txt', 'w') as answers:
+    with open('./../answers.txt', 'w') as answers:
         answers.write('')
     while True:
         inpt = input('\033[0mExpression:\n')
@@ -519,5 +519,5 @@ if __name__ == '__main__':
                             write_answer += str(i)
                             if k != len(answer) - 1:
                                 write_answer += ' '
-                    with open('./answers.txt', 'a') as answers:
+                    with open('./../answers.txt', 'a') as answers:
                         answers.write(write_answer + '\n')
