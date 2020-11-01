@@ -4,6 +4,7 @@ import os
 import datetime
 from data import filehandler
 import math
+import time
 
 def clearScreen():
     os.system('clear' if os.name =='posix' else 'cls')
@@ -64,7 +65,22 @@ def main():
             else:
                 input(f"\n We are sorry, but there doesn't seem to be any great results for '{str(command[2:])}' ... Check your spelling and capitalization. :( \n\n Enter to continue...")
     clearScreen()
-    raise SystemExit ("Thanks for using dealpoacher.")
+    for i in range(10):
+        time.sleep(0.1)
+        clearScreen()
+        print(f"""
+{" " * i * 2}________                .__ __________                   .__                  
+{" " * i * 2}\______ \   ____ _____  |  |\______   \_________    ____ |  |__   ___________ 
+{" " * i * 2} |    |  \_/ __ \\__  \  |  | |     ___/  _ \__  \ _/ ___\|  |  \_/ __ \_  __ 
+{" " * i * 2} |    `   \  ___/ / __ \|  |_|    |  (  <_> ) __ \\  \___|   Y  \  ___/|  | \/
+{" " * i * 2}/_______  /\___  >____  /____/____|   \____(____  /\___  >___|  /\___  >__|   
+{" " * i * 2}        \/     \/     \/                        \/     \/     \/     \/       (http://patorjk.com/software/taag/#p=display&f=Graffiti&t=DealPoacher)
+        """)
+        if i == 9:
+            print(f"{' ' * i * 2}          ===============" + "Version: " + str("1.0") + "=============== \n\n\n")
+            print("Dealpoacher™ has been closed. You may now exit. \n\n THANK YOU FOR CHOOSING Dealpoacher™!\n\n")
+            break
+
 
 if __name__ == '__main__':
     main() #start the deal hunt!
