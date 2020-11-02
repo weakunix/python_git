@@ -1,3 +1,25 @@
+'''
+Why the poacher?
+because the poacher is the best!
+
+WHY?
+-it filters out expired deals
+-it filters out deals with less than -5 ratings (todo)
+-ad free
+-FREE & MIT (the ™ and ©  are fake)
+-it is a terminal friendly experiance
+-auto-logs deals to file with date name and query
+-compatable with these systems!
+    -Windows
+    -MacOS
+    -Linux
+    -IOS via Pythonista
+    -boomers (developed in 1958!)
+
+Anyways if you are seeing this from your local disk:
+Thank you for choosing DealPoacher, and lets save some...
+BUCKS. (get it? bucks? poaching? ok Imma stop before you uninstall)
+'''
 from bs4 import BeautifulSoup
 import requests
 import os
@@ -7,21 +29,19 @@ import math
 import time
 
 def logo():
-    for i in range(20):
-        time.sleep(0.1)
+    for i in range(100):
+        time.sleep(0.001)
         clearScreen()#logo pls ignore
+        ii = i % 90
         print(f"""
-{" " * i * 2}________                .__ __________                   .__                  
-{" " * i * 2}\______ \   ____ _____  |  |\______   \_________    ____ |  |__   ___________ 
-{" " * i * 2} |    |  \_/ __ \\__  \  |  | |     ___/  _ \__  \ _/ ___\|  |  \_/ __ \_  __ 
-{" " * i * 2} |    `   \  ___/ / __ \|  |_|    |  (  <_> ) __ \\  \___|   Y  \  ___/|  | \/
-{" " * i * 2}/_______  /\___  >____  /____/____|   \____(____  /\___  >___|  /\___  >__|   
-{" " * i * 2}        \/     \/     \/                        \/     \/     \/     \/       
-{" " * i * 2}                                      Designed & Developed in Cowland Software Technologies Lab™  ©1958 (yea right python wasn't even invented yet)
+{" " * ii}________                .__ __________                   .__                  TM
+{" " * ii}\______ \   ____ _____  |  |\______   \_________    ____ |  |__   ___________ 
+{" " * ii} |    |  \_/ __ \\__  \  |  | |     ___/  _ \__  \ _/ ___\|  |  \_/ __ \_  __ 
+{" " * ii} |    `   \  ___/ / __ \|  |_|    |  (  <_> ) __ \\  \___|   Y  \  ___/|  | \/
+{" " * ii}/_______  /\___  >____  /____/____|   \____(____  /\___  >___|  /\___  >__|   
+{" " * ii}        \/     \/     \/                        \/     \/     \/     \/       
+{" " * ii}                                      Designed & Developed in Cowland Software Technologies Lab™  ©1958 (yea right python wasn't even invented yet)
         """)
-        if i == 9:
-            print(f"{' ' * i * 2}          ===============" + "Version: " + str("1.0") + "=============== \n\n\n")
-            return
 
 def clearScreen():
     os.system('clear' if os.name =='posix' else 'cls')
@@ -97,11 +117,13 @@ def main():
             if q != False:
                 deal, link, times = q
                 dealstuff = []
-                for item in range(len(deal) if len(deal) == len(link) == len(times) else 0):
-                    if deal[item].replace(" ", "") != "":
+                item = 0
+                while item < len(deal if len(deal) == len(link) == len(times) else 0):
+                    if deal[item].replace(" ", "") != "" and "Expired" not in times[item]:
                         dealstuff.append("| Deal | " + deal[item] + " | " + times[item] + " | " + link[item] + " |")
                         print(dealstuff[item])
                         print("=----<=>----=")
+                        item += 1
                 if input("\n\n>>>save? (Y/N)\n>>>")[0].lower() == "y":
                     with open("./savedlist/deal_"+str(command[2:]).replace(" ","_")+"_"+str(datetime.datetime.now()).replace(" ","_")+".txt", "w+") as f:
                         for timedDeal in dealstuff:
