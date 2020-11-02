@@ -9,8 +9,8 @@ import os
 from math import ceil, floor
 
 # NOTE: The ROWS variable determines the number of rows in "compact" mode. In expanded mode, the widget shows all shortcuts.
-COLS = 3
-ROWS = 2
+COLS = 1
+ROWS = 4
 
 # Each shortcut should be a dict with at least a 'title' and 'url' key. 'color' and 'icon' are optional. If set, 'icon' should be the name of a built-in image.
 SHORTCUTS = [

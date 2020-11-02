@@ -153,7 +153,8 @@ def mobileEdition():
     deal, link = frontpage()
     shortcuts = []
     for item in range(len(deal) if len(deal) == len(link) else len("")):
-        shortcuts.append({"title":str(deal[item]), "url": str(link[item]), "color": "#5e96ff"})
+        if deal[item] != "" and link[item] != "":
+            shortcuts.append({"title":str(deal[item]), "url": str(link[item]), "color": "#5e96ff"})
     mobileWidget.shortCut(shortcuts)
     mobileWidget.main()
     print("Widget Creation Successful!")
