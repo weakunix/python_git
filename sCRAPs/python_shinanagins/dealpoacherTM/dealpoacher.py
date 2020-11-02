@@ -36,7 +36,7 @@ def printFirstPage(isFile = False):
                 dealstuff.append("| Deal | " + deal[item] + " | " + link[item] + " |")
             else:
                 print("| Deal | " + deal[item] + " | " + link[item] + " |")
-                print("=")
+                print("=----<=>----=")
     return dealstuff
 
 def query(q):
@@ -59,7 +59,7 @@ def query(q):
     for i in range(len(items)):
         dealPosted = items[i].find_all("div", {"class":"dealInfo"})
         for deal in dealPosted:
-            dealPostedTime.append(deal.find("div").get_text())
+            dealPostedTime.append(deal.find("div").get_text().replace("  ", ""))
 
     return dealName, dealLink, dealPostedTime #return the site queried
 
@@ -101,6 +101,7 @@ def main():
                     if deal[item].replace(" ", "") != "":
                         dealstuff.append("| Deal | " + deal[item] + " | " + times[item] + " | " + link[item] + " |")
                         print(dealstuff[item])
+                        print("=----<=>----=")
                 if input("\n\n>>>save? (Y/N)\n>>>")[0].lower() == "y":
                     with open("./savedlist/deal_"+str(command[2:]).replace(" ","_")+"_"+str(datetime.datetime.now()).replace(" ","_")+".txt", "w+") as f:
                         for timedDeal in dealstuff:
