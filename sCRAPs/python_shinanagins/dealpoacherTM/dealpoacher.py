@@ -159,13 +159,18 @@ def mobileEdition():
     mobileWidget.main()
     print("Widget Creation Successful!")
     
+def winEdition():
+    pass
+
+def macEdition():
+    pass
 
 def main():
     if platform.machine().startswith("iP"):
         mobileEdition()
-    elif os.name() == "darwin":
+    elif os.name == "darwin":
         macEdition()
-    elif os.name() == "posix":
+    elif os.name == "posix":
         winEdition()
     else:
         consoleEdition()
