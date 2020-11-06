@@ -1,7 +1,7 @@
 #!python3
 
 '''
-used pythonista 3 example
+used pythonista 3 example and copied and modified some code
 '''
 
 import appex, ui
@@ -50,7 +50,7 @@ class LauncherView (ui.View):
         import shortcuts
         shortcuts.open_url(sender.name)
 
-def main():
+def other():
     widget_name = __file__ + str(os.stat(__file__).st_mtime)
     v = appex.get_widget_view()
     # Optimization: Don't create a new view if the widget already shows the launcher.
@@ -58,6 +58,17 @@ def main():
         v = LauncherView(SHORTCUTS)
         v.name = widget_name
         appex.set_widget_view(v)
+        
+def main():
+    global SHORTCUTS
+    with open("mobilestored.txt", "r") as f: 
+        for line in f:
+            SHORTCUTS.append(line)
+    other()
+    print("Widget Creation Successful!")
+    
 
 if __name__ == '__main__':
-    main()    
+    main()
+else:
+    other()    
