@@ -54,9 +54,9 @@ for file in files: #for every file in that directory
         finally:
            folders.append(ending.lower()) #append the folder name to array of folders made
 
-percent = 0
-totals = len(os.listdir(downloadDir))
-print("\nMovement progress\n")
+percent = 0 #used to calculate done percent
+totals = len(os.listdir(downloadDir)) #how many files/folders in current dir
+print("\nMovement progress\n") #print to screen
 
 for file in os.listdir(downloadDir):
     ending = (file.split(".")[len(file.split(".")) - 1]).lower()  #get ending of file
@@ -65,6 +65,7 @@ for file in os.listdir(downloadDir):
             shutil.move(downloadDir + file, downloadDir + ending) #try to move the file to the new destination
             percent += 1
             print(f"{file} moved to {downloadDir + ending} percent left {(totals - len(folders)) - percent} files left ({math.ceil(((percent / (totals - len(folders)))) * 100)}%)")
+            #print to screen the percent of completion and what got moved where and how many files left in the operation
         except Exception as e:
             print(e) #uh oh, whoopsies!
 
