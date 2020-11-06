@@ -160,10 +160,10 @@ def mobileEdition():
     print("Widget Creation Successful!")
     
 def winEdition():
-    pass
+    consoleEdition()
 
 def macEdition():
-    pass
+    consoleEdition()
 
 def main():
     if platform.machine().startswith("iP"):
