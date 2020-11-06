@@ -1,13 +1,39 @@
-#imports
-import collections, math
+#imports:
+import collections, math, sympy
 
 #user def functions
+##list of numbers in functions
+def find_lists(args, more_args, func):
+    to_pop = [] #lists to pop
+    nums_to_append = [] #numbers to append
+    args = list(args)
+    for k, i in enumerate(args):
+        if type(i) == list:
+            if not more_args:
+                print(f'\033[1;31;1mError: function \'{func}\' does not support list of answers as a parameter')
+                return None
+            for j in i:
+                nums_to_append.append(j)
+            to_pop.append(k)
+    for i in to_pop:
+        args.pop(i)
+    for i in nums_to_append:
+        args.append(i)
+    return args
+
+##max allowing lists
+def updated_max(*args):
+    args = find_lists(args, True, 'max')
+    return max(args)
+
+##min allowing lists
+def updated_min(*args):
+    args = find_lists(args, True, 'min')
+    return min(args)
+
 ##gcd for any amount of numbers
 def gcd(*args):
-    list_of_ans = [] #list of answers
-    for i in args:
-        if type(i) == list:
-            pass #TODO CODE THIS
+    args = find_lists(args, True, 'gcd')
     if len(args) == 1:
         return args[0]
     elif len(args) == 2:
@@ -30,6 +56,7 @@ def gcd_for_two(x, y):
 
 ##lcm for any amount of numbers
 def lcm(*args):
+    args = find_lists(args, True, 'lcm')
     if len(args) == 1:
         return args[0]
     elif len(args) == 2:
@@ -59,11 +86,39 @@ def double_factorial(x):
             prod *= i
     return prod
 
+##root
+def root(x, y):
+    try:
+        return y ** (1 / x)
+    except:
+        print('\033[1;31;1mError: function \'root\' does not support list of answers as a parameter')
+        return None
+
+##floor
+def floor(x):
+    try:
+        return int(x)
+    except:
+        print('\033[1;31;1mError: function \'floor\' does not support list of answers as a parameter')
+        return None
+
 ##ceiling
 def ceiling(x):
-    if int(x) == x:
-        return int(x)
-    return int(x) + 1
+    try:
+        if int(x) == x:
+            return int(x)
+        return int(x) + 1
+    except:
+        print('\033[1;31;1mError: function \'ceiling\' does not support list of answers as a parameter')
+        return None
+
+##abs allowing lists
+def updated_abs(x):
+    try:
+        return abs(x)
+    except:
+        print('\033[1;31;1mError: function \'abs\' does not support list of answers as a parameter')
+        return None
 
 ##previous answers
 def ans(x = -1, y = 'all'):
@@ -126,6 +181,9 @@ def ans(x = -1, y = 'all'):
 
 ##prime factorization
 def prime_factorization(x):
+    if type(x) == list:
+        print('\033[1;31;1mError: function \'pf\' does not support list of answers as a parameter')
+        return None
     try:
         if int(x) == x:
             x = int(x)
@@ -146,18 +204,20 @@ def prime_factorization(x):
 
 ##mean
 def mean(*args):
+    args = find_lists(args, True, 'mean')
     return sum(args) / len(args)
 
 ##median
 def median(*args):
-    args = list(args)
+    args = find_lists(args, True, 'median')
     args.sort()
     if len(args) % 2 == 0:
-        return (args[len(args) / 2] + args[len(args) / 2 - 1]) / 2
+        return (args[int(len(args) / 2)] + args[int(len(args) / 2 - 1)]) / 2
     return args[int((len(args) - 1) / 2)]
 
 ##mode
 def mode(*args):
+    args = find_lists(args, True, 'mode')
     amount_of_numbers = collections.Counter()
     largest_occurence = 0
     mode_nums = []
@@ -195,7 +255,9 @@ def factorize(x):
 
 ##logarithm
 def log(*args):
-    args = list(args)
+    args = find_lists(args, False, 'log')
+    if args == None:
+        return None
     if args[0] <= 1:
         print('\033[1;31;1mError: log base must be greater than 1')
         return None
@@ -222,18 +284,18 @@ allo = { '+': lambda x, y: x + y, #all operators
          '!': lambda x, y: factorial(x),
          '!!': lambda x, y: double_factorial(x) }
 unio = {'uniadd', 'unisub', '√'} #uni operations
-allf = { 'max': max, #all functions
-         'min': min,
+allf = { 'max': updated_max, #all functions
+         'min': updated_min,
          'gcd': gcd,
          'gcf': gcd,
          'lcm': lcm,
          'mean': mean,
          'median': median,
          'mode': mode, 
-         'root': lambda x, y: y ** (1 / x),
-         'floor': lambda x: int(x),
+         'root': root,
+         'floor': floor,
          'ceiling': ceiling,
-         'abs': abs,
+         'abs': updated_abs,
          'ans': ans,
          'log': log,
          'factorize': factorize,
@@ -478,15 +540,23 @@ def eval_rp(expr):
             if numstack[-1] == None:
                 return None
         elif i in unio: #uni operator
-            numstack.append(allo[i](numstack.pop()))
+            try:
+                numstack.append(allo[i](numstack.pop()))
+            except:
+                print(f'\033[1;31;1mError: unioperator \'{i}\' does not support list of answers as a parameter')
+                return None
         elif i in allo: #operator
-            oargs = [numstack.pop(), numstack.pop()]
-            oargs.reverse()
-            if i == '!' or i == '!!':
-                if int(oargs[0]) != oargs[0]:
-                    return None
-                oargs[0] = int(oargs[0])
-            numstack.append(allo[i](*oargs))
+            try:
+                oargs = [numstack.pop(), numstack.pop()]
+                oargs.reverse()
+                if i == '!' or i == '!!':
+                    if int(oargs[0]) != oargs[0]:
+                        return None
+                    oargs[0] = int(oargs[0])
+                numstack.append(allo[i](*oargs))
+            except:
+                print(f'\033[1;31;1mError: operator \'{i}\' does not support list of answers as a parameter')
+                return None
         elif i == 'all': #all parameter
             numstack.append(i)
         else: #number
