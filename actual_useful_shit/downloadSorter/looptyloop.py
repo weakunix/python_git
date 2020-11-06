@@ -30,11 +30,10 @@ def mainLoop(downloadDirs):
         if directoryListener != os.listdir(downloadDirs):
             try:
                 changes = sorter.main(downloadDirs, False)
-                raise Exception("SHIT YOU!!!!")
+                print(f"Scan at {datetime.datetime.now()} in '{downloadDirs}', recieved {changes} changes.")
             except Exception as e:
                 errors.append(e)
         
-        print(f"Scan at {datetime.datetime.now()} in '{downloadDirs}', recieved {changes} changes.")
         for e in errors:
             print(f"Uh oh an error!, here's the log: {e}")
 
