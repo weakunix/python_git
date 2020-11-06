@@ -4,7 +4,7 @@ import sorter #for the actual stuff
 import yaml #to read settings
 import getpass #to get user name
 import datetime #to log when you scanned
-import threading
+import threading # to run 2 at the same time! 2 is always gooder than one
 
 #files
 with open("./settings.yaml", 'r') as f:
