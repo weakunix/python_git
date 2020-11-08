@@ -1,5 +1,5 @@
 #imports:
-import collections, math, sympy
+import collections, math, numpy as np
 
 #user def functions
 ##list of numbers in functions
@@ -20,6 +20,16 @@ def find_lists(args, more_args, func):
     for i in nums_to_append:
         args.append(i)
     return args
+
+##sum
+def updated_sum(*args):
+    args = find_lists(args, True, 'sum')
+    return sum(args)
+
+##prod
+def updated_prod(*args):
+    args = find_lists(args, True, 'prod')
+    return float(np.prod(args))
 
 ##max allowing lists
 def updated_max(*args):
@@ -251,7 +261,8 @@ def factorize(x):
             return factors
         if x % i == 0:
             factors.append(i)
-            factors.append(int(x / i))
+            if int(x / i) != i:
+                factors.append(int(x / i))
 
 ##logarithm
 def log(*args):
@@ -286,6 +297,9 @@ allo = { '+': lambda x, y: x + y, #all operators
 unio = {'uniadd', 'unisub', '√'} #uni operations
 allf = { 'max': updated_max, #all functions
          'min': updated_min,
+         'sum': updated_sum,
+         'prod': updated_prod,
+         'product': updated_prod,
          'gcd': gcd,
          'gcf': gcd,
          'lcm': lcm,
@@ -303,6 +317,9 @@ allf = { 'max': updated_max, #all functions
          'pf': prime_factorization }
 fargs = { 'max': [1, False], #required function argument amount [least amount, largest amount]
           'min': [1, False],
+          'sum': [1, False],
+          'prod': [1, False],
+          'product': [1, False],
           'gcd': [1, False],
           'gcf': [1, False],
           'lcm': [1, False],

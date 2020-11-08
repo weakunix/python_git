@@ -13,6 +13,9 @@ Functions:
 !!: syntax: x!!, x double factorial (x * (x - 2) * (x - 4) * ...)
 max: syntax: max(1-infinite arguments), the greatest number of all the arguments
 min: syntax: min(1-infinite arguments), the least number of all the arguments
+sum: syntax: sum(1-infinite arguments), the sum of all the arguments
+prod: syntax: prod(1-infinite arguments, the product of all the arguments
+product: syntax: product(1-infinite arguments, the product of all the arguments
 gcd: syntax: gcd(1-infinite arguments), the greatest common denominator of all the arguments
 gcf: syntax: gcf(1-infinite arguments), the greatest common denominator of all the arguments
 lcm: syntax: lcm(1-infinite arguments), the least common multiple of all the arguments
