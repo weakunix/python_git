@@ -1,0 +1,8 @@
+
+autoJoin: False #if the script auto joins you into the meeting (its the same as pressing enter twice)
+
+#classes/blocks and time:
+classes:
+  #class name (same as on google calendar): "zoom link"
+
+  
