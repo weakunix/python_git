@@ -1,18 +1,18 @@
-import string
-import keyboard
-import random
+from pynput.keyboard import Controller, Listener, Key
 import time
-from pynput.keyboard import Controller
 
-alphabet = list(string.ascii_uppercase)
+# how to setup your keyboard bc for control and whateves keys
 keyboardsim = Controller()
 
-while True:
-    if keyboard.is_pressed('q'):
-        for i in range(100):
-            a = []
-            for er in range(random.randint(1, 5)):
-                a.append(alphabet[random.randint(0, len(alphabet) - 1)])
-            keyboardsim.type("\n")
-        break
-keyboardsim.type("This was typed using a Python script. How does it feel to get beaten by a bot? ;)\n")
+
+#def on_press(key):
+#    if key == Key.cmd_l:
+time.sleep(5)
+
+for i in range(100):
+    keyboardsim.type("Congratulations! You have won a $1000 amazon giftcard by becoming our lucky buyer. Text YES to confirm\n")
+
+
+#with Listener(
+#        on_press=on_press) as listener:
+#    listener.join()
