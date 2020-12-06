@@ -24,7 +24,12 @@ def eval_input():
         switchable = True
         try:
             inpt = inpt.lower().split(' ')[1]
-            if inpt in modes:
+            if inpt == 'airplane':
+                print('\n' * 100)
+                airplane.game()
+                print('\n' * 100)
+                switchable = False
+            elif inpt in modes:
                 current_mode = modes.index(inpt)
             else:
                 print(f'\033[1;31;1mError: mode {inpt} not found')
