@@ -1,0 +1,1 @@
+print(hex(int(input(">>>"))))
