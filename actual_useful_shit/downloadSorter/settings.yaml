@@ -1,4 +1,4 @@
-defaultPath: "" #leave it blank to default to downloads folder, else you can sepcify path here, example: /Users/YOUR NAME HERE/(downloads, documents, applications etc)
+defaultPath: "C:\Users\kingo" #leave it blank to default to downloads folder, else you can sepcify path here, example: /Users/YOUR NAME HERE/(downloads, documents, applications etc)
 defaultPathLoop: ["/Users/cowland/downloads/", "/Users/cowland/documents/"] #read above. but this one is an array of places to check so it can run threads in the background
 printsProcess: False #pretty sure you don't want to see EVERY file's types and the nitty gritty shinanaitgins their types
 scanTime: 30 #seconds between each scan interval
