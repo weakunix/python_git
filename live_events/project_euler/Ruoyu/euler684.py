@@ -32,7 +32,7 @@ def s(n):
     #Num = (n % 9 + 1) * power10mod(n // 9) - 1
     k = n // 9
     r = n % 9
-    Num = 5 * (powermod(k, PowersOf10) - 1) - 9 * k + powermod(k, PowersOf10) * (r + 1) * (r + 2) / 2 - r - 1
+    Num = 5 * (powermod(k, PowersOf10) - 1) - 9 * k + powermod(k, PowersOf10) * (r + 1) * (r + 2) // 2 - r - 1
     return Num % 1000000007
 
 
