@@ -3,6 +3,8 @@ t = 0
 
 #Uesr def functions
 def IsSNumber(DigitSource, TargetNum):
+    if TargetNum % 9 != 0 and TargetNum % 9 != 1:
+        return False
     DigitSource = str(DigitSource)
     for i in range(1, 2 ** (len(DigitSource) - 1)):
         Digits = DigitSource
