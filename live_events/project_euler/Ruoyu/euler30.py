@@ -18,7 +18,7 @@ while sumn == 0:
 for i in range(10, n + 1):
     print(i)
     num = 0
-    for d in i:
+    for d in str(i):
         d = int(d)
         d **= 5
         num += d
