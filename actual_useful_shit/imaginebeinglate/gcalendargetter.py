@@ -8,7 +8,6 @@ def calcSchedule():
 		if classes is not None:
 			print(classes.find_parents())
 			if classes.find_parents('td', class_="null cell-today") != [] or classes.find_parents('td', class_="cell-last-row cell-today") != []:
-				print(classes)
 				classes = str(re.sub("<.*>", "",  classes))
 				print(classes)
 
