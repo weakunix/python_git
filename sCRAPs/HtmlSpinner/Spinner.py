@@ -11,9 +11,8 @@ HTI = Html2Image()
 class Spinner:
     def GetSpinnerHTML(Percentage = 0, Title = "", Subtitle = "") -> str:
         TurntSpinner = SpinnerHTML
-
-        if Percentage < 1 and Percentage > 0:
-            Percentage = Percentage * 100
+        
+        Percentage = Percentage * 100
 
         Percentage = 0 if Percentage < 0 else 100 if Percentage > 100 else Percentage
 
@@ -56,13 +55,14 @@ if __name__ == "__main__":
 
     for i in range(5 + 1):
         Equation = f"{i}/{5}"
-        Spinner.GetSpinnerImage(eval(Equation) * 100, Equation, "Outside Hours")
+        Spinner.GetSpinnerImage(eval(Equation), Equation, "Outside Hours")
     
     for x in range(3):
 
         ran = [10, 50, 250][x]
 
         for i in range(ran + 1):
+
             Equation = f"{i}/{ran}"
 
-            Spinner.GetSpinnerImage(eval(Equation) * 100, Equation, "Hours")
+            Spinner.GetSpinnerImage(eval(Equation), Equation, "Hours")
