@@ -1,11 +1,15 @@
 import os
+from html2image import Html2Image
+from PIL import Image
 
 SpinnerHTML = ""
 with open(os.path.dirname(os.path.realpath(__file__)).replace("\\", "/") + "/Spinner.html") as f:
     SpinnerHTML = "".join(f.readlines()).replace("\n", "")
 
+HTI = Html2Image()
+
 class Spinner:
-    def GetSpinner(Percentage = 0, Title = "", Subtitle = "") -> str:
+    def GetSpinnerHTML(Percentage = 0, Title = "", Subtitle = "") -> str:
         TurntSpinner = SpinnerHTML
 
         if Percentage < 1 and Percentage > 0:
@@ -29,14 +33,36 @@ class Spinner:
 
         return TurntSpinner
 
+    def GetSpinnerImage(Percentage = 0, Title = "", Subtitle = "") -> str:
+
+        FileName = f"""/FinalSpinners/{Title.split("/")[1]}/{Subtitle.replace(" ", "_") + "_" + Title.replace("/", "_")}.png"""
+
+        SavedPath = "/".join(os.path.dirname(os.path.realpath(__file__)).replace("\\", "/").split("/")) + FileName
+
+        if os.path.exists(SavedPath):
+            return
+
+        HTML = Spinner.GetSpinnerHTML(Percentage, Title, Subtitle)
+
+        HTI.screenshot(html_str=HTML, save_as="tmp.png")
+
+        GeneratedImage = Image.open("tmp.png")
+        GeneratedImage = GeneratedImage.crop((0, 0, 150, 150))
+        GeneratedImage.save(SavedPath)
+
+        return SavedPath
+
 if __name__ == "__main__":
 
-    from html2image import Html2Image
-    from PIL import Image
+    for i in range(5 + 1):
+        Equation = f"{i}/{5}"
+        Spinner.GetSpinnerImage(eval(Equation) * 100, Equation, "Outside Hours")
     
-    hti = Html2Image()
-    hti.screenshot(html_str=Spinner.GetSpinner(10/50, "10/50", "Hours"), save_as="scrn.png")
+    for x in range(3):
 
-    img = Image.open(r"C:\Users\kingo\Documents\GitHub\python_git\scrn.png")
-    img = img.crop((0, 0, 150, 150))
-    img.save(r"C:\Users\kingo\Documents\GitHub\python_git\sCRAPs\HtmlSpinner\scrn.png")
+        ran = [10, 50, 250][x]
+
+        for i in range(ran + 1):
+            Equation = f"{i}/{ran}"
+
+            Spinner.GetSpinnerImage(eval(Equation) * 100, Equation, "Hours")
