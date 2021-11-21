@@ -24,5 +24,7 @@ class Spinner:
         return TurntSpinner
 
 if __name__ == "__main__":
-    with open(os.path.dirname(os.path.realpath(__file__)).replace("\\", "/") + "/Out.html", "w+") as f:
-        f.write(Spinner.GetSpinner(80))
+
+    from html2image import Html2Image
+    hti = Html2Image()
+    hti.screenshot(html_str=Spinner.GetSpinner(30), save_as="scrn.png")
