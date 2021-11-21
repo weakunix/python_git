@@ -4,7 +4,8 @@ import re
 import os
 																																		#v here add html instead of just embed to get html version of the calendar
 todoScraped = BeautifulSoup(requests.get("https://calendar.google.com/calendar/u/0/htmlembed?src=a7agc1d6cg82r3on8m6q9ifoqo7bf2l2@import.calendar.google.com&amp;ctz=America/New_York").content, 'html.parser') 
-scheduleScraped = BeautifulSoup(requests.get("https://calendar.google.com/calendar/u/0/htmlembed?src=vt09lfemhmgtajic4dvmou1u5jcaueef@import.calendar.google.com&amp;ctz=America/New_York").content, 'html.parser') 
+scheduleScraped = BeautifulSoup(requests.get("https://calendar.google.com/calendar/u/0/embed?src=3ofn2erdc0f7e5pfklvcgvatu4@group.calendar.google.com&ctz=America/New_York").content, 'html.parser')
+#scheduleScraped = BeautifulSoup(requests.get("https://calendar.google.com/calendar/u/0/htmlembed?src=vt09lfemhmgtajic4dvmou1u5jcaueef@import.calendar.google.com&amp;ctz=America/New_York").content, 'html.parser') 
 
 def clear():
 	if os.name == 'nt': 
@@ -55,19 +56,28 @@ def calcSchedule():
 	for time in scheduleScraped.find_all("span", class_="event-time"): #have to MANUALLY reverse 4 hours bc it always on dumbass UTC
 		if time != None:
 			time = str(time).replace('<span class="event-time">', "").replace("</span>", "").replace("&amp;", "&")
-			if "pm" in time:
-				time = [time[0], "00pm"]
-				print(time)
+			if ":" not in time:
+				if len(time) == 4:
+					time = [time[0] + time[1], "00pm"]
+				else:
+					time = [time[0], "00pm"]
 			else:
 				time = time.split(":")
-			time[0] = str(int(time[0]) - 4)
+
+			time[0] = str(int(time[0]) - 5)
+
 			if int(time[0]) < 0:
 				time[0] = str(12 + int(time[0]))
 			time = ":".join(time)
 			if time not in tim:
 				tim.append(time)
 
-	return sch, tim
+	if sch != [] and tim != []:
+		return sch, tim
+	else:
+		raise SystemExit("it's the weekend you bumlead!")
+
+	
 
 def makedict(assignment, todo, classNames):
 	for i in range(len(assignment)):
