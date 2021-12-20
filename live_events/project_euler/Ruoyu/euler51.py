@@ -22,16 +22,18 @@ def IsPossibleNum(n):
     strn = str(n)
     for i in range(10):
         pvlist = [] #place value list
-        if strn.count(str(i)) > 0: #and strn.count(str(i)) % 3 == 0:
+        if strn.count(str(i)) > 0 and strn.count(str(i)) % 3 == 0:
             for pv, digit in enumerate(strn):
                 if digit == str(i):
                     pvlist.append(pv)
             #import pdb;pdb.set_trace()
-            for a in range(len(pvlist) - 1): #CHANGE TO 2
-                for b in range(a + 1, len(pvlist)): #CHANGE TO 1 AND ADD EXTRA LOOP
-                    Tempa = pvlist[a]
-                    Tempb = pvlist[b]
-                    PossibleNums.append(strn[:Tempa] + strn[Tempa + 1:Tempb] + strn[Tempb + 1:] + ',' + str(Tempa) + str(Tempb))
+            for a in range(len(pvlist) - 2): 
+                for b in range(a + 1, len(pvlist) - 1): 
+                    for c in range(b + 1, len(pvlist)): 
+                        Tempa = pvlist[a]
+                        Tempb = pvlist[b]
+                        Tempc = pvlist[c]
+                        PossibleNums.append(strn[:Tempa] + strn[Tempa + 1:Tempb] + strn[Tempb + 1:Tempc] + strn[Tempc + 1:] + ',' + str(Tempa) + str(Tempb) + str(Tempc))
 
 
 #Test
@@ -42,8 +44,10 @@ if __name__ == '__main__':
         for i in range(10 ** (CurrentPow - 1), 10 ** CurrentPow + 1):
             if IsPrime(i):
                 Primes.append(i)
+                IsPossibleNum(i)
                 print(i)
-        for i in PossibleNums:
-            if PossibleNums.count(i) >= 7:
+        #import pdb;pdb.set_trace()
+        for i in set(PossibleNums):
+            if PossibleNums.count(i) >= 8:
                 print(i)
-                break
+                raise SystemExit()
