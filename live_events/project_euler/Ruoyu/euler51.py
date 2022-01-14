@@ -29,7 +29,7 @@ def ListCombinations(l, ChooseNum) -> list:
     y = ListCombinations(l[1:], ChooseNum)
     return x + y
 
-def IsPossibleNum(n):
+def IsPossibleNum(n) -> None:
     global ValueCount
     strn = str(n)
     listn = [i for i in strn]
@@ -51,7 +51,8 @@ def IsPossibleNum(n):
                     ValueCount[tempstr] = 1
                 else:
                     ValueCount[tempstr] += 1
-                print(tempstr)
+                if tempstr == 'xxx7':
+                    print(c)
 
 #Test
 if __name__ == '__main__':
