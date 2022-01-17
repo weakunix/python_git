@@ -38,10 +38,10 @@ def IsPossibleNum(n) -> None:
         k = int(k)
         DigitCount[k].append(i)
     for i, k in enumerate(DigitCount):
-        if len(k) >= 2:
-            Combinations = ListCombinations(k, 2)
+        if len(k) >= 3:
+            Combinations = ListCombinations(k, 3)
             for c in Combinations:
-                temp = listn
+                temp = listn.copy()
                 tempstr = ''
                 for d in c:
                     temp[d] = 'x'
@@ -51,8 +51,6 @@ def IsPossibleNum(n) -> None:
                     ValueCount[tempstr] = 1
                 else:
                     ValueCount[tempstr] += 1
-                if tempstr == 'xxx7':
-                    print(c)
 
 #Test
 if __name__ == '__main__':
@@ -63,8 +61,9 @@ if __name__ == '__main__':
             if IsPrime(i):
                 Primes.append(i)
                 IsPossibleNum(i)
-                #print(i)
+                if i % 1000 == 0:
+                    print(i)
         for i in ValueCount:
-            if ValueCount[i] >= 7:
+            if ValueCount[i] >= 8:
                 print(i, ValueCount[i])
                 raise SystemExit()
