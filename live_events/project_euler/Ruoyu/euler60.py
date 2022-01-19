@@ -13,10 +13,14 @@ Test sets
 
 #Vars
 FailValues = [2, 5] #Primes that won't work
-Primes = [] #All primes
+Primes = set() #All primes
 Mod1Primes = [] #Primes that are 1 mod 3 + 3 itself
 Mod2Primes = [] #Primes that are 2 mode 3 + 3 itself
-PrimeDict = {}
+PrimeDict = {} #Dictionary of prime pairs
+Pairs = [] #Pairs of primes
+Trips = [] #Triples of primes
+Quads = [] #Quadruples of primes
+IsValidAddition = False #Is new prime valid addition to set
 
 #User def functions
 def ListCombinations(l, ChooseNum) -> list:
@@ -39,19 +43,42 @@ def ConvertToDict(l) -> None:
         b = Pair[1]
         if IsValidPair(str(a), str(b)):
             try:
-                PrimeDict.get(a).append(b)
+                PrimeDict.get(a).add(b)
             except:
-                PrimeDict[a] = [b]
+                PrimeDict[a] = {b}
 
-def PossibleSet(l, Remaining):
-    pass
+def AddMembers(l, IsFinalMember = False):
+    NewSets = []
+    MinSum = None
+    for p in l:
+        try:
+            for Prime in PrimeDict[p[-1]]:
+                IsValidAddition = True
+                for i in p[:-1]:
+                    if Prime not in PrimeDict[i]:
+                        IsValidAddition = False
+                        break
+                if IsValidAddition:
+                    if IsFinalMember:
+                        try:
+                            if sum(p) + Prime < MinSum:
+                                MinSum = sum(p) + Prime
+                        except:
+                            MinSum = sum(p) + Prime
+                    else:
+                        NewSets.append(p + [Prime])
+        except:
+            pass
+    if IsFinalMember:
+        return MinSum
+    return NewSets
 
 #Get primes
 with open('million_primes.txt', 'r') as PrimeFile:
     for i in PrimeFile:
         i = int(i)
-        Primes.append(i)
-        if i > 1000:
+        Primes.add(i)
+        if i > 10 ** 4:
             pass
         elif i == 3:
             Mod1Primes.append(i)
@@ -60,10 +87,17 @@ with open('million_primes.txt', 'r') as PrimeFile:
             Mod1Primes.append(i)
         else:
             Mod2Primes.append(i)
+print('Primes obtained')
 
 #Main
 if __name__ == '__main__':
-    Combinations = ListCombinations(Mod1Primes, 2) #First param is the prime list to test
-    ConvertToDict(Combinations)
-    for i in PrimeDict:
-        s = PossibleSet([i], 3) #Change to 4
+    Pairs = ListCombinations(Mod1Primes, 2) #First param is the prime list to test
+    ConvertToDict(Pairs)
+    print(f'Pairs done with {len(Pairs)} elements')
+    Trips = AddMembers(Pairs)
+    print(f'Trips done with {len(Trips)} elements')
+    Quads = AddMembers(Trips, True)
+    print(Quads)
+    #print(f'Quads done with {len(Quads)} elements')
+    #Quints = AddMembers(Quads, True)
+    #print(Quints)
