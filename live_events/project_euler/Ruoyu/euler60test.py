@@ -16,9 +16,9 @@ Primes = set() #All primes
 Mod1Primes = [] #Primes that are 1 mod 3 + 3 itself
 Mod2Primes = [] #Primes that are 2 mode 3 + 3 itself
 PrimeDict = {} #Dictionary of prime pairs
-Pairs = [] #Pairs of primes
 Trips = [] #Triples of primes
 Quads = [] #Quadruples of primes
+IsValidAddition = False #Is new prime a valid addition to set
 
 #User def functions
 def IsValidPair(a, b) -> bool:
@@ -45,7 +45,24 @@ print('Primes obtained')
 #Main
 if __name__ == '__main__':
     for i in Mod1Primes:
-       for Prime in PrimeDict:
-           if IsValidPair(str(i), str(Prime)):
-                PrimeDict.get(Prime).add(i)
-       pass
+        for Prime in PrimeDict:
+            if IsValidPair(str(i), str(Prime)):
+                PrimeDict.get(Prime).append(i)
+        for t in Trips:
+            IsValidAddition = True
+            for p in t:
+                if i not in PrimeDict[p]:
+                    IsValidAddition = False
+                    break
+            if IsValidAddition:
+                print(t + [i], sum(t) + i)
+                raise SystemExit()
+        for p in PrimeDict: #Could store these in a list previously to make it faster
+            if i in PrimeDict[p]:
+                for Element in PrimeDict[p]:
+                    try:
+                        if i in PrimeDict[Element]:
+                            Trips.append([p, Element, i])
+                    except:
+                        pass
+        PrimeDict[i] = []
