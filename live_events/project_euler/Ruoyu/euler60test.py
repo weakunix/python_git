@@ -25,6 +25,8 @@ def IsValidPair(a, b) -> bool:
     return int(a + b) in Primes and int(b + a) in Primes
 
 #Get primes
+'''
+READ FILE (BAD)
 with open('million_primes.txt', 'r') as PrimeFile:
     for i in PrimeFile:
         i = int(i)
@@ -40,6 +42,8 @@ with open('million_primes.txt', 'r') as PrimeFile:
             Mod1Primes.append(i)
         else:
             Mod2Primes.append(i)
+'''
+
 print('Primes obtained')
 
 #Main
