@@ -33,6 +33,7 @@ def Gcd(a, b) -> int:
         if b == 0:
             return a
 
+#Main
 if __name__ == '__main__':
     ESeq = GenESeq()
     n = 1
