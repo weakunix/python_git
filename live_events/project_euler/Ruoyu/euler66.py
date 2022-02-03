@@ -4,6 +4,13 @@ We can factorize x^2 - Dy^2 = (x - √D * y)(x + √D * y) = 1
 
 Possibilities:
 Try BFI through all D <= 1000 and find minimal solutions
+
+Or
+
+Instead of looping through D, we loop through x until there is only one D left between 1 to 100
+For every x >= 2, we check every y^2 and find every (x^2 - 1) / y^2
+If that is an integer, we remove that D from the list
+Optimization: instead of checking every y^2, run some sort of prime factorization algorithm to figure out which y^2 will work
 '''
 
 #Imports
