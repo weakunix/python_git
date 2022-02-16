@@ -32,7 +32,7 @@ x - 2 = r * s^2 (which has already been stored)
 import math as albreto
 
 #Vars
-x = 1 #x
+x = 0 #x - 1
 XStorage = [] #Factored x = p * q^2 form storage up until x - 2
 DVals = set(i for i in range(1, 1001) if not albreto.sqrt(i).is_integer())
 
