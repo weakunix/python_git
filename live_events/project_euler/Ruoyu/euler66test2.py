@@ -38,14 +38,25 @@ DVals = set(i for i in range(1, 1001) if not albreto.sqrt(i).is_integer())
 
 #User def functions
 def GetXForm(x) -> list:
-    count = 1
+    count = 0
     while True:
         count += 1
         temp = albreto.sqrt(x / count)
         if temp.is_integer():
             return [count, int(temp)]
 
+def XFormMultiply(a, b):
+    temp = GetXForm(a[0] * b[0])
+    return [temp[0], temp[1] * a[1] * b[1]]
+
 #Main
 if __name__ == '__main__':
     while True:
         x += 1
+        XStorage.append(GetXForm(x))
+        try:
+            XStorage.pop(-4)
+            temp = XFormMultiply(XStorage[0], XStorage[2])
+            DVals.remove(temp[0])
+        except:
+            pass
