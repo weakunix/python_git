@@ -52,11 +52,37 @@ def XFormMultiply(a, b):
 #Main
 if __name__ == '__main__':
     while True:
+        print(len(DVals))
+        import pdb;pdb.set_trace()
         x += 1
         XStorage.append(GetXForm(x))
         try:
             XStorage.pop(-4)
             temp = XFormMultiply(XStorage[0], XStorage[2])
+            D = temp[0]
+            y = temp[1]
             DVals.remove(temp[0])
+            count = 1
+            while True:
+                count += 1
+                if count ** 2 > D:
+                    break
+                try:
+                    DVals.remove(D / count ** 2)
+                except:
+                    pass
+            count = 1
+            while True:
+                count += 1
+                if count ** 2 * D > 1000:
+                    break
+                if y % count == 0:
+                    try:
+                        DVals.remove(D * count ** 2)
+                    except:
+                        pass
         except:
             pass
+        if len(DVals) == 1:
+            break
+    print(list(DVals)[0])
