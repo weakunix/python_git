@@ -50,31 +50,30 @@ def XFormMultiply(a, b):
     return [temp[0], temp[1] * a[1] * b[1]]
 
 #Main
+'''
 if __name__ == '__main__':
     while True:
         print(len(DVals))
-        import pdb;pdb.set_trace()
+        if len(DVals) == 700:
+            import pdb;pdb.set_trace()
         x += 1
         XStorage.append(GetXForm(x))
         try:
             XStorage.pop(-4)
+        except:
+            pass
+        try:
             temp = XFormMultiply(XStorage[0], XStorage[2])
             D = temp[0]
             y = temp[1]
-            DVals.remove(temp[0])
+            try:
+                DVals.remove(D)
+            except:
+                pass
             count = 1
             while True:
                 count += 1
-                if count ** 2 > D:
-                    break
-                try:
-                    DVals.remove(D / count ** 2)
-                except:
-                    pass
-            count = 1
-            while True:
-                count += 1
-                if count ** 2 * D > 1000:
+                if count ** 2 * D > 1000 or count > y:
                     break
                 if y % count == 0:
                     try:
@@ -86,3 +85,23 @@ if __name__ == '__main__':
         if len(DVals) == 1:
             break
     print(list(DVals)[0])
+'''
+import datetime as dt
+start = dt.datetime.now()
+for i in range(2, 1001):
+    temp = GetXForm(i ** 2 - 1)
+    print(temp)
+    '''
+    XStorage.append(GetXForm(i))
+    try:
+        XStorage.pop(-4)
+    except:
+        pass
+    try:
+        temp = XFormMultiply(XStorage[0], XStorage[2])
+        print(temp)
+    except:
+        pass
+    '''
+
+print((dt.datetime.now() - start).seconds)
