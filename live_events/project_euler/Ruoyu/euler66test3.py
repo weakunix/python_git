@@ -34,31 +34,44 @@ import math as albreto
 #Vars
 x = 0 #x - 1
 XStorage = [] #Factored x = p * q^2 form storage up until x - 2
-DVals = set(i for i in range(1, 1001) if not albreto.sqrt(i).is_integer())
+TestVal = 1001 #Testing value (should be 1001)
+DVals = set(i for i in range(1, TestVal) if not albreto.sqrt(i).is_integer())
 
 #User def functions
-def GetXForm(x) -> list:
-    '''
+def GetFactorsOfTwo(n) -> int:
     count = 0
     while True:
-        count += 1
-        temp = albreto.sqrt(x / count)
-        if temp.is_integer():
-            return [count, int(temp)]
-    '''
-    count = int(albreto.sqrt(x)) + 1
-    while True:
-        count -= 1
-        if x % count ** 2 == 0:
-            return [x // count ** 2, count]
+        if n % 2 == 0:
+            n /= 2
+            count += 1
+        else:
+            return count
+
+def GetXForm(x) -> tuple:
+    HasExtraTwo = GetFactorsOfTwo(x) % 2 == 1
+    if HasExtraTwo:
+        x //= 2
+    for i in range(1, TestVal):
+        if (x / i).is_integer():
+            temp = albreto.sqrt(x / i)
+            if temp.is_integer():
+                return (i, int(temp), HasExtraTwo)
+    return None
+
+def XFormMultiply(a, b) -> tuple:
+    D = a[0] * b[0]
+    y = a[1] * b[1]
+    temp = a[2] + b[2]
+    if temp == 0:
+        return (D, y)
+    if temp == 1:
+        return (D * 2, y)
+    return (D, y * 2)
+    
 
 #Main
 if __name__ == '__main__':
     while True:
-        '''
-        if len(DVals) == 549:
-            import pdb;pdb.set_trace()
-        '''
         x += 1
         #print(len(DVals), x)
         XStorage.append(GetXForm(x))
@@ -67,11 +80,7 @@ if __name__ == '__main__':
         except:
             pass
         try:
-            a = XStorage[0]
-            b = XStorage[2]
-            temp = [a[0] * b[0], a[1] * b[1]]
-            if temp[0] % 4 == 0:
-                temp = [temp[0] // 4, temp[1] * 2]
+            temp = XFormMultiply(XStorage[0], XStorage[2])
             D = temp[0]
             y = temp[1]
             count = 0
@@ -82,7 +91,7 @@ if __name__ == '__main__':
                 if y % count == 0:
                     try:
                         DVals.remove(D * count ** 2)
-                        print(x - 1, D * count ** 2, y, len(DVals))
+                        print(x, D * count ** 2, y, len(DVals))
                     except:
                         pass
         except:
