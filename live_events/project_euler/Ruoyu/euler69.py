@@ -1,36 +1,14 @@
-#Vars
-MaxVal = 0 #n / totient(n)
-CurrentVal = 0
-MaxN = 0
-Primes = []
+'''
+Observations:
+We want the largest n / phi(n)
+This is maximized when n is as big as possible and phi(n) is as small as possible
+phi(n) is minimized when the number of prime factors of n is maximized
 
-#User def functions
-##Get prijme factors
-def GetPrimeFactors(n):
-    global Primes
-    pfs = [n]
-    for i in Primes:
-        if not n % i:
-            pfs.append(i)
-    if len(pfs) == 1:
-        Primes.append(n)
-    return pfs
-
-##Totient function
-def Totient(n):
-    Notmp = set() #Not mutually prime numbers
-    pfs = GetPrimeFactors(n)
-    for i in pfs:
-        for k in range(1, n // i + 1):
-            Notmp.add(i * k)
-    return n - len(Notmp)
+Approach:
+Math it!
+We fit as many prime factors as we can into n before exceeding 1 million
+Then, ifpossible, we multiply the product by another prime factor (maybe 2, 3, etc.) to maximize n
+'''
 
 if __name__ == '__main__':
-    for n in range(2, 10 ** 6 + 1):
-        if not n % 1000:
-            print(n)
-        CurrentVal = n / Totient(n)
-        if CurrentVal > MaxVal:
-            MaxVal = CurrentVal
-            MaxN = n
-    print(MaxN)
+    print(2 * 3 * 5 * 7 * 11 * 13 * 17)
