@@ -1,9 +1,9 @@
 '''
 Observations:
-(a) Only have to test the biggest n / d that is less than 3 / 7
+(a) Only have to test the biggest n / d for each d that is less than 3 / 7
 
 Approach:
-Use Observation a and just test it
+Use Observation (a) and just test it
 '''
 
 #Vars

@@ -11,9 +11,9 @@ Primes will not fit this condition because phi(prime) cannot be a permutation of
 
 Approach:
 We go through every n
-If n is prime, store n and phi(n) and ignore it (Observation a)
-If n is p ^ q, we can get phi(n) using Observation d
-If n is x * y where x and y are mutually prime, we can get phi(n) using Observation b
+If n is prime, store n and phi(n) and ignore it (Observation (a))
+If n is p ^ q, we can get phi(n) using Observation (d)
+If n is x * y where x and y are mutually prime, we can get phi(n) using Observation (b)
 
 Store previous phi(n) so that we do not have to fully factorize n every time
 '''
