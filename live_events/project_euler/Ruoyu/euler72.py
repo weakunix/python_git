@@ -10,7 +10,6 @@ Thus, we do not have to reconsider any n / d where gcd(n, d) > 1
 import math as albreto
 
 #Vars
-PerfectPowers = set() #Set of d where d is p ^ q (which thus cannot be written as m * n where m and n are mutually prime
 Primes = [] #List of primes
 PhiDict = {} #Dictionary of phi(d)
 Total = 0 #Total fractions n / d where n and d are mutually prime and d <= 1 million
@@ -27,29 +26,20 @@ def GetSmallestFactor(n) -> int:
     PhiDict[n] = n - 1
     return 1
 
-def Phi(n, SmallestFactor, IsPerfectPower) -> int:
-    if IsPerfectPower:
-        temp = n - n // SmallestFactor
-        PhiDict[n] = temp
-        return temp
+def Phi(n, SmallestFactor) -> None:
     temp = SmallestFactor
     OriginalN = n
     n //= SmallestFactor
     while n % SmallestFactor == 0:
         temp *= SmallestFactor
         n //= SmallestFactor
+    if n == 1:
+        temp = OriginalN - OriginalN // SmallestFactor
+        PhiDict[OriginalN] = temp
+        return
     temp = PhiDict[n] * PhiDict[temp]
     PhiDict[OriginalN] = temp
-    return temp
-
-#Set variables
-count = 2
-while 2 ** count < 10 ** 6:
-    count2 = 2
-    while count2 ** count < 10 ** 6:
-        PerfectPowers.add(count2 ** count)
-        count2 += 1
-    count += 1
+    return
 
 #Main
 if __name__ == '__main__':
@@ -58,7 +48,7 @@ if __name__ == '__main__':
             print(n)
         temp = GetSmallestFactor(n)
         if temp > 1:
-            Phi(n, temp, n in PerfectPowers)
+            Phi(n, temp)
     for i in PhiDict:
         Total += PhiDict[i]
     print(Total)
