@@ -10,7 +10,7 @@ BFI using Observation (a)
 import numpy as np
 
 #Vars
-Total = set()
+Total = set() #Number of reduced proper fractions between 1/3 and 1/2 where d <= 12000
 
 #Main
 if __name__ == '__main__':
