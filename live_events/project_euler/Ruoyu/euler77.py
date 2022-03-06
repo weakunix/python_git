@@ -41,7 +41,7 @@ if __name__ == '__main__':
     while Total <= 5000:
         n += 1
         New = {}
-        IsPrime(n)
+        ip = IsPrime(n)
         for i in Primes:
             count = 0
             try:
@@ -56,4 +56,6 @@ if __name__ == '__main__':
         Total = 0
         for i in New:
             Total += New[i]
-    print(n)
+        if ip:
+            Total -= 1
+    print(n, Total)
