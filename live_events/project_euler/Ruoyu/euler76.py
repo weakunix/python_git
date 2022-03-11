@@ -64,6 +64,7 @@ Use Observation (e) to get each succeeding f(n)
 
 #Vars
 SumDict = {1: {1: 1}, 2: {1: 1, 2: 1}} #Dict of previous f(n)
+New = {} #New f(n)
 Total = 0 #Total sums of 100
 
 #Main

@@ -22,6 +22,7 @@ import math as albreto
 
 #Vars
 SumDict = {1: {}, 2: {2: 1}} #Dict of previous f(n)
+New = {} #New f(n)
 Primes = [2] #List of primes
 Total = 0 #Total prime sums of n
 n = 2 #n
