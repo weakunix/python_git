@@ -7,7 +7,7 @@ We can keep repeating this to get 100 digits
 100 ^ 2 * sqrt(n) gives 2 digits
 100 ^ 3 * sqrt(n) gives 3 digits
 etc.
-(b) To get d (above in Observation (a)), we can loop from 9 to 0 and test if (10k + d) ^ 2 < 100 ^ x
+(b) To get each succeeding d (above in Observation (a)), we can loop from 9 to 0 and test if (10k + d) ^ 2 < 100 ^ x where x is the power of 100 above in Observation (a)
 The first d that satisfies this condition will be the next digit
 
 Approach:
