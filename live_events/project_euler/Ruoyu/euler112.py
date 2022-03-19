@@ -36,12 +36,13 @@ def GenNewSets() -> None:
     DecreasingNums = NewSet
 
 #Main
-while True:
-    DigitCount += 1
-    GenNewSets()
-    for i in range(10 ** (DigitCount - 1), 10 ** DigitCount):
-        if i not in IncreasingNums and i not in DecreasingNums:
-            BouncyNumCount += 1
-        if BouncyNumCount / i == 0.99:
-            print(i)
-            raise SystemExit()
+if __name__ == '__main__':
+    while True:
+        DigitCount += 1
+        GenNewSets()
+        for i in range(10 ** (DigitCount - 1), 10 ** DigitCount):
+            if i not in IncreasingNums and i not in DecreasingNums:
+                BouncyNumCount += 1
+            if BouncyNumCount / i == 0.99:
+                print(i)
+                raise SystemExit()
