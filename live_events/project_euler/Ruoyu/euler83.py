@@ -12,18 +12,16 @@ We will eventually reach (0, 0) and return that value
 '''
 
 #Vars
-Points = [] #List of points (x, y)
+Points = [(x, y) for x in range(5) for y in range(5)] #List of points (x, y)
 PointsDict = {} #Dict of points and their values
-MinPathsDict = {} #Dict of points and their minimum path sum for right and down
-MinPathsDictUp = {} #Dict of points and their minimum path sum for right, down, and up
+MinPathsDict = {} #Dict of points and their minimum path sum
 
 #Read file
-with open('p083_matrix.txt', 'r') as f:
+with open('test.txt', 'r') as f:
     for y, line in enumerate(f):
         line.strip('\n')
         line = line.split(',')
         for x, val in enumerate(line):
-            Points.append((x, y))
             PointsDict[(x, y)] = int(val)
 
 #Main
@@ -32,12 +30,13 @@ if __name__ == '__main__':
     for i in Points:
         x = i[0]
         y = i[1]
-        if x < 79 and y < 79:
+        if x < 4 and y < 4:
             MinPathsDict[i] = min(MinPathsDict[(x + 1, y)], MinPathsDict[(x, y + 1)]) + PointsDict[i]
-        elif x < 79:
+        elif x < 4:
             MinPathsDict[i] = MinPathsDict[(x + 1, y)] + PointsDict[i]
-        elif y < 79:
+        elif y < 4:
             MinPathsDict[i] = MinPathsDict[(x, y + 1)] + PointsDict[i]
         else:
             MinPathsDict[i] = PointsDict[i]
-    print(MinPathsDict[(0, 0)])
+    
+    print(MinPathsDict)
