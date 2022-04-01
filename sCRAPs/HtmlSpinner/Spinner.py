@@ -34,7 +34,7 @@ class Spinner:
 
     def GetSpinnerImage(Percentage = 0, Title = "", Subtitle = "") -> str:
 
-        FileName = f"""/FinalSpinners/{Title.split("/")[1]}/{Subtitle.replace(" ", "_") + "_" + Title.replace("/", "_")}.png"""
+        FileName = f"""/FinalSpinners/Percents/{int(Percentage*100)}.png"""
 
         SavedPath = "/".join(os.path.dirname(os.path.realpath(__file__)).replace("\\", "/").split("/")) + FileName
 
@@ -53,16 +53,5 @@ class Spinner:
 
 if __name__ == "__main__":
 
-    for i in range(5 + 1):
-        Equation = f"{i}/{5}"
-        Spinner.GetSpinnerImage(eval(Equation), Equation, "Outside Hours")
-    
-    for x in range(3):
-
-        ran = [10, 50, 250][x]
-
-        for i in range(ran + 1):
-
-            Equation = f"{i}/{ran}"
-
-            Spinner.GetSpinnerImage(eval(Equation), Equation, "Hours")
+    for i in range(101):
+        Spinner.GetSpinnerImage(i/100, f"{i}%", "Outside Hours")
