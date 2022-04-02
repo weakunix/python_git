@@ -51,7 +51,22 @@ class Spinner:
 
         return SavedPath
 
+def CalculateLetterGrade(Points):
+
+  if int(Points) >= 100:
+    return "A+"
+  
+  if len(Points) == 1:
+    Points = "0" + Points
+  
+  Grade = ["A", "A", "B", "C", "D", "F", "F", "F", "F", "F", "F"]
+  Modifers = ["-" for _ in range(3)] + ["" for _ in range(4)] + ["+" for _ in range(3)]
+  
+  Result = Grade[10 - int(Points[0])] + (Modifers[int(Points[1])] if int(Points[0]) >= 6 else "")
+
+  return Result
+
 if __name__ == "__main__":
 
     for i in range(101):
-        Spinner.GetSpinnerImage(i/100, f"{i}%", "Outside Hours")
+        Spinner.GetSpinnerImage(i/100, f"{i}%", CalculateLetterGrade(str(i)))
