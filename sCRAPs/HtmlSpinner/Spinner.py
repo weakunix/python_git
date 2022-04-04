@@ -68,5 +68,6 @@ def CalculateLetterGrade(Points):
 
 if __name__ == "__main__":
 
-    for i in range(101):
-        Spinner.GetSpinnerImage(i/100, f"{i}%", CalculateLetterGrade(str(i)))
+    Spinner.GetSpinnerImage(100, f"100+", "You're Insane!")
+    # for i in range(101):
+    #     Spinner.GetSpinnerImage(i/100, f"{i}%", CalculateLetterGrade(str(i)))
