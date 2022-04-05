@@ -1,15 +1,23 @@
+'''
+Observations:
+(a) (a - 1) ^ n + (a + 1) ^ n % a ^ 2 = 2 when n is even and 2an when n is odd
+
+Approach:
+Loop from 3 to 1000 and use Observation (a) to keep a count and add 2a until a remaninder repeats
+Get the max remainder and add it to the sum
+'''
 
 #Vars
 MaxRSum = 0 #Sum of all max r
+Remainders = set() #Set of remainders
 
 #Main
 if __name__ == '__main__':
     for a in range(3, 1001):
-        n = a ** 2 // (2 * a)
-        if 2 * a * n >= a ** 2:
-            n -= 1
-        if n % 2 == 0:
-            n -= 1
-        print(a, a ** 2, 2 * a * n)
-        MaxRSum += 2 * a * n
+        Remainders = set()
+        temp = 2 * a
+        while temp not in Remainders:
+            Remainders.add(temp)
+            temp = (temp + 2 * a) % a ** 2
+        MaxRSum += max(Remainders)
     print(MaxRSum)
