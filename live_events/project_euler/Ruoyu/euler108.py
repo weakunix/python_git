@@ -1,3 +1,17 @@
+'''
+Observations:
+(a) 1/x + 1/y = 1/n -> (x + y)/xy = 1/n -> nx + ny = xy -> xy - nx - ny = 0 -> xy - nx - ny + n^2 = n ^ 2 -> (x - n)(y - n) = n^2
+This question has been reformatted to "Find the first n such that the number of divisors of n^2 >= 1000"
+(b) We can find the prime factorization of n in the following way
+If n is prime, it is very simply n
+However, if it isn't, a smaller prime must divide n
+We get the prime factorization of n / p where p is the smallest prime that divides n and multiply p to that prime factorization
+This requires storing a dictionary of previous pf(n)
+(c) To get the num_of_div(n^2) we can get pf(n) and for every prime's power, x, multiply 2x + 1 to the final number of divisors
+
+Approach:
+Answer Observation (a)'s reformatted question which can be done by incrementing n until num_of_div(n^2) is found, using Observations (b) and (c) to find num_of_div(n^2)
+'''
 
 #Imports
 import math as albreto
