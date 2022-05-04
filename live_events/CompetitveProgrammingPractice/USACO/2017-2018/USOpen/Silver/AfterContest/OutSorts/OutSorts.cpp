@@ -11,7 +11,7 @@ ofstream fout("sort.out");
 ifstream fin("sort.in");
 
 int main() {
-    int N, MinPasses = 0, ToRight = 0;
+    int N, MinPasses = 0;
     unordered_map<int, vector<int> > FinalIndexes;
     fin >> N;
     vector<int> Arr(N), SortedArr;
@@ -28,9 +28,8 @@ int main() {
         Arr[i] = a;
     }
     for (int i = 0; i < N; i++) {
-        if (Arr[i] > i) ToRight++;
-        else MinPasses = max(i - Arr[i], MinPasses);
+        if (Arr[i] < i) MinPasses = max(i - Arr[i], MinPasses);
     }
-    fout << max(MinPasses, ToRight) + 1 << "\n";
+    fout << MinPasses + 1 << "\n";
     return 0;
 }
