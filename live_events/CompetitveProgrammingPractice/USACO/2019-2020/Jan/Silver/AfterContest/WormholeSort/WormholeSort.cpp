@@ -1,76 +1,81 @@
 #include <fstream>
 #include <vector>
-#include <unordered_set>
+#include <utility>
 #include <unordered_map>
 #include <algorithm>
 #include <cassert>
 
 using namespace std;
 
-#define all(v) v.begin(), v.end()
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define sec second.first
+#define third second.second
+#define rall(v) v.rbegin(), v.rend()
 
 ofstream fout("wormsort.out");
 ifstream fin("wormsort.in");
 
-bool SortHoles(const vector<int>& a, const vector<int>& b) {
-    return a[2] < b[2];
+void Dfs(const vector<vector<int> >& Connections, vector<bool>& Visited, unordered_map<int, int>& ConnectedComponentGroups, int Group, int Cow) {
+    Visited[Cow] = true;
+    ConnectedComponentGroups[Cow] = Group;
+    for (int i : Connections[Cow]) {
+        if (not Visited[i]) Dfs(Connections, Visited, ConnectedComponentGroups, Group, i);
+    }
+    return;
+}
+
+bool IsPossibleMinWidth(const vector<threesome>& Wormholes, const unordered_map<int, int>& Cows, int N, int Width) {
+    int Count = 0;
+    vector<bool> Visited(N);
+    vector<vector<int> > Connections(N);
+    unordered_map<int, int> ConnectedComponentGroups;
+    for (const threesome& t : Wormholes) {
+        if (t.first >= Width) {
+            Connections[t.sec].push_back(t.third);
+            Connections[t.third].push_back(t.sec);
+        }
+        else break;
+    }
+    for (int i = 0; i < N; i++) {
+        if (not Visited[i]) {
+            Count++;
+            Dfs(Connections, Visited, ConnectedComponentGroups, Count, i);
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        if (ConnectedComponentGroups[i] != ConnectedComponentGroups[Cows.at(i)]) return false;
+    }
+    return true;
 }
 
 int main() {
-    int N, M, CurWeight = 0;
+    int N, M, Low = 1, High = 1e9 + 1;
+    vector<threesome> Wormholes;
+    unordered_map<int, int> Cows;
     fin >> N >> M;
-    vector<int> CowOrd = {0};
-    unordered_set<int> OutPlace, CanBeSorted;
-    unordered_map<int, unordered_set<int> > Edges;
-    vector<vector<int> > Wormholes;
-    for (int i = 1; i <= N; i++) {
-        int NewCow;
-        fin >> NewCow;
-        CowOrd.push_back(NewCow);
-        if (NewCow != i) OutPlace.insert(NewCow);
+    for (int i = 0; i < N; i++) {
+        int Cow;
+        fin >> Cow;
+        Cow--;
+        Cows[i] = Cow;
     }
     for (int i = 0; i < M; i++) {
-        vector<int> NewHole(3);
-        fin >> NewHole[0] >> NewHole[1] >> NewHole[2];
-        Wormholes.push_back(NewHole);
+        int a, b, w;
+        fin >> a >> b >> w;
+        a--;
+        b--;
+        Wormholes.push_back({w, {a, b}});
     }
-    if (OutPlace.size() == 0) {
-        fout << "-1\n";
-        return 0;
+    sort(rall(Wormholes));
+    while (Low < High) {
+        int Mid = Low + (High - Low + 1) / 2;
+        if (IsPossibleMinWidth(Wormholes, Cows, N, Mid)) Low = Mid;
+        else High = Mid - 1;
     }
-    sort(all(Wormholes), SortHoles);
-    while (Wormholes.size() > 0) {
-        CurWeight = Wormholes.back().back();
-        while (Wormholes.size() > 0 and Wormholes.back().back() == CurWeight) {
-            int a, b;
-            a = Wormholes.back()[0];
-            b = Wormholes.back()[1];
-            if (Edges.count(a) == 0) Edges[a] = {b};
-            else Edges[a].insert(b);
-            if (Edges.count(b) == 0) Edges[b] = {a};
-            else Edges[b].insert(a);
-            for (int i : Edges[a]) {
-                for (int j : Edges[b]) {
-                    assert(Edges.count(i) > 0 and Edges.count(j) > 0 and Edges[i].size() > 0 and Edges[j].size() > 0);
-                    Edges[a].insert(j);
-                    Edges[b].insert(i);
-                    Edges[i].insert(b);
-                    Edges[j].insert(a);
-                    Edges[i].insert(j);
-                    Edges[j].insert(i);
-                }
-            }
-            Wormholes.pop_back();
-        }
-        CanBeSorted.clear();
-        for (int i : OutPlace) {
-            if (Edges[i].count(CowOrd[i]) > 0) CanBeSorted.insert(i);
-        }
-        for (int i : CanBeSorted) OutPlace.erase(i);
-        if (OutPlace.size() == 0) {
-            fout << CurWeight << "\n";
-            return 0;
-        }
-    }
-    return 1;
+    assert(Low == High);
+    if (Low == 1e9 + 1) fout << "-1\n";
+    else fout << Low << "\n";
+    return 0;
 }
