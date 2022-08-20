@@ -11,10 +11,10 @@ using namespace std;
 typedef pair<int, int> simps;
 
 int N, M, C;
-vector<int> Ans, Indegree, TopologicalSort;
+vector<int> Ans, Indegree, TopoSort;
 vector<vector<simps> > Graph, InverseGraph;
 
-void BfsTopologicalSort() {
+void BfsTopoSort() {
     queue<int> NodeQueue;
     for (int i = 0; i < N; i++) {
         if (Indegree[i] == 0) NodeQueue.push(i);
@@ -22,7 +22,7 @@ void BfsTopologicalSort() {
     while (not NodeQueue.empty()) {
         int Node = NodeQueue.front();
         NodeQueue.pop();
-        TopologicalSort.push_back(Node);
+        TopoSort.push_back(Node);
         for (const simps& s : Graph[Node]) {
             int to = s.first;
             Indegree[to]--;
@@ -30,7 +30,7 @@ void BfsTopologicalSort() {
             assert(Indegree[to] >= 0);
         }
     }
-    assert(TopologicalSort.size() == N);
+    assert(TopoSort.size() == N);
     return;
 }
 
@@ -54,9 +54,9 @@ int main() {
         InverseGraph[b].push_back({a, x});
     }
 
-    BfsTopologicalSort();
+    BfsTopoSort();
 
-    for (int i : TopologicalSort) {
+    for (int i : TopoSort) {
         for (const simps& s : InverseGraph[i]) {
             int from = s.first, x = s.second;
             Ans[i] = max(Ans[from] + x, Ans[i]);
