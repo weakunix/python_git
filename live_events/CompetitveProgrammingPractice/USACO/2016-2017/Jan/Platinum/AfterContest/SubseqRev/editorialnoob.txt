@@ -1,0 +1,19 @@
+Logic:
+Intuitively, we start with a range dp of dimension two; one for the start of said range and one for the end. More specifically, dp[i][j] would represent the lis in the range i and j. However, when trying to come up with transitions, we find that this is not enough information. In addition, we can store two additional values as explained below in the two methods
+
+Approach 1 (SubseqRev.cpp):
+In this approach, we look at all possibilities for subsequences inside range i to j. We call k the smallest element of the subsequence and l the largest. After this, we can find relationships with reduced dp states. To make it easier, we consider cases where i and j both don't swap, i swaps, j swaps, and both swap. We simply loop through 1 <= k <= l <= 50 and try each case. This approach yields the complexity is O(N^4)
+
+Approach 2 (official.cpp):
+The official editorial solution (thus the file is called official.cpp) instead calls k the value before index i and l the value after index j. This simply serves as constraints for val[i] and val[j]. Similar to the first approach, we can find relationships with previous dp states and loop through 1 <= k <= l <= 50. One could approach this iteratively or recursively. I, like the editorial, chose to do it recursively since it seemed more intuitive. Also note that this may not be the exact same as the official solution, this is just my take on it. This approach gives the same O(N^4) complexity as the above solution
+
+Takeaways:
+Examine what information we need when we do dp
+    Start basic, with one or two dimensions. If this isn't enough, focus on the important information
+        In this case, values inside or outside of range gives us all the information we need
+    Improve: no shortcut, do more problems
+Read the problem accurately if things aren't working
+    In fact, read it accurately in general; don't donate to read problem wrong jar
+    Turns out my program would've ran correctly but didn't see that lis was defined as non decreasing
+    Improve: just read more carefully, don't be sloppy
+        Applies to other things also
