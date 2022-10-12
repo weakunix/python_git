@@ -1,0 +1,20 @@
+Logic:
+A few observations:
+1. The queries and n's small bounds are telling us that we should keep track of the ways to interchange gifts in all subsets. For each query, we can get the bitmask of H (hmask) and the bitmask of G (gmask = (1 << n) - 1 & hmask) and get ans[hmask] * ans[gmask]
+2. The order of preferences doesn't matter. If cow i has preferences of gifts a...b, i, c...d, we just say that cow i can receive gifts a...b and gift i
+3. Motivated by the silver version of this problem, we can see that cows can only swap if they create a cycle (i.e. 1 gets 2, 2 gets 3, 3 gets 1), which could be a cycle of 1 (i.e. cow 1 receives gift 1). This is easy to prove since if there is an assignmenet without a cycle, there will be an unassigned gift
+
+Algorithm:
+Motivated by the observations above, we use a bitmask dp on cycles. However, to avoid multiple counting, we try to sort the cycles in the following way: we make each cycle start at its highest cow number For example, if the cycle is 1->4->6->2->3->1 (a->b means gift a is being given to cow b), it must start at 6, resulting in 6->2->3->1->4->6. This avoids rotations of cycles. Let's denote each cycle by its cycle start.
+Now we must address the permutation of cycles. For example cycles 4->1->3->4 and 2->2 could be permuted two different ways: cycle 4 and then cycle 2 or cycle 2 and then cycle 4. To avoid this, we sort these cycles by increasing order. In the above example, we must do cycle 2 and then cycle 4.
+Why do we choose this sorting method? We could reverse it and sort individual cycles by increasing order and all cycles by decreasing order. That's essentially the equivalent of the above. However, why not increasing indivdual cycles and increasing all cycles? With our sorting method, we guarentee that all cows with higher number haven't been assigned gifts yet and thus open to be the start of a new cycle. However, with the other approach, we potentially could have assigned a cow a gift already, rendering them incapable of being the start of a new cycle. (This is just my analysis, the editorial doesn't touch on this and this is important to get clear)
+
+Approach (RedistributingGifts.cpp):
+We use the above algorithm. Our dp is now defined as dp[mask][last] where mask is the bitmask of assigned gifts and last is the latest cow assigned a gift. From here we can loop through cow < cyclestart and cow not assigned gift and continue on our cycle (dp[mask ^ 1 << cow][cow] += dp[mask][last]). Alternatively, we can terminate the loop (if there exists the link last->cyclestart). We add this to ans[mask]. Then we loop through all cow > cyclestart and start a new cycle (dp[mask ^ 1 << cow][cow] += dp[mask][last]). This algorithm guarenteeds a dp state with (mask, last) to be calculated fully when reached and yields the complexity O(2^N * N^2) which runs in time. This is because there are 2^N * N states and at most N transitions.
+
+Takeaways:
+-Main thing was sorting cycles
+    -In general, if there is multiple counting, think of ways to eliminate that. Maybe think sorting by certain key (in this case sorting individual cycles decreasing and all cycles increasing)
+-Don't be lazy when reading editorial
+    -Just because you don't understand on your first read doesn't mean you don't understand
+    -Cleary did this time and almost didn't read due to laziness
