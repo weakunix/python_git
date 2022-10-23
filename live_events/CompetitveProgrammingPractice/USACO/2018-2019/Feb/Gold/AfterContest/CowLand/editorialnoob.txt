@@ -1,0 +1,12 @@
+Logic:
+Define path(a, b) as the xor path from a to b
+Let lca(a, b) be the lowest common ancestor of a and b
+It can be seen that path(a, b) = path(a, root) ^ path(b, root) ^ e[lca(a, b)]. lca(a, b) can be computed in O(1) time with a precomputation time of O(NlogN) using a sparse table. We can use a binary indexed tree to compute path(node, root) in O(logN) time
+
+Approach (CowLand.cpp):
+Implementation of the above solution
+
+Takeaways:
+-Confusing how bit needs both the start and end to be included when doing euler tour
+    -Think about why that is
+    -Try to make some connections
