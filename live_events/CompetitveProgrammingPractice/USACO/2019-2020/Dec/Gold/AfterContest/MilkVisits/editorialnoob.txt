@@ -1,0 +1,14 @@
+Logic:
+It should be clear that this problem is related to least common ancestor. We see this when we consider a query (a, b, c). Let l = lca(a, b). We can see that a node of type c must lie on the path a to l or path b to l (or both) in order for the query to be true. We can rephrase our above observation a little. Call y the node of type c that has the greatest depth and is also either on path a to l or b to l. We realize that depth(y) >= depth(l) since any node on path a to l must have depth <= depth(l). Likewise for path b to l. So for a query (a, b, c), we can solve it in O(1) time given y (lca is an O(1) operation with O(NlogN) precomputation time using a sparse table).
+All that's left is to find y efficiently. In order to find y for each query, we can run a dfs and store all the nodes that are ancestors of the current node. This way we can easily access each y. However, this can use up to O(N^2) space which is too much.
+Instead, a key observation is that we can answer the queries offline. Let's redefine our query to make the definition more specific. Let newquery (a, b, c) return true if there is a node of type c on the path from a to lca(a, b). We realize that query (a, b, c) is true if newquery (a, b, c) or newquery (b, a, c) so we have to make sure to add both. With our redefined newquery, we can answer the problem. Instead of storing all nodes of each type c for every node, we can just keep one array of stacks. Each index c stores all the depths of nodes with type c. Now we can run a dfs. At node x, we can answer each of x's queries in the fashion explained above. This yields the complexity of O(NlogN) due to our initial sparse table precomputation.
+
+Approach (MilkVisits.cpp):
+The above implementation.
+
+Takeaways:
+-The important observation was to answer the queries offline and then use a dfs
+    -It's hard to see why I missed this
+        -Maybe next time, when encountering a problem with queries and getting stuck, try thinking about answer offline
+            -That's the only thing I can think of
+            -Maybe just get better
