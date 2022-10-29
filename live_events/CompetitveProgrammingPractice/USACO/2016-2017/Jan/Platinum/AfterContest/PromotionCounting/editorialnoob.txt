@@ -1,0 +1,15 @@
+Logic:
+If the question were to return the number of ancestors that have lower proficiency than a node, we can solve this using a dfs and a bit. But this questions asks the reverse. One can use a preorder traversal (essentially a dfs) to flatten the tree into an array where each node's descendents are directly after its index.
+But how can we solve each node's query? One can observe that the cow with the highest proficiency obviously has 0 descendents with higher proficiency. Additionally, the cow with the second highest proficiency has 0 descendents with higher proficiency unless the cow with highest proficiency is a descendent. This reasoning can be continued.
+This may motivate us to answer queries in decreasing value by the node's value. This is where the preorder traversal comes in handy. We store a bit. When a node is considered, it will have a higher value than all following nodes. Therefore, we can add 1 to the respective preorder traversal index of the bit. The bit helps us get the sum of a range of indicies, essentially giving us the number of descendents with higher proficiency. This problem can be solved in O(NlogN) time.
+
+Approach (PromotionCounting.cpp):
+The above solution implemented.
+
+Takeaways:
+-Was close but need to think more carefully
+    -Solved the reverse problem
+    -Try to extend thinking when faced with a harder probelm
+        -Perhaps, like in this problem, try ordering queries in a helpful way
+-Read the problem more carefully
+    -Read it wrong in the beginning and thought it was the reverse problem
