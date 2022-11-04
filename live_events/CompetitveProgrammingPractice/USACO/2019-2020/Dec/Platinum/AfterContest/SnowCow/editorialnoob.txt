@@ -1,0 +1,33 @@
+Logic:
+Observing that this problem is about subtrees, we can use the euler tour technique and flatten the tree into an array called preord (preorder traversal). Now we may define st[x] as the starting index of x and en[x] as the ending index of x in preord. More specifically, the range [st[x], en[x]] is all nodes in the subtree of x.
+
+Let's define a color root of c as a node that is colored c (and thus all descendants colored c) but does not have its parent colored c. It's also important to know that for a color c, there could more than one or no color roots of c. Also a node can be a color root of multiple colors.
+We can make a couple observations about color roots.
+For a query of type 1, call the node we are changing x. If x has a parent that is a color root of c, we do nothing since x is already colored c. Else x is now a color root of c. One last step we need to perform is to remove all color roots of c that are descendants of x.
+For a query of type 2, we can split it into two cases.
+Case 1:
+We consider all nodes that are either x or an ancestor of x. If any of these nodes are a color root, we observe that all nodes in the subtree of x must be colored c. Therefore, we can add en[x] - st[x] + 1 to our result.
+Case 2:
+We consider all color roots that are descendants of x. Call one of these nodes y. We add en[y] - st[y] + 1 to the result since all nodes in the subtree y are colored c.
+
+Approach (SnowCow.cpp):
+How will we implement such an algorithm? Let's take it step by step.
+
+Storing color roots:
+We can use an vector of sorted sets where each set corresponds to a color. Call this vector colors. For a given color c, the set colors[c] stores all st[x] for all nodes x that are color roots of c. When we encounter query 1, we first must check whether an ancestor of node x is already a color root of c. We can do this by using auto it = colors[c].upper_bound(x), it--. Then check if en[preord[*it]] >= st[x] and if it is, we know that x is a child of c and thus already colored c (we must use en[preord[*it]] since colors[c] only stores st[x]). If x is indeed a color root we can insert st[x] into colors[c]. Then we continue to find auto it = colors[c].upper_bound(st[x]) while *it <= en[x] (essentially removing all color roots of c that are descendants of x).
+
+Case 1:
+Now consider Case 1 described above. We want to find the number of color roots that are ancestors of x or x itself. When adding a new color root while processing a query of type 1, we can add 1 to the range [st[x], en[x]] since each node in that range now has one more color root that is an ancestor. When we remove color roots that are children of node x, we will have to subtract 1 from the range [st[y], en[y]] since node y is no longer a color root and all nodes that are descendants of y lose a color root. We can use a bit to do the above calculations. Since a bit is essentially a prefix sum, we are just adding 1 in to the element at start_idx and subtracting 1 to the element at end_idx (or subtracting 1 and then adding 1 if removing). Then, to get the number of color roots that are ancestors of x, we just get the prefix sum of index x. The bit helps us achieve O(logN) complexity for both editing and querying. Also, one must remember to multiply the prefix sum of index x by (en[x] - st[x] + 1) since our prefix sum is only storing the number of color roots. The number of nodes with each color would be en[x] - st[x] + 1 (number of nodes in subtree of x).
+
+Case 2:
+Now we want to see how many color roots are descendants of node x and how much each color root adds to our result. To solve this, we can use another bit. Each index will store the number of nodes that are added to our result with the node at st[x] being the color root. We can then get the total number of nodes added by getting the range [st[x], en[x]] of the bit. As for type 1 queries, we can simply add the number of nodes in the subtree of x when designating x as a color root and we can subtract the number of nodes in the subtree of y when y is no longer a color root.
+
+The total time complexity would be O(NlogN) (I think? I'm not entirely sure).
+
+Takeaways:
+-Maybe try to make observations and connect them with the problem
+    -Here, for example, we can make the observation about color roots and try to solve the problem in terms of color roots
+        -This process may help to hint at a possible solution
+-Keep writing editorials since they force you to have deeper understanding
+    -Try not to be lazy (like Case 2) since that may show a gap in your understanding
+    -Write editorials in a way such that beginning observations should connect with the reason you use certain algorithms or data structures
