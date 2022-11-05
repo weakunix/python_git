@@ -1,0 +1,9 @@
+Logic:
+We can see that if a node x is color c, its children must not be color c. Using three dp arrays, we can solve this problem. One will be designated for each color. More specifically, dpc[x] (c = 1, 2, 3) represents the number of ways for the subtree of x to be colored such that x is colored c. We will solve dp states in reverse bfs order (leaves first). Our initial dp states will be for each leaf. If a leaf is already painting color c, we will set dpc[x] = 1. If it is not already painting, we will set dp1[x], dp2[x], and dp3[x] to 1. For other nodes, we will consider each child of x. We can find the number of ways for the children to not be colored 1, not be colored 2, and not be colored 3 in the following way. Not being colored 1 would be the product of all dp2[y] + dp3[y] where y represents all children of node x. Not being colored 2 would be the product of all dp1[y] + dp3[y] and not being colored 3 would be the product of all dp1[y] + dp2[y]. Calculating not1, not2, and not3, we can achieve dp1[x], dp2[x], and dp3[x] using similar logic as to the leaf cases. If node x is already colored c, we set dpc[x] = notc. Else we set dp1[x] = not1, dp2[x] = not2, and dp3[x] = not3. Using this logic, our answer would be dp1[0] + dp2[0] + dp3[0] and gives us the complexity of O(N).
+
+Approach (BarnPainting.cpp):
+The above solution implemented.
+
+Takeaways:
+-Not a hard problem, good job finding a dp approach quickly and identifying the states
+    -Training speed, reaction, and clear understanding is important since you didn't fully understand the transitions between states immediately
