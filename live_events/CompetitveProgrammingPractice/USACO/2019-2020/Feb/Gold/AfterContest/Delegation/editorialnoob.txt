@@ -1,0 +1,22 @@
+Logic:
+First we observe that for a given k, it will work only if n - 1 is divisible by k. This means that k must be a divisor of n - 1. Using the fact that 2 * 3 * 5 * 7 * 11 * 13 * 17 > 10^5, we see that the number of factors of a number from [1, 10^5] should not exceed 128. This hints at a potential solution where we test each k where k is a factor of n - 1.
+
+Next we observe each subtree rooted at an arbitrary x. We observe that for each child y of x, the subtree of y must be able to be broken down in the following way: we have exactly one path going from a node in the subtree of y, through y, to x (call this the extra path). All other nodes must be part of paths of exactly length exactly k. Let's call this the Deciding Condition.
+
+Since we'll loop through each 1 <= x <= n, for each x, we can just assume that the Deciding Condition is met for all children y of x. If it isn't met, our program will return false when encountering x = y where y fails the Deciding Condition. How do we test if a node x passes the Deciding Condition? Since we made the above assumption, we just have to consider every extra path. Let's call the collection of these extra paths s. We see that in order to pass the Deciding Condition, we must pair up values from s that sum to exactly k. If it is possible, the extra path from x to the parent of x would be 1 since there is only that one edge being passed upward. However, if we have exactly one value from s that can't be paired up, we observe that we can pass on an extra path of length l + 1 where l is the extra value. If there are more than two values that can't be paired up to sum to k, we return false.
+
+Approach 1 (slow.cpp):
+For each k, we do the following. For each n, we will store a hashmap of integers representing s. If we loop through all x via post order traversal, we can ensure that all children are processed before a given node. When processing a node, if it fails the Deciding Condition, we return false. Else we perform hashmaps[parent[x]][extra path len]++. This is actually too slow and I'm not entirely sure why that is since the complexity is O(NK). My guess is because for each k, we are constructing a size n array of hashmaps. In addition hashmaps have a high constant factor so that could contribute to the slowness.
+
+Approach 2 (Delegation.cpp):
+Since we are already assuming that the Deciding Condition is true for all children y of x, we can also get the extra path length of y, as that is simply the number of nodes in the subtree of y (the number of edges = node count - 1 and then we add one more for the edge y to x). Doing this removes the need for n hashmaps and we don't need to spend time on the constant factors of hashmaps. The complexity is a faster O(NK) which runs in time.
+
+Takeaways:
+-Was very close in this problem just missed the precalculation of each extra path length
+    -This could be avoided if you try to use simpler data structures
+        -No need for hashmaps
+        -Kind of understandable why hashmaps were used since it's still constant time but it is faster without them
+    -Also need to improve mathematical thinking and tree theory since that would help identify this and similar observations faster
+-Overall good job realizing the possibility of using divisors and testing each k
+-Be less sloppy
+    -Didn't realize that you weren't implementing divisors for a while since you just forgot to do for (int i : arr)
