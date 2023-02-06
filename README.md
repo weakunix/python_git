@@ -1,6 +1,6 @@
 # Python_git (formerly known as cow_dump)
 
-github repository for all dumb projects we make (half of which never see the light of day)
+github repository for all dumb projects we make (half of which never see the light of day) 
 
 ## Navigation tips
 
