@@ -26,3 +26,5 @@ We love people who recycle code from the 'scrapyard'.
 Don't just don't, you're torturing yourself! (unless the project **SPECIFICALLY HAS** a CONTRIBUTE.MD)
 Our code is spaghetti enough working on it with **TWO** people. 
 I'd be honestly suprised if you can read any of our code. (we barely comment, so goodluck :) )
+
+Moo
