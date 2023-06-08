@@ -1,0 +1,100 @@
+#cpp programs
+
+##basic starter program (usaco)
+
+```
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <algorithm>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+
+int main() {
+	return 0;
+}
+```
+
+##subcase starter program (codeforces)
+
+```
+#include <iostream>
+#include <string>
+#include <vector>
+#include <utility>
+#include <algorithm>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+
+int t;
+
+void subcase() {
+	return;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+	cin >> t;
+	for (int i = 0; i < t; i++) subcase();
+	return 0;
+}
+```
+
+##cstdio take in input (usaco)
+
+```
+#include <cstdio>
+
+	freopen(".in", "r", stdin);
+	freopen(".out", "w", stdout);
+```
+
+##speed up i/o (USE WITH CAUTION)
+
+```
+	ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+```
+
+#data structures
+
+##ordered set with indices (NOT MULTISET)
+
+```
+#include <ext/pb_ds/assoc_container.hpp>
+
+using namespace __gnu_pbds;
+
+template <class T> using index_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define ook order_of_key
+```
+
+#BUG CHECKLIST
+-RULE: Don't be sloppy! Don't disregard this list! Don't ignore certain aspects thinking it's fine! Check everything, every variable, every detail!
+-Check constraints, are vars long long?
+-Did you resize AFTER taking in input?
+-Did you mistype const vals?
+-Check iterators and pointers: did you try to access v.end() or nullptr?
+-TLE: check to see if program complexity is as intended (i.e. did you forget visited array for dfs, making it O(N^2)?)

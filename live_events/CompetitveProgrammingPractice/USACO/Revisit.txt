@@ -1,0 +1,6 @@
+2020 Jan Gold: 3Sum (somehow dp from back runs in time but dp from front doesn't)
+2015 Jan Gold: Moovie Mooving (need to review and prove rigorously how we can always choose the latest movie time)
+2021 Dec Gold: Hilo (think about the entire approach, how for index i, the corresponding high to i is index j, j < i and nums[j] > nums[i], nums[j] minimized)
+2017 Feb Plat: Cow Cross (why must we also try rotating bottom? rotating only one is wrong)
+2022 Feb Silver: Robot Instructions (investigate why the Map approach in the noob editorial doesn't work)
+2017 Jan Plat: Subseq Rev (solved it but think about it a bit more. Why extra dimensions and how do you get there? how to apply to other problems?)
