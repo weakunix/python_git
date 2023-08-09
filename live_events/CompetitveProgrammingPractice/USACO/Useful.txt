@@ -4,6 +4,7 @@
 
 ```
 #include <iostream>
+#include <cstring>
 #include <vector>
 #include <utility>
 #include <algorithm>
@@ -30,6 +31,7 @@ int main() {
 ```
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <utility>
 #include <algorithm>
