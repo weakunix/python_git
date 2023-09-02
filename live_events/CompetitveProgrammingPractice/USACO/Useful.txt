@@ -79,6 +79,13 @@ int main() {
 	cin.tie(0), cout.tie(0);
 ```
 
+##pragma (BASICALLY SHOULD NEVER USE UNLESS SURE THAT COMPLEXITY IS RIGHT AND NEED A WAY TO SPEED UP)
+
+```
+	#pragma GCC optimize("Ofast")
+	#pragma GCC target("avx2")
+```
+
 #data structures
 
 ##ordered set with indices (NOT MULTISET)
@@ -94,10 +101,28 @@ template <class T> using index_set = tree<T, null_type, less<T>, rb_tree_tag, tr
 #define fbo find_by_order
 ```
 
+#debug
+
+##basic debug
+
+```
+lldb
+tar c [executable]
+b [program].cpp : [line #]
+r
+```
+
+##read input from file when run
+
+```
+settings set target.input-path [input file]
+```
+
 #BUG CHECKLIST
 -RULE: Don't be sloppy! Don't disregard this list! Don't ignore certain aspects thinking it's fine! Check everything, every variable, every detail!
 -Check constraints, are vars long long?
 -Did you resize AFTER taking in input?
 -Did you mistype const vals?
 -Check iterators and pointers: did you try to access v.end() or nullptr?
+-When comparing with size, check if you have unsigned errors
 -TLE: check to see if program complexity is as intended (i.e. did you forget visited array for dfs, making it O(N^2)?)
