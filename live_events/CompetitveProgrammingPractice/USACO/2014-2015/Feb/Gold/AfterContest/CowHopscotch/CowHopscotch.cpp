@@ -1,117 +1,79 @@
 #include <iostream>
 #include <cstdio>
+#include <cstring>
 #include <vector>
+#include <utility>
 #include <set>
-#include <unordered_set>
-#include <unordered_map>
+#include <map>
 #include <algorithm>
 #include <cassert>
 
 using namespace std;
 
+typedef long long ll;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define sec second.first
+#define third second.second
 #define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
 
-const int modval = 1e9 + 7;
-int r, c, k;
-vector<int> allbit;
-vector<vector<int>> grid, appear, colorbit;
+const int R = 750, C = 750, modval = 1e9 + 7;
 
-void comp() {
-    unordered_set<int> unique;
-    unordered_map<int, int> compmap;
-    k = 0;
+int r, c, k, grid[R][C], dp[C], curdp[C];
+vector<vector<int>> bit, xvals;
 
-    for (int y = 0; y < r; y++) {
-        for (int x = 0; x < c; x++) unique.insert(grid[y][x]);
-    }
-
-    for (int i : unique) {
-        compmap[i] = k;
-        k++;
-    }
-
-    for (int y = 0; y < r; y++) {
-        for (int x = 0; x < c; x++) grid[y][x] = compmap[grid[y][x]];
-    }
-    
-    appear.resize(k);
-
+void setbit(int col, int uncomppos, int add) {
+    for (int idx = lower_bound(all(xvals[col]), uncomppos) - xvals[col].begin() + 1; idx < bit[col].size(); idx += idx & (-idx)) bit[col][idx] = (bit[col][idx] + add) % modval;
     return;
 }
 
-void getpoints() {
-    for (int y = 0; y < r; y++) {
-        set<int> row;
-        for (int i : grid[y]) row.insert(i);
-        for (int i : row) appear[i].push_back(y);
-    }
-    
-    for (int i = 0; i < k; i++) colorbit.push_back(vector<int>(appear[i].size() + 1));
-
-    return;
-}
-
-int parentidx(int idx) {
-    return idx - (idx & (-idx));
-}
-
-int nextidx(int idx) {
-    return idx + (idx & (-idx));
-}
-
-void setidx(vector<int>& bit, int idx, int addval) {
-    while (idx < bit.size()) {
-        bit[idx] = (bit[idx] + addval) % modval;
-        idx = nextidx(idx);
-    }
-    return;
-}
-
-int getpfx(vector<int>& bit, int idx) {
+int getbit(int col, int uncomppos) {
     int res = 0;
-    while (idx > 0) {
-        res = (res + bit[idx]) % modval;
-        idx = parentidx(idx);
-    }
+    for (int idx = upper_bound(all(xvals[col]), uncomppos) - xvals[col].begin(); idx > 0; idx -= idx & (-idx)) res = (res + bit[col][idx]) % modval;
     return res;
 }
 
 int main() {
-	freopen("hopscotch.in", "r", stdin);
-	freopen("hopscotch.out", "w", stdout);
+    freopen("hopscotch.in", "r", stdin);
+    freopen("hopscotch.out", "w", stdout);
 
     cin >> r >> c >> k;
-    grid.resize(r, vector<int>(c));
-    allbit.resize(r + 1);
-    for (int y = 0; y < r; y++) {
-        for (int x = 0; x < c; x++) cin >> grid[y][x];
-    }
-
-    comp();
-    getpoints();
-
-    for (int x = c - 2; x >= 0; x--) {
-        int allcount = 0;
-        vector<int> colorcount(k);
-        for (int y = r - 1; y >= 0; y--) {
-            int color = grid[y][x], idx = appear[color].size() - (lower_bound(all(appear[color]), y) - appear[color].begin()), curres = (((getpfx(allbit, r - y - 1) - allcount) % modval) - ((getpfx(colorbit[color], idx - 1) - colorcount[color]) % modval) + (y < r - 1 and color != grid[r - 1][c - 1])) % modval;
-            curres %= modval;
-            curres += modval;
-            curres %= modval;
-            
-
-            if (x == 0 and y == 0) {
-                cout << curres << "\n";
-                return 0;
-            }
-
-            allcount = (allcount + curres) % modval;
-            colorcount[color] = (colorcount[color] + curres) % modval;
-            setidx(allbit, r - y, curres);
-            setidx(colorbit[color], idx, curres);
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> grid[i][j];
+            grid[i][j]--;
         }
     }
-	
-    assert(false);
-    return 1;
+    xvals.resize(k);
+    bit.resize(k);
+
+    for (int i = 0; i < c; i++) {
+        for (int j = 0; j < r; j++) {
+            vector<int>& cur = xvals[grid[j][i]];
+            if (cur.empty() or cur.back() != i) cur.push_back(i);
+        }
+    }
+
+    for (int i = 0; i < k; i++) bit[i].resize(xvals[i].size() + 1);
+
+    for (int i = 0; i < c; i++) dp[i] = 1;
+    setbit(grid[0][0], 0, 1);
+
+    for (int i = 1; i < r; i++) {
+        curdp[0] = 0;
+        for (int j = 1; j < c; j++) curdp[j] = (dp[j - 1] + modval - getbit(grid[i][j], j - 1)) % modval;
+
+        int sm = 0;
+        for (int j = 0; j < c; j++) {
+            sm = (sm + curdp[j]) % modval;
+            dp[j] = (dp[j] + sm) % modval;
+            setbit(grid[i][j], j, curdp[j]);
+        }
+    }
+
+    cout << curdp[c - 1] << "\n";
+
+	return 0;
 }

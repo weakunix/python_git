@@ -1,8 +1,9 @@
 #include <iostream>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 #include <utility>
-#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <cassert>
 
@@ -10,111 +11,113 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
 
-const int ModVal = 1e9 + 7;
-int N, M, X, Y, K;
-vector<int> Comps;
-vector<vector<simps> > Adj;
-vector<map<ll, ll> > CompLens;
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
 
-void Dfs(const int Node, const int Parent, const int CurComp, const ll Dist, bool IsFirst = false) {
-    assert(CurComp >= 0 and CurComp < K);
-    assert(Node >= 0 and Node < N);
-    Comps[Node] = CurComp;
-    if (Dist > 0 or not IsFirst) CompLens[CurComp][Dist + X]++;
-    for (const simps& s : Adj[Node]) {
-        if (s.first != Parent) Dfs(s.first, Node, CurComp, Dist + s.second);
+const int N = 1500, Y = 2500, L = 12, modval = 1e9 + 7;
+
+int n, m, x, y, k = 0, sz = 0, ht[N], rtdist[N], treeid[N], st[L][2 * N], idx[N], lg[2 * N];
+ll ans, dpcnt[N][Y], dpsm[N][Y];
+vector<simps> adj[N];
+unordered_map<int, ll> allcnt[N], allsm[N];
+
+void dfs(int node, int parent, int height, int dist) {
+    st[0][sz] = node;
+    idx[node] = sz;
+    sz++;
+    ht[node] = height;
+    rtdist[node] = dist;
+    treeid[node] = k;
+
+    for (simps& s : adj[node]) {
+        if (s.first == parent) continue;
+        dfs(s.first, node, height + 1, dist + s.second);
+        st[0][sz] = node;
+        sz++;
     }
+
     return;
 }
 
-void SetCompLens() {
-    int CurComp = 0;
-    for (int i = 0; i < N; i++) {
-        if (Comps[i] == -1) {
-            Dfs(i, -1, CurComp, 0, true);
-            CurComp++;
-        }
-        else Dfs(i, -1, Comps[i], 0, true);
-    }
-    return;
+int getlca(int a, int b) {
+    a = idx[a];
+    b = idx[b];
+    if (a > b) swap(a, b);
+    int len = lg[b - a + 1], l = st[len][a], r = st[len][b - (1 << len) + 1];
+    return ht[l] < ht[r] ? l : r;
 }
 
-ll GetAns(ll Ans) {
-    for (int i = 1; i < K; i++) {
-        Ans = (Ans * i) % ModVal;
-        Ans = (Ans * 2) % ModVal;
-    }
-    return Ans;
+int getdist(int a, int b) {
+    int l = getlca(a, b);
+    return rtdist[a] + rtdist[b] - 2 * rtdist[l];
 }
 
 int main() {
-    //freopen("2.in", "r", stdin);
     freopen("mooriokart.in", "r", stdin);
     freopen("mooriokart.out", "w", stdout);
 
-    cin >> N >> M >> X >> Y;
-    K = N - M;
-    vector<vector<ll> > DpSum(K), DpCount(K);
-    Comps.resize(N, -1);
-    Adj.resize(N);
-    CompLens.resize(K);
-    for (int i = 0; i < K; i++) {
-        DpSum[i].resize(Y + 1);
-        DpCount[i].resize(Y + 1);
-    }
-    for (int i = 0; i < M; i++) {
+    ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+
+    memset(treeid, -1, sizeof(treeid));
+    lg[1] = 0;
+    for (int i = 2; i < 2 * N; i++) lg[i] = lg[i / 2] + 1;
+
+    cin >> n >> m >> x >> y;
+    for (int i = 0; i < m; i++) {
         int a, b, d;
         cin >> a >> b >> d;
-        a--;
-        b--;
-        Adj[a].push_back({b, d});
-        Adj[b].push_back({a, d});
+        a--; b--;
+        adj[a].push_back({b, d});
+        adj[b].push_back({a, d});
     }
 
-    SetCompLens();
+    for (int i = 0; i < n; i++) {
+        if (treeid[i] != -1) continue;
+        dfs(i, -1, 0, 0);
+        k++;
+    }
 
-    for (const auto it : CompLens[0]) {
-        assert(it.first > 0);
-        assert(it.second % 2 == 0);
-        ll val = it.first, count = it.second / 2, sum = (val * count) % ModVal;
-        if (val < Y) {
-            DpSum[0][val] = (DpSum[0][val] + sum) % ModVal;
-            DpCount[0][val] = (DpCount[0][val] + count) % ModVal;
-        }
-        else {
-            DpSum[0][Y] = (DpSum[0][Y] + sum) % ModVal;
-            DpCount[0][Y] = (DpCount[0][Y] + count) % ModVal;
+    y = max(y - k * x, 0);
+
+    for (int i = 1; (1 << i) <= sz; i++) {
+        for (int j = 0; j + (1 << i) <= sz; j++) {
+            int l = st[i - 1][j], r = st[i - 1][j + (1 << (i - 1))];
+            st[i][j] = ht[l] < ht[r] ? l : r;
         }
     }
-    for (int i = 0; i < K - 1; i++) {
-        for (int j = 0; j < Y; j++) {
-            ll a = DpCount[i][j], b = DpSum[i][j];
-            for (const auto it : CompLens[i + 1]) {
-                assert(it.first > 0);
-                assert(it.second % 2 == 0);
-                ll val = it.first, count = it.second / 2, sum = (val * count) % ModVal;
-                if (val + j < Y) {
-                    DpSum[i + 1][val + j] = (DpSum[i + 1][val + j] + ((a * sum) % ModVal) + ((b * count) % ModVal)) % ModVal;
-                    DpCount[i + 1][val + j] = (DpCount[i + 1][val + j] + ((a * count) % ModVal)) % ModVal;
-                }
-                else {
-                    DpSum[i + 1][Y] = (DpSum[i + 1][Y] + ((a * sum) % ModVal) + ((b * count) % ModVal)) % ModVal;
-                    DpCount[i + 1][Y] = (DpCount[i + 1][Y] + ((a * count) % ModVal)) % ModVal;
-                }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (treeid[i] != treeid[j]) continue;
+            int cur = getdist(i, j);
+            allcnt[treeid[i]][min(cur, y)]++;
+            allsm[treeid[i]][min(cur, y)] = (allsm[treeid[i]][min(cur, y)] + cur) % modval;
+        }
+    }
+
+    for (int i = 0; i <= y; i++) {
+        dpcnt[0][i] = allcnt[0][i];
+        dpsm[0][i] = allsm[0][i];
+    }
+
+    for (int i = 1; i < k; i++) {
+        for (int j = 0; j <= y; j++) {
+            for (auto& v : allcnt[i]) {
+                int val = v.first, cur = min(j + val, y);
+                dpcnt[i][cur] = (dpcnt[i][cur] + dpcnt[i - 1][j] * allcnt[i][val] % modval) % modval;
+                dpsm[i][cur] = (dpsm[i][cur] + dpsm[i - 1][j] * allcnt[i][val] % modval + dpcnt[i - 1][j] * allsm[i][val]) % modval;
             }
         }
-        ll a = DpCount[i][Y], b = DpSum[i][Y];
-        for (const auto it : CompLens[i + 1]) {
-            assert(it.first > 0);
-            assert(it.second % 2 == 0);
-            ll val = it.first, count = it.second / 2, sum = (val * count) % ModVal;
-            DpSum[i + 1][Y] = (DpSum[i + 1][Y] + ((a * sum) % ModVal) + ((b * count) % ModVal)) % ModVal;
-            DpCount[i + 1][Y] = (DpCount[i + 1][Y] + ((a * count) % ModVal)) % ModVal;
-        }
     }
 
-    cout << GetAns(DpSum[K - 1][Y]) << "\n";
+    ans = (dpsm[k - 1][y] + dpcnt[k - 1][y] * k * x) % modval;
+    for (int i = 1; i < k; i++) ans = ans * 2 * i % modval;
+    cout << ans << "\n";
 
-    return 0;
+	return 0;
 }

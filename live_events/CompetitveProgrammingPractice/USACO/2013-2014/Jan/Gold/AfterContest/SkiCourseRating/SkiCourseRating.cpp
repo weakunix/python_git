@@ -1,9 +1,11 @@
 #include <iostream>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 #include <utility>
-#include <unordered_map>
+#include <map>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
@@ -14,69 +16,69 @@ typedef pair<int, simps> threesome;
 #define sec second.first
 #define third second.second
 #define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
 
-vector<int> Parent, StartRoots;
+const int N = 500, M = 500;
 
-int GetRoot(const int Node) {
-    if (Parent[Node] < 0) return Node;
-    Parent[Node] = GetRoot(Parent[Node]);
-    return Parent[Node];
+int n, m, t, grid[N * M], par[N * M], starting[N * M];
+ll ans = 0;
+vector<threesome> edges;
+
+int getpar(int node) {
+    if (par[node] < 0) return node;
+    par[node] = getpar(par[node]);
+    return par[node];
 }
 
-int Merge(int a, int b) {
-    if (a < b) swap(a, b);
-    Parent[b] += Parent[a];
-    Parent[a] = b;
-    StartRoots[b] += StartRoots[a];
-    StartRoots[a] = 0;
-    return -Parent[b];
+void merge(int a, int b) {
+    a = getpar(a); b = getpar(b);
+    if (a == b) return;
+    if (par[a] < par[b]) swap(a, b);
+    par[b] += par[a];
+    par[a] = b;
+    starting[b] += starting[a];
+    starting[a] = 0;
+    return;
 }
 
 int main() {
     freopen("skilevel.in", "r", stdin);
     freopen("skilevel.out", "w", stdout);
 
-    int M, N, T, StartLeft = 0;
-    ll Ans = 0;
-    vector<int> Nodes;
-    vector<threesome> Edges;
-    cin >> M >> N >> T;
-    Parent.resize(M * N, -1);
-    StartRoots.resize(M * N);
-    for (int i = 0; i < M * N; i++) {
-        int Cur;
-        cin >> Cur;
-        Nodes.push_back(Cur);
-        if (i % N > 0) Edges.push_back({abs(Cur - Nodes[i - 1]), {i, i - 1}});
-        if (i >= N) Edges.push_back({abs(Cur - Nodes[i - N]), {i, i - N}});
-    }
-    for (int i = 0; i < M * N; i++) {
-        int Cur;
-        cin >> Cur;
-        if (Cur) {
-            StartLeft++;
-            StartRoots[i]++;
+    memset(par, -1, sizeof(par));
+    memset(starting, 0, sizeof(starting));
+
+    cin >> n >> m >> t;
+    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) cin >> grid[i * m + j];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            int cur = i * m + j;
+            bool b;
+            cin >> b;
+            if (b) starting[cur]++;
+
+            if (j < m - 1) edges.push_back({abs(grid[cur] - grid[cur + 1]), {cur, cur + 1}});
+            if (i < n - 1) edges.push_back({abs(grid[cur] - grid[cur + m]), {cur, cur + m}});
         }
     }
-    sort(all(Edges));
 
-    if (T == 1) {
+    sort(all(edges));
+
+    if (t == 1) {
         cout << "0\n";
         return 0;
     }
-    for (const threesome& t : Edges) {
-        int D = t.first, a = t.sec, b = t.third;
-        if (GetRoot(a) != GetRoot(b)) {
-            if (Merge(GetRoot(a), GetRoot(b)) >= T) {
-                Ans += (ll) StartRoots[GetRoot(a)] * D;
-                StartLeft -= StartRoots[GetRoot(a)];
-                StartRoots[GetRoot(a)] = 0;
-                if (StartLeft == 0) {
-                    cout << Ans << "\n";
-                    return 0;
-                }
-            }
+
+    for (threesome& u : edges) {
+        merge(u.sec, u.third);
+        int cur = getpar(u.sec);
+        if (-par[cur] >= t) {
+            ans += (ll) u.first * starting[cur];
+            starting[cur] = 0;
         }
     }
-    return 1;
+
+    cout << ans << "\n";
+
+	return 0;
 }

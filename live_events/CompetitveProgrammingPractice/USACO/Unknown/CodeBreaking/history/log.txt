@@ -1,0 +1,5 @@
+v1: 2/10; O(10^5N); TLE/MLE on 3-10; brute force dp just to get the hang of it
+v2: 8/10; O(NM); TLE on 9, 10; optimized dp, only considering parent chains that matter. however worst case is O(NM) if one node has almost N children
+v3: 8/10; O(NM); TLE on 9, 10; same as above except we start to implement the partialdp. however still bfi calc by looping through children
+v4: 8/10; O(NM); TLE on 9, 10; same as above except calculation is done in dfs order by states, setting up for seg tree dfs
+v4: 8/10; O(NM); TLE on 9, 10; almost optimal solution except we don't implement seg tree yet. instead we use a bfi mul array

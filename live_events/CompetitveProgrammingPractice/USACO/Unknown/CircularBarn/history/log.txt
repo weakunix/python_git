@@ -1,0 +1,1 @@
+v1: O(KN^3); 8/10 AC; TLE 9 and 10; bfi, works as intended

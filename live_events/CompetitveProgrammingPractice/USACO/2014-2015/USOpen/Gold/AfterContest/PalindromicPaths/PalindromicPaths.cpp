@@ -1,46 +1,49 @@
 #include <iostream>
-#include <cstdio>
 #include <string>
+#include <cstring>
 #include <vector>
+#include <utility>
+#include <map>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
 typedef long long ll;
+typedef pair<int, int> simps;
+
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+
+const int N = 500, modval = 1e9 + 7, topx[4] = {-1, 0, -1, 0}, topy[4] = {0, -1, 0, -1}, botx[4] = {1, 1, 0, 0}, boty[4] = {0, 0, 1, 1};
+
+int n;
+string arr[N];
+vector<vector<ll>> prv;
 
 int main() {
-    freopen("palpath.in", "r", stdin);
-    freopen("palpath.out", "w", stdout);
+    cin >> n;
+    prv.resize(n, vector<ll>(n));
+    for (int i = 0; i < n; i++) cin >> arr[i];
 
-    const int ModVal = 1e9 + 7;
-    int N;
-    cin >> N;
-    vector<string> Grid(N);
-    vector<vector<ll> > Dp(N), NewDp;
-    for (int i = 0; i < N; i++) Dp[i].resize(N);
-    NewDp = Dp;
-    
-    for (int i = 0; i < N; i++) cin >> Grid[i];
-
-    for (int i = 0; i < N; i++) Dp[i][i] = 1;
-    for (int d = 1; d < N; d++) {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) NewDp[i][j] = 0;
-        }
-        for (int i = 0; i < N - d; i++) {
-            if (d == 1 and i == 2)
-                cout << "";
-            int j = N - i - 1 - d;
-            for (int k = d; k < N; k++) {
-                int l = N - k - 1 + d;
-                if (Grid[i][j] != Grid[k][l] or j > l) continue;
-                NewDp[i][k] += Dp[i][k] + Dp[i + 1][k] + Dp[i][k - 1] + Dp[i + 1][k - 1];
-                NewDp[i][k] %= ModVal;
-            }
-        }
-        Dp = NewDp;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) prv[i][j] = i == j;
     }
 
-    cout << Dp[0][N - 1] << "\n";
-    return 0;
+    for (int i = 0; i < n - 1; i++) {
+        vector<vector<ll>> cur(n, vector<ll>(n));
+        for (int j = 0; j < n - i; j++) {
+            for (int k = i; k < n; k++) {
+                for (int d = 0; d < 4; d++) {
+                    int tx = j + topx[d], ty = n - i - 1 - j + topy[d], bx = k + botx[d], by = n + i - 1 - k + boty[d];
+                    if ((tx < 0 or ty < 0) or (bx >= n or by >= n)) continue;
+                    if (arr[ty][tx] == arr[by][bx]) cur[tx][bx] = (cur[tx][bx] + prv[j][k]) % modval;
+                }
+            }
+        }
+        swap(cur, prv);
+    }
+
+    cout << prv[0][n - 1] << "\n";
+	return 0;
 }

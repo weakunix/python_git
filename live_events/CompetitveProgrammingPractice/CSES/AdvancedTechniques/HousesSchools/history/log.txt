@@ -1,0 +1,1 @@
+v1: O(KN^2) BFI solution, works as intended, AC on small test cases

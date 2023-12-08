@@ -1,6 +1,6 @@
-#cpp programs
+#CPP PROGRAMS
 
-##basic starter program (usaco)
+##BASIC STARTER (USACO)
 
 ```
 #include <iostream>
@@ -26,7 +26,7 @@ int main() {
 }
 ```
 
-##subcase starter program (codeforces)
+##SUBCASE STARTER (CF)
 
 ```
 #include <iostream>
@@ -63,7 +63,48 @@ int main() {
 }
 ```
 
-##cstdio take in input (usaco)
+##BASIC GEOMETRY STARTER (USACO)
+
+```
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <utility>
+#include <complex>
+#include <algorithm>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef complex<ll> pt;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define x real()
+#define y imag()
+
+void cinpt(pt& p) {
+	int curx, cury;
+	cin >> curx >> cury;
+	p = {curx, cury};
+	return;
+}
+
+ll cross(pt a, pt b) {
+	return (conj(a) * b).y;
+}
+
+int main() {
+	return 0;
+}
+```
+
+##CSTDIO INPUT (USACO)
 
 ```
 #include <cstdio>
@@ -72,23 +113,60 @@ int main() {
 	freopen(".out", "w", stdout);
 ```
 
-##speed up i/o (USE WITH CAUTION)
+##RANDOM BASE FOR HASHING
+
+```
+#include <chrono>
+#include <random>
+
+const int modval = 1e9 + 7, hshcnt = 2; //CHANGE HSHCNT IF NEEDED
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
+uniform_int_distribution<ll> hshdist(100, modval - 1)(rng); //CHANGE L AND R IF NEEDED
+const ll B[hshcnt] = {hshdist(rng), hshdist(rng)};
+```
+
+##SPEED TRICKS
+
+###FAST I/O (USE WITH CAUTION)
 
 ```
 	ios_base::sync_with_stdio(false);
 	cin.tie(0), cout.tie(0);
 ```
 
-##pragma (BASICALLY SHOULD NEVER USE UNLESS SURE THAT COMPLEXITY IS RIGHT AND NEED A WAY TO SPEED UP)
+###UNORDERED MAP/SET TRICK
+
+```
+	unordered_map.reserve(4096);
+	unordered_map.max_load_factor(0.25);
+```
+
+###BITSET TRICK
+
+```
+#pragma GCC target("popcnt")
+```
+
+###PRAGMA (BASICALLY SHOULD NEVER USE UNLESS SURE THAT COMPLEXITY IS RIGHT AND NEED A WAY TO SPEED UP)
 
 ```
 	#pragma GCC optimize("Ofast")
 	#pragma GCC target("avx2")
 ```
 
-#data structures
+#DATA STRUCTURES
 
-##ordered set with indices (NOT MULTISET)
+##CUSTOM SET COMPARATOR
+
+```
+bool cmp(int a, int b) {
+    return ...;
+}
+
+set<int, decltype(cmp)*> s(cmp);
+```
+
+##INDEX SET (NOT MULTISET)
 
 ```
 #include <ext/pb_ds/assoc_container.hpp>
@@ -101,9 +179,9 @@ template <class T> using index_set = tree<T, null_type, less<T>, rb_tree_tag, tr
 #define fbo find_by_order
 ```
 
-#debug
+#DEBUG
 
-##basic debug
+##BASIC
 
 ```
 lldb
@@ -112,10 +190,31 @@ b [program].cpp : [line #]
 r
 ```
 
-##read input from file when run
+##READ INPUT FROM FILE WHEN RUN
 
 ```
 settings set target.input-path [input file]
+```
+
+##SPAM TEST WITH GENERATOR AND SOLUTION
+NOTES:
+gen.py creates testcase, prints it, also writes it to test.in
+```
+python3 gen.py && [DEBUG PROGRAM] < test.in > actual.out && [ACTUAL PROGRAM] < test.in > wrong.out && diff -s actual.out wrong.out
+```
+
+#OTHER
+
+##FOR LONG CODE ORGANIZATION
+
+```
+//==================================================TEXT==================================================//
+```
+
+##COMPILE
+
+```
+g++ -std=c++17 -g -Wall [FILE].cpp -o [EXEC]
 ```
 
 #BUG CHECKLIST

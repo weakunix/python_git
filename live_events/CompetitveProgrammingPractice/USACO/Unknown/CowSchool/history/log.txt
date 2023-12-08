@@ -1,0 +1,4 @@
+v1: 9/12 BFI O(N^2), MLE Tests 8, 9, 12, using Frac struct
+v2: 9/12 BFI O(N^2), MLE Tests 8, 9, 12, using simps and custom cmp, intended to reduce memory but didn't work
+v3: 11/12 BFI O(N^2), TLE Test 12, better comparing function reducing memory allows AC on Tests 1-11
+v4: 11/12 O(N^2), TLE Test 12, replaced si - x * fi calculations with convex hull trick, seems AC on Tests 1-11
