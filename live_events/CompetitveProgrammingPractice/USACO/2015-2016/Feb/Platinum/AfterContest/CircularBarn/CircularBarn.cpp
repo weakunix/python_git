@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <cstring>
 #include <vector>
 #include <deque>
@@ -84,6 +85,9 @@ void calc(int st) {
 }
 
 int main() {
+    freopen("cbarn.in", "r", stdin);
+    freopen("cbarn.out", "w", stdout);
+
     cin >> n >> k;
     if (k >= n) { //exception so that k < n
         cout << "0\n";

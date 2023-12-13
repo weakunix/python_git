@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <cstring>
 #include <vector>
 #include <utility>
@@ -76,6 +77,9 @@ int dfs(int node, int parent, int k) {
 }
 
 int main() {
+    freopen("deleg.in", "r", stdin);
+    freopen("deleg.out", "w", stdout);
+
     cin >> n;
     for (int i = 0; i < n - 1; i++) {
         int a, b;

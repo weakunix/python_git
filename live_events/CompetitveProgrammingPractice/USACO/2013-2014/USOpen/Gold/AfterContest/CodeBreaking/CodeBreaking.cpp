@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <cstring>
 #include <vector>
 #include <utility>
@@ -134,6 +135,9 @@ void dfs(int node) {
 }
 
 int main() {
+    freopen("code.in", "r", stdin);
+    freopen("code.out", "w", stdout);
+
     cin >> n >> m;
     for (int i = 1; i < n; i++) {
         cin >> par[i];
