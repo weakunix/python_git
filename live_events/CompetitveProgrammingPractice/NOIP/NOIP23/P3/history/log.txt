@@ -1,0 +1,2 @@
+v1: 35/100; O(NMQ); bfi dp
+v2: 35/100; O(N + M); ONLY cases 8 - 14, solving for special constraint
