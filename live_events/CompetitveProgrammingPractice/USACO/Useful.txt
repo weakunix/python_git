@@ -4,9 +4,16 @@
 
 ```
 #include <iostream>
+#include <string>
 #include <cstring>
 #include <vector>
+#include <queue>
+#include <deque>
 #include <utility>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <cassert>
 
@@ -16,10 +23,23 @@ typedef long long ll;
 typedef pair<int, int> simps;
 typedef pair<int, simps> threesome;
 
+#define pb push_back
+#define bp pop_back
+#define mkpr make_pair
 #define sec second.first
 #define third second.second
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
 
 int main() {
 	return 0;
@@ -33,7 +53,13 @@ int main() {
 #include <string>
 #include <cstring>
 #include <vector>
+#include <queue>
+#include <deque>
 #include <utility>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <cassert>
 
@@ -43,10 +69,23 @@ typedef long long ll;
 typedef pair<int, int> simps;
 typedef pair<int, simps> threesome;
 
+#define pb push_back
+#define bp pop_back
+#define mkpr make_pair
 #define sec second.first
 #define third second.second
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
 
 int t;
 
@@ -81,12 +120,25 @@ typedef complex<ll> pt;
 typedef pair<int, int> simps;
 typedef pair<int, simps> threesome;
 
+#define pb push_back
+#define bp pop_back
+#define mkpr make_pair
 #define sec second.first
 #define third second.second
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define x real()
 #define y imag()
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
 
 void cinpt(pt& p) {
 	int curx, cury;
@@ -196,9 +248,20 @@ r
 settings set target.input-path [input file]
 ```
 
-##SPAM TEST WITH GENERATOR AND SOLUTION
+##DEBUG RUN GENERATOR (PY)
+
+```
+import subprocess as sp
+res = 0 
+while (not res):
+    res = int(sp.check_output("python3 gen.py > test.in && ./[EXECUTABLE] < test.in > actual.out && ../[EXECUTABLE]< test.in > wrong.out && diff actual.out wrong.out | wc -l", shell=True).decode())
+```
+
+##SPAM TEST WITH GENERATOR AND SOLUTION (MANUAL)
+
 NOTES:
 gen.py creates testcase, prints it, also writes it to test.in
+
 ```
 python3 gen.py && [DEBUG PROGRAM] < test.in > actual.out && [ACTUAL PROGRAM] < test.in > wrong.out && diff -s actual.out wrong.out
 ```

@@ -1,0 +1,10 @@
+v1: 5/23; O(2^N * N); very bfi
+v2: 5/23; O(N) but ONLY subtask 2; greedy for all cows infected
+v3: 8/23; O(N^2); dp
+v4: 20/23; O(N^2); greedy but due to weak testcase we get a lot ac
+v5: 22/23; O(N^2); added centroid decomp to replace a dfs, due to weak test case we get all ac except 22
+v6: 18/23; O(N(logN)^2); better theoretical complexity but actually worse lol... got full centroid decomp in but using map makes it very slow
+v7: 11/23; O(N^2); technically worse than above but map is replaced with arr, just looping through arr in O(N^2) time to test
+**v8**: 22/23; O(NlogN); optimized centroid decomp with sparse lca but still too slow...
+v9: 22/23; O(NlogN); changed to offline queries, perhaps will help with further optimizations
+v10: 22/23; O(NlogN); offline queries but from big k to small k so that we are adding to psbl every query

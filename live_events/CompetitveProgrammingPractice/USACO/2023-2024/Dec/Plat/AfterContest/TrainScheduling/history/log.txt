@@ -1,0 +1,5 @@
+v1: 6/24; O(N^5); bfi dp
+v2: 10/24; O(N^4); slightly optimized bfi dp, got rid of an O(N) transition
+v3: 14/24: O(N^3); more optimized dp, got rid of t dimension
+v4: 14/24: O(N^3); changed to top-down recursive dp, getting ready for O(N^2) sol
+v5: 18/24: ~O(N^2) but actually O(N^3); replaced with O(N^2) idea but in worst case, transition from dp1 to next dp2 state is still O(N)

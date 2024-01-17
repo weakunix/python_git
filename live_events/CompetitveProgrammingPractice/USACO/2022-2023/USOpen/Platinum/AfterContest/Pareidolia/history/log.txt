@@ -1,0 +1,4 @@
+v1: 5/21; O(N^2); bfi dp
+v2: 5/21; O(N^2); using matrix multiplication but bfi, use seg tree to optimize
+v3: 15/21; O(NlogN); seg but constant factor too high
+v4: 20/21; O(NlogN); fast io, gets 5 extra
