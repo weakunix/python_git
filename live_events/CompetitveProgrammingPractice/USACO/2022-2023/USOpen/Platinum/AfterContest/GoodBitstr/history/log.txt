@@ -1,0 +1,1 @@
+v1: 7/21; O(A+B); using the fact that at any given y, (x, y) must be biggest slope
