@@ -1,0 +1,5 @@
+v1: 8/22; O(UlogU); subtask 2 only
+v2: 8/22; O(UlogU); subtask 2 only but with seg tree
+v3: 3/22; ~O(U(logU)^3); probably more tbh, but algo is correct with persistent seg tree and updates
+v4: 2/22; ~O(U(logU)^3); made updates a bit more efficient. doesn't even run test case 3 for some reason but program proved correct on local tests
+v5: 3/22; ~O(U(logU)^3); proper memory management, confirmed ac on all local tests
