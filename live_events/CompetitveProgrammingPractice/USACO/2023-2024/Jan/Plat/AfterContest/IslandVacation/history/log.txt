@@ -1,0 +1,2 @@
+v1: 3/23; O(N); only subtask 2, K = 0
+v2: 15/23; O(2^K * K^2); subtask 1-4, need polynomial optimization
