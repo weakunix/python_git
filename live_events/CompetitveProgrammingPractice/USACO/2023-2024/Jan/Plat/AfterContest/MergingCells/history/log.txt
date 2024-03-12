@@ -1,0 +1,5 @@
+v1: 8/22; O(N^4); bfi dp
+v2: 14/22; O(N^3); optimized dp backward to reduce redundancy, use better modular inverse
+v3: 14/22; O(N^3); added llim and rlim, set up for full sol
+v4: 0/22; O(N^2); seemingly correct but MLE
+v5: 0/22; O(N^2); MLE but with a bit less memory than v4

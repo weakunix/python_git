@@ -112,10 +112,17 @@ int main() {
 
 ```
 #include <iostream>
+#include <string>
 #include <cstring>
 #include <vector>
+#include <queue>
+#include <deque>
 #include <utility>
 #include <complex>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <cassert>
 
@@ -150,7 +157,7 @@ template <class T> void setmx(T &a, T b) {
 }
 
 void cinpt(pt& p) {
-	int curx, cury;
+	ll curx, cury;
 	cin >> curx >> cury;
 	p = {curx, cury};
 	return;
@@ -264,6 +271,15 @@ import subprocess as sp
 res = 0 
 while (not res):
     res = int(sp.check_output("python3 gen.py > test.in && ./[EXECUTABLE] < test.in > actual.out && ../[EXECUTABLE]< test.in > wrong.out && diff actual.out wrong.out | wc -l", shell=True).decode())
+```
+
+##DEBUG WITH LOCAL TEST CASES (PY)
+
+```
+import subprocess as sp
+
+for i in range(1, [TEST CASE COUNT]):
+    print(int(sp.check_output(f"./[EXECUTABLE] < real/{i}.in > test.out && diff test.out real/{i}.out | wc -l", shell=True).decode()))
 ```
 
 ##SPAM TEST WITH GENERATOR AND SOLUTION (MANUAL)

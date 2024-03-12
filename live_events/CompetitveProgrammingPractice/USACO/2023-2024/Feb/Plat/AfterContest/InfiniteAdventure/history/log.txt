@@ -1,0 +1,6 @@
+v1: 13/18; O(Klog^2(M)log(Tm)); works as intended
+
+*Note*:
+K = sum(T)
+Tm = max(T)
+M = 1e18 (max simulation time)
