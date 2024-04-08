@@ -1,0 +1,2 @@
+v1: 3/22; O(NQ); brute force but with binary search jumping algorithm, setting up for binary lifting solution
+v2: 19/22; O(NlogN); binary jumping, MLE on 4-6 but AC locally

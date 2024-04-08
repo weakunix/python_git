@@ -1,0 +1,2 @@
+v1: 18/24; O(2^R * R * (R + logN)); correct but MLE/TLE on 7, 13, 21-24
+v2: 20/24; O(2^R * R * (R + logN)); fixed bug for counterclockwise movement with k = 1 (can't move counterclockwise in this case) but still TLE on 21-24
