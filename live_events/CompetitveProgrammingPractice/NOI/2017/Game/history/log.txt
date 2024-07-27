@@ -1,0 +1,2 @@
+v1: 8/20; TLE; only case d = 0, TLE on big M (as semi-expected)
+v2: 20/20; AC; scuffed sol, gonna try 2-sat sol

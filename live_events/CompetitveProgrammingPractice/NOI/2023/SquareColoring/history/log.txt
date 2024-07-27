@@ -1,0 +1,1 @@
+v1: 8/20; O(QlogQ); ac solution for no diagonal queries

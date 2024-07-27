@@ -253,6 +253,24 @@ template <class T> using index_set = tree<T, null_type, less<T>, rb_tree_tag, tr
 #define fbo find_by_order
 ```
 
+##CUSTOM STRUCT PROPER MEMORY ALLOCATION
+
+```
+//definition
+struct THING {
+	THING() : VAR(DEFAULT VALUE) {} //default constructor
+	THING(iVAR) : VAR(iVAR) {} //initial value constructor
+	~THING() {} //default destructor
+};
+
+//create instance
+var = new THING();
+
+//destroy instance
+delete var;
+
+```
+
 #DEBUG
 
 ##BASIC

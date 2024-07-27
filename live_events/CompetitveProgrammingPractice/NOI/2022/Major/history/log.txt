@@ -1,0 +1,6 @@
+v1: 11/20; WA/RTE/TLE on variety
+v2: 13/20; WA/RTE, no TLE now (made merge more efficient), albeit barely...
+v3: 13/20; WA/RTE, still same wrong but fixed two bugs
+v4: 13/20; WA, no RTE now
+v5: 13/20; WA, fixed another bug but still fail
+v6: 18/20; TLE, correct but slow on two cases

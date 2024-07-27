@@ -1,0 +1,4 @@
+v1: didn't grade; incorrect, just here for backup
+v2: 15/20; TLE, too slow...
+v3: 15/20; faster with unordered_map, still TLE
+v4: 17/20; replaced distd with array, TLE on 18-20 still
