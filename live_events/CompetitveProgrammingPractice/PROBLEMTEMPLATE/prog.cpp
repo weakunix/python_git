@@ -12,6 +12,9 @@
 #include <unordered_map>
 #include <algorithm>
 #include <numeric>
+#include <cmath>
+#include <chrono>
+#include <random>
 #include <cassert>
 
 using namespace std;
@@ -40,6 +43,8 @@ template <class T> void setmx(T &a, T b) {
     a = max(b, a); 
     return;
 }
+
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
 	return 0;

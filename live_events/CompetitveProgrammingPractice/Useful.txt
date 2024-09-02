@@ -1,0 +1,363 @@
+#CPP PROGRAMS
+
+##BASIC STARTER (USACO)
+
+```
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <utility>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <chrono>
+#include <random>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define pb push_back
+#define bp pop_back
+#define lb lower_bound
+#define ub upper_bound
+#define mkpr make_pair
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define clr(arr, val) memset(arr, val, sizeof(arr))
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
+
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
+
+int main() {
+	return 0;
+}
+```
+
+##SUBCASE STARTER (CF)
+
+```
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <utility>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <chrono>
+#include <random>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define pb push_back
+#define bp pop_back
+#define lb lower_bound
+#define ub upper_bound
+#define mkpr make_pair
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define clr(arr, val) memset(arr, val, sizeof(arr))
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
+
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
+
+int t;
+
+void subcase() {
+	return;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+	cin >> t;
+	for (int i = 0; i < t; i++) subcase();
+	return 0;
+}
+```
+
+##BASIC GEOMETRY STARTER (USACO)
+
+```
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <utility>
+#include <complex>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <chrono>
+#include <random>
+#include <cassert>
+
+using namespace std;
+
+typedef long long ll;
+typedef complex<ll> pt;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define pb push_back
+#define bp pop_back
+#define lb lower_bound
+#define ub upper_bound
+#define mkpr make_pair
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define clr(arr, val) memset(arr, val, sizeof(arr))
+#define x real()
+#define y imag()
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
+
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
+
+void cinpt(pt& p) {
+	ll curx, cury;
+	cin >> curx >> cury;
+	p = {curx, cury};
+	return;
+}
+
+ll cross(pt a, pt b) {
+	return (conj(a) * b).y;
+}
+
+int main() {
+	return 0;
+}
+```
+
+##CSTDIO INPUT (USACO)
+
+```
+#include <cstdio>
+
+	freopen(".in", "r", stdin);
+	freopen(".out", "w", stdout);
+```
+
+##RANDOM BASE FOR HASHING
+
+```
+#include <chrono>
+#include <random>
+
+const int modval = 1e9 + 7, hshcnt = 2; //CHANGE HSHCNT IF NEEDED
+mt19937 rng((int)chrono::steady_clock::now().time_since_epoch().count());
+uniform_int_distribution<ll> hshdist(100, modval - 1)(rng); //CHANGE L AND R IF NEEDED
+const ll B[hshcnt] = {hshdist(rng), hshdist(rng)};
+```
+
+##SPEED TRICKS
+
+###FAST I/O (USE WITH CAUTION)
+
+```
+	ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+```
+
+###UNORDERED MAP/SET TRICK
+
+```
+	unordered_map.reserve(4096);
+	unordered_map.max_load_factor(0.25);
+```
+
+###BITSET TRICK
+
+```
+#pragma GCC target("popcnt")
+```
+
+###PRAGMA (BASICALLY SHOULD NEVER USE UNLESS SURE THAT COMPLEXITY IS RIGHT AND NEED A WAY TO SPEED UP)
+
+```
+	#pragma GCC optimize("Ofast")
+	#pragma GCC target("avx2")
+```
+
+#DATA STRUCTURES
+
+##CUSTOM SET COMPARATOR
+
+```
+bool cmp(int a, int b) {
+    return ...;
+}
+
+set<int, decltype(cmp)*> s(cmp);
+```
+
+##INDEX SET (NOT MULTISET)
+
+```
+#include <ext/pb_ds/assoc_container.hpp>
+
+using namespace __gnu_pbds;
+
+template <class T> using index_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define ook order_of_key
+#define fbo find_by_order
+```
+
+##CUSTOM STRUCT PROPER MEMORY ALLOCATION
+
+```
+//definition
+struct THING {
+	THING() : VAR(DEFAULT VALUE) {} //default constructor
+	THING(iVAR) : VAR(iVAR) {} //initial value constructor
+	~THING() {} //default destructor
+};
+
+//create instance
+var = new THING();
+
+//destroy instance
+delete var;
+
+```
+
+#DEBUG
+
+##BASIC
+
+```
+lldb
+tar c [executable]
+b [program].cpp : [line #]
+r
+```
+
+##READ INPUT FROM FILE WHEN RUN
+
+```
+settings set target.input-path [input file]
+```
+
+##DEBUG RUN GENERATOR (PY)
+
+```
+import subprocess as sp
+res = 0 
+while (not res):
+    res = int(sp.check_output("python3 gen.py > test.in && ./[EXECUTABLE] < test.in > actual.out && ../[EXECUTABLE]< test.in > wrong.out && diff actual.out wrong.out | wc -l", shell=True).decode())
+```
+
+##DEBUG WITH LOCAL TEST CASES (PY)
+
+```
+import subprocess as sp
+
+#TEST CASE COUNT
+cnt = 1 
+
+#EXECUTABLE
+fi = ""
+
+for i in range(1, cnt + 1): 
+    print(int(sp.check_output(f"./{fi} < sample/{i}.in > test.out && diff test.out ans/{i}.out | wc -l", shell=True).decode()))
+sp.check_output("rm test.out", shell=True)
+```
+
+##SPAM TEST WITH GENERATOR AND SOLUTION (MANUAL)
+
+NOTES:
+gen.py creates testcase, prints it, also writes it to test.in
+
+```
+python3 gen.py && [DEBUG PROGRAM] < test.in > actual.out && [ACTUAL PROGRAM] < test.in > wrong.out && diff -s actual.out wrong.out
+```
+
+#DATA STRUCTURES
+
+#OTHER
+
+##FOR LONG CODE ORGANIZATION
+
+```
+//==================================================TEXT==================================================//
+```
+
+##COMPILE
+
+```
+g++ -std=c++17 -g -Wall [FILE].cpp -o [EXEC]
+```
+
+#BUG CHECKLIST
+-RULE: Don't be sloppy! Don't disregard this list! Don't ignore certain aspects thinking it's fine! Check everything, every variable, every detail!
+-Check constraints, are vars long long?
+-Did you resize AFTER taking in input?
+-Did you mistype const vals?
+-Check iterators and pointers: did you try to access v.end() or nullptr?
+-When comparing with size, check if you have unsigned errors
+-TLE: check to see if program complexity is as intended (i.e. did you forget visited array for dfs, making it O(N^2)?)

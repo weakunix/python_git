@@ -1,0 +1,2 @@
+v1: not submitted; calculate graph function, setup for solve
+v2: 7/10; not sure why wrong... seems like it isn't precision so it's probably logical fail

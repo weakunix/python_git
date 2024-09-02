@@ -1,0 +1,3 @@
+v1: 5/10; O(NlogN); subcase m = n - 1 only AC
+v2: 7/10; O(NlogN); subcase m = n - 1 only AC, by dumb luck 9-10 AC
+v3: 7/10; O(NlogN); same as v2 except refactored code

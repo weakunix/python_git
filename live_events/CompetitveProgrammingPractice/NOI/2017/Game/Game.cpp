@@ -43,49 +43,112 @@ template <class T> void setmx(T &a, T b) {
 
 const int N = 5e4, M = 1e5, D = 8;
 
-int n, d, m, arr[N], ans[N], any[D];
-bool force[N];
-vector<int> edges[M];
-vector<simps> adj[N][3];
+int n, d, m, arr[N], any[D], ans[N], scccnt = 0, sccid[2 * N];
+bool vis[2 * N];
+vector<int> edges[M], adj[2 * N], revadj[2 * N], stck;
 
-int op(int node, int cur) {
-    if (arr[node] != 0 and cur != 0) return 0;
-    if (arr[node] != 1 and cur != 1) return 1;
-    return 2;
-}
-
-bool dfs(int node, int val, bool setfix) {
-    if (arr[node] == val) val = op(node, -1);
-    if (ans[node] != val and force[node]) return false;
-    ans[node] = val;
-    if (setfix) force[node] = true;
-
-    for (simps& s : adj[node][val]) {
-        int nxt = s.first, nxtval = s.second;
-        if (ans[nxt] == -1) {
-            if (not dfs(nxt, nxtval, false)) return false;
-            if (ans[node] != val) return true;
-            continue;
-        }
-        if (ans[nxt] == nxtval) continue;
-        if (not dfs(nxt, op(nxt, ans[nxt]), true)) return false;
-        if (ans[node] != val) return true;
+bool getbool(int node, int val) {
+    for (int i = 0; i < 3; i++) {
+        if (i == arr[node]) continue;
+        if (i == val) return false;
+        return true;
     }
-    return true;
+    assert(false);
+    return false;
 }
+
+int getint(int node, int cond) {
+    for (int i = 0; i < 3; i++) {
+        if (i == arr[node]) continue;
+        if (not cond) return i;
+        cond = false;
+    }
+    assert(false);
+    return -1;
+}
+
+int getnode(int node, bool cond) {
+    return node + cond * n;
+}
+
+int getflip(int node, int notval) {
+    for (int i = 0; i < 3; i++) if (i != arr[node] and i != notval) return i;
+    assert(false);
+    return -1;
+}
+
+void dfs1(int node) {
+    vis[node] = true;
+    for (int i : adj[node]) if (ans[i % n] == -1 and not vis[i]) dfs1(i);
+    stck.pb(node);
+    return;
+}
+
+void dfs2(int node) {
+    vis[node] = false;
+    sccid[node] = scccnt;
+    for (int i : revadj[node]) if (ans[i % n] == -1 and vis[i]) dfs2(i);
+    return;
+}
+
 
 bool solve() {
     clr(ans, -1);
-    clr(force, false);
-    for (int i = 0; i < n; i++) for (int j = 0; j < 3; j++) adj[i][j].clear();
-
+    clr(vis, false);
+    for (int i = 0; i < n; i++) {
+        adj[i].clear();
+        revadj[i].clear();
+    }
+    
+    queue<int> q;
     for (int i = 0; i < m; i++) {
         int u = edges[i][0], v = edges[i][1], a = edges[i][2], b = edges[i][3];
-        adj[u][a].pb({v, b});
-        if (a != arr[u]) for (int j = 0; j < 3; j++) if (j != b) adj[v][j].pb({u, op(u, a)});
+        if (a == arr[u]) continue;
+        if (b == arr[v]) {
+            int cur = getflip(u, a);
+            if (ans[u] != -1) {
+                if (ans[u] != cur) return false;
+                continue;
+            }
+            ans[u] = cur;
+            q.push(u);
+            continue;
+        }
+        adj[getnode(u, getbool(u, a))].pb(getnode(v, getbool(v, b)));
+        adj[getnode(v, not getbool(v, b))].pb(getnode(u, not getbool(u, a)));
+        revadj[getnode(v, getbool(v, b))].pb(getnode(u, getbool(u, a)));
+        revadj[getnode(u, not getbool(u, a))].pb(getnode(v, not getbool(v, b)));
     }
 
-    for (int i = 0; i < n; i++) if (ans[i] == -1 and not dfs(i, op(i, -1), false)) return false;
+    while (q.size()) {
+        int node = q.front(), val = ans[node];
+        q.pop();
+        for (int i : adj[getnode(node, getbool(node, val))]) {
+            int nxt = i % n, nxtval = getint(nxt, i >= n);
+            if (ans[nxt] != -1) {
+                if (ans[nxt] != nxtval) return false;
+                continue;
+            }
+            ans[nxt] = nxtval;
+            q.push(nxt);
+        }
+    }
+
+    for (int i = 0; i < 2 * n; i++) if (ans[i % n] == -1 and not vis[i]) dfs1(i);
+    while (stck.size()) {
+        int node = stck.back();
+        stck.bp();
+        if (ans[node % n] == -1 and vis[node]) {
+            dfs2(node);
+            scccnt++;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (ans[i % n] != -1) continue;
+        if (sccid[i] == sccid[n + i]) return false;
+        ans[i] = getint(i, sccid[i] < sccid[n + i]);
+    }
 
     return true;
 }
@@ -120,6 +183,6 @@ int main() {
     }
 
     cout << "-1\n";
-    
+
 	return 0;
 }

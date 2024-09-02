@@ -1,0 +1,132 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <utility>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <algorithm>
+#include <numeric>
+#include <cassert>
+#include <iomanip>
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> simps;
+typedef pair<int, simps> threesome;
+
+#define pb push_back
+#define bp pop_back
+#define lb lower_bound
+#define ub upper_bound
+#define mkpr make_pair
+#define sec second.first
+#define third second.second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define clr(arr, val) memset(arr, val, sizeof(arr))
+
+template <class T> void setmn(T &a, T b) {
+    a = min(b, a);
+    return;
+}
+
+template <class T> void setmx(T &a, T b) {
+    a = max(b, a); 
+    return;
+}
+
+const int N = 60;
+
+int n, m, nxt[N], curnxt[N];
+ld k, c[N], ans = 0;
+bool vis[N];
+
+ld calc() {
+    int indeg[N];
+    ld curc[N];
+    queue<int> q;
+
+    clr(indeg, 0);
+    clr(curc, 0);
+
+    for (int i = 0; i < n; i++) indeg[curnxt[i]]++;
+    for (int i = 0; i < n; i++) if (not indeg[i]) q.push(i);
+
+    while (q.size()) {
+        int node = q.front();
+        q.pop();
+        curc[node] += c[node];
+
+        int nxtnode = curnxt[node];
+        indeg[nxtnode]--;
+        curc[nxtnode] += k * curc[node];
+        if (not indeg[nxtnode]) q.push(nxtnode);
+    }
+
+    if (not indeg[0]) return curc[0];
+    
+    ld v = 0, cnt = k;
+    for (int i = curnxt[0]; i != 0; i = curnxt[i], cnt *= k) v = k * v + (curc[i] + c[i]);
+    v = k * v + (curc[0] + c[0]);
+    
+    return v / (1 - cnt);
+}
+
+void solve(int curm) {
+    for (int i = 0; i < curm; i++) {
+        int best = -1;
+        ld bestres = 0;
+        for (int j = 0; j < n; j++) {
+            if (vis[j]) continue;
+            int cur = curnxt[j];
+            curnxt[j] = 0;
+            ld curres = calc();
+            if (curres > bestres) {
+                bestres = curres;
+                best = j;
+            }
+            curnxt[j] = cur;
+        }
+
+        if (best != -1) curnxt[best] = 0;
+    }
+    setmx(ans, calc());
+    return;
+}
+
+int main() {
+    clr(vis, false);
+
+    cin >> n >> m >> k;
+    for (int i = 0; i < n; i++) {
+        cin >> nxt[i];
+        nxt[i]--;
+    }
+    for (int i = 0; i < n; i++) cin >> c[i];
+
+    vis[0] = true;
+    int cur = nxt[0];
+    while (cur != 0) {
+        vis[cur] = true;
+
+        memcpy(curnxt, nxt, sizeof(nxt));
+        curnxt[cur] = 0;
+
+        int curm = m - (nxt[cur] != 0);
+        if (curm >= 0) solve(curm);
+
+        cur = nxt[cur];
+    }
+    
+    cout << fixed << setprecision(2) << ans << "\n";
+
+	return 0;
+}
