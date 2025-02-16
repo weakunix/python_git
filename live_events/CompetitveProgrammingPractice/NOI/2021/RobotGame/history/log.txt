@@ -1,0 +1,2 @@
+v1: 9/25; WA; only N <= 16, memory is big due to c
+v2: 9/25; WA; only N <= 16, much better! (got rid of c)

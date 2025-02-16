@@ -1,0 +1,8 @@
+P1: trivial
+P2: trivial
+P3: bfi dfs+backtrack due to small size
+P4*: greedy. go top to bottom, always branching non-leaf nodes into two nodes for next layer unless number of nodes exceeds number of leaves over all remaining layers, in which case that is the bound. if any layer has more required leaves than possible nodes, then -1
+P5*: construction is like binary tree, every node x goes to 2x and 2x+1, taken mod n. this construction works intuitively due to each "edge" being left shift + 0/1 of your choosing. after 10 shifts, you could have chosen 0/1 in such a way to achieve the asked for node. queries are found with dfs
+P6: consider each digit as carry or not carry. then for all cases, may try every digit in a and b to see if a + b = c, meeting ? and carry constraints
+P7: digit dp, dp(i,j,a,b,c,bound) denoting number of x's such that j = (sum of last i digits in x) - (sum of last i digits in kx), a, b, c are digits i+1, i+2, and i+3 in kx, and bound is true if (last i digits in x) > (last i digits in R). transition from i -> i+1 enumerates all possible digits 0 <= d <= 9 for i + 1, such that dp(i+1,j+d-s,p,q,r,newbound) += dp(i,j,a,b,c,bound) where pqrs = abc + kx, newbound is bound recalculated
+P8*: digit dp, dp(i,a,b,c,d,e) denoting number of pairs (x,y) such that a,b,c are true if the last i bits of x,y,x^y are less than last i bits of A,B,W. d is 0 if last i bits of y-x+K < 0, 2 if carry 1, 1 if > 0 no carry. e for x-y+K. transition is try to add bit i+1 for (0,0), (1,0), (0,1), (1,1) and update a,b,c,d,e

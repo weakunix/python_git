@@ -1,0 +1,2 @@
+v1: 12/20; TLE; double hash with normal map, slow
+v2: 17/20; TLE; double hash with unordered_map, slow

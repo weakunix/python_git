@@ -1,0 +1,4 @@
+v1: 5/25; WA; only N <= 500
+v2: 9/25; WA; with A
+v3: 11/25; WA; with B
+v4: 23/25; WA; too many queries

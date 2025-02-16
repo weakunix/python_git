@@ -1,0 +1,2 @@
+v1: 3/10; TLE; bfi dp
+v2: 3/10; TLE; bfi dp w/ polynomial

@@ -1,0 +1,3 @@
+v1: 19/20; TLE; too slow on dmoj
+v2: 19/20; TLE; slightly better
+v3: 19/20; TLE; still slow
