@@ -1,0 +1,2 @@
+v1: 4/20; only N < 2000 for memory, O(QN^2)
+v2: 7/20; TLE, O(N^2)

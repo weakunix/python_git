@@ -1,0 +1,4 @@
+v1: bfi
+v2: greedy bfi
+v3: seg for 1, bfi for 2
+v4: ac (inefficient with seg tracking max 2)

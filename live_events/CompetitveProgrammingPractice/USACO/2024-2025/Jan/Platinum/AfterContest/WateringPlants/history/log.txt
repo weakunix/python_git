@@ -1,0 +1,3 @@
+v1: 6/19; TLE; O(NW) brute force dp
+v2: 6/19; TLE; O(NW) brute force but with reverse, min, and add to clear mind
+v3: 14/19; TLE; O(N^2) using ranges but without lazy updates

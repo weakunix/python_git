@@ -1,0 +1,4 @@
+linreg.py: vanilla linear regression for classification
+linregperceptron.py: linear regression and then perceptron for classification
+linregwithnonlin.py: running linear regression on nonlinear data
+nonlintrans.py: linear regression with nonlinear transform

@@ -1,0 +1,6 @@
+svmpolyvsall.py: soft margin svm with poly kernel classifying one vs all
+svmpolyoneone.py: soft margin svm with poly kernel classifying one vs one
+crossval.py: cross validation with soft margin svm with poly kernel classifying one vs one
+svmrbfoneone.py: soft margiin svm with rbf kernel classifying one vs one
+
+backup.py: attempted manuel svm implementation, too slow and couldn't figure out what was wrong
